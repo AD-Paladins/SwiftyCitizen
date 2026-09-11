@@ -25,7 +25,8 @@ SwiftyCitizen now has the verified content and rules foundation for the USCIS ci
 ## Still pending before closing Phase 0.5
 
 - Final high-fidelity direction and visual refinements.
-- Accessibility review for Dynamic Type, VoiceOver, and fallback states.
+- Final typography and color-token decisions.
+- Formal Dynamic Type and VoiceOver review on a small viewport (the code-level accessibility audit is complete; see the design spec's audit note).
 - Final local backup/export of the design assets.
 - Formal design handoff review before expanding beyond onboarding.
 

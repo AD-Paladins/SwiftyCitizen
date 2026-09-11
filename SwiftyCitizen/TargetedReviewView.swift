@@ -96,12 +96,18 @@ struct TargetedReviewView: View {
     }
 
     private func scopeRow(_ scope: ReviewScope) -> some View {
-        Button {
+        let isSelected = selectedScope == scope
+        return Button {
             selectedScope = scope
         } label: {
             HStack {
                 Label(scope.displayName, systemImage: scope.systemImage)
                 Spacer()
+                if isSelected {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(AppColor.amber)
+                        .accessibilityHidden(true)
+                }
                 Text("\(count(for: scope))")
                     .font(.headline.monospacedDigit())
                     .foregroundStyle(.secondary)
@@ -109,8 +115,8 @@ struct TargetedReviewView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .listRowBackground(selectedScope == scope ? AppColor.surface : Color.clear)
-        .accessibilityAddTraits(selectedScope == scope ? .isSelected : [])
+        .listRowBackground(isSelected ? AppColor.surface : Color.clear)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 

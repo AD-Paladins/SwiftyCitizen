@@ -19,7 +19,11 @@ build/
 # Generated repository metadata
 .atl/
 
+# Local editor config with secrets
+opencode.json
+
 # Temporary files
 *.tmp
 *.swp
 *~
+.vscode/

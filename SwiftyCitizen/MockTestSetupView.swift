@@ -20,19 +20,32 @@ struct MockTestSetupView: View {
 
             Section {
                 if let version = configuration.selectedTestVersion {
-                    NavigationLink {
-                        MockTestSessionView(configuration: configuration, version: version)
-                    } label: {
-                        Label("Start mock test", systemImage: "checklist")
-                            .frame(maxWidth: .infinity)
+                    if bankAvailable(version: version) {
+                        NavigationLink {
+                            MockTestSessionView(configuration: configuration, version: version)
+                        } label: {
+                            Label("Start mock test", systemImage: "checklist")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .listRowBackground(Color.clear)
+                    } else {
+                        EmptyStateView(
+                            systemImage: "exclamationmark.triangle",
+                            title: "Content unavailable",
+                            message: "The question bank for \(version.displayName) could not be loaded. Try updating the app or choosing another test version in Settings."
+                        )
+                        .listRowSeparator(.hidden)
                     }
-                    .buttonStyle(.borderedProminent)
-                    .listRowBackground(Color.clear)
                 }
             }
         }
         .navigationTitle("Mock test")
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func bankAvailable(version: USCISTestVersion) -> Bool {
+        (try? QuestionBankLoader().load(version: version)) != nil
     }
 }
 

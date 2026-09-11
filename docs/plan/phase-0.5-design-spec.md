@@ -1,12 +1,14 @@
 # Phase 0.5 Design Specification
 
-Status: Low-fidelity flow alignment is complete; high-fidelity polish, accessibility review, and export backup are still pending
+Status: Low-fidelity flow alignment is complete; accessibility review of the implemented screens is in progress, with high-fidelity polish and export backup still pending
 
 This document is the repository-backed design source for Phase 0.5. It defines the first-release navigation, high-risk user flows, low-fidelity wireframes, visual direction, and interaction states before production UI implementation begins.
 
 ## Current Design Status
 
 The current repository state includes the low-fidelity onboarding, flashcard, mock-test, and speech-fallback flows. The design work is sufficient to start the next implementation slice, but it is still intentionally incomplete as a final design handoff because typography, accessibility, and the final export backup still need a formal review.
+
+The implemented screens were audited against the Accessibility Baseline below. The following concrete gaps were fixed in code: Dynamic Type support for `SessionSummaryView` and `WelcomeView` (now scrollable so text does not clip at large sizes), a 44-point touch target for the close control in `SessionProgressHeader`, a non-color selection indicator (checkmark) for review scopes, and explicit "Content unavailable" states in `StudyView` and `MockTestSetupView` when a question bank cannot load. Remaining accessibility work is the formal Dynamic Type and VoiceOver review on a small iPhone viewport and the high-fidelity pass.
 
 ## Design Principles
 
@@ -253,6 +255,10 @@ Each component needs default, pressed, disabled, loading, and accessibility stat
 - Respect Reduce Motion and provide a non-animated card transition.
 - Keep the manual path available when microphone, speech assets, or network services are unavailable.
 - Announce session progress without interrupting the answer content.
+
+### Audit status against the implementation
+
+Reviewed the shipped screens against the baseline on the current simulator target (iOS 27, iPhone 17e frame). Verified already-correct: VoiceOver labels for question number and primary actions, no auto-advance after reveal or answer, no motion-dependent transitions (inherent Reduce Motion support), and manual-answer paths never blocked. Fixed during this review: Dynamic Type clipping in `WelcomeView` and `SessionSummaryView` (now scrollable), the sub-44-point close control in `SessionProgressHeader`, color-only scope selection in `TargetedReviewView` (added a checkmark), and silent empty sessions when a bank fails to load (now explicit `Content unavailable` states). Remaining: a formal Dynamic Type / VoiceOver pass on a small viewport (e.g., the 420x900 frame) and the high-fidelity prototypes.
 
 ## Prototype Checklist
 

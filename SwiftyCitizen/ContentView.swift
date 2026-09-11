@@ -29,31 +29,37 @@ struct ContentView: View {
 }
 
 private struct WelcomeView: View {
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            Spacer()
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                Spacer(minLength: 0)
 
-            Image(systemName: "building.columns.fill")
-                .font(.system(size: 56))
-                .foregroundStyle(.tint)
-                .accessibilityHidden(true)
+                Image(systemName: "building.columns.fill")
+                    .font(.system(size: 56))
+                    .foregroundStyle(.tint)
+                    .accessibilityHidden(true)
 
-            Text("Welcome to SwiftyCitizen")
-                .font(.largeTitle.bold())
+                Text("Welcome to SwiftyCitizen")
+                    .font(.largeTitle.bold())
 
-            Text("Build confidence with an offline study aid for the USCIS civics test.")
-                .font(.title3)
+                Text("Build confidence with an offline study aid for the USCIS civics test.")
+                    .font(.title3)
 
-            Text("SwiftyCitizen is for study support only. It does not determine immigration eligibility or replace official USCIS guidance.")
-                .foregroundStyle(.secondary)
+                Text("SwiftyCitizen is for study support only. It does not determine immigration eligibility or replace official USCIS guidance.")
+                    .foregroundStyle(.secondary)
 
-            Spacer()
+                Spacer(minLength: 0)
 
-            NavigationLink("Set up your test", destination: TestConfigurationView())
-                .buttonStyle(.borderedProminent)
-                .frame(maxWidth: .infinity)
+                NavigationLink("Set up your test", destination: TestConfigurationView())
+                    .buttonStyle(.borderedProminent)
+                    .frame(maxWidth: .infinity)
+            }
+            .frame(maxWidth: .infinity, minHeight: verticalSizeClass == .compact ? 400 : 600)
+            .padding(24)
         }
-        .padding(24)
+        .defaultScrollAnchor(.center)
         .navigationTitle("Welcome")
     }
 }

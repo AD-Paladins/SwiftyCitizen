@@ -21,6 +21,20 @@ Before writing code, review the working plan and the current state of the projec
 
 Use these documents as the default source of truth. Do not start from a blank slate or from assumptions about the product direction. Follow the current phase boundary and continue from the latest documented slice.
 
+## Architecture Documentation
+
+`docs/architecture/` is the implementation documentation library: how flows, persistence, content, and dependencies actually work in the code. Read `docs/architecture/README.md` first for the map and reading order.
+
+When a task changes behavior in a covered area, update the matching architecture document in the same work unit as the code:
+
+- Screen flow, navigation, or interaction changes → the relevant `flow-*.md`.
+- SwiftData models, schema, or migration → `data-and-persistence.md`.
+- Question banks, loader, or validation → `content-pipeline.md`.
+- New files, new dependencies, or new layer rules → `dependencies.md` (including the file-level dependency table).
+- Root/entry/tab changes → `app-overview.md`.
+
+Never let a pure domain file (which must stay `import Foundation` only) import SwiftUI or SwiftData; that is a design-review trigger, not a documentation update.
+
 ## Working Rules
 
 - Inspect the repository before making implementation decisions. Follow the conventions established by the first Xcode or Swift package files added here.

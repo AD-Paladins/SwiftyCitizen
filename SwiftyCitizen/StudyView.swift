@@ -6,23 +6,42 @@ struct StudyView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                Section("Study modes") {
-                    NavigationLink {
-                        FlashcardSessionView(configuration: configuration)
-                    } label: {
-                        Label("Flashcards", systemImage: "rectangle.stack")
-                    }
+            if !bankAvailable {
+                contentUnavailable
+            } else {
+                List {
+                    Section("Study modes") {
+                        NavigationLink {
+                            FlashcardSessionView(configuration: configuration)
+                        } label: {
+                            Label("Flashcards", systemImage: "rectangle.stack")
+                        }
 
-                    NavigationLink {
-                        TargetedReviewView(configuration: configuration)
-                    } label: {
-                        Label("Targeted review", systemImage: "target")
+                        NavigationLink {
+                            TargetedReviewView(configuration: configuration)
+                        } label: {
+                            Label("Targeted review", systemImage: "target")
+                        }
                     }
                 }
+                .navigationTitle("Study")
             }
-            .navigationTitle("Study")
         }
+    }
+
+    private var bankAvailable: Bool {
+        guard let version = configuration.selectedTestVersion else { return false }
+        return (try? QuestionBankLoader().load(version: version)) != nil
+    }
+
+    private var contentUnavailable: some View {
+        EmptyStateView(
+            systemImage: "exclamationmark.triangle",
+            title: "Content unavailable",
+            message: "The question bank for your selected test version could not be loaded. Try updating the app or choosing another test version in Settings."
+        )
+        .navigationTitle("Study")
+        .padding(24)
     }
 }
 

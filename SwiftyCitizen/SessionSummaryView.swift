@@ -6,41 +6,49 @@ struct SessionSummaryView: View {
     let onFinish: () -> Void
 
     var body: some View {
-        VStack(spacing: 0) {
-            Spacer()
+        ScrollView {
+            VStack(spacing: 0) {
+                Spacer(minLength: 24)
 
-            Image(systemName: "checkmark.seal.fill")
-                .font(.system(size: 56))
-                .foregroundStyle(AppColor.amber)
-                .accessibilityHidden(true)
+                Image(systemName: "checkmark.seal.fill")
+                    .font(.system(size: 56))
+                    .foregroundStyle(AppColor.amber)
+                    .accessibilityHidden(true)
 
-            Text("Session complete")
-                .font(.largeTitle.bold())
-                .foregroundStyle(AppColor.ink)
-                .padding(.top, 16)
+                Text("Session complete")
+                    .font(.largeTitle.bold())
+                    .foregroundStyle(AppColor.ink)
+                    .padding(.top, 16)
 
-            Text("You reviewed \(answeredCount) question\(answeredCount == 1 ? "" : "s").")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .padding(.top, 4)
+                Text("You reviewed \(answeredCount) question\(answeredCount == 1 ? "" : "s").")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 4)
 
-            VStack(spacing: 8) {
-                ForEach(SelfAssessment.allCases, id: \.self) { assessment in
-                    summaryRow(assessment: assessment)
+                VStack(spacing: 8) {
+                    ForEach(SelfAssessment.allCases, id: \.self) { assessment in
+                        summaryRow(assessment: assessment)
+                    }
                 }
-            }
-            .padding(20)
-            .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
-            .padding(.top, 24)
+                .padding(20)
+                .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
+                .padding(.top, 24)
 
-            Spacer()
-
-            PrimaryActionButton(title: "Done", systemImage: "checkmark") {
-                onFinish()
+                PrimaryActionButton(title: "Done", systemImage: "checkmark") {
+                    onFinish()
+                }
+                .padding(.top, 28)
+                .padding(.bottom, 24)
             }
-            .padding(.bottom, 8)
+            .frame(maxWidth: .infinity, minHeight: geometryHeight)
+            .padding(24)
         }
-        .padding(24)
+        .defaultScrollAnchor(.center)
+    }
+
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+    private var geometryHeight: CGFloat {
+        verticalSizeClass == .compact ? 400 : 600
     }
 
     private func summaryRow(assessment: SelfAssessment) -> some View {

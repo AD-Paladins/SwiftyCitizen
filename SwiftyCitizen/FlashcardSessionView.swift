@@ -9,6 +9,9 @@ struct SessionProgressHeader: View {
         HStack {
             Button(action: onClose) {
                 Image(systemName: "xmark")
+                    .font(.body.weight(.semibold))
+                    .frame(width: 44, height: 44)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.borderless)
             .accessibilityLabel("Close session")
