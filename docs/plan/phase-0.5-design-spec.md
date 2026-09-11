@@ -258,14 +258,15 @@ Each component needs default, pressed, disabled, loading, and accessibility stat
 
 ### Audit status against the implementation
 
-Reviewed the shipped screens against the baseline on the current simulator target (iOS 27, iPhone 17e frame). Verified already-correct: VoiceOver labels for question number and primary actions, no auto-advance after reveal or answer, no motion-dependent transitions (inherent Reduce Motion support), and manual-answer paths never blocked. Fixed during this review: Dynamic Type clipping in `WelcomeView` and `SessionSummaryView` (now scrollable), the sub-44-point close control in `SessionProgressHeader`, color-only scope selection in `TargetedReviewView` (added a checkmark), and silent empty sessions when a bank fails to load (now explicit `Content unavailable` states). Remaining: a formal Dynamic Type / VoiceOver pass on a small viewport (e.g., the 420x900 frame) and the high-fidelity prototypes.
+Reviewed the shipped screens against the baseline on the current simulator target (iOS 27, iPhone 17e frame). Verified already-correct: VoiceOver labels for question number and primary actions, no auto-advance after reveal or answer, no motion-dependent transitions (inherent Reduce Motion support), and manual-answer paths never blocked. Fixed during this review: Dynamic Type clipping in `WelcomeView` and `SessionSummaryView` (now scrollable), the sub-44-point close control in `SessionProgressHeader`, color-only scope selection in `TargetedReviewView` (added a checkmark), and silent empty sessions when a bank fails to load (now explicit `Content unavailable` states). Added in the states pass: a validation error message in `TestConfigurationView` when Save is blocked, empty review-set states in `FlashcardSessionView` and `MockTestSessionView`, a zero-question footer in `TargetedReviewView`, and a scrollable content-unavailable state in `StudyView`. Loading states are not needed: banks are bundled JSON loaded synchronously. Small-viewport revision: audited against the iPhone 17e frame (390 pt width) by code inspection — `SelfAssessmentControl` now switches from a row of three buttons to a stacked layout at accessibility text sizes (≥ `.accessibility3`), `SessionProgressHeader` pins its progress text to one line with a minimum scale factor, and the Welcome primary action uses the large control size (≥ 44 pt target consistent with `PrimaryActionButton`). All content containers are scrollable or List-based; no fixed-width text frames remain. Remaining: a formal Dynamic Type / VoiceOver pass on the 420x900 high-fidelity frame and the high-fidelity prototypes.
 
 ## Prototype Checklist
 
 - [x] Recreate the navigation flow in Penpot.
 - [x] Create low-fidelity wireframes for Welcome, Configuration, Home, Flashcard, Mock Setup, Mock Test, Result, and Permission Fallback.
+- [x] Define empty, error, loading, and unavailable states where they apply.
+- [x] Review configuration visibility and oral-practice fallback on a small phone viewport.
 - [ ] Create high-fidelity prototypes for Flows A-D.
-- [ ] Review configuration visibility and oral-practice fallback on a small phone viewport.
 - [ ] Export or back up the design files locally.
 - [ ] Record accepted design decisions and unresolved questions in this document.
 

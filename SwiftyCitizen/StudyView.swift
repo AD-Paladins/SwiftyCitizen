@@ -35,13 +35,15 @@ struct StudyView: View {
     }
 
     private var contentUnavailable: some View {
-        EmptyStateView(
-            systemImage: "exclamationmark.triangle",
-            title: "Content unavailable",
-            message: "The question bank for your selected test version could not be loaded. Try updating the app or choosing another test version in Settings."
-        )
+        ScrollView {
+            EmptyStateView(
+                systemImage: "exclamationmark.triangle",
+                title: "Content unavailable",
+                message: "The question bank for your selected test version could not be loaded. Try updating the app or choosing another test version in Settings."
+            )
+            .padding(24)
+        }
         .navigationTitle("Study")
-        .padding(24)
     }
 }
 

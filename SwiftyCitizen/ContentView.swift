@@ -54,6 +54,7 @@ private struct WelcomeView: View {
 
                 NavigationLink("Set up your test", destination: TestConfigurationView())
                     .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
                     .frame(maxWidth: .infinity)
             }
             .frame(maxWidth: .infinity, minHeight: verticalSizeClass == .compact ? 400 : 600)

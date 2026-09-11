@@ -21,6 +21,7 @@ SwiftyCitizen now has the verified content and rules foundation for the USCIS ci
 - The Phase 2 mock-test slice is implemented behind the Practice tab: the setup screen surfaces the active version, bank size, maximum questions, and passing score, the session asks the version's question count in manual answer mode, applies early pass/fail rules and official scoring, and links missed questions into targeted review. `AnswerEvaluator` is a pure token-set matcher, and `ExamEngine`/`MockTestState` drive selection, pacing, and scoring deterministically.
 - The dashboard's Today and Due next sections now render real data: reviewed-today count, "Got it" rate, and the number of remaining questions in the configured set, all computed by a SwiftData-free metrics layer.
 - Low-fidelity Penpot flows for onboarding, flashcards, mock tests, and speech fallback were aligned to the first-slice scope.
+- Screen states are defined where they apply: empty states on Home (no sessions, all caught up, nothing due) and Progress; content-unavailable states in Study, Mock Test Setup, and Mock Test Session when a bank cannot load or is empty; an empty review-set state in Flashcard Session; zero-question scope footers in Targeted Review; and an inline validation error in Test Configuration that explains why Save is disabled. Loading states do not apply because question banks are bundled JSON loaded synchronously.
 
 ## Still pending before closing Phase 0.5
 

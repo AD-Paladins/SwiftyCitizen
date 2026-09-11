@@ -74,10 +74,36 @@ struct TestConfigurationView: View {
                     saveConfiguration()
                 }
                 .disabled(!configuration.isValid)
+
+                if let validationMessage {
+                    Label(validationMessage, systemImage: "exclamationmark.circle")
+                        .font(.footnote)
+                        .foregroundStyle(Color(red: 0.72, green: 0.22, blue: 0.20))
+                        .accessibilityLabel("Incomplete configuration: \(validationMessage)")
+                }
             }
         }
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var validationMessage: String? {
+        switch configuration.validationError() {
+        case .missingFilingDate:
+            "Choose a filing date to continue."
+        case .filingDateInFuture:
+            "The filing date can't be in the future."
+        case .missingTestVersion:
+            "Select a test version to continue."
+        case .missingStudyLanguage:
+            "Choose a study support language."
+        case .disclaimerNotAccepted:
+            "Accept the study aid notice to save your configuration."
+        case .selectedVersionDoesNotMatchFilingDate(let expected, let actual):
+            "The selected version (\(actual.displayName)) doesn't match your filing date (\(expected.displayName))."
+        case nil:
+            nil
+        }
     }
 
     private var title: String {

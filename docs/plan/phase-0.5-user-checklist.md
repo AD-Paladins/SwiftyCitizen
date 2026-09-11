@@ -14,8 +14,8 @@ Use Penpot as the primary design tool. Excalidraw is optional for rough navigati
 - [x] Show the active test version and scoring rules before a mock test starts.
 - [x] Show a clear fallback when microphone or speech recognition is unavailable.
 - [x] Define one primary action for each screen.
-- [ ] Define empty, error, loading, and unavailable states where they apply.
-- [ ] Check the flows at a small iPhone viewport and finalize the last spacing/accessibility review.
+- [x] Define empty, error, loading, and unavailable states where they apply.
+- [x] Check the flows at a small iPhone viewport and finalize the last spacing/accessibility review.
 - [ ] Export or back up the final Penpot file locally.
 
 The project has already cleared the low-fidelity design gate for the first slice. The remaining items are final polish, accessibility review, and backup/export before the design phase is formally closed.

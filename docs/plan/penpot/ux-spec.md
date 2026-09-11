@@ -291,6 +291,8 @@ Agregar estos estados donde aplique:
   - unavailable
   - manual fallback
 
+Implemented in code (2026-09-10): states are defined where they apply in the first release. Loading does not apply: the banks are bundled JSON loaded synchronously. Empty: Home (no sessions / all caught up / nothing due), Progress, Flashcard (empty review set), Mock Test (empty bank). Unavailable: Study, Mock Test Setup, Mock Test Session. Error: Test Configuration shows the validation message. Zero-question scope footer in Targeted Review. Speech states (unavailable speech mode, Permission Fallback) remain pending until the speech phase / Phase 4.
+
 ---
 
 ## 4) Open questions finales

@@ -47,9 +47,15 @@ struct TargetedReviewView: View {
                 }
             }
 
-            Section("Review scope") {
+            Section {
                 ForEach(ReviewScope.allCases) { scope in
                     scopeRow(scope)
+                }
+            } header: {
+                Text("Review scope")
+            } footer: {
+                if count(for: selectedScope) == 0 {
+                    Text("No questions in this scope yet. As you study, questions move into this review list.")
                 }
             }
         }

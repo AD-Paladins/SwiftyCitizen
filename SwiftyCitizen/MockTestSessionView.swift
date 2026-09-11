@@ -25,8 +25,17 @@ struct MockTestSessionView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            if state.isComplete {
+        Group {
+            if state.questions.isEmpty {
+                ScrollView {
+                    EmptyStateView(
+                        systemImage: "exclamationmark.triangle",
+                        title: "Content unavailable",
+                        message: "The question bank for \(version.displayName) is empty. Try updating the app or choosing another test version in Settings."
+                    )
+                    .padding(24)
+                }
+            } else if state.isComplete {
                 MockTestResultView(
                     configuration: configuration,
                     state: state,

@@ -22,6 +22,8 @@ struct SessionProgressHeader: View {
                 .font(.headline)
                 .monospacedDigit()
                 .foregroundStyle(AppColor.ink)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
                 .accessibilityLabel("Progress \(progressText)")
         }
         .padding(.horizontal, 20)
@@ -131,6 +133,7 @@ struct SourceBadge: View {
 
 struct SelfAssessmentControl: View {
     let onSelect: (SelfAssessment) -> Void
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
         VStack(spacing: 12) {
@@ -138,23 +141,33 @@ struct SelfAssessmentControl: View {
                 .font(.headline)
                 .foregroundStyle(AppColor.ink)
 
-            HStack(spacing: 10) {
-                ForEach(SelfAssessment.allCases, id: \.self) { assessment in
-                    Button {
-                        onSelect(assessment)
-                    } label: {
-                        Label(assessment.displayName, systemImage: assessment.systemImage)
-                            .font(.subheadline.weight(.semibold))
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.bordered)
-                    .tint(assessment.tintColor)
-                    .accessibilityLabel("I answered \(assessment.displayName)")
+            if dynamicTypeSize >= .accessibility3 {
+                VStack(spacing: 10) {
+                    assessmentButtons
+                }
+            } else {
+                HStack(spacing: 10) {
+                    assessmentButtons
                 }
             }
         }
         .padding(20)
         .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var assessmentButtons: some View {
+        ForEach(SelfAssessment.allCases, id: \.self) { assessment in
+            Button {
+                onSelect(assessment)
+            } label: {
+                Label(assessment.displayName, systemImage: assessment.systemImage)
+                    .font(.subheadline.weight(.semibold))
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .tint(assessment.tintColor)
+            .accessibilityLabel("I answered \(assessment.displayName)")
+        }
     }
 }
 
@@ -207,7 +220,16 @@ struct FlashcardSessionView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            if state.isComplete {
+            if initialQuestions.isEmpty {
+                ScrollView {
+                    EmptyStateView(
+                        systemImage: "rectangle.stack",
+                        title: "Nothing to review",
+                        message: "There are no questions in this review set. Try a different scope or test version."
+                    )
+                    .padding(24)
+                }
+            } else if state.isComplete {
                 SessionSummaryView(
                     answeredCount: state.answeredCount,
                     assessments: state.attempts.map(\.assessment),
