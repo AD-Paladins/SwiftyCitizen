@@ -1,0 +1,151 @@
+import SwiftUI
+import SwiftData
+
+struct MockTestSessionView: View {
+    let configuration: OnboardingConfiguration
+    let version: USCISTestVersion
+
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var state: MockTestState
+    @State private var answer = ""
+    @State private var session: StudySession?
+    @State private var confirmsExit = false
+
+    init(configuration: OnboardingConfiguration, version: USCISTestVersion) {
+        self.configuration = configuration
+        self.version = version
+        let testConfiguration = TestConfiguration.all.first { $0.version == version }!
+        let bank = (try? QuestionBankLoader().load(version: version)) ?? []
+        _state = State(initialValue: ExamEngine.makeState(
+            from: bank,
+            configuration: testConfiguration
+        ))
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            if state.isComplete {
+                MockTestResultView(
+                    configuration: configuration,
+                    state: state,
+                    missedQuestions: missedQuestions,
+                    onFinish: { finishTest() }
+                )
+            } else {
+                SessionProgressHeader(
+                    progressText: state.progressText,
+                    onClose: { confirmsExit = true }
+                )
+
+                ScrollView {
+                    VStack(spacing: 16) {
+                        QuestionCard(question: state.currentQuestion!)
+
+                        TextField("Type your answer", text: $answer, axis: .vertical)
+                            .textFieldStyle(.roundedBorder)
+                            .lineLimit(3...6)
+                            .padding(20)
+                            .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
+                    }
+                    .padding(20)
+                }
+
+                VStack(spacing: 0) {
+                    Divider()
+                    PrimaryActionButton(title: "Record answer", systemImage: "checkmark.circle.fill") {
+                        submit()
+                    }
+                    .disabled(answer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .opacity(answer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.5 : 1)
+                }
+                .padding(20)
+                .padding(.bottom, 8)
+            }
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationTitle("Mock test")
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear { beginSession() }
+        .confirmationDialog(
+            "End this test?",
+            isPresented: $confirmsExit,
+            titleVisibility: .visible
+        ) {
+            Button("End test", role: .destructive) {
+                if state.answers.isEmpty {
+                    if let session { modelContext.delete(session) }
+                } else {
+                    session?.endedAt = .now
+                }
+                try? modelContext.save()
+                dismiss()
+            }
+            Button("Keep going", role: .cancel) {}
+        }
+    }
+
+    private var missedQuestions: [QuestionContent] {
+        let bank = (try? QuestionBankLoader().load(version: version)) ?? []
+        let bankByID = Dictionary(uniqueKeysWithValues: bank.map { ($0.stableID, $0) })
+        return state.answers
+            .filter { !$0.isCorrect }
+            .compactMap { bankByID[$0.questionStableID] }
+    }
+
+    private func beginSession() {
+        guard session == nil else { return }
+        let newSession = StudySession(
+            mode: .mockTest,
+            testVersion: version,
+            deckStableIDs: state.questions.map(\.stableID)
+        )
+        modelContext.insert(newSession)
+        session = newSession
+    }
+
+    private func submit() {
+        let response = answer.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !response.isEmpty else { return }
+        let beforeIndex = state.currentIndex
+        let phase = state.submit(response)
+
+        if state.currentIndex > beforeIndex,
+           let answered = state.answers.last {
+            let record = QuestionAttempt(
+                questionStableID: answered.questionStableID,
+                testVersion: version,
+                answerText: answered.response,
+                wasCorrect: answered.isCorrect,
+                answeredAt: answered.answeredAt
+            )
+            session?.attempts.append(record)
+            session?.currentIndex = state.currentIndex
+            if case .complete = phase {
+                session?.endedAt = .now
+            }
+            try? modelContext.save()
+        }
+        answer = ""
+    }
+
+    private func finishTest() {
+        session?.endedAt = .now
+        try? modelContext.save()
+        dismiss()
+    }
+}
+
+#Preview {
+    NavigationStack {
+        MockTestSessionView(configuration: OnboardingConfiguration(
+            filingDate: Date(),
+            selectedTestVersion: .twoThousandTwentyFive,
+            isSixtyFiveTwentyEligible: false,
+            studyLanguage: .english,
+            disclaimerAccepted: true
+        ), version: .twoThousandTwentyFive)
+    }
+    .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
+}

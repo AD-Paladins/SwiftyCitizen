@@ -1,0 +1,62 @@
+import SwiftUI
+import SwiftData
+
+struct SettingsView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query private var savedConfigurations: [SavedOnboardingConfiguration]
+
+    let configuration: OnboardingConfiguration
+
+    var body: some View {
+        List {
+            Section("Test configuration") {
+                NavigationLink("Edit test configuration") {
+                    TestConfigurationView(configuration: configuration)
+                }
+                LabeledContent("Test version", value: configuration.selectedTestVersion?.displayName ?? "Not set")
+                LabeledContent(
+                    "Filing date",
+                    value: configuration.filingDate?.formatted(date: .abbreviated, time: .omitted) ?? "Not set"
+                )
+                LabeledContent(
+                    "Study language",
+                    value: configuration.studyLanguage?.displayName ?? "Not set"
+                )
+            }
+
+            if configuration.isSixtyFiveTwentyEligible {
+                Section("65/20") {
+                    LabeledContent("Special consideration", value: "Age 65+, residency 20+ years")
+                }
+            }
+
+            Section("Privacy") {
+                Button("Reset local progress", role: .destructive) {
+                    resetProgress()
+                }
+            }
+        }
+        .navigationTitle("Settings")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func resetProgress() {
+        for savedConfiguration in savedConfigurations {
+            modelContext.delete(savedConfiguration)
+        }
+        try? modelContext.save()
+    }
+}
+
+#Preview {
+    NavigationStack {
+        SettingsView(configuration: OnboardingConfiguration(
+            filingDate: Date(),
+            selectedTestVersion: .twoThousandTwentyFive,
+            isSixtyFiveTwentyEligible: false,
+            studyLanguage: .spanish,
+            disclaimerAccepted: true
+        ))
+    }
+    .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self], inMemory: true)
+}

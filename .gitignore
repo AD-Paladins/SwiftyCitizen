@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode user-specific data
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+
+# Xcode build output
+DerivedData/
+build/
+*.build/
+
+# Swift Package Manager
+.swiftpm/
+
+# Generated repository metadata
+.atl/
+
+# Temporary files
+*.tmp
+*.swp
+*~

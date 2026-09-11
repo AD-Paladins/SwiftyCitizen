@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "version": "65/20",
+  "sourceURL": "https://www.uscis.gov/sites/default/files/document/questions-and-answers/65-20q.pdf",
+  "sourceRevision": "rev. 01/19",
+  "verificationDate": "2026-09-10T00:00:00Z",
+  "derivedFromVersion": "2008",
+  "questionIDs": [
+    "2008-001",
+    "2008-002",
+    "2008-003",
+    "2008-004",
+    "2008-005",
+    "2008-006",
+    "2008-007",
+    "2008-008",
+    "2008-009",
+    "2008-010",
+    "2008-011",
+    "2008-012",
+    "2008-013",
+    "2008-014",
+    "2008-015",
+    "2008-016",
+    "2008-017",
+    "2008-018",
+    "2008-019",
+    "2008-020"
+  ]
+}

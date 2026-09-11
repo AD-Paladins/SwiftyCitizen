@@ -28,9 +28,9 @@ final class SwiftyCitizenUITests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // XCUIAutomation Documentation
-        // https://developer.apple.com/documentation/xcuiautomation
+        let welcome = app.staticTexts["Welcome to SwiftyCitizen"]
+        let configuredHome = app.staticTexts["Your study plan is ready"]
+        XCTAssertTrue(welcome.waitForExistence(timeout: 5) || configuredHome.waitForExistence(timeout: 5))
     }
 
     @MainActor
