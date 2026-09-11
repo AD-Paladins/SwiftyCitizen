@@ -22,14 +22,17 @@ SwiftyCitizen now has the verified content and rules foundation for the USCIS ci
 - The dashboard's Today and Due next sections now render real data: reviewed-today count, "Got it" rate, and the number of remaining questions in the configured set, all computed by a SwiftData-free metrics layer.
 - Low-fidelity Penpot flows for onboarding, flashcards, mock tests, and speech fallback were aligned to the first-slice scope.
 - Screen states are defined where they apply: empty states on Home (no sessions, all caught up, nothing due) and Progress; content-unavailable states in Study, Mock Test Setup, and Mock Test Session when a bank cannot load or is empty; an empty review-set state in Flashcard Session; zero-question scope footers in Targeted Review; and an inline validation error in Test Configuration that explains why Save is disabled. Loading states do not apply because question banks are bundled JSON loaded synchronously.
+- Three user-selectable themes (Civic Navy, Paper & Emerald, Study Calm) are implemented: `AppTheme` defines semantic palette tokens with light/dark variants, `ThemeManager` (`@Observable`) owns the selection (persisted under `appThemeName` in UserDefaults) and is injected via `.environment`, so switching the theme in Settings re-renders the app live — including the global `.tint`. All status colors flow from palette tokens (assessment tints, pass/fail badge, validation error), replacing the old hardcoded `AppColor` and error reds, per the Phase 0.5 design decisions. Screens paint `palette.canvas` as their background so `surface` cards stay visibly elevated; the old `secondarySystemBackground`-based `surface` that no longer distinguished cards from the window was replaced by a real canvas/surface contrast.
 
 ## Still pending before closing Phase 0.5
 
 - Final high-fidelity direction and visual refinements.
-- Final typography and color-token decisions.
 - Formal Dynamic Type and VoiceOver review on a small viewport (the code-level accessibility audit is complete; see the design spec's audit note).
-- Final local backup/export of the design assets.
+- Final local backup/export of the design assets (the Penpot export is saved locally under `docs/plan/penpot/`, outside git).
 - Formal design handoff review before expanding beyond onboarding.
+- Wording for the 65/20 eligibility explanation and the current-answer warning pattern (both user-approved approaches; drafts pending).
+- Targeted review of missed questions should show the learner's own answer next to the official one (currently only the official answer is shown; the typed reply already persists in `QuestionAttempt.answerText`).
+- The mock test should support selection-based answers (single-select and multi-select), not only typed text.
 
 ## Phase 1 current slice
 
@@ -53,6 +56,9 @@ The flashcards and targeted-review slices are implemented: flashcard study (ques
 - The 2008 jurisdiction-dependent answers use the official "Answers will vary." wording from the 2025 bank until a jurisdiction-aware answer path exists.
 - Phase 0.5 is intentionally still open until the final design and accessibility review is complete.
 - Self-assessment results are learner-reported and never represented as a passing score; accuracy-style metrics are labeled as "Got it" rate to avoid implying official grading.
+- Three themes are preferred over a single palette so the civic-product tone is preserved while users pick a feel: Civic Navy (default), Paper & Emerald, and Study Calm. Progress is a permanent tab, typography is SF system defaults, and audio playback is deferred to Phase 4.
 - Resume support stores the deck ordering and current position per session, so interrupting a targeted-review session does not lose in-progress state.
 - The mock-test evaluator compares normalized token sets against accepted variants: a single-answer question passes when the reply is a subset of an official variant, and cardinality-2 questions pass when at least two distinct variants are named. It is lenient by design (optional parentheticals, capitalization, short replies) and deterministic by construction; future speech transcription will reuse the same matcher on the transcript.
 - The app corrects three bank entries where `answerCardinality` claimed two answers but the official question asks for one (2008-088, 2025-028, 2025-037); the banks still verify without schema changes.
+- Targeted review of missed questions should show the learner's own wrong answer next to the official one; the typed reply already persists in `QuestionAttempt.answerText` and is carried through the mock-test result, so this is a rendering gap rather than a data gap.
+- The mock test should support selection-based answers (single-select and multi-select) in addition to typed text; choice options must trace to official content or the learner's own comparison, never to AI-generated distractors.

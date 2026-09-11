@@ -29,6 +29,16 @@ Failures surface as `QuestionBankLoaderError` (validation details in the failure
 
 Cardinality is meaningful for both display ("Provide 2 of the answers shown") and evaluation (`AnswerEvaluator`).
 
+### Answer format
+
+Banks today are typed free-text only (`acceptedAnswerVariants`). Supported answer formats are:
+
+- **Typed text** — normalized token-set matching against accepted variants (implemented).
+- **Single-select** — one option from a candidate set, scored against the official variants (planned).
+- **Multi-select** — a subset of options, scored against the official variants (planned).
+
+Choice options must be sourced from official content or the learner's own later comparison; the project explicitly rejects AI-generated or fabricated distractors (see `product-plan.md` non-goals). Choice support is a content-format and evaluation extension, not a change to the authoritative source banks.
+
 ## Configuration mapping
 
 `TestConfiguration` bundles version, bank count, max questions asked, passing score, and applicability:

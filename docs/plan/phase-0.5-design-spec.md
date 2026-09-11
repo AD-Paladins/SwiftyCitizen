@@ -114,6 +114,8 @@ Required behaviors:
 - Pause and exit are available without accidentally recording an answer.
 - The result distinguishes app scoring from an actual USCIS decision.
 - Missed questions link directly to targeted review.
+- The targeted review of a missed question shows the learner's own answer (the one they gave) next to the official answer, so the comparison drives learning.
+- Flow C must support selection-based answers — single-select and multi-select options — in addition to typed text (see `content-pipeline.md`).
 
 ### Flow D: Speech Permission and Fallback
 
@@ -274,10 +276,33 @@ Penpot contains an initial generic pass (`WF - ...`) and a second pass built wit
 
 The kit-based boards were rebuilt with relative child positioning after insertion. Their direct elements use a minimum 16-point frame margin, explicit text widths, and separated vertical blocks. The dashboard's review button intentionally sits inside its continuation card.
 
+## Decision Drafts (pending product confirmation)
+
+### 65/20 eligibility explanation
+
+Candidate copy for the Settings 65/20 section and the mock-test-setup rules panel:
+
+> Because you are 65 or older and have held a green card for 20 years or more, you qualify for the USCIS 65/20 special consideration. You study only the official 20-question 65/20 set. On test day the officer asks up to 10 of those questions, and you must answer at least 6 correctly to pass.
+
+Facts come from `docs/plan/uscis-test-rules.md`; the numbers (10 asked, 6 correct) are the authoritative boundaries.
+
+### Current-answer warnings without interrupting study
+
+The mock-test evaluator is lenient by design (subset/partial acceptance for single-answer questions). A warning must be *available, explainable, and non-blocking*:
+
+- Shown inline on the evaluated question card, never as an alert or sheet that requires dismissal.
+- Appears only when the answer was accepted through lenient matching (e.g., a subset of the official variant, or fewer than the cardinality-2 expected details), or was rejected despite a close text overlap.
+- Copy frames it as study feedback, not grading: "Accepted: your answer covers one accepted version of the official answer."
+- Does not auto-advance; the learner chooses the next action as usual.
+- VoiceOver announces the notice after the result, without cutting off the question content (per the accessibility baseline).
+
 ## Open Decisions
 
-- [ ] Final typography choice.
-- [ ] Final color tokens and contrast verification.
-- [ ] Whether Progress is a tab or a Home destination in the first release.
-- [ ] Exact wording for the 65/20 eligibility explanation after product review.
-- [ ] Whether audio playback belongs in Phase 1 or Phase 4.
+- [x] Final typography choice — SF system defaults.
+- [x] Final color tokens and contrast verification — three user-selectable themes (Civic Navy default, Paper & Emerald, Study Calm) with semantic `AppPalette` tokens and light/dark variants, replaced the old `AppColor`/hardcoded reds.
+- [x] Whether Progress is a tab or a Home destination in the first release — permanent tab.
+- [ ] Exact wording for the 65/20 eligibility explanation after product review (draft in "Decision Drafts" above).
+- [x] Whether audio playback belongs in Phase 1 or Phase 4 — Phase 4.
+- [ ] Current-answer warning copy and trigger set (draft in "Decision Drafts" above).
+- [x] Missed questions should be reviewed showing the learner's own answer next to the official answer.
+- [x] Question sets support Answer format variety (typed text, single-select, multi-select) beyond plain text.

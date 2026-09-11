@@ -45,6 +45,7 @@ flowchart TD
 - A session is "in progress" for the resume row when it has answers but no `endedAt`.
 - Scope counts and the start button both derive from `ReviewDeckBuilder`, so they never disagree.
 - Mock-test missed-questions reuse this flow's deck rendering (`.targetedReview` mode) from `MockTestResultView`.
+- Missed-question review should show the learner's own (wrong) answer next to the official answer. When the deck comes from a mock test, the persisted `QuestionAttempt.answerText` carries it; the review host must pair the attempt with its question instead of starting from the bare `QuestionContent` deck.
 
 ## Checklist
 
@@ -52,3 +53,4 @@ flowchart TD
 - [ ] Resuming restores deck order and position.
 - [ ] A completed session no longer shows a resume row.
 - [ ] Targeted-review attempts persist with assessment, not `wasCorrect`.
+- [ ] Missed-question review pairs each question with the learner's own answer and the official answer.

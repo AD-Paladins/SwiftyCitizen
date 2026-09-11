@@ -165,6 +165,8 @@ Three bank entries (2008-088, 2025-028, 2025-037) declared `answerCardinality` 2
 - [x] Stop and score according to that version's official rules.
 - [x] Show the result with a clear disclaimer that the app is a study aid, not an immigration authority.
 - [x] Add deterministic tests for scoring, early completion, failed attempts, randomization, and question selection.
+- [ ] Support single-select and multi-select answers, not only plain typed text. Choice questions must be scored against official answer variants and the learner's backlog only, never against AI-generated content.
+- [ ] When reviewing missed questions in targeted review, show the learner's own wrong answer next to the official one so the comparison is visible and reviewable.
 
 ### Phase 3: Retention and Accessibility
 
@@ -210,6 +212,7 @@ Each question should support:
 - Stable identifier within a test version.
 - Official English question and answer text.
 - Accepted answer variants and answer cardinality, such as "name one" or "name two."
+- Answer format: typed free-text (current), single-select, and multi-select. Choice options must trace to official content or the selected candidate's context; AI-generated or fabricated distractors are an explicit non-goal.
 - Topic and difficulty metadata maintained by the app, not inferred by AI.
 - Optional Spanish translation or explanation for study support.
 - A flag for answers that depend on current officials, state, district, or territory.

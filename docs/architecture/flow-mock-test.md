@@ -17,6 +17,7 @@ Oral-style simulation of the civics test using the selected version's official r
 | Question selection | `ExamEngine.selectQuestions(from:maximum:shuffle:)` — draws the configured maximum from the bank |
 | State machine | `MockTestState` — pure struct: question order, answers, pass/fail/active phase |
 | Answer evaluation | `AnswerEvaluator` token-set matcher; cardinality 1 vs 2 distinct rules |
+| Answer format | Typed free-text only today; single-select and multi-select are planned (see `content-pipeline.md`) |
 | Persistence | `StudySession(mode: .mockTest)` + `QuestionAttempt(wasCorrect, answerText)` |
 
 ## State machine
@@ -67,6 +68,7 @@ flowchart TD
 - Mock-test attempts set `assessmentRawValue` to empty (`""`); `QuestionAttempt.assessment` decodes nil, so mock results never pollute the self-assessment "Got it" rate.
 - The result view's `NavigationLink` reuses `FlashcardSessionView` in `.targetedReview` mode with the missed deck.
 - Only correct/incorrect counts persist; the typed string is kept in `answerText` for later re-review.
+- The missed-questions review currently passes only the `QuestionContent` deck, so the learner's own wrong answer is not shown next to the official one. Surfacing `answerText` (or the chosen options) alongside the official answer in the review is a planned enhancement.
 - Answer mode is Manual only; `MockTestSetupView` hard-codes the mode row until Phase 4 speech.
 
 ## Checklist
@@ -77,4 +79,5 @@ flowchart TD
 - [ ] Typed answers are evaluated against official variants deterministically.
 - [ ] Result shows score, pass/fail, and the study-aid disclaimer.
 - [ ] Missed questions open targeted review over that deck.
+- [ ] Targeted review of missed questions shows the learner's own answer next to the official one.
 - [ ] Mock-test results do not change the dashboard "Got it" rate.

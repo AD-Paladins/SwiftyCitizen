@@ -25,7 +25,7 @@ The first release should use a tab-based root navigation with a small number of 
 | Oral Practice | Practice answering aloud without exam pressure | Read or display the official question, record or transcribe an answer, show transcript, let learner confirm result | 4 |
 | Mock Test Setup | Configure a simulated interview | Confirm test version, question count, audio behavior, and start test | 2 |
 | Mock Test | Simulate the official oral civics test | Ask questions in order, track correct/incorrect answers, apply early pass/fail rules, allow pause and exit | 2 / 4 |
-| Mock Test Result | Explain the simulation outcome | Show score, pass/fail according to selected rules, missed questions, and review action | 2 |
+| Mock Test Result | Explain the simulation outcome | Show score, pass/fail according to selected rules, missed questions with the learner's own answers, and review action | 2 |
 | Progress | Make improvement visible | Show attempts, accuracy, coverage, streak, due questions, and performance by topic | 1 / 3 |
 | Question Detail | Inspect one question's learning history | Show official wording, answer variants, topic, attempts, and current-answer warning when applicable | 1 / 3 |
 | Settings | Manage preferences and app behavior | Edit test configuration, language, audio, accessibility, notifications, and reset local progress | 1 / 4 |

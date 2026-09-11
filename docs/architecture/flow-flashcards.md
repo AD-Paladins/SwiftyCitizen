@@ -56,6 +56,7 @@ flowchart TD
 - Self-assessment is learner-reported and never presented as a passing score; "Got it" rate is labeled as a rate, not accuracy.
 - `QuestionAttempt` uses a `rawValue` string for `SelfAssessment`; unknown values decode to nil and are skipped by metrics.
 - Exiting without answers deletes the session; exiting after answers marks it ended (`endedAt`).
+- When rendering a missed-questions deck (`.targetedReview` from `MockTestResultView`), the official answer is shown; showing the learner's own wrong answer alongside it is a planned enhancement that requires pairing `QuestionAttempt.answerText` with its question (see `flow-targeted-review.md`).
 
 ## Checklist
 
@@ -65,3 +66,4 @@ flowchart TD
 - [ ] Interrupted sessions resume to the saved position.
 - [ ] Summary shows per-assessment counts.
 - [ ] Dashboard Today/Due figures change after assessment.
+- [ ] Missed-question review renders the learner's own answer next to the official answer.
