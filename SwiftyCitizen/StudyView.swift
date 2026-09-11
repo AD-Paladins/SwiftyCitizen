@@ -4,6 +4,9 @@ import SwiftData
 struct StudyView: View {
     let configuration: OnboardingConfiguration
 
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
     var body: some View {
         NavigationStack {
             if !bankAvailable {
@@ -24,7 +27,9 @@ struct StudyView: View {
                         }
                     }
                 }
-                .navigationTitle("Study")
+.navigationTitle("Study")
+                .scrollContentBackground(.hidden)
+                .background(palette.canvas.ignoresSafeArea())
             }
         }
     }
@@ -43,6 +48,7 @@ struct StudyView: View {
             )
             .padding(24)
         }
+        .background(palette.canvas.ignoresSafeArea())
         .navigationTitle("Study")
     }
 }
@@ -55,5 +61,6 @@ struct StudyView: View {
         studyLanguage: .english,
         disclaimerAccepted: true
     ))
+    .environment(ThemeManager())
     .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
 }

@@ -25,11 +25,14 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environment(ThemeManager())
         .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self], inMemory: true)
 }
 
 private struct WelcomeView: View {
     @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
         ScrollView {
@@ -62,5 +65,6 @@ private struct WelcomeView: View {
         }
         .defaultScrollAnchor(.center)
         .navigationTitle("Welcome")
+        .background(palette.canvas.ignoresSafeArea())
     }
 }

@@ -1,15 +1,12 @@
 import SwiftUI
 
-enum AppColor {
-    static let ink = Color(red: 0.11, green: 0.14, blue: 0.20)
-    static let amber = Color(red: 0.92, green: 0.62, blue: 0.20)
-    static let surface = Color(uiColor: .secondarySystemBackground)
-}
-
 struct PrimaryActionButton: View {
     let title: String
     let systemImage: String
     let action: () -> Void
+
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
         Button(action: action) {
@@ -19,7 +16,7 @@ struct PrimaryActionButton: View {
         }
         .buttonStyle(.borderedProminent)
         .controlSize(.large)
-        .tint(AppColor.amber)
+        .tint(palette.primary)
     }
 }
 
@@ -27,6 +24,9 @@ struct EmptyStateView: View {
     let systemImage: String
     let title: String
     let message: String
+
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
         VStack(spacing: 8) {
@@ -43,12 +43,15 @@ struct EmptyStateView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 20)
         .padding(.horizontal, 12)
-        .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
+        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
     }
 }
 
 struct ConfigurationSummaryView: View {
     let configuration: OnboardingConfiguration
+
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
         Group {
@@ -56,10 +59,10 @@ struct ConfigurationSummaryView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     HStack {
                         Image(systemName: "checkmark.shield")
-                            .foregroundStyle(AppColor.amber)
+                            .foregroundStyle(palette.primary)
                         Text(testVersionTitle)
                             .font(.headline)
-                            .foregroundStyle(AppColor.ink)
+                            .foregroundStyle(palette.ink)
                     }
                     HStack(spacing: 12) {
                         summaryMetric(value: "\(testConfiguration.questionBankCount)", label: "Questions")
@@ -69,7 +72,7 @@ struct ConfigurationSummaryView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
-                .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
+                .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
             }
         }
     }
@@ -82,7 +85,7 @@ struct ConfigurationSummaryView: View {
         VStack(alignment: .leading, spacing: 2) {
             Text(value)
                 .font(.title2.bold())
-                .foregroundStyle(AppColor.ink)
+                .foregroundStyle(palette.ink)
             Text(label)
                 .font(.caption)
                 .foregroundStyle(.secondary)

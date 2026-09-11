@@ -4,6 +4,9 @@ import SwiftData
 struct PracticeView: View {
     let configuration: OnboardingConfiguration
 
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
     var body: some View {
         NavigationStack {
             List {
@@ -26,6 +29,8 @@ struct PracticeView: View {
                 }
             }
             .navigationTitle("Practice")
+            .scrollContentBackground(.hidden)
+            .background(palette.canvas.ignoresSafeArea())
         }
     }
 }
@@ -38,5 +43,6 @@ struct PracticeView: View {
         studyLanguage: .english,
         disclaimerAccepted: true
     ))
+    .environment(ThemeManager())
     .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
 }

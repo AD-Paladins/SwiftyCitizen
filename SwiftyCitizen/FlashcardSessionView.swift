@@ -5,6 +5,9 @@ struct SessionProgressHeader: View {
     let progressText: String
     let onClose: () -> Void
 
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
     var body: some View {
         HStack {
             Button(action: onClose) {
@@ -21,7 +24,7 @@ struct SessionProgressHeader: View {
             Text(progressText)
                 .font(.headline)
                 .monospacedDigit()
-                .foregroundStyle(AppColor.ink)
+                .foregroundStyle(palette.ink)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
                 .accessibilityLabel("Progress \(progressText)")
@@ -34,6 +37,9 @@ struct SessionProgressHeader: View {
 struct QuestionCard: View {
     let question: QuestionContent
 
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Question \(question.stableID)")
@@ -42,7 +48,7 @@ struct QuestionCard: View {
 
             Text(question.officialQuestion)
                 .font(.title3.bold())
-                .foregroundStyle(AppColor.ink)
+                .foregroundStyle(palette.ink)
 
             if question.topic.isEmpty == false {
                 Text(question.topic)
@@ -52,13 +58,16 @@ struct QuestionCard: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(20)
-        .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
+        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
         .accessibilityElement(children: .combine)
     }
 }
 
 struct AnswerCard: View {
     let question: QuestionContent
+
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -71,12 +80,12 @@ struct AnswerCard: View {
                     if question.acceptedAnswerVariants.count > 1 {
                         Image(systemName: "checkmark")
                             .font(.footnote.bold())
-                            .foregroundStyle(AppColor.amber)
+                            .foregroundStyle(palette.primary)
                             .accessibilityHidden(true)
                     }
                     Text(variant.element)
                         .font(.body.weight(.medium))
-                        .foregroundStyle(AppColor.ink)
+                        .foregroundStyle(palette.ink)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -99,7 +108,7 @@ struct AnswerCard: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(20)
-        .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
+        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
         .accessibilityElement(children: .combine)
     }
 
@@ -133,13 +142,16 @@ struct SourceBadge: View {
 
 struct SelfAssessmentControl: View {
     let onSelect: (SelfAssessment) -> Void
+
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
         VStack(spacing: 12) {
             Text("How well did you know it?")
                 .font(.headline)
-                .foregroundStyle(AppColor.ink)
+                .foregroundStyle(palette.ink)
 
             if dynamicTypeSize >= .accessibility3 {
                 VStack(spacing: 10) {
@@ -152,7 +164,7 @@ struct SelfAssessmentControl: View {
             }
         }
         .padding(20)
-        .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
+        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
     }
 
     private var assessmentButtons: some View {
@@ -165,21 +177,8 @@ struct SelfAssessmentControl: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
-            .tint(assessment.tintColor)
+            .tint(palette.tint(for: assessment))
             .accessibilityLabel("I answered \(assessment.displayName)")
-        }
-    }
-}
-
-private extension SelfAssessment {
-    var tintColor: Color {
-        switch self {
-        case .again:
-            Color(red: 0.72, green: 0.22, blue: 0.20)
-        case .hard:
-            AppColor.amber
-        case .gotIt:
-            Color(red: 0.20, green: 0.56, blue: 0.30)
         }
     }
 }
@@ -192,6 +191,8 @@ struct FlashcardSessionView: View {
 
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
 
     @State private var state: FlashcardState
     @State private var session: StudySession?
@@ -260,6 +261,7 @@ struct FlashcardSessionView: View {
         .navigationBarBackButtonHidden(true)
         .navigationTitle(mode.navigationTitle)
         .navigationBarTitleDisplayMode(.inline)
+        .background(palette.canvas.ignoresSafeArea())
         .onAppear(perform: beginOrResumeSession)
         .confirmationDialog(
             "End this session?",
@@ -374,5 +376,6 @@ private extension StudyMode {
             disclaimerAccepted: true
         ))
     }
+    .environment(ThemeManager())
     .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
 }

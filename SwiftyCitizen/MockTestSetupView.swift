@@ -4,6 +4,9 @@ import SwiftData
 struct MockTestSetupView: View {
     let configuration: OnboardingConfiguration
 
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
     var body: some View {
         List {
             Section("Rules for this session") {
@@ -42,6 +45,8 @@ struct MockTestSetupView: View {
         }
         .navigationTitle("Mock test")
         .navigationBarTitleDisplayMode(.inline)
+        .scrollContentBackground(.hidden)
+        .background(palette.canvas.ignoresSafeArea())
     }
 
     private func bankAvailable(version: USCISTestVersion) -> Bool {
@@ -59,5 +64,6 @@ struct MockTestSetupView: View {
             disclaimerAccepted: true
         ))
     }
+    .environment(ThemeManager())
     .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
 }

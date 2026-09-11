@@ -3,12 +3,24 @@ import SwiftData
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
     @Query private var savedConfigurations: [SavedOnboardingConfiguration]
 
     let configuration: OnboardingConfiguration
 
     var body: some View {
+        @Bindable var themeManager = themeManager
+
         List {
+            Section("Appearance") {
+                Picker("Theme", selection: $themeManager.themeName) {
+                    ForEach(AppThemeName.allCases) { theme in
+                        Text(theme.displayName).tag(theme)
+                    }
+                }
+            }
+
             Section("Test configuration") {
                 NavigationLink("Edit test configuration") {
                     TestConfigurationView(configuration: configuration)
@@ -38,6 +50,8 @@ struct SettingsView: View {
         }
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
+        .scrollContentBackground(.hidden)
+        .background(palette.canvas.ignoresSafeArea())
     }
 
     private func resetProgress() {
@@ -58,5 +72,6 @@ struct SettingsView: View {
             disclaimerAccepted: true
         ))
     }
+    .environment(ThemeManager())
     .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self], inMemory: true)
 }

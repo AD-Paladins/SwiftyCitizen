@@ -4,6 +4,9 @@ import SwiftData
 struct HomeDashboardView: View {
     let configuration: OnboardingConfiguration
     @Binding var selectedTab: AppTab
+
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
     @Query private var attempts: [QuestionAttempt]
 
     private var snapshots: [StudyAttemptSnapshot] {
@@ -51,6 +54,7 @@ struct HomeDashboardView: View {
                     .accessibilityLabel("Settings")
                 }
             }
+            .background(palette.canvas.ignoresSafeArea())
         }
     }
 
@@ -67,7 +71,7 @@ struct HomeDashboardView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
-        .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
+        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
     }
 
     private var todaySection: some View {
@@ -116,7 +120,7 @@ struct HomeDashboardView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("\(dueCount)")
                     .font(.title2.bold())
-                    .foregroundStyle(AppColor.ink)
+                    .foregroundStyle(palette.ink)
                 Text("question\(dueCount == 1 ? "" : "s") to review")
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -127,7 +131,7 @@ struct HomeDashboardView: View {
                 .accessibilityHidden(true)
         }
         .padding()
-        .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
+        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
         .contentShape(Rectangle())
         .onTapGesture {
             selectedTab = .study
@@ -140,14 +144,14 @@ struct HomeDashboardView: View {
         VStack(alignment: .leading, spacing: 2) {
             Text(value)
                 .font(.title2.bold())
-                .foregroundStyle(AppColor.ink)
+                .foregroundStyle(palette.ink)
             Text(label)
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
-        .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
+        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
     }
 
     private var gotItRateText: String {
@@ -167,5 +171,6 @@ struct HomeDashboardView: View {
         ),
         selectedTab: .constant(.home)
     )
+    .environment(ThemeManager())
     .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
 }

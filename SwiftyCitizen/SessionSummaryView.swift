@@ -5,6 +5,9 @@ struct SessionSummaryView: View {
     let assessments: [SelfAssessment]
     let onFinish: () -> Void
 
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
@@ -12,12 +15,12 @@ struct SessionSummaryView: View {
 
                 Image(systemName: "checkmark.seal.fill")
                     .font(.system(size: 56))
-                    .foregroundStyle(AppColor.amber)
+                    .foregroundStyle(palette.success)
                     .accessibilityHidden(true)
 
                 Text("Session complete")
                     .font(.largeTitle.bold())
-                    .foregroundStyle(AppColor.ink)
+                    .foregroundStyle(palette.ink)
                     .padding(.top, 16)
 
                 Text("You reviewed \(answeredCount) question\(answeredCount == 1 ? "" : "s").")
@@ -31,7 +34,7 @@ struct SessionSummaryView: View {
                     }
                 }
                 .padding(20)
-                .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
+                .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
                 .padding(.top, 24)
 
                 PrimaryActionButton(title: "Done", systemImage: "checkmark") {
@@ -44,6 +47,7 @@ struct SessionSummaryView: View {
             .padding(24)
         }
         .defaultScrollAnchor(.center)
+        .background(palette.canvas.ignoresSafeArea())
     }
 
     @Environment(\.verticalSizeClass) private var verticalSizeClass
@@ -56,11 +60,11 @@ struct SessionSummaryView: View {
         return HStack {
             Label(assessment.displayName, systemImage: assessment.systemImage)
                 .font(.subheadline)
-                .foregroundStyle(AppColor.ink)
+                .foregroundStyle(palette.ink)
             Spacer()
             Text("\(count)")
                 .font(.headline.monospacedDigit())
-                .foregroundStyle(AppColor.ink)
+                .foregroundStyle(palette.ink)
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(assessment.displayName) \(count)")
@@ -73,4 +77,5 @@ struct SessionSummaryView: View {
         assessments: [.again, .again, .hard, .gotIt, .gotIt, .gotIt, .gotIt, .gotIt, .gotIt, .gotIt],
         onFinish: {}
     )
+    .environment(ThemeManager())
 }

@@ -7,6 +7,9 @@ struct MockTestResultView: View {
     let missedQuestions: [QuestionContent]
     let onFinish: () -> Void
 
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -15,7 +18,7 @@ struct MockTestResultView: View {
                 VStack(spacing: 8) {
                     Text("\(state.correctCount) of \(state.maximumQuestionsAsked) correct")
                         .font(.title.bold())
-                        .foregroundStyle(AppColor.ink)
+                        .foregroundStyle(palette.ink)
                     Text("Passing score: \(state.passingScore)")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
@@ -25,7 +28,7 @@ struct MockTestResultView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Review missed questions")
                             .font(.headline)
-                            .foregroundStyle(AppColor.ink)
+                            .foregroundStyle(palette.ink)
                         Text("\(missedQuestions.count) question(s) were answered incorrectly.")
                             .font(.footnote)
                             .foregroundStyle(.secondary)
@@ -43,7 +46,7 @@ struct MockTestResultView: View {
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
-                        .tint(AppColor.amber)
+                        .tint(palette.primary)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
@@ -59,6 +62,7 @@ struct MockTestResultView: View {
             }
             .padding(20)
         }
+        .background(palette.canvas.ignoresSafeArea())
     }
 
     @ViewBuilder
@@ -67,11 +71,11 @@ struct MockTestResultView: View {
         case .complete(let outcome) where outcome == .passed:
             Label("Passed", systemImage: "checkmark.seal.fill")
                 .font(.headline)
-                .foregroundStyle(AppColor.amber)
+                .foregroundStyle(palette.success)
         case .complete(let outcome) where outcome == .failed:
             Label("Not passed", systemImage: "xmark.circle.fill")
                 .font(.headline)
-                .foregroundStyle(Color(red: 0.72, green: 0.22, blue: 0.20))
+                .foregroundStyle(palette.danger)
         default:
             Text("—")
         }
@@ -97,5 +101,6 @@ struct MockTestResultView: View {
             onFinish: {}
         )
     }
+    .environment(ThemeManager())
     .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
 }

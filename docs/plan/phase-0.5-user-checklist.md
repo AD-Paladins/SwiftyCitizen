@@ -16,18 +16,19 @@ Use Penpot as the primary design tool. Excalidraw is optional for rough navigati
 - [x] Define one primary action for each screen.
 - [x] Define empty, error, loading, and unavailable states where they apply.
 - [x] Check the flows at a small iPhone viewport and finalize the last spacing/accessibility review.
-- [ ] Export or back up the final Penpot file locally.
+  - Verified on the iPhone 17e simulator (390×844 pt): self-assessment buttons stack vertically at large Dynamic Type; test-configuration validation message fits; mock-test setup fits.
+- [x] Export or back up the final Penpot file locally (`docs/plan/penpot/Screens.penpot`, kept outside git as local backup).
 
 The project has already cleared the low-fidelity design gate for the first slice. The remaining items are final polish, accessibility review, and backup/export before the design phase is formally closed.
 
 ## Decisions to Make
 
-- [ ] Choose the final typography.
-- [ ] Choose the final color palette.
-- [ ] Confirm whether Progress is a permanent tab in the first release.
-- [ ] Define the wording for the 65/20 eligibility explanation.
-- [ ] Decide whether audio playback belongs in Phase 1 or Phase 4.
-- [ ] Define how current-answer warnings appear without interrupting study.
+- [x] Choose the final typography — **SF system defaults** (`.body`/`.headline`/`.title3` scales), decided 2026-09-10.
+- [x] Choose the final color palette — **three themes** (Civic Navy, Paper & Emerald, Study Calm), user-selectable in Settings > Appearance and persisted via `@AppStorage("appThemeName")`. Semantic tokens (`AppPalette`) map per theme with light/dark variants.
+- [x] Confirm whether Progress is a permanent tab in the first release — **yes**, permanent.
+- [ ] Define the wording for the 65/20 eligibility explanation — draft proposed in `phase-0.5-design-spec.md` ("Decision Drafts"); confirm copy.
+- [x] Decide whether audio playback belongs in Phase 1 or Phase 4 — **Phase 4**.
+- [ ] Define how current-answer warnings appear without interrupting study — pattern drafted in `phase-0.5-design-spec.md` ("Decision Drafts"); confirm copy and trigger set.
 
 ## What to Send Back
 

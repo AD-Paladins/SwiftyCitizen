@@ -10,6 +10,8 @@ import SwiftData
 
 @main
 struct SwiftyCitizenApp: App {
+    @State private var themeManager = ThemeManager()
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -29,6 +31,8 @@ struct SwiftyCitizenApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(themeManager)
+                .tint(themeManager.palette.primary)
         }
         .modelContainer(sharedModelContainer)
     }

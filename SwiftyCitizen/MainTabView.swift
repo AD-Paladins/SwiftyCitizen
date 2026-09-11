@@ -31,5 +31,6 @@ struct MainTabView: View {
         studyLanguage: .english,
         disclaimerAccepted: true
     ))
+    .environment(ThemeManager())
     .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
 }

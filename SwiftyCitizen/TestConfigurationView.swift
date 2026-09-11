@@ -3,6 +3,8 @@ import SwiftData
 
 struct TestConfigurationView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
     @Environment(\.dismiss) private var dismiss
     @Query private var savedConfigurations: [SavedOnboardingConfiguration]
 
@@ -78,13 +80,15 @@ struct TestConfigurationView: View {
                 if let validationMessage {
                     Label(validationMessage, systemImage: "exclamationmark.circle")
                         .font(.footnote)
-                        .foregroundStyle(Color(red: 0.72, green: 0.22, blue: 0.20))
+                        .foregroundStyle(palette.danger)
                         .accessibilityLabel("Incomplete configuration: \(validationMessage)")
                 }
             }
         }
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
+        .scrollContentBackground(.hidden)
+        .background(palette.canvas.ignoresSafeArea())
     }
 
     private var validationMessage: String? {

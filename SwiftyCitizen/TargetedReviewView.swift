@@ -5,6 +5,8 @@ struct TargetedReviewView: View {
     let configuration: OnboardingConfiguration
 
     @Environment(\.modelContext) private var modelContext
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
     @Query private var sessions: [StudySession]
     @State private var selectedScope: ReviewScope = .due
 
@@ -61,6 +63,8 @@ struct TargetedReviewView: View {
         }
         .navigationTitle("Targeted review")
         .navigationBarTitleDisplayMode(.inline)
+        .scrollContentBackground(.hidden)
+        .background(palette.canvas.ignoresSafeArea())
         .safeAreaInset(edge: .bottom) {
             if count(for: selectedScope) > 0 {
                 NavigationLink {
@@ -76,7 +80,7 @@ struct TargetedReviewView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
-                .tint(AppColor.amber)
+                .tint(palette.primary)
                 .padding(20)
             }
         }
@@ -111,7 +115,7 @@ struct TargetedReviewView: View {
                 Spacer()
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(AppColor.amber)
+                        .foregroundStyle(palette.primary)
                         .accessibilityHidden(true)
                 }
                 Text("\(count(for: scope))")
@@ -121,7 +125,7 @@ struct TargetedReviewView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .listRowBackground(isSelected ? AppColor.surface : Color.clear)
+        .listRowBackground(isSelected ? palette.surface : Color.clear)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
@@ -136,5 +140,6 @@ struct TargetedReviewView: View {
             disclaimerAccepted: true
         ))
     }
+    .environment(ThemeManager())
     .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
 }

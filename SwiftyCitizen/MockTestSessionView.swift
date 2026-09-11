@@ -5,6 +5,8 @@ struct MockTestSessionView: View {
     let configuration: OnboardingConfiguration
     let version: USCISTestVersion
 
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
@@ -56,7 +58,7 @@ struct MockTestSessionView: View {
                             .textFieldStyle(.roundedBorder)
                             .lineLimit(3...6)
                             .padding(20)
-                            .background(AppColor.surface, in: RoundedRectangle(cornerRadius: 12))
+                            .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
                     }
                     .padding(20)
                 }
@@ -76,6 +78,7 @@ struct MockTestSessionView: View {
         .navigationBarBackButtonHidden(true)
         .navigationTitle("Mock test")
         .navigationBarTitleDisplayMode(.inline)
+        .background(palette.canvas.ignoresSafeArea())
         .onAppear { beginSession() }
         .confirmationDialog(
             "End this test?",
@@ -156,5 +159,6 @@ struct MockTestSessionView: View {
             disclaimerAccepted: true
         ), version: .twoThousandTwentyFive)
     }
+    .environment(ThemeManager())
     .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
 }

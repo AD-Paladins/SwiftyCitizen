@@ -27,6 +27,8 @@ flowchart LR
     MainTabView --> ProgressTabView
 ```
 
+`SwiftyCitizenApp` owns a `ThemeManager` (`@Observable`, persisted under `appThemeName` in UserDefaults), injects it via `.environment(themeManager)`, and derives the global `.tint` from `themeManager.palette.primary`. Every view reads the palette through `@Environment(ThemeManager.self)`, so changing the theme in Settings re-renders the whole tree immediately. Screens paint `palette.canvas.ignoresSafeArea()` as their background so `surface` cards stay visually elevated in both light and dark mode.
+
 ### Views → domain/persistence
 
 ```mermaid
@@ -81,7 +83,8 @@ flowchart LR
 | --- | --- | --- |
 | `AnswerEvaluator.swift` | Foundation | `QuestionContent`, `AnswerCardinality` |
 | `AppTab.swift` | SwiftUI | — |
-| `Components.swift` | SwiftUI | `OnboardingConfiguration`, `TestConfiguration` (summary), `AppColor` |
+| `AppTheme.swift` | SwiftUI, Observation | `SelfAssessment` (assessment tint), `ThemeManager` (`@Observable`), `AppThemeName`, `AppPalette` |
+| `Components.swift` | SwiftUI | `OnboardingConfiguration`, `TestConfiguration` (summary), `AppPalette` |
 | `ContentView.swift` | SwiftUI, SwiftData | `MainTabView`, `SavedOnboardingConfiguration`, `TestConfigurationView` |
 | `ExamEngine.swift` | Foundation | `TestConfiguration`, `MockTestState`, `QuestionContent` |
 | `FlashcardSessionView.swift` | SwiftUI, SwiftData | `FlashcardState`, `StudySession`, `QuestionAttempt`, `QuestionBankLoader`, `SessionSummaryView` |
@@ -100,12 +103,13 @@ flowchart LR
 | `QuestionBankLoader.swift` | Foundation | `QuestionContent`, `QuestionContentValidator`, `TestConfiguration` |
 | `QuestionContent.swift` | Foundation | `TestConfiguration` (via validator) |
 | `ReviewDeckBuilder.swift` | Foundation | `QuestionContent`, `StudyAttemptSnapshot`, `SelfAssessment` |
-| `SessionSummaryView.swift` | SwiftUI | `SelfAssessment`, `AppColor` |
-| `SettingsView.swift` | SwiftUI, SwiftData | `OnboardingConfiguration`, `SavedOnboardingConfiguration`, `TestConfigurationView` |
+| `SessionSummaryView.swift` | SwiftUI | `SelfAssessment`, `AppPalette` |
+| `SettingsView.swift` | SwiftUI, SwiftData | `OnboardingConfiguration`, `SavedOnboardingConfiguration`, `TestConfigurationView`, `AppThemeName` |
 | `StudyDomain.swift` | Foundation | — |
 | `StudyProgressMetrics.swift` | Foundation | `QuestionAttempt`, `TestConfiguration`, `SelfAssessment` |
 | `StudySession.swift` | Foundation, SwiftData | `StudyMode`, `SelfAssessment`, `FlashcardState`, `FlashcardAttemptRecord` |
 | `StudyView.swift` | SwiftUI | `FlashcardSessionView`, `TargetedReviewView`, `QuestionBankLoader` |
+| `SwiftyCitizenApp.swift` | SwiftUI, SwiftData | `ContentView`, `Item`, `SavedOnboardingConfiguration`, `StudySession`, `QuestionAttempt`, `AppThemeName`, `AppPalette` |
 | `TargetedReviewView.swift` | SwiftUI, SwiftData | `ReviewDeckBuilder`, `StudySession`, `FlashcardSessionView` |
 | `TestConfiguration.swift` | Foundation | — |
 | `TestConfigurationView.swift` | SwiftUI, SwiftData | `OnboardingConfiguration`, `SavedOnboardingConfiguration` |
