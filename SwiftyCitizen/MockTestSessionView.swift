@@ -13,6 +13,7 @@ struct MockTestSessionView: View {
 
     @State private var state: MockTestState
     @State private var answer = ""
+    @State private var selectedOptionIndexes: [Int] = []
     @State private var session: StudySession?
     @State private var confirmsExit = false
     @State private var review: MockTestAnswer?
@@ -60,12 +61,22 @@ struct MockTestSessionView: View {
 
                         if let review = review {
                             SessionFeedbackIndicator(answer: review)
-                        } else {
+                        } else if currentQuestionMode == .text {
                             TextField("Type your answer", text: $answer, axis: .vertical)
                                 .textFieldStyle(.roundedBorder)
                                 .lineLimit(3...6)
                                 .padding(20)
                                 .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+                        } else {
+                            let variants = state.currentQuestion!.acceptedAnswerVariants
+                            VStack(spacing: 12) {
+                                ForEach(variants.indices, id: \.self) { index in
+                                    SelectionTile(
+                                        text: variants[index],
+                                        isSelected: selectedOptionIndexes.contains(index)
+                                    ) { tileToggled(index) }
+                                }
+                            }
                         }
                     }
                     .padding(20)
@@ -84,8 +95,8 @@ struct MockTestSessionView: View {
                         PrimaryActionButton(title: "Record answer", systemImage: "checkmark.circle.fill") {
                             submit()
                         }
-                        .disabled(answer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                        .opacity(answer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.5 : 1)
+                        .disabled(!isSubmitEnabled)
+                        .opacity(isSubmitEnabled ? 1 : 0.5)
                     }
                 }
                 .padding(20)
@@ -131,6 +142,50 @@ struct MockTestSessionView: View {
             }
     }
 
+    private var currentQuestionMode: QuestionContent.AnswerInputMode {
+        state.currentQuestion?.answerInputMode ?? .text
+    }
+
+    private var requiredAnswerCount: Int {
+        if case .exactly(let value) = state.currentQuestion?.answerCardinality {
+            return value
+        }
+        return 1
+    }
+
+    private var answerText: String {
+        if currentQuestionMode == .text {
+            return answer
+        }
+        let variants = state.currentQuestion!.acceptedAnswerVariants
+        let chosen = selectedOptionIndexes.compactMap { index in
+            index >= 0 && index < variants.count ? variants[index] : nil
+        }
+        return chosen.joined(separator: " ")
+    }
+
+    private var isSubmitEnabled: Bool {
+        guard state.currentQuestion != nil else { return false }
+        if currentQuestionMode == .text {
+            return !answer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+        return selectedOptionIndexes.count == requiredAnswerCount
+    }
+
+    private func tileToggled(_ index: Int) {
+        guard state.currentQuestion != nil else { return }
+        let required = requiredAnswerCount
+        if required == 1 {
+            selectedOptionIndexes = [index]
+            return
+        }
+        if selectedOptionIndexes.contains(index) {
+            selectedOptionIndexes.removeAll { $0 == index }
+        } else if selectedOptionIndexes.count < required {
+            selectedOptionIndexes.append(index)
+        }
+    }
+
     private func beginSession() {
         guard session == nil else { return }
         let newSession = StudySession(
@@ -143,10 +198,15 @@ struct MockTestSessionView: View {
     }
 
     private func submit() {
-        let response = answer.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !response.isEmpty else { return }
-        guard let recorded = state.record(response) else { answer = ""; return }
+        let response = answerText
+        guard !response.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        guard let recorded = state.record(response) else {
+            selectedOptionIndexes = []
+            answer = ""
+            return
+        }
         recordAttempt(for: recorded)
+        selectedOptionIndexes = []
         answer = ""
 
         if sessionFeedbackManager.isEnabled {
@@ -176,6 +236,7 @@ struct MockTestSessionView: View {
         state.advance()
         session?.currentIndex = state.currentIndex
         answer = ""
+        selectedOptionIndexes = []
     }
 
     private func finishTest() {
@@ -183,18 +244,4 @@ struct MockTestSessionView: View {
         try? modelContext.save()
         dismiss()
     }
-}
-
-#Preview {
-    NavigationStack {
-        MockTestSessionView(configuration: OnboardingConfiguration(
-            filingDate: Date(),
-            selectedTestVersion: .twoThousandTwentyFive,
-            isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
-            disclaimerAccepted: true
-        ), version: .twoThousandTwentyFive)
-    }
-    .environment(ThemeManager())
-    .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
 }

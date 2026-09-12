@@ -12,12 +12,14 @@ struct TestConfigurationView: View {
     @State private var isSixtyFiveTwentyEligible: Bool
     @State private var studyLanguage: StudyLanguage?
     @State private var disclaimerAccepted: Bool
+    @State private var shuffleQuestions: Bool
 
     init(configuration: OnboardingConfiguration? = nil) {
         _filingDate = State(initialValue: configuration?.filingDate ?? Date())
         _isSixtyFiveTwentyEligible = State(initialValue: configuration?.isSixtyFiveTwentyEligible ?? false)
         _studyLanguage = State(initialValue: configuration?.studyLanguage)
         _disclaimerAccepted = State(initialValue: configuration?.disclaimerAccepted ?? false)
+        _shuffleQuestions = State(initialValue: configuration?.shuffleQuestions ?? false)
     }
 
     private var configuration: OnboardingConfiguration {
@@ -26,7 +28,8 @@ struct TestConfigurationView: View {
             selectedTestVersion: derivedVersion,
             isSixtyFiveTwentyEligible: isSixtyFiveTwentyEligible,
             studyLanguage: studyLanguage,
-            disclaimerAccepted: disclaimerAccepted
+            disclaimerAccepted: disclaimerAccepted,
+            shuffleQuestions: shuffleQuestions
         )
     }
 
@@ -48,6 +51,10 @@ struct TestConfigurationView: View {
             Section("Test version") {
                 Toggle("I qualify for the 65/20 special consideration", isOn: $isSixtyFiveTwentyEligible)
                 LabeledContent("Selected version", value: versionTitle)
+            }
+
+            Section("Study options") {
+                Toggle("Shuffle questions when studying", isOn: $shuffleQuestions)
             }
 
             Section("Study language") {

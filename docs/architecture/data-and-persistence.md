@@ -26,6 +26,7 @@ erDiagram
 - Raw-value strings for enums; `configuration` property decodes to a value type.
 - `init` and `update(from:)` use `precondition(configuration.isValid)` — invalid configs cannot persist.
 - `ContentView` reads `savedConfigurations.first` to pick Welcome vs MainTab.
+- `shuffleQuestions` is stored as a nullable column so stores created before it existed migrate cleanly; `.configuration` defaults a missing value to `false`. The shuffle flag flows from here into `ExamEngine.shuffleEnabled` for flashcards and mock tests.
 
 ### StudySession
 

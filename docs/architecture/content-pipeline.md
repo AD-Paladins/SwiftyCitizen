@@ -34,10 +34,10 @@ Cardinality is meaningful for both display ("Provide 2 of the answers shown") an
 Banks today are typed free-text only (`acceptedAnswerVariants`). Supported answer formats are:
 
 - **Typed text** — normalized token-set matching against accepted variants (implemented).
-- **Single-select** — one option from a candidate set, scored against the official variants (planned).
-- **Multi-select** — a subset of options, scored against the official variants (planned).
+- **Single-select** — one option from the official variants, scored against them (implemented for qualifying questions; Slice A).
+- **Multi-select** — a subset of the official variants, scored against them (implemented for qualifying questions; Slice A).
 
-Choice options must be sourced from official content or the learner's own later comparison; the project explicitly rejects AI-generated or fabricated distractors (see `product-plan.md` non-goals). Choice support is a content-format and evaluation extension, not a change to the authoritative source banks.
+Selection is used when a question has ≥2 fixed official variants; otherwise the learner types (see `answerInputMode` in `mock-test-selection-spec.md`). In Slice A the options are always the accepted variants themselves — no distractors. The project explicitly rejects AI-generated or fabricated distractors (see `product-plan.md` non-goals); multi-select distractors are deferred to a later iteration. Choice support is a content-format and evaluation extension, not a change to the authoritative source banks.
 
 ## Configuration mapping
 

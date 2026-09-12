@@ -222,4 +222,44 @@ struct ExamTests {
             isSixtyFiveTwentyQuestion: false
         )
     }
+
+    @Test
+    func savedConfigurationPreservesShuffleSetting() throws {
+        let modelContainer = try ModelContainer(
+            for: SavedOnboardingConfiguration.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let context = ModelContext(modelContainer)
+
+        let config = OnboardingConfiguration(
+            filingDate: Date(),
+            selectedTestVersion: .twoThousandTwentyFive,
+            isSixtyFiveTwentyEligible: false,
+            studyLanguage: .english,
+            disclaimerAccepted: true,
+            shuffleQuestions: true
+        )
+        context.insert(SavedOnboardingConfiguration(configuration: config))
+        try context.save()
+
+        let fetched = try context.fetch(FetchDescriptor<SavedOnboardingConfiguration>())
+        #expect(fetched.count == 1)
+        #expect(fetched.first?.configuration?.shuffleQuestions == true)
+    }
+
+    @Test
+    func selectQuestionsRespectsShuffleFlag() {
+        let bank = [
+            makeQuestion(id: "a"),
+            makeQuestion(id: "b"),
+            makeQuestion(id: "c"),
+            makeQuestion(id: "d"),
+        ]
+
+        let ordered = ExamEngine.selectQuestions(from: bank, maximum: 2, shuffleEnabled: false)
+        #expect(ordered.map(\.stableID) == ["a", "b"])
+
+        let shuffled = ExamEngine.selectQuestions(from: bank, maximum: 4, shuffleEnabled: true)
+        #expect(Set(shuffled.map(\.stableID)) == Set(bank.map(\.stableID)))
+    }
 }

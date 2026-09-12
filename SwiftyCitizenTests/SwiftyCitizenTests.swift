@@ -19,14 +19,16 @@ struct SwiftyCitizenTests {
             selectedTestVersion: .twoThousandEight,
             isSixtyFiveTwentyEligible: false,
             studyLanguage: .english,
-            disclaimerAccepted: true
+            disclaimerAccepted: true,
+            shuffleQuestions: false
         )
         let afterChange = OnboardingConfiguration(
             filingDate: date(year: 2025, month: 10, day: 20),
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
             studyLanguage: .english,
-            disclaimerAccepted: true
+            disclaimerAccepted: true,
+            shuffleQuestions: false
         )
 
         #expect(beforeChange.validationError(asOf: date(year: 2026, month: 1, day: 1)) == nil)
@@ -42,7 +44,8 @@ struct SwiftyCitizenTests {
             selectedTestVersion: .sixtyFiveTwenty,
             isSixtyFiveTwentyEligible: true,
             studyLanguage: .spanish,
-            disclaimerAccepted: true
+            disclaimerAccepted: true,
+            shuffleQuestions: false
         )
 
         #expect(configuration.validationError(asOf: date(year: 2026, month: 2, day: 1)) == nil)
@@ -56,14 +59,16 @@ struct SwiftyCitizenTests {
             selectedTestVersion: nil,
             isSixtyFiveTwentyEligible: false,
             studyLanguage: nil,
-            disclaimerAccepted: false
+            disclaimerAccepted: false,
+            shuffleQuestions: false
         )
         let mismatched = OnboardingConfiguration(
             filingDate: date(year: 2025, month: 11, day: 1),
             selectedTestVersion: .twoThousandEight,
             isSixtyFiveTwentyEligible: false,
             studyLanguage: .english,
-            disclaimerAccepted: true
+            disclaimerAccepted: true,
+            shuffleQuestions: false
         )
 
         #expect(incomplete.validationError(asOf: date(year: 2026, month: 1, day: 1)) == .missingFilingDate)
@@ -82,7 +87,8 @@ struct SwiftyCitizenTests {
             selectedTestVersion: .twoThousandEight,
             isSixtyFiveTwentyEligible: false,
             studyLanguage: .spanish,
-            disclaimerAccepted: true
+            disclaimerAccepted: true,
+            shuffleQuestions: false
         )
 
         context.insert(SavedOnboardingConfiguration(configuration: original))

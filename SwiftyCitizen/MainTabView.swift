@@ -29,7 +29,8 @@ struct MainTabView: View {
         selectedTestVersion: .twoThousandTwentyFive,
         isSixtyFiveTwentyEligible: false,
         studyLanguage: .english,
-        disclaimerAccepted: true
+        disclaimerAccepted: true,
+        shuffleQuestions: false
     ))
     .environment(ThemeManager())
     .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)

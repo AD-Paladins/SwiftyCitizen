@@ -324,12 +324,13 @@ struct FlashcardSessionView: View {
 
     private static func loadedQuestions(for configuration: OnboardingConfiguration) -> [QuestionContent] {
         guard let version = configuration.selectedTestVersion else { return [] }
-        let loaded = (try? QuestionBankLoader().load(version: version)) ?? []
-        return ExamEngine.selectQuestions(
-            from: loaded,
-            maximum: configuration.maximumQuestionsAsked,
-            shuffleEnabled: configuration.shuffleQuestions
-        )
+         guard let testConfiguration = configuration.testConfiguration else { return [] }
+         let loaded = (try? QuestionBankLoader().load(version: version)) ?? []
+         return ExamEngine.selectQuestions(
+             from: loaded,
+             maximum: testConfiguration.maximumQuestionsAsked,
+             shuffleEnabled: configuration.shuffleQuestions
+         )
     }
 
     private func beginOrResumeSession() {
@@ -406,7 +407,8 @@ private extension StudyMode {
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
             studyLanguage: .english,
-            disclaimerAccepted: true
+            disclaimerAccepted: true,
+            shuffleQuestions: false
         ))
     }
     .environment(ThemeManager())

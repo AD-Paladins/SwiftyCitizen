@@ -116,3 +116,21 @@ struct QuestionContentValidator {
         return .failure(QuestionContentValidationFailure(errors: errors))
     }
 }
+
+extension QuestionContent {
+    enum AnswerInputMode {
+        case selection
+        case text
+    }
+
+    var answerInputMode: AnswerInputMode {
+        guard acceptedAnswerVariants.count >= 2 else {
+            return .text
+        }
+        let hasVariableAnswer = acceptedAnswerVariants.contains { variant in
+            let lower = variant.lowercased()
+            return lower.contains("answers will vary") || lower.contains("testupdates")
+        }
+        return hasVariableAnswer ? .text : .selection
+    }
+}

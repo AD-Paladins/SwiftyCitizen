@@ -154,3 +154,32 @@ struct StudyEntryPointView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+
+struct SelectionTile: View {
+    let text: String
+    let isSelected: Bool
+    let action: () -> Void
+
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 8) {
+                if isSelected {
+                    Image(systemName: "checkmark")
+                        .font(.headline)
+                        .foregroundStyle(palette.primary)
+                }
+                Text(text)
+                    .font(.body)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .padding(16)
+            .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        }
+        .border(isSelected ? palette.primary : palette.ink.opacity(0.3), width: isSelected ? 2 : 1)
+        .accessibilityLabel(isSelected ? "\(text), selected" : text)
+    }
+}

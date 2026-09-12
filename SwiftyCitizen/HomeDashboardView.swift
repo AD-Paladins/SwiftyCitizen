@@ -167,7 +167,8 @@ struct HomeDashboardView: View {
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
             studyLanguage: .english,
-            disclaimerAccepted: true
+            disclaimerAccepted: true,
+            shuffleQuestions: false
         ),
         selectedTab: .constant(.home)
     )

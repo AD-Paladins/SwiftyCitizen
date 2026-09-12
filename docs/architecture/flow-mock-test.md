@@ -17,7 +17,7 @@ Oral-style simulation of the civics test using the selected version's official r
 | Question selection | `ExamEngine.selectQuestions(from:maximum:shuffle:)` — draws the configured maximum from the bank |
 | State machine | `MockTestState` — pure struct: question order, answers, pass/fail/active phase |
 | Answer evaluation | `AnswerEvaluator` token-set matcher; cardinality 1 vs 2 distinct rules |
-| Answer format | Typed free-text only today; single-select and multi-select are planned (see `content-pipeline.md`) |
+| Answer format | Typed free-text, single-select, and multi-select. Selection is used when the question has ≥2 fixed official variants; otherwise text (`answerInputMode` rule, see `mock-test-selection-spec.md`) |
 | Persistence | `StudySession(mode: .mockTest)` + `QuestionAttempt(wasCorrect, answerText)` |
 
 ## State machine
@@ -93,6 +93,7 @@ flowchart TD
 - Only correct/incorrect counts persist; the typed string is kept in `answerText` for later re-review.
 - The missed-questions review currently passes only the `QuestionContent` deck, so the learner's own wrong answer is not shown next to the official one. Surfacing `answerText` (or the chosen options) alongside the official answer in the review is a planned enhancement.
 - Answer mode is Manual only; `MockTestSetupView` hard-codes the mode row until Phase 4 speech.
+- Answer input mode is content-driven: `QuestionContent.answerInputMode` returns `.selection` when a question has ≥2 fixed official variants (none containing "answers will vary"/"testupdates"), otherwise `.text`. The jurisdiction flag alone does not decide the mode, so a jurisdiction-flagged question with fixed answers (e.g. `2008-036`) still uses tiles.
 - Advance is uniform: every verdict waits for a "Next" tap (feedback on) or advances immediately (feedback off). There is no 0.8s auto-advance and no stored `Task`, so the view can dismiss safely between answers without racing a stale advance.
 
 ## Checklist

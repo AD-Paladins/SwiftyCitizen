@@ -92,7 +92,8 @@ struct MockTestResultView: View {
                 selectedTestVersion: .twoThousandTwentyFive,
                 isSixtyFiveTwentyEligible: false,
                 studyLanguage: .english,
-                disclaimerAccepted: true
+                disclaimerAccepted: true,
+                shuffleQuestions: false
             ),
             state: .init(
                 questions: [],

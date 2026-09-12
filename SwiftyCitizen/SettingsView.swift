@@ -25,8 +25,7 @@ struct SettingsView: View {
                 NavigationLink("Edit test configuration") {
                     TestConfigurationView(configuration: configuration)
                 }
-                Toggle("Shuffle questions", isOn: $configuration.shuffleQuestions)
-                LabeledContent("Test version", value: configuration.selectedTestVersion?.displayName ?? "Not set")
+                 LabeledContent("Test version", value: configuration.selectedTestVersion?.displayName ?? "Not set")
                 LabeledContent(
                     "Filing date",
                     value: configuration.filingDate?.formatted(date: .abbreviated, time: .omitted) ?? "Not set"

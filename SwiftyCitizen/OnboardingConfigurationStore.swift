@@ -8,6 +8,7 @@ final class SavedOnboardingConfiguration {
     var isSixtyFiveTwentyEligible: Bool
     var studyLanguageRawValue: String
     var disclaimerAccepted: Bool
+    var shuffleQuestions: Bool?
 
     init(configuration: OnboardingConfiguration) {
         precondition(configuration.isValid, "Only valid onboarding configurations can be persisted")
@@ -16,6 +17,7 @@ final class SavedOnboardingConfiguration {
         self.isSixtyFiveTwentyEligible = configuration.isSixtyFiveTwentyEligible
         self.studyLanguageRawValue = configuration.studyLanguage!.rawValue
         self.disclaimerAccepted = configuration.disclaimerAccepted
+        self.shuffleQuestions = configuration.shuffleQuestions
     }
 
     func update(from configuration: OnboardingConfiguration) {
@@ -25,6 +27,7 @@ final class SavedOnboardingConfiguration {
         self.isSixtyFiveTwentyEligible = configuration.isSixtyFiveTwentyEligible
         self.studyLanguageRawValue = configuration.studyLanguage!.rawValue
         self.disclaimerAccepted = configuration.disclaimerAccepted
+        self.shuffleQuestions = configuration.shuffleQuestions
     }
 
     var configuration: OnboardingConfiguration? {
@@ -38,7 +41,8 @@ final class SavedOnboardingConfiguration {
             selectedTestVersion: selectedTestVersion,
             isSixtyFiveTwentyEligible: isSixtyFiveTwentyEligible,
             studyLanguage: studyLanguage,
-            disclaimerAccepted: disclaimerAccepted
+            disclaimerAccepted: disclaimerAccepted,
+            shuffleQuestions: shuffleQuestions ?? false
         )
     }
 }
