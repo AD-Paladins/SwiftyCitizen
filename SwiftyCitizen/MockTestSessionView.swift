@@ -4,6 +4,7 @@ import SwiftData
 struct MockTestSessionView: View {
     let configuration: OnboardingConfiguration
     let version: USCISTestVersion
+    let bank: [QuestionContent]
 
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
@@ -21,8 +22,8 @@ struct MockTestSessionView: View {
     init(configuration: OnboardingConfiguration, version: USCISTestVersion) {
         self.configuration = configuration
         self.version = version
+        self.bank = (try? QuestionBankLoader().load(version: version)) ?? []
         let testConfiguration = TestConfiguration.all.first { $0.version == version }!
-        let bank = (try? QuestionBankLoader().load(version: version)) ?? []
         _state = State(initialValue: ExamEngine.makeState(
             from: bank,
             configuration: testConfiguration,
@@ -68,11 +69,11 @@ struct MockTestSessionView: View {
                                 .padding(20)
                                 .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
                         } else {
-                            let variants = state.currentQuestion!.acceptedAnswerVariants
+                            let options = currentTileOptions
                             VStack(spacing: 12) {
-                                ForEach(variants.indices, id: \.self) { index in
+                                ForEach(options.indices, id: \.self) { index in
                                     SelectionTile(
-                                        text: variants[index],
+                                        text: options[index],
                                         isSelected: selectedOptionIndexes.contains(index)
                                     ) { tileToggled(index) }
                                 }
@@ -146,6 +147,15 @@ struct MockTestSessionView: View {
         state.currentQuestion?.answerInputMode ?? .text
     }
 
+    private var currentTileOptions: [String] {
+        guard let question = state.currentQuestion else { return [] }
+        let accepted = question.acceptedAnswerVariants
+        let distractors = QuestionContent.distractorOptions(for: question, from: bank)
+        let combined = accepted + distractors
+        let seed = QuestionContent.shuffleSeed(for: question.stableID)
+        return combined.seededShuffled(seed: seed)
+    }
+
     private var requiredAnswerCount: Int {
         if case .exactly(let value) = state.currentQuestion?.answerCardinality {
             return value
@@ -157,9 +167,9 @@ struct MockTestSessionView: View {
         if currentQuestionMode == .text {
             return answer
         }
-        let variants = state.currentQuestion!.acceptedAnswerVariants
+        let options = currentTileOptions
         let chosen = selectedOptionIndexes.compactMap { index in
-            index >= 0 && index < variants.count ? variants[index] : nil
+            index >= 0 && index < options.count ? options[index] : nil
         }
         return chosen.joined(separator: " ")
     }

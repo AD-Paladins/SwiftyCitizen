@@ -98,7 +98,7 @@ struct MockTestState {
     }
 
     mutating func advance() {
-        if case .active = phase {
+        if case .complete = phase {
             return
         }
         currentIndex += 1

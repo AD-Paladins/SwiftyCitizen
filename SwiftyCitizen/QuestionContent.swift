@@ -133,4 +133,62 @@ extension QuestionContent {
         }
         return hasVariableAnswer ? .text : .selection
     }
+
+    private static let distractorPoolMax = 4
+
+    static func distractorOptions(
+        for question: QuestionContent,
+        from bank: [QuestionContent]
+    ) -> [String] {
+        let ownVariants = Set(question.acceptedAnswerVariants)
+        var candidates: [String] = []
+        for other in bank where other.topic == question.topic && other.stableID != question.stableID {
+            for variant in other.acceptedAnswerVariants {
+                if variant.isEmpty || ownVariants.contains(variant) { continue }
+                let lower = variant.lowercased()
+                if lower.contains("answers will vary") || lower.contains("testupdates") { continue }
+                candidates.append(variant)
+            }
+        }
+        let unique = Array(Set(candidates))
+        return unique.sorted().prefix(distractorPoolMax).map { $0 }
+    }
+
+    static func shuffleSeed(for stableID: String) -> UInt64 {
+        var hash: UInt64 = 0xcbf29ce484222325
+        for byte in stableID.utf8 {
+            hash ^= UInt64(byte)
+            hash = hash &* 0x85ebca6787bcb64c
+        }
+        return hash
+    }
+}
+
+struct SeededShuffle: RandomNumberGenerator {
+    private var state: UInt64
+
+    init(seed: UInt64) {
+        self.state = seed == 0 ? 0x9e3779b97f4a7c15 : seed
+    }
+
+    mutating func next() -> UInt64 {
+        state ^= state >> 12
+        state ^= state << 25
+        state ^= state >> 26
+        return state
+    }
+}
+
+extension Array {
+    func seededShuffled(seed: UInt64) -> [Element] {
+        var result = self
+        var rng = SeededShuffle(seed: seed)
+        for index in stride(from: result.count - 1, through: 1, by: -1) {
+            let randomIndex = Int(rng.next() % UInt64(index + 1))
+            if randomIndex != index {
+                result.swapAt(randomIndex, index)
+            }
+        }
+        return result
+    }
 }

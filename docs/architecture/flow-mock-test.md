@@ -1,11 +1,11 @@
 # Flow: Mock Test
 
-Oral-style simulation of the civics test using the selected version's official rules: fixed bank size, max questions, and passing score, with early pass/fail. Answer is typed and evaluated deterministically (speech is Phase 4).
+Oral-style simulation of the civics test using the selected version's official rules: fixed bank size, max questions, and passing score, with early pass/fail. Answer is typed or selected and evaluated deterministically (speech is Phase 4).
 
 ## Quick path
 
 1. Practice tab → Mock test → setup shows version, bank, max questions, passing score.
-2. Start → questions one at a time; type an answer and record it.
+2. Start → questions one at a time; answer (typed or selected) and record it.
 3. Early pass (score reached) or early fail (unreachable) or last question → result.
 4. Result shows score + disclaimer; missed questions link to targeted review.
 
@@ -17,7 +17,7 @@ Oral-style simulation of the civics test using the selected version's official r
 | Question selection | `ExamEngine.selectQuestions(from:maximum:shuffle:)` — draws the configured maximum from the bank |
 | State machine | `MockTestState` — pure struct: question order, answers, pass/fail/active phase |
 | Answer evaluation | `AnswerEvaluator` token-set matcher; cardinality 1 vs 2 distinct rules |
-| Answer format | Typed free-text, single-select, and multi-select. Selection is used when the question has ≥2 fixed official variants; otherwise text (`answerInputMode` rule, see `mock-test-selection-spec.md`) |
+| Answer format | Typed free-text, single-select, and multi-select. Selection is used when the question has ≥2 fixed official variants; otherwise text (`answerInputMode` rule, see `mock-test-selection-spec.md`). Multi-select options combine accepted variants with runtime topic-pool distractors (see below). |
 | Persistence | `StudySession(mode: .mockTest)` + `QuestionAttempt(wasCorrect, answerText)` |
 
 ## State machine
@@ -27,7 +27,7 @@ Oral-style simulation of the civics test using the selected version's official r
 ```mermaid
 flowchart LR
     A[setup: version+rules] --> B[question prompt]
-    B --> C[type answer]
+    B --> C[answer (typed or selected)]
     C --> D[record correct/incorrect]
     D --> E{pass or fail reached?}
     E -->|no| B
@@ -94,7 +94,9 @@ flowchart TD
 - The missed-questions review currently passes only the `QuestionContent` deck, so the learner's own wrong answer is not shown next to the official one. Surfacing `answerText` (or the chosen options) alongside the official answer in the review is a planned enhancement.
 - Answer mode is Manual only; `MockTestSetupView` hard-codes the mode row until Phase 4 speech.
 - Answer input mode is content-driven: `QuestionContent.answerInputMode` returns `.selection` when a question has ≥2 fixed official variants (none containing "answers will vary"/"testupdates"), otherwise `.text`. The jurisdiction flag alone does not decide the mode, so a jurisdiction-flagged question with fixed answers (e.g. `2008-036`) still uses tiles.
+- Multi-select distractors are generated at runtime by `QuestionContent.distractorOptions(for:from:)` from other official variants in the same topic (capped at four, filtered to exclude own variants and "answers will vary"/"testupdates"), shuffled deterministically per question via a seeded shuffle. Distractors trace to official content only; scoring is unchanged — a selected distractor scores wrong through `AnswerEvaluator`.
 - Advance is uniform: every verdict waits for a "Next" tap (feedback on) or advances immediately (feedback off). There is no 0.8s auto-advance and no stored `Task`, so the view can dismiss safely between answers without racing a stale advance.
+- `MockTestState.advance()` only stops when the phase is `.complete`; during active play it increments `currentIndex`. The view records each answer with `state.record()` (no advance) and advances on "Next", so the guard must not match `.active` — matching `.active` there traps the session on the same question.
 
 ## Checklist
 

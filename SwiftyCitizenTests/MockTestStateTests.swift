@@ -100,7 +100,7 @@ struct MockTestStateTests {
     }
 
     @Test
-    func advanceIsNoOpWhileActive() {
+    func advanceAdvancesWhileActive() {
         var state = MockTestState(
             questions: [makeQuestion(id: "1"), makeQuestion(id: "2")],
             maximumQuestionsAsked: 3,
@@ -109,11 +109,11 @@ struct MockTestStateTests {
 
         state.advance()
 
-        #expect(state.currentIndex == 0)
+        #expect(state.currentIndex == 1)
     }
 
     @Test
-    func advanceAdvancesWhenComplete() {
+    func advanceIsNoOpWhenComplete() {
         var state = MockTestState(
             questions: [makeQuestion(id: "1"), makeQuestion(id: "2")],
             maximumQuestionsAsked: 2,
@@ -124,7 +124,7 @@ struct MockTestStateTests {
         #expect(state.isComplete)
         let before = state.currentIndex
         state.advance()
-        #expect(state.currentIndex == before + 1)
+        #expect(state.currentIndex == before)
     }
 
     @Test
