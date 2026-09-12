@@ -4,6 +4,7 @@ struct MockTestAnswer: Equatable {
     let questionStableID: String
     let response: String
     let isCorrect: Bool
+    let matchType: AnswerMatch
     let answeredAt: Date
 }
 
@@ -73,17 +74,25 @@ struct MockTestState {
         return false
     }
 
-    @discardableResult
-    mutating func submit(_ response: String, answeredAt: Date = .now) -> MockTestPhase {
-        guard let question = currentQuestion, phase == .active else { return phase }
+    mutating func record(_ response: String, answeredAt: Date = .now) -> MockTestAnswer? {
+        guard let question = currentQuestion, phase == .active else { return nil }
 
+        let matchType = AnswerEvaluator.matchType(response, against: question)
         let answer = MockTestAnswer(
             questionStableID: question.stableID,
             response: response,
             isCorrect: AnswerEvaluator.evaluate(response, against: question),
+            matchType: matchType,
             answeredAt: answeredAt
         )
         answers.append(answer)
+        return answer
+    }
+
+    @discardableResult
+    mutating func submit(_ response: String, answeredAt: Date = .now) -> MockTestPhase {
+        guard let question = currentQuestion, phase == .active else { return phase }
+        record(response, answeredAt: answeredAt)
         currentIndex += 1
         return phase
     }
@@ -92,6 +101,6 @@ struct MockTestState {
         if case .active = phase {
             return
         }
-        currentIndex = min(currentIndex, maximumQuestionsAsked)
+        currentIndex += 1
     }
 }

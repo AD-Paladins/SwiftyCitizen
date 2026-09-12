@@ -51,17 +51,32 @@ flowchart LR
 - Cardinality 2: requires at least two *distinct* variants' tokens to each be a subset of the answer tokens.
 - Evaluates deterministically; no AI, no semantic matching.
 
+## Per-answer feedback (session review)
+
+`MockTestSessionView` records each answer with `state.record()` **without** advancing, then shows its verdict inline and waits for a "Next" tap — uniform manual advance for **all** verdicts.
+
+- **All verdicts** (correct-exact, rejected, lenient-accepted): show their inline indicator ("Correct" / "Incorrect" / "Accepted: ...") and wait for a "Next" tap to advance.
+- **Feedback off** (`sessionFeedbackManager.isEnabled == false`): records, saves the attempt, and advances immediately with no indicator.
+
+The verdict is rendered by `SessionFeedbackIndicator` (inline on the question card) using palette tints: green `success` for "Correct", red `danger` for "Incorrect", amber `warning` for "Accepted". The feedback indicator sits **below** the question card so VoiceOver announces it after the question content. The "Record answer" button is disabled while a review is pending (`review != nil`) so a verdict can't be replaced before the learner taps "Next".
+
+The `sessionFeedbackEnabled` flag lives in `SessionFeedbackManager` (`@Observable`, persisted under `sessionFeedbackEnabled` in UserDefaults) injected via `.environment`, mirroring `ThemeManager`. When off, the deck advances normally and no indicator renders.
+
 ## Data flow
 
 ```mermaid
 flowchart TD
     A[bank JSON] --> B[ExamEngine picks]
-    B --> C[MockTestState submit]
+    B --> C[MockTestState record]
     C --> D[QuestionAttempt wasCorrect+answerText]
     D --> E[StudySession attempts]
     E --> F[governs result and missed deck]
     F --> G[FlashcardSessionView for missed]
 ```
+
+### Session review state
+
+`MockTestSessionView` holds `review: MockTestAnswer?`, which drives both the inline indicator and the "Next" button. Because advance is uniform, every verdict shows "Next" once recorded; when passing score is reached mid-session, `state.isComplete` becomes true and the "Next" button relabels to "See results".
 
 ## Gotchas
 
@@ -70,6 +85,7 @@ flowchart TD
 - Only correct/incorrect counts persist; the typed string is kept in `answerText` for later re-review.
 - The missed-questions review currently passes only the `QuestionContent` deck, so the learner's own wrong answer is not shown next to the official one. Surfacing `answerText` (or the chosen options) alongside the official answer in the review is a planned enhancement.
 - Answer mode is Manual only; `MockTestSetupView` hard-codes the mode row until Phase 4 speech.
+- Advance is uniform: every verdict waits for a "Next" tap (feedback on) or advances immediately (feedback off). There is no 0.8s auto-advance and no stored `Task`, so the view can dismiss safely between answers without racing a stale advance.
 
 ## Checklist
 
@@ -81,3 +97,5 @@ flowchart TD
 - [ ] Missed questions open targeted review over that deck.
 - [ ] Targeted review of missed questions shows the learner's own answer next to the official one.
 - [ ] Mock-test results do not change the dashboard "Got it" rate.
+- [ ] Per-answer feedback indicator shows for all verdicts inline on the question card; every verdict waits for a "Next" tap (uniform manual advance).
+- [ ] `sessionFeedbackEnabled` flag toggles all indicators off at runtime.

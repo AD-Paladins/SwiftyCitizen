@@ -1,6 +1,6 @@
 # SwiftyCitizen Current Status
 
-Last verified: September 10, 2026
+Last verified: September 11, 2026
 
 ## Current state
 
@@ -19,6 +19,7 @@ SwiftyCitizen now has the verified content and rules foundation for the USCIS ci
 - The Phase 1 flashcard slice is implemented: the flashcard session (question card → reveal answer → self-assess → next) follows the Phase 0.5 design flow, and sessions and attempts persist in SwiftData.
 - The Phase 1 targeted-review slice is implemented: the Study tab offers Due, Unanswered, and Needs work scopes computed from attempt history by a SwiftData-free deck builder, starts sessions over the filtered deck, and allows resuming an interrupted targeted-review session from its persisted deck position and index.
 - The Phase 2 mock-test slice is implemented behind the Practice tab: the setup screen surfaces the active version, bank size, maximum questions, and passing score, the session asks the version's question count in manual answer mode, applies early pass/fail rules and official scoring, and links missed questions into targeted review. `AnswerEvaluator` is a pure token-set matcher, and `ExamEngine`/`MockTestState` drive selection, pacing, and scoring deterministically.
+- Mock-test session now shows per-answer feedback via `SessionFeedbackIndicator` (green "Correct", red "Incorrect", amber "Accepted: ...") rendered inline on the question card. `MockTestSessionView` records each answer without advancing, then shows its verdict inline and waits for a "Next" tap for every verdict (uniform manual advance), or advances immediately when the `sessionFeedbackEnabled` flag is off. The flag lives in `SessionFeedbackManager` (`@Observable`, persisted under `sessionFeedbackEnabled`) injected via `.environment`, mirroring `ThemeManager`.
 - The dashboard's Today and Due next sections now render real data: reviewed-today count, "Got it" rate, and the number of remaining questions in the configured set, all computed by a SwiftData-free metrics layer.
 - Low-fidelity Penpot flows for onboarding, flashcards, mock tests, and speech fallback were aligned to the first-slice scope.
 - Screen states are defined where they apply: empty states on Home (no sessions, all caught up, nothing due) and Progress; content-unavailable states in Study, Mock Test Setup, and Mock Test Session when a bank cannot load or is empty; an empty review-set state in Flashcard Session; zero-question scope footers in Targeted Review; and an inline validation error in Test Configuration that explains why Save is disabled. Loading states do not apply because question banks are bundled JSON loaded synchronously.
@@ -33,6 +34,21 @@ SwiftyCitizen now has the verified content and rules foundation for the USCIS ci
 - Wording for the 65/20 eligibility explanation and the current-answer warning pattern (both user-approved approaches; drafts pending).
 - Targeted review of missed questions should show the learner's own answer next to the official one (currently only the official answer is shown; the typed reply already persists in `QuestionAttempt.answerText`).
 - The mock test should support selection-based answers (single-select and multi-select), not only typed text.
+- **Current-answer feedback implemented:** per-answer feedback indicator for **all** verdicts (correct-exact "Correct", rejected "Incorrect", lenient-accepted "Accepted: ...") shown inline on the question card so nothing is hidden. Every verdict waits for a "Next" tap to advance (uniform manual advance). A `sessionFeedbackEnabled` flag (persisted, default true) toggles all indicators off; when off, only the question renders and the deck advances immediately. The rejected-but-close warning is deferred to a later refinement.
+- **Apple Intelligence evaluation (future refinement):** layer semantic answer evaluation over the offline token-set baseline, with mandatory offline fallback and content traced to official sources.
+
+## Deferred findings (mock test — revisit after closing the 4 phases)
+
+Reported by the user while testing the live app against the removed 0.8s auto-advance model. These are **not** fixed yet; priority is to close the current 4 phases first, then revisit them under uniform manual advance:
+
+- **Incorrect feedback too brief:** when the answer is incorrect, the "Incorrect" indicator flashes for less than one second (auto-advance window is 0.8s). The user wants it shown for at least two seconds before advancing.
+- **No control on a failed question:** after a wrong answer there is no option to skip the question or see the official/correct answer; the deck moves on automatically. The user wants a skip option and the ability to view the real answer.
+- Action once prioritized: increase the auto-advance window for rejected answers to ≥ 2s, and add skip / "see correct answer" affordances (or surface the correct answer in the review path).
+
+Additional mock-test UI findings (same deferment):
+
+- **"Start mock test" button doesn't look like a button** — its styling is ambiguous; the user can't tell it's tappable. Action: give it a clear primary-button style (consistent with `PrimaryActionButton`) so affordance is obvious.
+- **"Mode / Manual" card lacks meaning** — the setup shows a "Mode" row defaulting to "Manual", but there is no way to choose automatic vs. manual, and nothing explains why it starts manual. Action: either remove the row or clarify its purpose (and expose an automatic mode later if needed).
 
 ## Phase 1 current slice
 
@@ -61,4 +77,8 @@ The flashcards and targeted-review slices are implemented: flashcard study (ques
 - The mock-test evaluator compares normalized token sets against accepted variants: a single-answer question passes when the reply is a subset of an official variant, and cardinality-2 questions pass when at least two distinct variants are named. It is lenient by design (optional parentheticals, capitalization, short replies) and deterministic by construction; future speech transcription will reuse the same matcher on the transcript.
 - The app corrects three bank entries where `answerCardinality` claimed two answers but the official question asks for one (2008-088, 2025-028, 2025-037); the banks still verify without schema changes.
 - Targeted review of missed questions should show the learner's own wrong answer next to the official one; the typed reply already persists in `QuestionAttempt.answerText` and is carried through the mock-test result, so this is a rendering gap rather than a data gap.
+- Mock-test flow uses **uniform manual advance for every verdict**: correct-exact, rejected, and lenient-accepted all show their indicator inline and wait for a "Next" tap to advance; only when `sessionFeedbackEnabled` is off does the deck advance immediately. This surfaces transparency for all verdicts instead of auto-advancing some.
+- The per-answer feedback indicator is gated behind a `sessionFeedbackEnabled` flag (persisted, default `true`) so it can be toggled off at runtime without code changes; when off, only the question renders and the deck advances normally.
 - The mock test should support selection-based answers (single-select and multi-select) in addition to typed text; choice options must trace to official content or the learner's own comparison, never to AI-generated distractors.
+- Current-answer warning scope: the slice implements the **accepted-only** warning (lenient match on an accepted answer). The copy is chosen by the evaluator verdict ("Accepted: ..." only when `evaluate()` returns true). The rejected-but-close warning is a future refinement, deferred until the accepted-only warning is validated.
+- Answer evaluation is layered and offline-first: baseline is a deterministic token-set matcher; Apple Intelligence semantic evaluation is an optional enhancement with mandatory offline fallback. Semantic evaluation must trace to official content or the learner's own comparison, never to AI grading of official answers.

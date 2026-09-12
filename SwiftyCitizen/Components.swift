@@ -1,5 +1,51 @@
 import SwiftUI
 
+struct SessionFeedbackIndicator: View {
+    let answer: MockTestAnswer
+
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
+    var body: some View {
+        let feedback = AnswerFeedback.make(answer, palette: palette)
+        HStack(alignment: .center, spacing: 8) {
+            Image(systemName: feedback.image)
+                .font(.headline)
+                .foregroundStyle(feedback.tint)
+            Text(feedback.label)
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(palette.ink)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(feedback.tint.opacity(0.12), in: RoundedRectangle(cornerRadius: 12))
+    }
+}
+
+struct AnswerFeedback {
+    let image: String
+    let label: String
+    let tint: Color
+
+    static func make(_ answer: MockTestAnswer, palette: AppPalette) -> AnswerFeedback {
+        if !answer.isCorrect {
+            return AnswerFeedback(image: "xmark.circle.fill", label: "Incorrect", tint: palette.danger)
+        }
+        switch answer.matchType {
+        case .complete:
+            return AnswerFeedback(image: "checkmark.seal.fill", label: "Correct", tint: palette.success)
+        case .partial:
+            return AnswerFeedback(
+                image: "exclamationmark.triangle.fill",
+                label: "Accepted: your answer covers one accepted version of the official answer.",
+                tint: palette.warning
+            )
+        case .none:
+            return AnswerFeedback(image: "xmark.circle.fill", label: "Incorrect", tint: palette.danger)
+        }
+    }
+}
+
 struct PrimaryActionButton: View {
     let title: String
     let systemImage: String

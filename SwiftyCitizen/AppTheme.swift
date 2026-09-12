@@ -18,6 +18,20 @@ final class ThemeManager {
     }
 }
 
+@MainActor
+@Observable
+final class SessionFeedbackManager {
+    var isEnabled: Bool {
+        didSet { UserDefaults.standard.set(isEnabled, forKey: Self.storageKey) }
+    }
+
+    private static let storageKey = "sessionFeedbackEnabled"
+
+    init() {
+        self.isEnabled = UserDefaults.standard.object(forKey: Self.storageKey) as? Bool ?? true
+    }
+}
+
 enum AppThemeName: String, CaseIterable, Identifiable {
     case civicNavy
     case paperEmerald

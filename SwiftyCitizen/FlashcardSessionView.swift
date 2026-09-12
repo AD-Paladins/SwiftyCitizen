@@ -65,6 +65,8 @@ struct QuestionCard: View {
 
 struct AnswerCard: View {
     let question: QuestionContent
+    let notice: String?
+    let userAnswer: String?
 
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
@@ -88,6 +90,25 @@ struct AnswerCard: View {
                         .foregroundStyle(palette.ink)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+            }
+
+            if let userAnswer, !userAnswer.isEmpty {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Your answer")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                    Text(userAnswer)
+                        .font(.footnote)
+                        .foregroundStyle(palette.ink)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+
+            if let notice, !notice.isEmpty {
+                Text(notice)
+                    .font(.footnote)
+                    .foregroundStyle(palette.warning)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
 
             if question.isJurisdictionDependent {
@@ -188,6 +209,7 @@ struct FlashcardSessionView: View {
     let mode: StudyMode
     let initialQuestions: [QuestionContent]
     let resumeSession: StudySession?
+    let userAnswers: [String: String]
 
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -202,11 +224,13 @@ struct FlashcardSessionView: View {
         configuration: OnboardingConfiguration,
         mode: StudyMode = .flashcards,
         questions: [QuestionContent]? = nil,
-        resumeSession: StudySession? = nil
+        resumeSession: StudySession? = nil,
+        userAnswers: [String: String] = [:]
     ) {
         self.configuration = configuration
         self.mode = mode
         self.resumeSession = resumeSession
+        self.userAnswers = userAnswers
 
         if let resumeSession,
            let resumed = resumeSession.resumeState(deckQuestions: questions ?? []) {
@@ -247,9 +271,13 @@ struct FlashcardSessionView: View {
                         if let question = state.currentQuestion {
                             QuestionCard(question: question)
 
-                            if state.isRevealed {
-                                AnswerCard(question: question)
-                            }
+           if state.isRevealed {
+                 AnswerCard(
+                     question: question,
+                     notice: nil,
+                     userAnswer: userAnswers[question.stableID]
+                 )
+             }
                         }
                     }
                     .padding(20)

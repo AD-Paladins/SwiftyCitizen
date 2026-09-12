@@ -5,6 +5,7 @@ struct MockTestResultView: View {
     let configuration: OnboardingConfiguration
     let state: MockTestState
     let missedQuestions: [QuestionContent]
+    let userAnswers: [String: String]
     let onFinish: () -> Void
 
     @Environment(ThemeManager.self) private var themeManager
@@ -37,7 +38,8 @@ struct MockTestResultView: View {
                             FlashcardSessionView(
                                 configuration: configuration,
                                 mode: .targetedReview,
-                                questions: missedQuestions
+                                questions: missedQuestions,
+                                userAnswers: userAnswers
                             )
                         } label: {
                             Label("Review in targeted review", systemImage: "target")
@@ -98,7 +100,8 @@ struct MockTestResultView: View {
                 passingScore: 6
             ),
             missedQuestions: [],
-            onFinish: {}
+             userAnswers: [:],
+             onFinish: {}
         )
     }
     .environment(ThemeManager())

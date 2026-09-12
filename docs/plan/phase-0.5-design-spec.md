@@ -288,13 +288,31 @@ Facts come from `docs/plan/uscis-test-rules.md`; the numbers (10 asked, 6 correc
 
 ### Current-answer warnings without interrupting study
 
-The mock-test evaluator is lenient by design (subset/partial acceptance for single-answer questions). A warning must be *available, explainable, and non-blocking*:
+The mock-test evaluator is lenient by design (subset/partial acceptance for single-answer questions). A warning must be *available, explainable, and non-blocking*.
 
-- Shown inline on the evaluated question card, never as an alert or sheet that requires dismissal.
-- Appears only when the answer was accepted through lenient matching (e.g., a subset of the official variant, or fewer than the cardinality-2 expected details), or was rejected despite a close text overlap.
-- Copy frames it as study feedback, not grading: "Accepted: your answer covers one accepted version of the official answer."
-- Does not auto-advance; the learner chooses the next action as usual.
-- VoiceOver announces the notice after the result, without cutting off the question content (per the accessibility baseline).
+**Implementation scope (current slice) — Per-answer feedback + accepted-only warning:**
+
+The mock test shows a minimal, non-blocking feedback indicator for **every** answer so nothing is hidden (this is study support, not a real exam). Feedback is layered on the evaluated question card:
+
+- **All verdicts** (correct-exact, rejected, lenient-accepted): show their concise indicator inline ("Correct" / "Incorrect" / "Accepted: ...") and wait for a "Next" tap to advance — uniform manual advance for every verdict.
+- All indicators are inline on the question card, never as an alert or sheet. Copy frames feedback as study guidance, not official grading.
+- VoiceOver announces each notice after the question content, without truncating it (accessibility baseline).
+- **Toggle flag:** a single `sessionFeedbackEnabled` setting (persisted, default `true`) controls whether any per-answer indicator renders. When disabled, the card shows only the question and the deck advances normally. This flag is a runtime/UX switch that can be turned off without code changes.
+
+**Flow rule (uniform manual advance):** every verdict shows its indicator inline and waits for a "Next" tap to advance; when `sessionFeedbackEnabled` is off, the deck advances immediately with no indicator.
+
+**Future refinement (next slice, gated on more work) — Rejected-but-close warning:**
+
+- Later slices may extend the warning to cover answers that `evaluate()` **rejects** despite close text overlap (e.g. cardinality-2 questions where only 1 of 2 details was named). This requires a different copy ("Close — this only partially matches...") and a flow change so feedback is shown before advancing. Deferred until the accepted-only warning is validated.
+
+### Answer evaluation: literal matcher + Apple Intelligence
+
+The evaluator must stay **offline-first** (the spec's core rule is that every study action works without a microphone or network). Evaluation is layered:
+
+- **Baseline (always available):** a pure, deterministic token-set matcher (`AnswerEvaluator`) compares normalized tokens against accepted official variants. It is lenient by design and never requires network or on-device ML. This remains the fallback path.
+- **Enhancement (optional, when available):** Apple Intelligence may be used to evaluate answer quality **semantically** rather than only literally — e.g. recognizing that "the supreme law of the land" answers *What is the supreme law?* even when word order or phrasing differs from the literal variant. On-device models keep all data private; no answer text leaves the device.
+- **Fallback contract:** whenever Apple Intelligence is unavailable, disabled, or a model is missing, the app must gracefully fall back to the literal matcher with no change in behavior or accuracy degradation the learner notices. Apple Intelligence is an enhancement, never a hard dependency.
+- **Content integrity:** semantic evaluation must still trace to official content or the learner's own comparison — never to AI-generated distractors or AI "grading" of official answers. The app does not claim an AI score predicts immigration outcomes.
 
 ## Open Decisions
 
@@ -303,6 +321,7 @@ The mock-test evaluator is lenient by design (subset/partial acceptance for sing
 - [x] Whether Progress is a tab or a Home destination in the first release — permanent tab.
 - [ ] Exact wording for the 65/20 eligibility explanation after product review (draft in "Decision Drafts" above).
 - [x] Whether audio playback belongs in Phase 1 or Phase 4 — Phase 4.
-- [ ] Current-answer warning copy and trigger set (draft in "Decision Drafts" above).
+- [x] Current-answer warning scope — slice implements per-answer feedback for **all** verdicts (correct-exact, rejected, lenient-accepted) so nothing is hidden; only the lenient-accepted case pauses for a "Next" tap (non-advance rule). A `sessionFeedbackEnabled` flag toggles all indicators off. The rejected-but-close warning remains a future refinement.
+- [x] Answer evaluation approach — baseline is a deterministic offline token-set matcher; Apple Intelligence semantic evaluation is an optional enhancement with mandatory offline fallback. Content always traces to official sources.
 - [x] Missed questions should be reviewed showing the learner's own answer next to the official answer.
 - [x] Question sets support Answer format variety (typed text, single-select, multi-select) beyond plain text.
