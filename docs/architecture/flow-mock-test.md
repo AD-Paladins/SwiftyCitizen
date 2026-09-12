@@ -76,10 +76,12 @@ The `sessionFeedbackEnabled` flag lives in `SessionFeedbackManager` (`@Observabl
 flowchart TD
     A[bank JSON] --> B[ExamEngine picks]
     B --> C[MockTestState record]
-    C --> D[QuestionAttempt wasCorrect+answerText]
-    D --> E[StudySession attempts]
-    E --> F[governs result and missed deck]
-    F --> G[FlashcardSessionView for missed]
+    B --> D[distractorOptions for current question]
+    C --> E[QuestionAttempt wasCorrect+answerText]
+    D --> F[selection tiles = accepted + distractors, shuffled]
+    E --> G[StudySession attempts]
+    G --> H[governs result and missed deck]
+    H --> I[FlashcardSessionView for missed]
 ```
 
 ### Session review state
