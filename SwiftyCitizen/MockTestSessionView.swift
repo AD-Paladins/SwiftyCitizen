@@ -24,7 +24,8 @@ struct MockTestSessionView: View {
         let bank = (try? QuestionBankLoader().load(version: version)) ?? []
         _state = State(initialValue: ExamEngine.makeState(
             from: bank,
-            configuration: testConfiguration
+            configuration: testConfiguration,
+            shuffle: configuration.shuffleQuestions ? { $0.shuffled() } : { $0 }
         ))
     }
 

@@ -142,7 +142,7 @@ The next slice is the mock test behind Practice (Phase 2 scope). The setup scree
 - [x] Answers are typed and evaluated deterministically against the official variants before scoring.
 - [x] The result shows a pass/fail summary with a disclaimer that the app is a study aid, not an immigration authority.
 - [x] Missed questions link directly into targeted review.
-- [x] Scoring, early completion, failed attempts, randomization, and question selection are covered by unit tests without SwiftUI.
+- [x] Scoring, early completion, failed attempts, randomization setting, and question selection are covered by unit tests without SwiftUI.
 
 #### Phase 2 Mock Test Slice Transition Review
 
@@ -164,7 +164,7 @@ Three bank entries (2008-088, 2025-028, 2025-037) declared `answerCardinality` 2
 - [x] Ask the correct number of questions for the selected test version.
 - [x] Stop and score according to that version's official rules.
 - [x] Show the result with a clear disclaimer that the app is a study aid, not an immigration authority.
-- [x] Add deterministic tests for scoring, early completion, failed attempts, randomization, and question selection.
+- [x] Add deterministic tests for scoring, early completion, failed attempts, randomization setting, and question selection.
 - [ ] Support single-select and multi-select answers, not only plain typed text. Choice questions must be scored against official answer variants and the learner's backlog only, never against AI-generated content.
 - [ ] When reviewing missed questions in targeted review, show the learner's own wrong answer next to the official one so the comparison is visible and reviewable.
 
@@ -188,6 +188,7 @@ Three bank entries (2008-088, 2025-028, 2025-037) declared `answerCardinality` 2
 Only consider these after the core product has reliable content, scoring, persistence, and tests:
 
 - Foundation Models for optional local study summaries.
+- Jurisdiction-aware answer banks: jurisdiction-dependent records (governor, representative) become a modifiable subset of the content database that Apple Intelligence can refresh according to the learner's selected state. Driven by on-device Apple Intelligence where supported: base Apple Intelligence requires iPhone 15 Pro and later, or any iPhone 16 or later; the higher on-device-model tier (Siri voice customization, on-device dictation, Local Foundation Models) requires M3 or later with 12GB RAM on Mac and M4 or later with 12GB RAM on iPad. Older devices must fall back to bundled verified content with a clear update notice.
 - Guided question explanations that are clearly labeled as generated and never replace official content.
 - App Intents for actions such as starting a study session or opening due questions in Siri, Shortcuts, and Spotlight.
 - Readiness insights based on deterministic metrics first; do not market a probability of passing without validated evidence.
@@ -195,7 +196,7 @@ Only consider these after the core product has reliable content, scoring, persis
 ## Proposed Domain Boundaries
 
 - `QuestionBank`: immutable, versioned official content and source metadata.
-- `TestConfiguration`: test version, filing-date applicability, question count, passing score, and special rules.
+- `TestConfiguration`: test version, filing-date applicability, question count, passing score, special rules, and selected state or jurisdiction.
 - `QuestionAttempt`: one learner interaction, including answer mode, result, transcript if available, and timestamp.
 - `StudySession`: a bounded learning session and its attempts.
 - `Progress`: derived or persisted learner history for scheduling and dashboard metrics.

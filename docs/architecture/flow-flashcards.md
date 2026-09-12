@@ -35,6 +35,11 @@ flowchart LR
 - `reveal()` sets `isRevealed`; no auto-advance.
 - `assess(_ assessment:)` records the attempt, advances `currentIndex`, resets `isRevealed`.
 - `seek(to:)` and `restore(attempts:)` support resuming an interrupted session.
+- Questions are selected with order preserved from the bank unless `shuffleQuestions` is enabled in settings, in which case they are shuffled via `ExamEngine.selectQuestions(from:maximum:shuffleEnabled:)`.
+
+### Resume
+
+`StudySession.resumeState(deckQuestions:)` rebuilds a `FlashcardState` from the persisted deck order (`deckStableIDs`) and answered attempts, then seeks to the saved `currentIndex`. `FlashcardSessionView` starts from a resumed state when a resume session is passed in; otherwise it builds a fresh state and creates a new `StudySession`.
 
 ### Resume
 

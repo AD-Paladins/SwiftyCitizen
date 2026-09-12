@@ -15,6 +15,7 @@ SwiftyCitizen now has the verified content and rules foundation for the USCIS ci
 - The dashboard slice is implemented: the app now uses a tab-based root navigation (Home, Study, Practice, Progress) with a real Home dashboard showing the configuration summary and a Start review action.
 - Study and Practice tabs expose the entry actions for flashcards, targeted review, mock test, and oral practice.
 - Settings now edits the persisted configuration in place instead of resetting it, and keeps a destructive reset action.
+- A "Shuffle questions" toggle in Settings → Test configuration randomizes question order for both flashcard and mock-test study modes; the preference is persisted locally.
 - Fixed the 2008 bank validation failure: four jurisdiction-dependent questions (2008-020, 2008-023, 2008-043, 2008-044) had empty answer variants and now use the official "Answers will vary." text mirrored from the 2025 bank, unblocking the derived 65/20 source.
 - The Phase 1 flashcard slice is implemented: the flashcard session (question card → reveal answer → self-assess → next) follows the Phase 0.5 design flow, and sessions and attempts persist in SwiftData.
 - The Phase 1 targeted-review slice is implemented: the Study tab offers Due, Unanswered, and Needs work scopes computed from attempt history by a SwiftData-free deck builder, starts sessions over the filtered deck, and allows resuming an interrupted targeted-review session from its persisted deck position and index.
@@ -36,6 +37,7 @@ SwiftyCitizen now has the verified content and rules foundation for the USCIS ci
 - The mock test should support selection-based answers (single-select and multi-select), not only typed text.
 - **Current-answer feedback implemented:** per-answer feedback indicator for **all** verdicts (correct-exact "Correct", rejected "Incorrect", lenient-accepted "Accepted: ...") shown inline on the question card so nothing is hidden. Every verdict waits for a "Next" tap to advance (uniform manual advance). A `sessionFeedbackEnabled` flag (persisted, default true) toggles all indicators off; when off, only the question renders and the deck advances immediately. The rejected-but-close warning is deferred to a later refinement.
 - **Apple Intelligence evaluation (future refinement):** layer semantic answer evaluation over the offline token-set baseline, with mandatory offline fallback and content traced to official sources.
+- **State selector and jurisdiction-dependent answers (future refinement):** a state/territory selector is planned so answers like the governor resolve per state, and jurisdiction-dependent records form a modifiable content subset that Apple Intelligence can refresh on supported devices. See `docs/plan/uscis-test-rules.md` (Content That Can Change, Implementation Rules), `docs/plan/screen-inventory.md` (Test Configuration), and `docs/plan/product-plan.md` (Phase 5 Optional Intelligence Features).
 
 ## Deferred findings (mock test — revisit after closing the 4 phases)
 

@@ -40,7 +40,15 @@ flowchart LR
 
 ### Randomization
 
-`ExamEngine.makeState(from:configuration:shuffle:)` uses `Array(shuffle(bank).prefix(maximum))`. `shuffle` is injectable so tests are deterministic; production passes the default `shuffled()`.
+`ExamEngine.selectQuestions(from:maximum:shuffleEnabled:)` supports controlled randomization. When `shuffleQuestions` is enabled in the user's configuration (via Settings → Test configuration), the question bank is shuffled before the maximum number of questions is drawn. When disabled, questions are presented in bank order. This setting is persisted locally and applies to both mock test and flashcard study modes.
+
+```mermaid
+flowchart LR
+    A[Question bank] -->|shuffle enabled| B[Shuffled selection]
+    A -->|shuffle disabled| C[Bank order selection]
+    B --> D[MockTestState]
+    C --> D[MockTestState]
+```
 
 ## Answer evaluation
 

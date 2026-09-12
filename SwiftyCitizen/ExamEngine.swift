@@ -25,4 +25,12 @@ enum ExamEngine {
             passingScore: configuration.passingScore
         )
     }
+
+    static func selectQuestions(
+        from bank: [QuestionContent],
+        maximum: Int,
+        shuffleEnabled: Bool
+    ) -> [QuestionContent] {
+        shuffleEnabled ? Array(bank.shuffled().prefix(maximum)) : Array(bank.prefix(maximum))
+    }
 }

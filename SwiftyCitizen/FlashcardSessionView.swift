@@ -324,7 +324,12 @@ struct FlashcardSessionView: View {
 
     private static func loadedQuestions(for configuration: OnboardingConfiguration) -> [QuestionContent] {
         guard let version = configuration.selectedTestVersion else { return [] }
-        return (try? QuestionBankLoader().load(version: version)) ?? []
+        let loaded = (try? QuestionBankLoader().load(version: version)) ?? []
+        return ExamEngine.selectQuestions(
+            from: loaded,
+            maximum: configuration.maximumQuestionsAsked,
+            shuffleEnabled: configuration.shuffleQuestions
+        )
     }
 
     private func beginOrResumeSession() {

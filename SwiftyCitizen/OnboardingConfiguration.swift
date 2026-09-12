@@ -33,6 +33,7 @@ struct OnboardingConfiguration: Codable, Hashable {
     var isSixtyFiveTwentyEligible: Bool
     var studyLanguage: StudyLanguage?
     var disclaimerAccepted: Bool
+    var shuffleQuestions: Bool
 
     var derivedTestVersion: USCISTestVersion? {
         if isSixtyFiveTwentyEligible {

@@ -25,6 +25,7 @@ struct SettingsView: View {
                 NavigationLink("Edit test configuration") {
                     TestConfigurationView(configuration: configuration)
                 }
+                Toggle("Shuffle questions", isOn: $configuration.shuffleQuestions)
                 LabeledContent("Test version", value: configuration.selectedTestVersion?.displayName ?? "Not set")
                 LabeledContent(
                     "Filing date",
@@ -68,8 +69,9 @@ struct SettingsView: View {
             filingDate: Date(),
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .spanish,
-            disclaimerAccepted: true
+            studyLanguage: .english,
+            disclaimerAccepted: true,
+            shuffleQuestions: false
         ))
     }
     .environment(ThemeManager())
