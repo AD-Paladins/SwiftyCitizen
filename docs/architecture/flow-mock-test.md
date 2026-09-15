@@ -64,6 +64,7 @@ flowchart LR
 `MockTestSessionView` records each answer with `state.record()` **without** advancing, then shows its verdict inline and waits for a "Next" tap — uniform manual advance for **all** verdicts.
 
 - **All verdicts** (correct-exact, rejected, lenient-accepted): show their inline indicator ("Correct" / "Incorrect" / "Accepted: ...") and wait for a "Next" tap to advance.
+- **Wrong answers** (`MockTestAnswer.needsOfficialAnswerReveal`, i.e. `!isCorrect`): below the indicator, an expandable "Show official answer" disclosure reveals the accepted variants via `AcceptedAnswerCard`. The learner keeps the question open; advancing still requires a "Next" tap.
 - **Feedback off** (`sessionFeedbackManager.isEnabled == false`): records, saves the attempt, and advances immediately with no indicator.
 
 The verdict is rendered by `SessionFeedbackIndicator` (inline on the question card) using palette tints: green `success` for "Correct", red `danger` for "Incorrect", amber `warning` for "Accepted". The feedback indicator sits **below** the question card so VoiceOver announces it after the question content. The "Record answer" button is disabled while a review is pending (`review != nil`) so a verdict can't be replaced before the learner taps "Next".
@@ -111,4 +112,5 @@ flowchart TD
 - [ ] Targeted review of missed questions shows the learner's own answer next to the official one.
 - [ ] Mock-test results do not change the dashboard "Got it" rate.
 - [ ] Per-answer feedback indicator shows for all verdicts inline on the question card; every verdict waits for a "Next" tap (uniform manual advance).
+- [x] Wrong answers expose an expandable "Show official answer" disclosure that reveals the accepted variants before advancing.
 - [ ] `sessionFeedbackEnabled` flag toggles all indicators off at runtime.

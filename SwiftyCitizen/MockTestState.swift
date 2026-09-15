@@ -6,6 +6,10 @@ struct MockTestAnswer: Equatable {
     let isCorrect: Bool
     let matchType: AnswerMatch
     let answeredAt: Date
+
+    var needsOfficialAnswerReveal: Bool {
+        !isCorrect
+    }
 }
 
 enum MockTestOutcome: Equatable {

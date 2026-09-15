@@ -18,6 +18,7 @@ struct MockTestSessionView: View {
     @State private var session: StudySession?
     @State private var confirmsExit = false
     @State private var review: MockTestAnswer?
+    @State private var showOfficialAnswer = false
 
     init(configuration: OnboardingConfiguration, version: USCISTestVersion) {
         self.configuration = configuration
@@ -61,7 +62,15 @@ struct MockTestSessionView: View {
                         QuestionCard(question: state.currentQuestion!)
 
                         if let review = review {
-                            SessionFeedbackIndicator(answer: review)
+                            VStack(alignment: .leading, spacing: 12) {
+                                SessionFeedbackIndicator(answer: review)
+                                if review.needsOfficialAnswerReveal, let question = state.currentQuestion {
+                                    revealButton(question: question)
+                                    if showOfficialAnswer {
+                                        AcceptedAnswerCard(question: question)
+                                    }
+                                }
+                            }
                         } else if currentQuestionMode == .text {
                             TextField("Type your answer", text: $answer, axis: .vertical)
                                 .textFieldStyle(.roundedBorder)
@@ -247,6 +256,27 @@ struct MockTestSessionView: View {
         session?.currentIndex = state.currentIndex
         answer = ""
         selectedOptionIndexes = []
+    }
+
+    private func revealButton(question: QuestionContent) -> some View {
+        Button {
+            withAnimation { showOfficialAnswer.toggle() }
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: showOfficialAnswer ? "chevron.down" : "chevron.right")
+                    .font(.subheadline.bold())
+                    .foregroundStyle(palette.ink)
+                Text(showOfficialAnswer ? "Hide official answer" : "Show official answer")
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(palette.ink)
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        }
+        .buttonStyle(.bordered)
+        .tint(palette.primary)
     }
 
     private func finishTest() {

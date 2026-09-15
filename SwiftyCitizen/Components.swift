@@ -22,6 +22,37 @@ struct SessionFeedbackIndicator: View {
     }
 }
 
+struct AcceptedAnswerCard: View {
+    let question: QuestionContent
+
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Official answer")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+
+            ForEach(question.acceptedAnswerVariants, id: \.self) { variant in
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "checkmark")
+                        .font(.footnote.bold())
+                        .foregroundStyle(palette.success)
+                        .accessibilityHidden(true)
+                    Text(variant)
+                        .font(.body.weight(.medium))
+                        .foregroundStyle(palette.ink)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+    }
+}
+
 struct AnswerFeedback {
     let image: String
     let label: String

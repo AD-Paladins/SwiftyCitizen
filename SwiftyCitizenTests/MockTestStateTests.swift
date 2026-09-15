@@ -71,6 +71,32 @@ struct MockTestStateTests {
     }
 
     @Test
+    func correctAnswerDoesNotRevealOfficialAnswer() {
+        var state = MockTestState(
+            questions: [makeQuestion(id: "1")],
+            maximumQuestionsAsked: 3,
+            passingScore: 1
+        )
+
+        let recorded = state.record("the Constitution", answeredAt: Date())
+
+        #expect(recorded?.needsOfficialAnswerReveal == false)
+    }
+
+    @Test
+    func incorrectAnswerRevealsOfficialAnswer() {
+        var state = MockTestState(
+            questions: [makeQuestion(id: "1")],
+            maximumQuestionsAsked: 3,
+            passingScore: 1
+        )
+
+        let recorded = state.record("wrong answer", answeredAt: Date())
+
+        #expect(recorded?.needsOfficialAnswerReveal == true)
+    }
+
+    @Test
     func submitAdvancesIndex() {
         var state = MockTestState(
             questions: [makeQuestion(id: "1"), makeQuestion(id: "2")],
