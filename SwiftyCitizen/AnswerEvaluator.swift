@@ -92,4 +92,35 @@ enum AnswerEvaluator {
                 .map(String.init)
         )
     }
+
+    static func presentation(for userAnswer: String?, against question: QuestionContent) -> AnswerPresentation {
+        guard let answer = userAnswer, !answer.isEmpty else {
+            return AnswerPresentation(verdict: .unanswered, yourAnswer: nil, officialText: nil)
+        }
+        switch matchType(answer, against: question) {
+        case .complete:
+            return AnswerPresentation(verdict: .correct, yourAnswer: answer, officialText: acceptedText(for: question))
+        case .partial:
+            return AnswerPresentation(verdict: .partial, yourAnswer: answer, officialText: acceptedText(for: question))
+        case .none:
+            return AnswerPresentation(verdict: .incorrect, yourAnswer: answer, officialText: acceptedText(for: question))
+        }
+    }
+
+    private static func acceptedText(for question: QuestionContent) -> String {
+        question.acceptedAnswerVariants.joined(separator: " · ")
+    }
+}
+
+struct AnswerPresentation {
+    enum Verdict {
+        case correct
+        case partial
+        case incorrect
+        case unanswered
+    }
+
+    let verdict: Verdict
+    let yourAnswer: String?
+    let officialText: String?
 }

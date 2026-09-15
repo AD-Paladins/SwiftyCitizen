@@ -103,4 +103,72 @@ struct AnswerMatchTests {
 
         #expect(AnswerEvaluator.matchType("life", against: question) == .partial)
     }
+
+    @Test
+    func presentationCorrectWhenAnswerMatchesVariant() {
+        let question = makeQuestion()
+
+        let presentation = AnswerEvaluator.presentation(for: "the Constitution", against: question)
+
+        #expect(presentation.verdict == .correct)
+        #expect(presentation.yourAnswer == "the Constitution")
+        #expect(presentation.officialText == "the Constitution")
+    }
+
+    @Test
+    func presentationPartialWhenAnswerOverlapsVariant() {
+        let question = makeQuestion(
+            accepted: ["life", "liberty", "pursuit of happiness"],
+            cardinality: 2
+        )
+
+        let presentation = AnswerEvaluator.presentation(for: "life", against: question)
+
+        #expect(presentation.verdict == .partial)
+        #expect(presentation.yourAnswer == "life")
+    }
+
+    @Test
+    func presentationIncorrectWhenAnswerDoesNotMatch() {
+        let question = makeQuestion()
+
+        let presentation = AnswerEvaluator.presentation(for: "freedom of speech", against: question)
+
+        #expect(presentation.verdict == .incorrect)
+        #expect(presentation.yourAnswer == "freedom of speech")
+        #expect(presentation.officialText == "the Constitution")
+    }
+
+    @Test
+    func presentationUnansweredWhenNoUserAnswer() {
+        let question = makeQuestion()
+
+        let presentation = AnswerEvaluator.presentation(for: nil, against: question)
+
+        #expect(presentation.verdict == .unanswered)
+        #expect(presentation.yourAnswer == nil)
+        #expect(presentation.officialText == nil)
+    }
+
+    @Test
+    func presentationUnansweredWhenEmptyUserAnswer() {
+        let question = makeQuestion()
+
+        let presentation = AnswerEvaluator.presentation(for: "", against: question)
+
+        #expect(presentation.verdict == .unanswered)
+    }
+
+    @Test
+    func presentationJoinsMultipleAcceptedVariants() {
+        let question = makeQuestion(
+            accepted: ["life", "liberty"],
+            cardinality: 1
+        )
+
+        let presentation = AnswerEvaluator.presentation(for: "life", against: question)
+
+        #expect(presentation.verdict == .correct)
+        #expect(presentation.officialText == "life · liberty")
+    }
 }

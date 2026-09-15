@@ -71,37 +71,21 @@ struct AnswerCard: View {
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
 
+    private var presentation: AnswerPresentation {
+        AnswerEvaluator.presentation(for: userAnswer, against: question)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Official answer")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
-
-            ForEach(Array(question.acceptedAnswerVariants.enumerated()), id: \.offset) { variant in
-                HStack(alignment: .top, spacing: 8) {
-                    if question.acceptedAnswerVariants.count > 1 {
-                        Image(systemName: "checkmark")
-                            .font(.footnote.bold())
-                            .foregroundStyle(palette.primary)
-                            .accessibilityHidden(true)
-                    }
-                    Text(variant.element)
-                        .font(.body.weight(.medium))
-                        .foregroundStyle(palette.ink)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
-
-            if let userAnswer, !userAnswer.isEmpty {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Your answer")
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(.secondary)
-                    Text(userAnswer)
-                        .font(.footnote)
-                        .foregroundStyle(palette.ink)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
+            switch presentation.verdict {
+            case .correct:
+                verdictColumn(yourColor: palette.success, yourImage: "checkmark.seal.fill")
+            case .partial:
+                verdictColumn(yourColor: palette.warning, yourImage: "exclamationmark.triangle.fill")
+            case .incorrect:
+                comparisonColumn
+            case .unanswered:
+                officialVariants(success: false)
             }
 
             if let notice, !notice.isEmpty {
@@ -131,6 +115,73 @@ struct AnswerCard: View {
         .padding(20)
         .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
         .accessibilityElement(children: .combine)
+    }
+
+    private func verdictColumn(yourColor: Color, yourImage: String) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            officialVariants(success: true)
+            answerBlock(
+                title: "Your answer",
+                text: presentation.yourAnswer ?? "",
+                systemImage: yourImage,
+                color: yourColor
+            )
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    private var comparisonColumn: some View {
+        HStack(alignment: .top, spacing: 12) {
+            answerBlock(
+                title: "Your answer",
+                text: presentation.yourAnswer ?? "",
+                systemImage: "xmark.circle.fill",
+                color: palette.danger
+            )
+            .frame(maxWidth: .infinity, alignment: .leading)
+            officialVariants(success: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    private func officialVariants(success: Bool) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Official answer")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+
+            ForEach(Array(question.acceptedAnswerVariants.enumerated()), id: \.offset) { variant in
+                HStack(alignment: .top, spacing: 8) {
+                    if question.acceptedAnswerVariants.count > 1 {
+                        Image(systemName: "checkmark")
+                            .font(.footnote.bold())
+                            .foregroundStyle(success ? palette.success : palette.ink)
+                            .accessibilityHidden(true)
+                    }
+                    Text(variant.element)
+                        .font(.body.weight(.medium))
+                        .foregroundStyle(palette.ink)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+    }
+
+    private func answerBlock(title: String, text: String, systemImage: String, color: Color) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 6) {
+                Image(systemName: systemImage)
+                    .font(.footnote.bold())
+                    .foregroundStyle(color)
+                    .accessibilityHidden(true)
+                Text(title)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+            }
+            Text(text)
+                .font(.footnote)
+                .foregroundStyle(palette.ink)
+        }
     }
 
     private func notice(systemImage: String, text: String) -> some View {
