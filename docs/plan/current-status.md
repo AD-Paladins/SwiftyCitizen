@@ -6,6 +6,15 @@ Last verified: September 11, 2026
 
 SwiftyCitizen now has the verified content and rules foundation for the USCIS civics app, the first onboarding slice in SwiftUI, the tab-based dashboard, three working study flows (flashcards, targeted review, and mock test) backed by SwiftData persistence with resume support, and a deterministic answer evaluator for typed replies. The app correctly distinguishes 2008, 2025, and 65/20 configurations, persists a validated learner configuration, records study attempts, and renders the dashboard's Today and Due next metrics from real data.
 
+## Next session — first task
+
+### Accessibility review on a real device (pending on-device verification)
+The code-level VoiceOver audit is done (verdict icon hidden in `SessionFeedbackIndicator`). The remaining checks must run on an iPhone:
+
+- **VoiceOver** (Settings → VoiceOver ON): navigate Home, Study (Targeted review), Mock-test session. Check each metric reads as a coherent unit, the selected scope announces "selected", the verdict → "Show official answer" disclosure → Next button reads in order and the toggle exposes its state, and tappable rows announce an action rather than being silent.
+- **Dynamic Type** (Text size → max): SessionSummaryView fixed-height container (400/600) does not clip; Home metric big numbers wrap instead of truncate; Question/Answer card long text fits at max size.
+- **Contrast** (visual): amber "Accepted" and green "Correct" labels read comfortably at normal brightness (code-level estimate: amber ≈3.1:1, green ≈4.4:1 — both under WCAG AA for 15pt body text).
+
 ## Completed
 
 - Official 2008, 2025, and 65/20 question banks are bundled and versioned.
@@ -23,6 +32,7 @@ SwiftyCitizen now has the verified content and rules foundation for the USCIS ci
 - Mock-test session now shows per-answer feedback via `SessionFeedbackIndicator` (green "Correct", red "Incorrect", amber "Accepted: ...") rendered inline on the question card. `MockTestSessionView` records each answer without advancing, then shows its verdict inline and waits for a "Next" tap for every verdict (uniform manual advance), or advances immediately when the `sessionFeedbackEnabled` flag is off. The flag lives in `SessionFeedbackManager` (`@Observable`, persisted under `sessionFeedbackEnabled`) injected via `.environment`, mirroring `ThemeManager`.
 - Wrong mock-test answers now give the learner control: below the verdict, an expandable "Show official answer" disclosure (toggled by `showOfficialAnswer` state) reveals the accepted variants via `AcceptedAnswerCard`. The decision is driven by `MockTestAnswer.needsOfficialAnswerReveal` (`!isCorrect`). Advancing still requires a "Next" tap, so the learner can read the official answer before moving on.
 - Mock-test setup UX polished: the misleading "Mode: Manual" row (which implied a toggle that does not exist) was removed and replaced with a clear "How you answer" explanation; the "Start mock test" action now renders as a floating primary button in a bottom `.safeAreaInset` so it reads unambiguously as a button rather than a list row.
+- VoiceOver audit applied: the mock-test verdict icon in `SessionFeedbackIndicator` was marked `.accessibilityHidden(true)` so screen readers announce only the verdict text ("Correct"/"Incorrect"/"Accepted: …") instead of the symbol name. The official-variant checkmarks, scope checkmarks, and progress/chevron decorations were already hidden. On-device Dynamic Type / VoiceOver review still needs a real iPhone to confirm no clipping at max text sizes and to verify live focus order.
 - Multi-select mock-test answers now include distractors so selection discriminates: `QuestionContent.distractorOptions(for:from:)` draws up to four distractors at runtime from other official answer variants in the same topic (excluding own variants and "answers will vary"/"testupdates"), shuffled deterministically per question. Distractors trace to official content only; scoring is unchanged — a selected distractor scores wrong through `AnswerEvaluator`. The mock-test-selection spec, flow doc, product plan, and decision log were updated to reflect this.
 - Fixed a mock-test advance bug: after answering, tapping "Next" kept presenting the same question. Root cause was an inverted guard in `MockTestState.advance()` (it returned early while `phase == .active`, so `currentIndex` never incremented). The guard now returns early only when `phase == .complete`; covered by regression tests in `MockTestStateTests` and `SelectionAnswerTests`.
 - The dashboard's Today and Due next sections now render real data: reviewed-today count, "Got it" rate, and the number of remaining questions in the configured set, all computed by a SwiftData-free metrics layer.
