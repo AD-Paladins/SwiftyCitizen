@@ -12,6 +12,7 @@ struct SessionFeedbackIndicator: View {
             Image(systemName: feedback.image)
                 .font(.headline)
                 .foregroundStyle(feedback.tint)
+                .accessibilityHidden(true)
             Text(feedback.label)
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(palette.ink)
