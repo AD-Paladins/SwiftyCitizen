@@ -9,7 +9,7 @@ SwiftyCitizen now has the verified content and rules foundation for the USCIS ci
 ## Engineering-hygiene progress (docs/audit/code-and-architecture-audit.md)
 
 - [ ] 1. Accessibility device review (VoiceOver + Dynamic Type on a real iPhone).
-- [x] 2. Moved `StudySession.resumeState()` out of the `@Model` into pure `StudyDomain.resumeFlashcardState(...)`; the `@Model` now only exposes its persisted deck, index, and attempts plus a `flashcardAttemptRecord` projection. Tests and architecture docs updated (89 tests pass).
+- [x] 2. Moved `StudySession.resumeState()` out of the `@Model` into pure `StudyDomain.resumeFlashcardState(...)`; the `@Model` now only exposes its persisted deck, index, and attempts plus a `flashcardAttemptRecord` projection. Tests and architecture docs updated (89 tests pass). PR: https://github.com/AD-Paladins/SwiftyCitizen/pull/1.
 - [ ] 3. Thin tests for `StudyDomain`, `QuestionContent`, `TestConfiguration`, `OnboardingConfiguration`.
 - [ ] 4. Deferred mock-test findings (≥2s incorrect feedback, skip/see-answer affordance).
 
