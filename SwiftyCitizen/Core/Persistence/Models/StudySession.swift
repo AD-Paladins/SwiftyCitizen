@@ -51,25 +51,6 @@ final class StudySession {
         self.deckStableIDsRaw = Self.encode(answeredIDs)
     }
 
-    func resumeState(deckQuestions: [QuestionContent]) -> FlashcardState? {
-        let deckByID = Dictionary(uniqueKeysWithValues: deckQuestions.map { ($0.stableID, $0) })
-        let ordered = deckStableIDs.compactMap { deckByID[$0] }
-        guard !ordered.isEmpty else { return nil }
-
-        var state = FlashcardState(questions: ordered)
-        state.restore(attempts: attempts.compactMap { attempt in
-            guard let assessment = attempt.assessment,
-                  let version = attempt.testVersion else { return nil }
-            return FlashcardAttemptRecord(
-                stableID: attempt.questionStableID,
-                testVersion: version,
-                assessment: assessment
-            )
-        })
-        state.seek(to: min(currentIndex, ordered.count))
-        return state
-    }
-
     private static func encode(_ ids: [String]) -> String? {
         guard let data = try? JSONEncoder().encode(ids) else { return nil }
         return String(data: data, encoding: .utf8)
@@ -132,5 +113,14 @@ final class QuestionAttempt {
 
     var testVersion: USCISTestVersion? {
         USCISTestVersion(rawValue: testVersionRawValue)
+    }
+
+    var flashcardAttemptRecord: FlashcardAttemptRecord? {
+        guard let assessment, let testVersion else { return nil }
+        return FlashcardAttemptRecord(
+            stableID: questionStableID,
+            testVersion: testVersion,
+            assessment: assessment
+        )
     }
 }

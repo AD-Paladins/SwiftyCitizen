@@ -283,8 +283,13 @@ struct FlashcardSessionView: View {
         self.resumeSession = resumeSession
         self.userAnswers = userAnswers
 
-        if let resumeSession,
-           let resumed = resumeSession.resumeState(deckQuestions: questions ?? []) {
+       if let resumeSession,
+            let resumed = StudyDomain.resumeFlashcardState(
+                deckStableIDs: resumeSession.deckStableIDs,
+                currentIndex: resumeSession.currentIndex,
+                attempts: resumeSession.attempts.compactMap { $0.flashcardAttemptRecord },
+                deckQuestions: questions ?? []
+            ) {
             self.initialQuestions = resumed.questions
             _state = State(initialValue: resumed)
         } else {

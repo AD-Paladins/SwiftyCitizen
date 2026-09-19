@@ -39,11 +39,7 @@ flowchart LR
 
 ### Resume
 
-`StudySession.resumeState(deckQuestions:)` rebuilds a `FlashcardState` from the persisted deck order (`deckStableIDs`) and answered attempts, then seeks to the saved `currentIndex`. `FlashcardSessionView` starts from a resumed state when a resume session is passed in; otherwise it builds a fresh state and creates a new `StudySession`.
-
-### Resume
-
-`StudySession.resumeState(deckQuestions:)` rebuilds a `FlashcardState` from the persisted deck order (`deckStableIDs`) and answered attempts, then seeks to the saved `currentIndex`. `FlashcardSessionView` starts from a resumed state when a resume session is passed in; otherwise it builds a fresh state and creates a new `StudySession`.
+`StudyDomain.resumeFlashcardState(deckStableIDs:currentIndex:attempts:deckQuestions:)` rebuilds a `FlashcardState` from the persisted deck order (`session.deckStableIDs`) and answered attempts (`session.attempts.compactMap { $0.flashcardAttemptRecord }`), then seeks to the saved `session.currentIndex`. The reconstruction is pure; the `@Model` only exposes its persisted deck, index, and attempts. `FlashcardSessionView` starts from a resumed state when a resume session is passed in; otherwise it builds a fresh state and creates a new `StudySession`.
 
 ## Data flow
 

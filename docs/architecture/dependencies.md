@@ -73,8 +73,8 @@ flowchart LR
     MockTestState --> QuestionContent
     MockTestState --> AnswerEvaluator
     AnswerEvaluator --> QuestionContent
-    QuestionAttempt --> FlashcardState
-    StudySession --> FlashcardState
+    QuestionAttempt --> FlashcardAttemptRecord
+    StudyDomain --> FlashcardState
 ```
 
 ## Full dependency table
@@ -105,9 +105,9 @@ flowchart LR
 | `ReviewDeckBuilder.swift` | Foundation | `QuestionContent`, `StudyAttemptSnapshot`, `SelfAssessment` |
 | `SessionSummaryView.swift` | SwiftUI | `SelfAssessment`, `AppPalette` |
 | `SettingsView.swift` | SwiftUI, SwiftData | `OnboardingConfiguration`, `SavedOnboardingConfiguration`, `TestConfigurationView`, `AppThemeName` |
-| `StudyDomain.swift` | Foundation | — |
+| `StudyDomain.swift` | Foundation | `FlashcardState`, `FlashcardAttemptRecord`, `QuestionContent`, `SelfAssessment` |
 | `StudyProgressMetrics.swift` | Foundation | `QuestionAttempt`, `TestConfiguration`, `SelfAssessment` |
-| `StudySession.swift` | Foundation, SwiftData | `StudyMode`, `SelfAssessment`, `FlashcardState`, `FlashcardAttemptRecord` |
+| `StudySession.swift` | Foundation, SwiftData | `StudyMode`, `SelfAssessment`, `FlashcardAttemptRecord` |
 | `StudyView.swift` | SwiftUI | `FlashcardSessionView`, `TargetedReviewView`, `QuestionBankLoader` |
 | `SwiftyCitizenApp.swift` | SwiftUI, SwiftData | `ContentView`, `Item`, `SavedOnboardingConfiguration`, `StudySession`, `QuestionAttempt`, `AppThemeName`, `AppPalette` |
 | `TargetedReviewView.swift` | SwiftUI, SwiftData | `ReviewDeckBuilder`, `StudySession`, `FlashcardSessionView` |
