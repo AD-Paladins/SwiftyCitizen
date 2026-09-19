@@ -194,6 +194,17 @@ Only consider these after the core product has reliable content, scoring, persis
 - App Intents for actions such as starting a study session or opening due questions in Siri, Shortcuts, and Spotlight.
 - Readiness insights based on deterministic metrics first; do not market a probability of passing without validated evidence.
 
+## Engineering-Hygiene Track (Audit-Driven)
+
+Cross-cutting quality work tracked in `docs/audit/code-and-architecture-audit.md`, referenced from AGENTS.md as a "Start Here" source of truth. Work in order:
+
+1. Close the accessibility gap (VoiceOver + Dynamic Type on a real iPhone; code-level audit already done).
+2. Move `StudySession.resumeState()` out of the `@Model` into `StudyDomain`/a helper to honor the Foundation-only layering rule.
+3. Add thin tests for `StudyDomain`, `QuestionContent`, `TestConfiguration`, `OnboardingConfiguration` (the untested core).
+4. Address deferred mock-test findings (≥2s incorrect feedback, skip/see-answer affordance) once Phase 0.5 closes.
+
+Delete the audit file after all four items are complete and fold durable decisions into `docs/plan/current-status.md` and the matching `docs/architecture/` document.
+
 ## Proposed Domain Boundaries
 
 - `QuestionBank`: immutable, versioned official content and source metadata.

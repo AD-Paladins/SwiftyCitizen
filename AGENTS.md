@@ -18,8 +18,13 @@ Before writing code, review the working plan and the current state of the projec
 5. `docs/plan/phase-0.5-design-spec.md` — design intent and interaction rules.
 6. `docs/plan/phase-0.5-user-checklist.md` — pending design handoff items.
 7. `docs/plan/design-tools.md` — selected design tooling and constraints.
+8. `docs/audit/code-and-architecture-audit.md` — active engineering-hygiene audit and its roadmap (items 1–4 below). This is a working note; delete it once all four items are done.
 
 Use these documents as the default source of truth. Do not start from a blank slate or from assumptions about the product direction. Follow the current phase boundary and continue from the latest documented slice.
+
+## Active Engineering-Hygiene Roadmap
+
+`docs/audit/code-and-architecture-audit.md` tracks four cross-cutting items (accessibility device review, moving `StudySession.resumeState()` out of the `@Model`, thin tests for the untested core, deferred mock-test findings). Work these in order and delete the audit file once all four are complete.
 
 ## Architecture Documentation
 
