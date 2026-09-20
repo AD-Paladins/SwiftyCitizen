@@ -6,6 +6,15 @@ Last verified: September 11, 2026
 
 SwiftyCitizen now has the verified content and rules foundation for the USCIS civics app, the first onboarding slice in SwiftUI, the tab-based dashboard, three working study flows (flashcards, targeted review, and mock test) backed by SwiftData persistence with resume support, and a deterministic answer evaluator for typed replies. The app correctly distinguishes 2008, 2025, and 65/20 configurations, persists a validated learner configuration, records study attempts, and renders the dashboard's Today and Due next metrics from real data.
 
+## Engineering-hygiene progress (docs/audit/code-and-architecture-audit.md)
+
+- [ ] 1. Accessibility device review (VoiceOver + Dynamic Type on a real iPhone).
+- [x] 2. Moved `StudySession.resumeState()` out of the `@Model` into pure `StudyDomain.resumeFlashcardState(...)`; the `@Model` now only exposes its persisted deck, index, and attempts plus a `flashcardAttemptRecord` projection. Tests and architecture docs updated (89 tests pass). PR: https://github.com/AD-Paladins/SwiftyCitizen/pull/1.
+- [ ] 3. Thin tests for `StudyDomain`, `QuestionContent`, `TestConfiguration`, `OnboardingConfiguration`.
+- [ ] 4. Deferred mock-test findings (≥2s incorrect feedback, skip/see-answer affordance).
+
+The audit file is deleted once all four items are complete.
+
 ## Next session — first task
 
 ### Accessibility review on a real device (pending on-device verification)

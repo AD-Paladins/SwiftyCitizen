@@ -162,7 +162,10 @@ struct TargetedReviewTests {
         try context.save()
 
         let fetched = try context.fetch(FetchDescriptor<StudySession>()).first!
-        let state = fetched.resumeState(
+        let state = StudyDomain.resumeFlashcardState(
+            deckStableIDs: fetched.deckStableIDs,
+            currentIndex: fetched.currentIndex,
+            attempts: fetched.attempts.compactMap { $0.flashcardAttemptRecord },
             deckQuestions: [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]
         )
 
@@ -194,7 +197,10 @@ struct TargetedReviewTests {
         session.applyProgress(answeredIDs: ["a", "b"], currentIndex: 1)
         context.insert(session)
 
-        var state = session.resumeState(
+        var state = StudyDomain.resumeFlashcardState(
+            deckStableIDs: session.deckStableIDs,
+            currentIndex: session.currentIndex,
+            attempts: session.attempts.compactMap { $0.flashcardAttemptRecord },
             deckQuestions: [makeQuestion(id: "a"), makeQuestion(id: "b")]
         )!
 

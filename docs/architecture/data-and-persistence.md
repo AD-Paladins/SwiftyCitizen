@@ -39,7 +39,8 @@ erDiagram
 | `currentIndex` | Int | Defaulted to `0` |
 
 - `mode`/`testVersion` decode to enums; nil-safe.
-- `resumeState(deckQuestions:)` rebuilds a `FlashcardState` from stored deck + attempts.
+- `flashcardAttemptRecord` projects a pure `FlashcardAttemptRecord` (or nil when assessment/version are missing) for the resume path.
+- The persisted deck (`deckStableIDs`) and `currentIndex` are the only inputs `StudyDomain.resumeFlashcardState` needs to rebuild a `FlashcardState`; the reconstruction logic lives in the pure domain layer, not here.
 
 ### QuestionAttempt
 
