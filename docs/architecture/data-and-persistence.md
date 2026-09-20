@@ -17,7 +17,6 @@ erDiagram
 | `SavedOnboardingConfiguration` | The single persisted learner configuration (one row); value bridge to `OnboardingConfiguration` |
 | `StudySession` | One study flow run; mode, version, started/ended, deck order, position |
 | `QuestionAttempt` | One answered question inside a session |
-| `Item` | Template leftover (Xcode scaffold); unused by app logic |
 
 ## Models
 
@@ -26,7 +25,7 @@ erDiagram
 - Raw-value strings for enums; `configuration` property decodes to a value type.
 - `init` and `update(from:)` use `precondition(configuration.isValid)` — invalid configs cannot persist.
 - `ContentView` reads `savedConfigurations.first` to pick Welcome vs MainTab.
-- `shuffleQuestions` is stored as a nullable column so stores created before it existed migrate cleanly; `.configuration` defaults a missing value to `false`. The shuffle flag flows from here into `ExamEngine.shuffleEnabled` for flashcards and mock tests.
+- `shuffleQuestions` is stored as a nullable column so stores created before it existed migrate cleanly; `.configuration` defaults a missing value to `false`. The shuffle flag flows from here into the `shuffleEnabled:` argument of `selectQuestions(...)` / `makeState(...)` for flashcards and mock tests.
 
 ### StudySession
 
@@ -40,7 +39,7 @@ erDiagram
 
 - `mode`/`testVersion` decode to enums; nil-safe.
 - `flashcardAttemptRecord` projects a pure `FlashcardAttemptRecord` (or nil when assessment/version are missing) for the resume path.
-- The persisted deck (`deckStableIDs`) and `currentIndex` are the only inputs `StudyDomain.resumeFlashcardState` needs to rebuild a `FlashcardState`; the reconstruction logic lives in the pure domain layer, not here.
+- The persisted deck (`deckStableIDs`) and `currentIndex` are the only inputs `resumeFlashcardState` needs to rebuild a `FlashcardState`; the reconstruction logic lives in the pure domain layer, not here.
 
 ### QuestionAttempt
 

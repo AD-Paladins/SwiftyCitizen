@@ -90,7 +90,6 @@ flowchart LR
 | `FlashcardSessionView.swift` | SwiftUI, SwiftData | `FlashcardState`, `StudySession`, `QuestionAttempt`, `QuestionBankLoader`, `SessionSummaryView` |
 | `FlashcardState.swift` | Foundation | `QuestionContent`, `SelfAssessment` |
 | `HomeDashboardView.swift` | SwiftUI, SwiftData | `StudyProgressMetrics`, `QuestionAttempt`, `ConfigurationSummaryView`, `AppTab` |
-| `Item.swift` | SwiftData | — (template scaffold) |
 | `MainTabView.swift` | SwiftUI | `AppTab`, `HomeDashboardView`, `StudyView`, `PracticeView`, `ProgressTabView` |
 | `MockTestResultView.swift` | SwiftUI | `MockTestState`, `FlashcardSessionView`, `OnboardingConfiguration` |
 | `MockTestSessionView.swift` | SwiftUI, SwiftData | `MockTestState`, `ExamEngine`, `QuestionBankLoader`, `StudySession`, `QuestionAttempt` |

@@ -35,11 +35,11 @@ flowchart LR
 - `reveal()` sets `isRevealed`; no auto-advance.
 - `assess(_ assessment:)` records the attempt, advances `currentIndex`, resets `isRevealed`.
 - `seek(to:)` and `restore(attempts:)` support resuming an interrupted session.
-- Questions are selected with order preserved from the bank unless `shuffleQuestions` is enabled in settings, in which case they are shuffled via `ExamEngine.selectQuestions(from:maximum:shuffleEnabled:)`.
+- Questions are selected with order preserved from the bank unless `shuffleQuestions` is enabled in settings, in which case they are shuffled via `selectQuestions(from:maximum:shuffleEnabled:)`.
 
 ### Resume
 
-`StudyDomain.resumeFlashcardState(deckStableIDs:currentIndex:attempts:deckQuestions:)` rebuilds a `FlashcardState` from the persisted deck order (`session.deckStableIDs`) and answered attempts (`session.attempts.compactMap { $0.flashcardAttemptRecord }`), then seeks to the saved `session.currentIndex`. The reconstruction is pure; the `@Model` only exposes its persisted deck, index, and attempts. `FlashcardSessionView` starts from a resumed state when a resume session is passed in; otherwise it builds a fresh state and creates a new `StudySession`.
+`resumeFlashcardState(deckStableIDs:currentIndex:attempts:deckQuestions:)` rebuilds a `FlashcardState` from the persisted deck order (`session.deckStableIDs`) and answered attempts (`session.attempts.compactMap { $0.flashcardAttemptRecord }`), then seeks to the saved `session.currentIndex`. The reconstruction is pure; the `@Model` only exposes its persisted deck, index, and attempts. `FlashcardSessionView` starts from a resumed state when a resume session is passed in; otherwise it builds a fresh state and creates a new `StudySession`.
 
 ## Data flow
 
