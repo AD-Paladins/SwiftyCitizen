@@ -14,7 +14,7 @@ Oral-style simulation of the civics test using the selected version's official r
 | Topic | Decision |
 | --- | --- |
 | Rules source | `TestConfiguration.all` matched by `configuration.selectedTestVersion` (see `uscis-test-rules.md`) |
-| Question selection | `ExamEngine.selectQuestions(from:maximum:shuffle:)` — draws the configured maximum from the bank |
+| Question selection | `selectQuestions(from:maximum:shuffleEnabled:)` — draws the configured maximum from the bank |
 | State machine | `MockTestState` — pure struct: question order, answers, pass/fail/active phase |
 | Answer evaluation | `AnswerEvaluator` token-set matcher; cardinality 1 vs 2 distinct rules |
 | Answer format | Typed free-text, single-select, and multi-select. Selection is used when the question has ≥2 fixed official variants; otherwise text (`answerInputMode` rule, see `mock-test-selection-spec.md`). Multi-select options combine accepted variants with runtime topic-pool distractors (see below). |
@@ -40,7 +40,7 @@ flowchart LR
 
 ### Randomization
 
-`ExamEngine.selectQuestions(from:maximum:shuffleEnabled:)` supports controlled randomization. When `shuffleQuestions` is enabled in the user's configuration (via Settings → Test configuration), the question bank is shuffled before the maximum number of questions is drawn. When disabled, questions are presented in bank order. This setting is persisted locally and applies to both mock test and flashcard study modes.
+`selectQuestions(from:maximum:shuffleEnabled:)` supports controlled randomization. When `shuffleQuestions` is enabled in the user's configuration (via Settings → Test configuration), the question bank is shuffled before the maximum number of questions is drawn. When disabled, questions are presented in bank order. This setting is persisted locally and applies to both mock test and flashcard study modes.
 
 ```mermaid
 flowchart LR
@@ -65,11 +65,11 @@ flowchart LR
 
 - **All verdicts** (correct-exact, rejected, lenient-accepted): show their inline indicator ("Correct" / "Incorrect" / "Accepted: ...") and wait for a "Next" tap to advance.
 - **Wrong answers** (`MockTestAnswer.needsOfficialAnswerReveal`, i.e. `!isCorrect`): below the indicator, an expandable "Show official answer" disclosure reveals the accepted variants via `AcceptedAnswerCard`. The learner keeps the question open; advancing still requires a "Next" tap.
-- **Feedback off** (`sessionFeedbackManager.isEnabled == false`): records, saves the attempt, and advances immediately with no indicator.
+- **Feedback off** (`themeManager.sessionFeedbackEnabled == false`): records, saves the attempt, and advances immediately with no indicator.
 
 The verdict is rendered by `SessionFeedbackIndicator` (inline on the question card) using palette tints: green `success` for "Correct", red `danger` for "Incorrect", amber `warning` for "Accepted". The feedback indicator sits **below** the question card so VoiceOver announces it after the question content. The "Record answer" button is disabled while a review is pending (`review != nil`) so a verdict can't be replaced before the learner taps "Next".
 
-The `sessionFeedbackEnabled` flag lives in `SessionFeedbackManager` (`@Observable`, persisted under `sessionFeedbackEnabled` in UserDefaults) injected via `.environment`, mirroring `ThemeManager`. When off, the deck advances normally and no indicator renders.
+The `sessionFeedbackEnabled` flag lives in `ThemeManager` (`@Observable`, persisted under `sessionFeedbackEnabled` in UserDefaults) injected via `.environment`. When off, the deck advances normally and no indicator renders.
 
 ## Data flow
 

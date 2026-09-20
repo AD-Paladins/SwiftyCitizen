@@ -26,7 +26,7 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environment(ThemeManager())
-        .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self], inMemory: true)
+        .modelContainer(for: [SavedOnboardingConfiguration.self], inMemory: true)
 }
 
 private struct WelcomeView: View {

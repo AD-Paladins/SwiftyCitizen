@@ -65,10 +65,10 @@ struct ExamTests {
     func stateSelectsMaximumQuestionsPerConfiguration(configuration: TestConfiguration) throws {
         let bank = try QuestionBankLoader().load(version: configuration.version)
 
-        let state = ExamEngine.makeState(
+        let state = makeState(
             from: bank,
             configuration: configuration,
-            shuffle: { $0.reversed() }
+            shuffleEnabled: false
         )
 
         #expect(state.questions.count == configuration.maximumQuestionsAsked)
@@ -256,10 +256,10 @@ struct ExamTests {
             makeQuestion(id: "d"),
         ]
 
-        let ordered = ExamEngine.selectQuestions(from: bank, maximum: 2, shuffleEnabled: false)
+        let ordered = selectQuestions(from: bank, maximum: 2, shuffleEnabled: false)
         #expect(ordered.map(\.stableID) == ["a", "b"])
 
-        let shuffled = ExamEngine.selectQuestions(from: bank, maximum: 4, shuffleEnabled: true)
+        let shuffled = selectQuestions(from: bank, maximum: 4, shuffleEnabled: true)
         #expect(Set(shuffled.map(\.stableID)) == Set(bank.map(\.stableID)))
     }
 }

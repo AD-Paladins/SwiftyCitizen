@@ -67,5 +67,5 @@ struct MockTestSetupView: View {
         ))
     }
     .environment(ThemeManager())
-    .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
+    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
 }

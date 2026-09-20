@@ -119,17 +119,12 @@ struct QuestionBankLoader {
             throw QuestionBankLoaderError.missingQuestions(name: resourceName)
         }
 
-        guard case .success = QuestionContentValidator.validate(
-            questions,
-            for: configuration(for: version)
-        ) else {
-            let failure = QuestionContentValidator.validate(questions, for: configuration(for: version))
-            if case .failure(let failure) = failure {
-                throw QuestionBankLoaderError.validationFailed(version: version, errors: failure.errors)
-            }
-            fatalError("Unreachable validation state")
+        switch QuestionContentValidator.validate(questions, for: configuration(for: version)) {
+        case .success:
+            return questions
+        case .failure(let failure):
+            throw QuestionBankLoaderError.validationFailed(version: version, errors: failure.errors)
         }
-        return questions
     }
 
     private func resourceName(for version: USCISTestVersion) -> String {

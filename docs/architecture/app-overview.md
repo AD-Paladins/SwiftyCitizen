@@ -4,7 +4,7 @@ SwiftyCitizen is a SwiftUI + SwiftData app. The root decides between onboarding 
 
 ## Entry point
 
-`SwiftyCitizenApp.swift` creates a shared `ModelContainer` (schema: `Item`, `SavedOnboardingConfiguration`, `StudySession`, `QuestionAttempt`) and injects it via `.modelContainer(sharedModelContainer)`.
+`SwiftyCitizenApp.swift` creates a shared `ModelContainer` (schema: `SavedOnboardingConfiguration`, `StudySession`, `QuestionAttempt`) and injects it via `.modelContainer(sharedModelContainer)`.
 
 `ContentView` decides the root:
 

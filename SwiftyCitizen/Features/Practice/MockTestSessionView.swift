@@ -10,7 +10,6 @@ struct MockTestSessionView: View {
     private var palette: AppPalette { themeManager.palette }
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    @Environment(SessionFeedbackManager.self) private var sessionFeedbackManager
 
     @State private var state: MockTestState
     @State private var answer = ""
@@ -25,10 +24,10 @@ struct MockTestSessionView: View {
         self.version = version
         self.bank = (try? QuestionBankLoader().load(version: version)) ?? []
         let testConfiguration = TestConfiguration.all.first { $0.version == version }!
-        _state = State(initialValue: ExamEngine.makeState(
+        _state = State(initialValue: makeState(
             from: bank,
             configuration: testConfiguration,
-            shuffle: configuration.shuffleQuestions ? { $0.shuffled() } : { $0 }
+            shuffleEnabled: configuration.shuffleQuestions
         ))
     }
 
@@ -228,7 +227,7 @@ struct MockTestSessionView: View {
         selectedOptionIndexes = []
         answer = ""
 
-        if sessionFeedbackManager.isEnabled {
+        if themeManager.sessionFeedbackEnabled {
             review = recorded
         } else {
             advance()
