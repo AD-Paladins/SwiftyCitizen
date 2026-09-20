@@ -1,36 +1,26 @@
 import Foundation
 
-enum ExamEngine {
-    static func selectQuestions(
-        from bank: [QuestionContent],
-        maximum: Int,
-        shuffle: (([QuestionContent]) -> [QuestionContent]) = { $0.shuffled() }
-    ) -> [QuestionContent] {
-        Array(shuffle(bank).prefix(maximum))
-    }
+func makeState(
+    from bank: [QuestionContent],
+    configuration: TestConfiguration,
+    shuffleEnabled: Bool
+) -> MockTestState {
+    let questions = selectQuestions(
+        from: bank,
+        maximum: configuration.maximumQuestionsAsked,
+        shuffleEnabled: shuffleEnabled
+    )
+    return MockTestState(
+        questions: questions,
+        maximumQuestionsAsked: configuration.maximumQuestionsAsked,
+        passingScore: configuration.passingScore
+    )
+}
 
-    static func makeState(
-        from bank: [QuestionContent],
-        configuration: TestConfiguration,
-        shuffle: (([QuestionContent]) -> [QuestionContent]) = { $0.shuffled() }
-    ) -> MockTestState {
-        let questions = selectQuestions(
-            from: bank,
-            maximum: configuration.maximumQuestionsAsked,
-            shuffle: shuffle
-        )
-        return MockTestState(
-            questions: questions,
-            maximumQuestionsAsked: configuration.maximumQuestionsAsked,
-            passingScore: configuration.passingScore
-        )
-    }
-
-    static func selectQuestions(
-        from bank: [QuestionContent],
-        maximum: Int,
-        shuffleEnabled: Bool
-    ) -> [QuestionContent] {
-        shuffleEnabled ? Array(bank.shuffled().prefix(maximum)) : Array(bank.prefix(maximum))
-    }
+func selectQuestions(
+    from bank: [QuestionContent],
+    maximum: Int,
+    shuffleEnabled: Bool
+) -> [QuestionContent] {
+    shuffleEnabled ? Array(bank.shuffled().prefix(maximum)) : Array(bank.prefix(maximum))
 }

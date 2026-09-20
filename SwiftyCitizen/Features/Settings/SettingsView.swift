@@ -74,5 +74,5 @@ struct SettingsView: View {
         ))
     }
     .environment(ThemeManager())
-    .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self], inMemory: true)
+    .modelContainer(for: [SavedOnboardingConfiguration.self], inMemory: true)
 }

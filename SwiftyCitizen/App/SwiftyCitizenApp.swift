@@ -11,11 +11,9 @@ import SwiftData
 @main
 struct SwiftyCitizenApp: App {
     @State private var themeManager = ThemeManager()
-    @State private var sessionFeedbackManager = SessionFeedbackManager()
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
             SavedOnboardingConfiguration.self,
             StudySession.self,
             QuestionAttempt.self,
@@ -32,9 +30,8 @@ struct SwiftyCitizenApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(themeManager)
-                .environment(sessionFeedbackManager)
-                .tint(themeManager.palette.primary)
+                 .environment(themeManager)
+                 .tint(themeManager.palette.primary)
         }
         .modelContainer(sharedModelContainer)
     }

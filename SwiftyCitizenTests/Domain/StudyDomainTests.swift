@@ -13,7 +13,7 @@ struct StudyDomainTests {
 
     @Test
     func resumeReturnsNilForEmptyDeck() {
-        let state = StudyDomain.resumeFlashcardState(
+        let state = resumeFlashcardState(
             deckStableIDs: [],
             currentIndex: 0,
             attempts: [],
@@ -24,7 +24,7 @@ struct StudyDomainTests {
 
     @Test
     func resumeSkipsQuestionsMissingFromDeck() {
-        let state = StudyDomain.resumeFlashcardState(
+        let state = resumeFlashcardState(
             deckStableIDs: ["a", "c"],
             currentIndex: 0,
             attempts: [],
@@ -35,7 +35,7 @@ struct StudyDomainTests {
 
     @Test
     func resumeRestoresAttemptsAndSeeksToIndex() {
-        let state = StudyDomain.resumeFlashcardState(
+        let state = resumeFlashcardState(
             deckStableIDs: ["a", "b", "c"],
             currentIndex: 1,
             attempts: [
@@ -55,7 +55,7 @@ struct StudyDomainTests {
 
     @Test
     func resumeClampsIndexBeyondDeck() {
-        let state = StudyDomain.resumeFlashcardState(
+        let state = resumeFlashcardState(
             deckStableIDs: ["a", "b"],
             currentIndex: 99,
             attempts: [],

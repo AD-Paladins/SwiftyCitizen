@@ -45,20 +45,18 @@ enum SelfAssessment: String, Codable, CaseIterable {
     }
 }
 
-enum StudyDomain {
-    static func resumeFlashcardState(
-        deckStableIDs: [String],
-        currentIndex: Int,
-        attempts: [FlashcardAttemptRecord],
-        deckQuestions: [QuestionContent]
-    ) -> FlashcardState? {
-        let deckByID = Dictionary(uniqueKeysWithValues: deckQuestions.map { ($0.stableID, $0) })
-        let ordered = deckStableIDs.compactMap { deckByID[$0] }
-        guard !ordered.isEmpty else { return nil }
+func resumeFlashcardState(
+    deckStableIDs: [String],
+    currentIndex: Int,
+    attempts: [FlashcardAttemptRecord],
+    deckQuestions: [QuestionContent]
+) -> FlashcardState? {
+    let deckByID = Dictionary(uniqueKeysWithValues: deckQuestions.map { ($0.stableID, $0) })
+    let ordered = deckStableIDs.compactMap { deckByID[$0] }
+    guard !ordered.isEmpty else { return nil }
 
-        var state = FlashcardState(questions: ordered)
-        state.restore(attempts: attempts)
-        state.seek(to: min(currentIndex, ordered.count))
-        return state
-    }
+    var state = FlashcardState(questions: ordered)
+    state.restore(attempts: attempts)
+    state.seek(to: min(currentIndex, ordered.count))
+    return state
 }

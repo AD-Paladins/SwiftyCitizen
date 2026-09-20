@@ -284,7 +284,7 @@ struct FlashcardSessionView: View {
         self.userAnswers = userAnswers
 
        if let resumeSession,
-            let resumed = StudyDomain.resumeFlashcardState(
+            let resumed = resumeFlashcardState(
                 deckStableIDs: resumeSession.deckStableIDs,
                 currentIndex: resumeSession.currentIndex,
                 attempts: resumeSession.attempts.compactMap { $0.flashcardAttemptRecord },
@@ -343,7 +343,7 @@ struct FlashcardSessionView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .navigationTitle(mode.navigationTitle)
+        .navigationTitle(mode.displayName)
         .navigationBarTitleDisplayMode(.inline)
         .background(palette.canvas.ignoresSafeArea())
         .onAppear(perform: beginOrResumeSession)
@@ -382,7 +382,7 @@ struct FlashcardSessionView: View {
         guard let version = configuration.selectedTestVersion else { return [] }
          guard let testConfiguration = configuration.testConfiguration else { return [] }
          let loaded = (try? QuestionBankLoader().load(version: version)) ?? []
-         return ExamEngine.selectQuestions(
+         return selectQuestions(
              from: loaded,
              maximum: testConfiguration.maximumQuestionsAsked,
              shuffleEnabled: configuration.shuffleQuestions
@@ -443,19 +443,6 @@ struct FlashcardSessionView: View {
     }
 }
 
-private extension StudyMode {
-    var navigationTitle: String {
-        switch self {
-        case .flashcards:
-            "Flashcards"
-        case .targetedReview:
-            "Targeted review"
-        case .mockTest:
-            "Mock test"
-        }
-    }
-}
-
 #Preview {
     NavigationStack {
         FlashcardSessionView(configuration: OnboardingConfiguration(
@@ -468,5 +455,5 @@ private extension StudyMode {
         ))
     }
     .environment(ThemeManager())
-    .modelContainer(for: [Item.self, SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
+    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
 }
