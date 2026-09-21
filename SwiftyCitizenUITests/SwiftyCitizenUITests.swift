@@ -40,4 +40,24 @@ final class SwiftyCitizenUITests: XCTestCase {
             XCUIApplication().launch()
         }
     }
+
+    @MainActor
+    func testAccessibilityAudit() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        let welcome = app.staticTexts["Welcome to SwiftyCitizen"]
+        let homeTabButton = app.tabBars.buttons["Home"]
+
+        if welcome.waitForExistence(timeout: 5) {
+            continueAfterFailure = true
+            try app.performAccessibilityAudit()
+        } else if homeTabButton.exists {
+            homeTabButton.tap()
+            continueAfterFailure = true
+            try app.performAccessibilityAudit()
+        } else {
+            XCTFail("Unexpected launch state: neither Welcome nor Home screen is visible.")
+        }
+    }
 }

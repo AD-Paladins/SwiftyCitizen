@@ -63,6 +63,7 @@ struct AppPalette {
     let warning: Color
     let danger: Color
     let onPrimary: Color
+    let dimmed: Color
 
     func tint(for assessment: SelfAssessment) -> Color {
         switch assessment {
@@ -85,7 +86,8 @@ extension AppPalette {
         success: dynamic(light: 0.18, green: 0.49, blue: 0.36, dark: 0.31, darkGreen: 0.69, darkBlue: 0.51),
         warning: dynamic(light: 0.73, green: 0.48, blue: 0.16, dark: 0.91, darkGreen: 0.63, darkBlue: 0.31),
         danger: dynamic(light: 0.66, green: 0.29, blue: 0.23, dark: 0.85, darkGreen: 0.48, darkBlue: 0.42),
-        onPrimary: Color.white
+        onPrimary: Color.white,
+        dimmed: dynamic(light: 0.30, green: 0.30, blue: 0.30, dark: 0.70, darkGreen: 0.70, darkBlue: 0.70)
     )
 
     static let paperEmerald = AppPalette(
@@ -96,7 +98,8 @@ extension AppPalette {
         success: dynamic(light: 0.12, green: 0.56, blue: 0.43, dark: 0.30, darkGreen: 0.73, darkBlue: 0.60),
         warning: dynamic(light: 0.73, green: 0.48, blue: 0.16, dark: 0.91, darkGreen: 0.63, darkBlue: 0.31),
         danger: dynamic(light: 0.66, green: 0.29, blue: 0.23, dark: 0.85, darkGreen: 0.48, darkBlue: 0.42),
-        onPrimary: Color.white
+        onPrimary: Color.white,
+        dimmed: dynamic(light: 0.30, green: 0.30, blue: 0.30, dark: 0.70, darkGreen: 0.70, darkBlue: 0.70)
     )
 
     static let studyCalm = AppPalette(
@@ -107,7 +110,8 @@ extension AppPalette {
         success: dynamic(light: 0.18, green: 0.49, blue: 0.36, dark: 0.31, darkGreen: 0.69, darkBlue: 0.51),
         warning: dynamic(light: 0.73, green: 0.48, blue: 0.16, dark: 0.91, darkGreen: 0.63, darkBlue: 0.31),
         danger: dynamic(light: 0.66, green: 0.29, blue: 0.23, dark: 0.85, darkGreen: 0.48, darkBlue: 0.42),
-        onPrimary: Color.white
+        onPrimary: Color.white,
+        dimmed: dynamic(light: 0.30, green: 0.30, blue: 0.30, dark: 0.70, darkGreen: 0.70, darkBlue: 0.70)
     )
 
     private static func dynamic(

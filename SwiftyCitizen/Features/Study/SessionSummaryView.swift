@@ -25,7 +25,7 @@ struct SessionSummaryView: View {
 
                 Text("You reviewed \(answeredCount) question\(answeredCount == 1 ? "" : "s").")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(palette.dimmed)
                     .padding(.top, 4)
 
                 VStack(spacing: 8) {

@@ -7,6 +7,10 @@
 - Do not assume a build scheme, simulator destination, deployment target, dependency manager, or test command without checking the active project files and current docs.
 - `.atl/skill-registry.md` is generated metadata; do not edit it manually.
 
+## Project Skills
+
+- `skills/xcode27-accessibility/SKILL.md` — accessibility testing with Xcode 27 / Device Hub (terminal + simulator). Load before any build/test/simulator/device work, or when the user mentions VoiceOver, Dynamic Type, contrast, `simctl`, `devicectl`, `performAccessibilityAudit`, or "testar accesibilidad por terminal/simulador". Details: `references/commands.md` and `references/gotchas.md`.
+
 ## Start Here for the Next Session
 
 Before writing code, review the working plan and the current state of the project in this order:

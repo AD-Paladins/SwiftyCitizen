@@ -100,7 +100,7 @@ struct TargetedReviewView: View {
                 Spacer()
                 Text("\(min(session.currentIndex, session.deckStableIDs.count)) of \(session.deckStableIDs.count)")
                     .font(.subheadline.monospacedDigit())
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(palette.dimmed)
             }
         }
     }
@@ -120,7 +120,7 @@ struct TargetedReviewView: View {
                 }
                 Text("\(count(for: scope))")
                     .font(.headline.monospacedDigit())
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(palette.dimmed)
             }
             .contentShape(Rectangle())
         }
