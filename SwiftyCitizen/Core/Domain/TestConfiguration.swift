@@ -21,17 +21,6 @@ enum TestApplicability: Codable, Hashable {
     case filingBeforeOctober20th2025
     case filingOnOrAfterOctober20th2025
     case age65AndResidency20Years
-
-    var summary: String {
-        switch self {
-        case .filingBeforeOctober20th2025:
-            "N-400 filed before October 20, 2025"
-        case .filingOnOrAfterOctober20th2025:
-            "N-400 filed on or after October 20, 2025"
-        case .age65AndResidency20Years:
-            "Applicant is age 65 or older and has been a lawful permanent resident for at least 20 years"
-        }
-    }
 }
 
 struct TestConfiguration: Codable, Hashable, Identifiable {

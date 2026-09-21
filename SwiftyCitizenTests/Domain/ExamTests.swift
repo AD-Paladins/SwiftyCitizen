@@ -65,10 +65,10 @@ struct ExamTests {
     func stateSelectsMaximumQuestionsPerConfiguration(configuration: TestConfiguration) throws {
         let bank = try QuestionBankLoader().load(version: configuration.version)
 
-        let state = makeState(
-            from: bank,
-            configuration: configuration,
-            shuffleEnabled: false
+        let state = MockTestState(
+            questions: selectQuestions(from: bank, maximum: configuration.maximumQuestionsAsked, shuffleEnabled: false),
+            maximumQuestionsAsked: configuration.maximumQuestionsAsked,
+            passingScore: configuration.passingScore
         )
 
         #expect(state.questions.count == configuration.maximumQuestionsAsked)

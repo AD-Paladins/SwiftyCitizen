@@ -18,17 +18,6 @@ enum ReviewScope: String, Codable, CaseIterable, Identifiable {
         }
     }
 
-    var summary: String {
-        switch self {
-        case .due:
-            "Questions you haven't answered yet or didn't mark as got it."
-        case .unanswered:
-            "Questions with no recorded attempt yet."
-        case .needsWork:
-            "Answered questions whose latest self-assessment is not Got it."
-        }
-    }
-
     var systemImage: String {
         switch self {
         case .due:
