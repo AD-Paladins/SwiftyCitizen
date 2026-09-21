@@ -8,7 +8,7 @@ final class StudySession {
     var startedAt: Date
     var endedAt: Date?
     var attempts: [QuestionAttempt]
-    var deckStableIDsRaw: String?
+    var deckStableIDs: [String] = []
     var currentIndex: Int = 0
 
     init(
@@ -22,7 +22,7 @@ final class StudySession {
         self.startedAt = startedAt
         self.endedAt = nil
         self.attempts = []
-        self.deckStableIDsRaw = Self.encode(deckStableIDs)
+        self.deckStableIDs = deckStableIDs
         self.currentIndex = 0
     }
 
@@ -42,26 +42,9 @@ final class StudySession {
         attempts.count
     }
 
-    var deckStableIDs: [String] {
-        Self.decode(deckStableIDsRaw)
-    }
-
     func applyProgress(answeredIDs: [String], currentIndex: Int) {
         self.currentIndex = currentIndex
-        self.deckStableIDsRaw = Self.encode(answeredIDs)
-    }
-
-    private static func encode(_ ids: [String]) -> String? {
-        guard let data = try? JSONEncoder().encode(ids) else { return nil }
-        return String(data: data, encoding: .utf8)
-    }
-
-    private static func decode(_ raw: String?) -> [String] {
-        guard let raw, let data = raw.data(using: .utf8),
-              let ids = try? JSONDecoder().decode([String].self, from: data) else {
-            return []
-        }
-        return ids
+        self.deckStableIDs = answeredIDs
     }
 }
 
