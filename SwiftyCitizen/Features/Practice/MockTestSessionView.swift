@@ -24,10 +24,10 @@ struct MockTestSessionView: View {
         self.version = version
         self.bank = (try? QuestionBankLoader().load(version: version)) ?? []
         let testConfiguration = TestConfiguration.all.first { $0.version == version }!
-        _state = State(initialValue: makeState(
-            from: bank,
-            configuration: testConfiguration,
-            shuffleEnabled: configuration.shuffleQuestions
+        _state = State(initialValue: MockTestState(
+            questions: selectQuestions(from: bank, maximum: testConfiguration.maximumQuestionsAsked, shuffleEnabled: configuration.shuffleQuestions),
+            maximumQuestionsAsked: testConfiguration.maximumQuestionsAsked,
+            passingScore: testConfiguration.passingScore
         ))
     }
 
