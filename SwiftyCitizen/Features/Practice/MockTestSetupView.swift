@@ -17,7 +17,7 @@ struct MockTestSetupView: View {
             Section("How you answer") {
                 Text("Type or speak your answer. The app compares it against the official answers for each question.")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(palette.dimmed)
             }
 
             if let version = configuration.selectedTestVersion, !bankAvailable(version: version) {

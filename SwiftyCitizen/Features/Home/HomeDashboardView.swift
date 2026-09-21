@@ -64,7 +64,7 @@ struct HomeDashboardView: View {
                 .font(.headline)
             Text("Review your current set and keep your streak going.")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(palette.dimmed)
             PrimaryActionButton(title: "Start review", systemImage: "arrow.right") {
                 selectedTab = .study
             }
@@ -123,11 +123,11 @@ struct HomeDashboardView: View {
                     .foregroundStyle(palette.ink)
                 Text("question\(dueCount == 1 ? "" : "s") to review")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(palette.dimmed)
             }
             Spacer()
             Image(systemName: "chevron.right")
-                .foregroundStyle(.secondary)
+                .foregroundStyle(palette.ink)
                 .accessibilityHidden(true)
         }
         .padding()
