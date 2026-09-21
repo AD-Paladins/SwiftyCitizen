@@ -28,7 +28,7 @@ Audited the full app (32 source files, 7 test files) for layering, dead code, do
 ## Roadmap items (this audit)
 
 1. Close the accessibility gap (VoiceOver + Dynamic Type on a real iPhone; code-level audit already done).
-2. Move `StudySession.resumeState()` out of the `@Model` into `StudyDomain`/a helper to honor the layering rule cleanly.
+2. ✅ Done (commit `3e51fde`): `resumeState()` moved to `StudyDomain.resumeFlashcardState(deckStableIDs:currentIndex:attempts:deckQuestions:)`; `StudySession` @Model is now pure persistence with no resume logic.
 3. Add 3–4 thin tests for `StudyDomain`, `QuestionContent`, `TestConfiguration`, `OnboardingConfiguration` — cheap, high-value coverage on the untested core.
 4. [x] Deferred mock-test findings resolved: uniform manual advance removes the "too brief" incorrect feedback; official-answer reveal covers "see the real answer". Added a "Skip this question" defer-to-review affordance for wrong answers (MockTestState.skip() + MockTestResultView skipped section).
 
