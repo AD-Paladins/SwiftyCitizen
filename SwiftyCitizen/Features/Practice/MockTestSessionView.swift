@@ -160,8 +160,8 @@ struct MockTestSessionView: View {
         let accepted = question.acceptedAnswerVariants
         let distractors = QuestionContent.distractorOptions(for: question, from: bank)
         let combined = accepted + distractors
-        let seed = QuestionContent.shuffleSeed(for: question.stableID)
-        return combined.seededShuffled(seed: seed)
+        var rng = SeededShuffle(seed: QuestionContent.shuffleSeed(for: question.stableID))
+        return combined.shuffled(using: &rng)
     }
 
     private var requiredAnswerCount: Int {

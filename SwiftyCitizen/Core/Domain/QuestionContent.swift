@@ -178,17 +178,3 @@ struct SeededShuffle: RandomNumberGenerator {
         return state
     }
 }
-
-extension Array {
-    func seededShuffled(seed: UInt64) -> [Element] {
-        var result = self
-        var rng = SeededShuffle(seed: seed)
-        for index in stride(from: result.count - 1, through: 1, by: -1) {
-            let randomIndex = Int(rng.next() % UInt64(index + 1))
-            if randomIndex != index {
-                result.swapAt(randomIndex, index)
-            }
-        }
-        return result
-    }
-}
