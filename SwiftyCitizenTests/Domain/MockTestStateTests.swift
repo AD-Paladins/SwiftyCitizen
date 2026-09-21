@@ -153,16 +153,60 @@ struct MockTestStateTests {
         #expect(state.currentIndex == before)
     }
 
-    @Test
-    func lenientAnswerIsFlaggedAsWarning() {
-        var state = MockTestState(
-            questions: [makeQuestion(id: "1")],
-            maximumQuestionsAsked: 3,
-            passingScore: 1
-        )
-        let recorded = state.record("Constitution", answeredAt: Date())
+  @Test
+     func lenientAnswerIsFlaggedAsWarning() {
+         var state = MockTestState(
+             questions: [makeQuestion(id: "1")],
+             maximumQuestionsAsked: 3,
+             passingScore: 1
+         )
+         let recorded = state.record("Constitution", answeredAt: Date())
 
-        #expect(recorded?.isCorrect == true)
-        #expect(recorded?.matchType == .partial)
-    }
+         #expect(recorded?.isCorrect == true)
+         #expect(recorded?.matchType == .partial)
+     }
+
+     @Test
+     func skipMarksQuestionAndAdvances() {
+         var state = MockTestState(
+             questions: [makeQuestion(id: "1"), makeQuestion(id: "2")],
+             maximumQuestionsAsked: 3,
+             passingScore: 1
+         )
+
+         let advanced = state.skip()
+
+         #expect(advanced)
+         #expect(state.skippedIDs == ["1"])
+         #expect(state.currentIndex == 1)
+     }
+
+     @Test
+     func skipDoesNotRecordAnAnswer() {
+         var state = MockTestState(
+             questions: [makeQuestion(id: "1"), makeQuestion(id: "2")],
+             maximumQuestionsAsked: 3,
+             passingScore: 1
+         )
+
+         _ = state.skip()
+
+         #expect(state.answers.isEmpty)
+         #expect(state.skippedIDs == ["1"])
+     }
+
+     @Test
+     func skipIsNoOpWhenComplete() {
+         var state = MockTestState(
+             questions: [makeQuestion(id: "1"), makeQuestion(id: "2")],
+             maximumQuestionsAsked: 2,
+             passingScore: 1
+         )
+         state.submit("the Constitution", answeredAt: Date())
+
+         #expect(state.isComplete)
+         let before = state.currentIndex
+         _ = state.skip()
+         #expect(state.currentIndex == before)
+     }
 }

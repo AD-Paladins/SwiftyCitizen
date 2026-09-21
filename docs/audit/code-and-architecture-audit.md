@@ -30,7 +30,7 @@ Audited the full app (32 source files, 7 test files) for layering, dead code, do
 1. Close the accessibility gap (VoiceOver + Dynamic Type on a real iPhone; code-level audit already done).
 2. Move `StudySession.resumeState()` out of the `@Model` into `StudyDomain`/a helper to honor the layering rule cleanly.
 3. Add 3–4 thin tests for `StudyDomain`, `QuestionContent`, `TestConfiguration`, `OnboardingConfiguration` — cheap, high-value coverage on the untested core.
-4. Address the deferred mock-test findings (≥2s incorrect feedback, skip/see-answer affordance) once Phase 0.5 closes.
+4. [x] Deferred mock-test findings resolved: uniform manual advance removes the "too brief" incorrect feedback; official-answer reveal covers "see the real answer". Added a "Skip this question" defer-to-review affordance for wrong answers (MockTestState.skip() + MockTestResultView skipped section).
 
 ## Lifecycle
 

@@ -69,6 +69,9 @@ struct MockTestSessionView: View {
                                         AcceptedAnswerCard(question: question)
                                     }
                                 }
+                                if !review.isCorrect {
+                                    skipButton
+                                }
                             }
                         } else if currentQuestionMode == .text {
                             TextField("Type your answer", text: $answer, axis: .vertical)
@@ -257,6 +260,14 @@ struct MockTestSessionView: View {
         selectedOptionIndexes = []
     }
 
+    private func skipQuestion() {
+        state.skip()
+        review = nil
+        session?.currentIndex = state.currentIndex
+        answer = ""
+        selectedOptionIndexes = []
+    }
+
     private func revealButton(question: QuestionContent) -> some View {
         Button {
             withAnimation { showOfficialAnswer.toggle() }
@@ -276,6 +287,27 @@ struct MockTestSessionView: View {
         }
         .buttonStyle(.bordered)
         .tint(palette.primary)
+    }
+
+    private var skipButton: some View {
+        Button {
+            withAnimation { skipQuestion() }
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: "arrow.counterclockwise")
+                    .font(.subheadline.bold())
+                    .foregroundStyle(palette.ink)
+                Text("Skip this question")
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(palette.ink)
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        }
+        .buttonStyle(.bordered)
+        .tint(palette.warning)
     }
 
     private func finishTest() {

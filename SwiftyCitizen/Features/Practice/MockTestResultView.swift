@@ -53,6 +53,34 @@ struct MockTestResultView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
+                if !skippedQuestions.isEmpty {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Skipped during the test")
+                            .font(.headline)
+                            .foregroundStyle(palette.ink)
+                        Text("You deferred \(skippedQuestions.count) question(s). Review them here.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+
+                        NavigationLink {
+                            FlashcardSessionView(
+                                configuration: configuration,
+                                mode: .targetedReview,
+                                questions: skippedQuestions,
+                                userAnswers: userAnswers
+                            )
+                        } label: {
+                            Label("Review skipped questions", systemImage: "target")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
+                        .tint(palette.primary)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+
                 Text("This simulation follows the official civics test rules but the app is a study aid, not an immigration authority. An officer's evaluation always decides the real interview.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
@@ -65,6 +93,13 @@ struct MockTestResultView: View {
             .padding(20)
         }
         .background(palette.canvas.ignoresSafeArea())
+    }
+
+    private var skippedQuestions: [QuestionContent] {
+        guard let version = configuration.selectedTestVersion else { return [] }
+        let bank = (try? QuestionBankLoader().load(version: version)) ?? []
+        let bankByID = Dictionary(uniqueKeysWithValues: bank.map { ($0.stableID, $0) })
+        return state.skippedIDs.compactMap { bankByID[$0] }
     }
 
     @ViewBuilder

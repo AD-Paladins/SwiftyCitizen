@@ -30,6 +30,7 @@ struct MockTestState {
 
     private(set) var currentIndex: Int
     private(set) var answers: [MockTestAnswer]
+    private(set) var skippedIDs: [String]
 
     init(
         questions: [QuestionContent],
@@ -41,6 +42,7 @@ struct MockTestState {
         self.passingScore = passingScore
         self.currentIndex = 0
         self.answers = []
+        self.skippedIDs = []
     }
 
     var currentQuestion: QuestionContent? {
@@ -106,5 +108,19 @@ struct MockTestState {
             return
         }
         currentIndex += 1
+    }
+
+    @discardableResult
+    mutating func skip() -> Bool {
+        guard let question = currentQuestion, phase == .active else { return false }
+        if !skippedIDs.contains(question.stableID) {
+            skippedIDs.append(question.stableID)
+        }
+        currentIndex += 1
+        return true
+    }
+
+    var skippedCount: Int {
+        skippedIDs.count
     }
 }
