@@ -90,8 +90,10 @@ struct QuestionContentTests {
     @Test
     func seededShuffleIsStableForSameSeed() {
         let original = ["a", "b", "c", "d", "e"]
-        let first = original.seededShuffled(seed: QuestionContent.shuffleSeed(for: "seed"))
-        let second = original.seededShuffled(seed: QuestionContent.shuffleSeed(for: "seed"))
+        var firstRng = SeededShuffle(seed: QuestionContent.shuffleSeed(for: "seed"))
+        let first = original.shuffled(using: &firstRng)
+        var secondRng = SeededShuffle(seed: QuestionContent.shuffleSeed(for: "seed"))
+        let second = original.shuffled(using: &secondRng)
         #expect(first == second)
         #expect(first.sorted() == original)
     }

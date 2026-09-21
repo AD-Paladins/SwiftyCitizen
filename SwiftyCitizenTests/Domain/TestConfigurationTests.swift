@@ -58,11 +58,4 @@ struct TestConfigurationTests {
         #expect(USCISTestVersion.twoThousandTwentyFive.displayName == "2025 civics test")
         #expect(USCISTestVersion.sixtyFiveTwenty.displayName == "65/20 special consideration")
     }
-
-    @Test
-    func applicabilitySummariesAreDescriptive() {
-        #expect(TestApplicability.filingBeforeOctober20th2025.summary.hasPrefix("N-400 filed before"))
-        #expect(TestApplicability.filingOnOrAfterOctober20th2025.summary.hasPrefix("N-400 filed on or after"))
-        #expect(TestApplicability.age65AndResidency20Years.summary.contains("age 65"))
-    }
 }

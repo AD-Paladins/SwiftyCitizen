@@ -151,7 +151,7 @@ extension QuestionContent {
             }
         }
         let unique = Array(Set(candidates))
-        return unique.sorted().prefix(distractorPoolMax).map { $0 }
+        return Array(unique.sorted().prefix(distractorPoolMax))
     }
 
     static func shuffleSeed(for stableID: String) -> UInt64 {
@@ -176,19 +176,5 @@ struct SeededShuffle: RandomNumberGenerator {
         state ^= state << 25
         state ^= state >> 26
         return state
-    }
-}
-
-extension Array {
-    func seededShuffled(seed: UInt64) -> [Element] {
-        var result = self
-        var rng = SeededShuffle(seed: seed)
-        for index in stride(from: result.count - 1, through: 1, by: -1) {
-            let randomIndex = Int(rng.next() % UInt64(index + 1))
-            if randomIndex != index {
-                result.swapAt(randomIndex, index)
-            }
-        }
-        return result
     }
 }

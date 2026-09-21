@@ -143,9 +143,9 @@ struct ConfigurationSummaryView: View {
                             .foregroundStyle(palette.ink)
                     }
                     HStack(spacing: 12) {
-                        summaryMetric(value: "\(testConfiguration.questionBankCount)", label: "Questions")
-                        summaryMetric(value: "\(testConfiguration.maximumQuestionsAsked)", label: "Asked")
-                        summaryMetric(value: "\(testConfiguration.passingScore)", label: "To pass")
+                        SummaryMetricView(value: "\(testConfiguration.questionBankCount)", label: "Questions")
+                        SummaryMetricView(value: "\(testConfiguration.maximumQuestionsAsked)", label: "Asked")
+                        SummaryMetricView(value: "\(testConfiguration.passingScore)", label: "To pass")
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -159,7 +159,16 @@ struct ConfigurationSummaryView: View {
         configuration.selectedTestVersion?.displayName ?? "Test configuration"
     }
 
-    private func summaryMetric(value: String, label: String) -> some View {
+ }
+
+struct SummaryMetricView: View {
+    let value: String
+    let label: String
+
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(value)
                 .font(.title2.bold())
@@ -169,6 +178,8 @@ struct ConfigurationSummaryView: View {
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
     }
 }
 

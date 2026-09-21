@@ -173,8 +173,10 @@ struct SelectionAnswerTests {
 
     @Test func seededShuffleIsDeterministicAndPermutations() {
         let array = ["a", "b", "c", "d"]
-        let first = array.seededShuffled(seed: 42)
-        let second = array.seededShuffled(seed: 42)
+        var firstRng = SeededShuffle(seed: 42)
+        let first = array.shuffled(using: &firstRng)
+        var secondRng = SeededShuffle(seed: 42)
+        let second = array.shuffled(using: &secondRng)
         #expect(first == second)
         #expect(Set(first) == Set(array))
     }

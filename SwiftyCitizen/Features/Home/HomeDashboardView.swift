@@ -80,8 +80,8 @@ struct HomeDashboardView: View {
                 .font(.headline)
             if reviewedToday > 0 {
                 HStack(spacing: 12) {
-                    todayMetric(value: "\(reviewedToday)", label: "Reviewed")
-                    todayMetric(value: gotItRateText, label: "Got it")
+                    SummaryMetricView(value: "\(reviewedToday)", label: "Reviewed")
+                    SummaryMetricView(value: gotItRateText, label: "Got it")
                 }
             } else {
                 EmptyStateView(
@@ -138,20 +138,6 @@ struct HomeDashboardView: View {
         }
         .accessibilityElement(children: .combine)
         .accessibilityHint("Opens the Study tab")
-    }
-
-    private func todayMetric(value: String, label: String) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(value)
-                .font(.title2.bold())
-                .foregroundStyle(palette.ink)
-            Text(label)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
     }
 
     private var gotItRateText: String {
