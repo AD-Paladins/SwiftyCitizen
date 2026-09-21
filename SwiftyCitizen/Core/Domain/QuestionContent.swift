@@ -151,7 +151,7 @@ extension QuestionContent {
             }
         }
         let unique = Array(Set(candidates))
-        return unique.sorted().prefix(distractorPoolMax).map { $0 }
+        return Array(unique.sorted().prefix(distractorPoolMax))
     }
 
     static func shuffleSeed(for stableID: String) -> UInt64 {
