@@ -1,6 +1,6 @@
 # SwiftyCitizen Current Status
 
-Last verified: September 11, 2026
+Last verified: September 21, 2026
 
 ## Current state
 
@@ -8,17 +8,19 @@ SwiftyCitizen now has the verified content and rules foundation for the USCIS ci
 
 ## Engineering-hygiene progress (docs/audit/code-and-architecture-audit.md)
 
-- [ ] 1. Accessibility device review (VoiceOver + Dynamic Type on a real iPhone).
-- [x] 2. Moved `StudySession.resumeState()` out of the `@Model` into pure `StudyDomain.resumeFlashcardState(...)`; the `@Model` now only exposes its persisted deck, index, and attempts plus a `flashcardAttemptRecord` projection. Tests and architecture docs updated (89 tests pass). PR: https://github.com/AD-Paladins/SwiftyCitizen/pull/1.
-- [x] 3. Added thin tests for `StudyDomain`, `QuestionContent` (validator, `answerInputMode`, `distractorOptions`, `shuffleSeed`), `TestConfiguration`, and `OnboardingConfiguration` (94 tests pass).
-- [x] 4. Deferred mock-test findings resolved: uniform manual advance already removes the "too brief" incorrect feedback; official-answer reveal covers "see the real answer". Added a "Skip this question" defer-to-review affordance for wrong answers (MockTestState.skip() + MockTestResultView skipped section).
+Phase 0.5 closed on September 21, 2026. The cross-cutting audit items below are tracked in `docs/audit/code-and-architecture-audit.md`; item 4 (accessibility device review) is deferred to lowest priority and is no longer part of the 0.5 closure.
+
+- [x] 1. Moved `StudySession.resumeState()` out of the `@Model` into pure `StudyDomain.resumeFlashcardState(...)`; the `@Model` now only exposes its persisted deck, index, and attempts plus a `flashcardAttemptRecord` projection. Tests and architecture docs updated (89 tests pass). PR: https://github.com/AD-Paladins/SwiftyCitizen/pull/1.
+- [x] 2. Added thin tests for `StudyDomain`, `QuestionContent` (validator, `answerInputMode`, `distractorOptions`, `shuffleSeed`), `TestConfiguration`, and `OnboardingConfiguration` (94 tests pass).
+- [x] 3. Deferred mock-test findings resolved: uniform manual advance already removes the "too brief" incorrect feedback; official-answer reveal covers "see the real answer". Added a "Skip this question" defer-to-review affordance for wrong answers (MockTestState.skip() + MockTestResultView skipped section).
+- [ ] 4. Accessibility device review (VoiceOver + Dynamic Type on a real iPhone) — DEFERRED, lowest priority. The code-level VoiceOver/contrast audit is complete; only the on-device checks remain and they are no longer part of the 0.5 closure.
 
 The audit file is deleted once all four items are complete.
 
 ## Next session — first task
 
-### Accessibility review on a real device (pending on-device verification)
-The code-level VoiceOver audit is done (verdict icon hidden in `SessionFeedbackIndicator`). The remaining checks must run on an iPhone:
+### Deferred: accessibility review on a real device
+The code-level VoiceOver/contrast audit is complete (verdict icon hidden in `SessionFeedbackIndicator`). The on-device checks below are deferred to lowest priority and are no longer part of the 0.5 closure; run them only when a real iPhone becomes available and nothing higher-priority is queued.
 
 - **VoiceOver** (Settings → VoiceOver ON): navigate Home, Study (Targeted review), Mock-test session. Check each metric reads as a coherent unit, the selected scope announces "selected", the verdict → "Show official answer" disclosure → Next button reads in order and the toggle exposes its state, and tappable rows announce an action rather than being silent.
 - **Dynamic Type** (Text size → max): SessionSummaryView fixed-height container (400/600) does not clip; Home metric big numbers wrap instead of truncate; Question/Answer card long text fits at max size.
@@ -54,18 +56,24 @@ The code-level VoiceOver audit is done (verdict icon hidden in `SessionFeedbackI
 - Screen states are defined where they apply: empty states on Home (no sessions, all caught up, nothing due) and Progress; content-unavailable states in Study, Mock Test Setup, and Mock Test Session when a bank cannot load or is empty; an empty review-set state in Flashcard Session; zero-question scope footers in Targeted Review; and an inline validation error in Test Configuration that explains why Save is disabled. Loading states do not apply because question banks are bundled JSON loaded synchronously.
 - Three user-selectable themes (Civic Navy, Paper & Emerald, Study Calm) are implemented: `AppTheme` defines semantic palette tokens with light/dark variants, `ThemeManager` (`@Observable`) owns the selection (persisted under `appThemeName` in UserDefaults) and is injected via `.environment`, so switching the theme in Settings re-renders the app live — including the global `.tint`. All status colors flow from palette tokens (assessment tints, pass/fail badge, validation error), replacing the old hardcoded `AppColor` and error reds, per the Phase 0.5 design decisions. Screens paint `palette.canvas` as their background so `surface` cards stay visibly elevated; the old `secondarySystemBackground`-based `surface` that no longer distinguished cards from the window was replaced by a real canvas/surface contrast.
 
-## Still pending before closing Phase 0.5
+## Phase 0.5 — closed (September 21, 2026)
 
-- Final high-fidelity direction and visual refinements.
-- Formal Dynamic Type and VoiceOver review on a small viewport (the code-level accessibility audit is complete; see the design spec's audit note).
+Phase 0.5 is now closed. Nothing further is planned here; the items below were open at closure and are carried only for historical context. The accessibility on-device review was deferred to lowest priority (see engineering-hygiene item 4). High-fidelity direction, design handoff, the 65/20 wording, and the missed-question own-answer rendering remain as backlog candidates but are out of scope for this phase.
+
+- Final high-fidelity direction and visual refinements. Note: the live app now renders better than the Penpot UX designs, so those designs (`docs/plan/penpot/`, outside git) are obsolete — use the live app as the source of truth.
+- Formal Dynamic Type and VoiceOver review on a small viewport (the code-level accessibility audit is complete; see the design spec's audit note). No real device available right now, so this is pending but not blocking.
 - Final local backup/export of the design assets (the Penpot export is saved locally under `docs/plan/penpot/`, outside git).
-- Formal design handoff review before expanding beyond onboarding.
+- Formal design handoff review before expanding beyond onboarding. Base it on the live app, not the obsolete Penpot designs.
 - Wording for the 65/20 eligibility explanation and the current-answer warning pattern (both user-approved approaches; drafts pending).
 - Targeted review of missed questions should show the learner's own answer next to the official one (currently only the official answer is shown; the typed reply already persists in `QuestionAttempt.answerText`).
 - The mock test should support selection-based answers (single-select and multi-select), not only typed text. Slice A (tiles + fallback) is implemented and specified in `docs/plan/mock-test-selection-spec.md`; multi-select distractors are now implemented via runtime topic-pool generation (see completed list).
 - **Current-answer feedback implemented:** per-answer feedback indicator for **all** verdicts (correct-exact "Correct", rejected "Incorrect", lenient-accepted "Accepted: ...") shown inline on the question card so nothing is hidden. Every verdict waits for a "Next" tap to advance (uniform manual advance). A `sessionFeedbackEnabled` flag (persisted, default true) toggles all indicators off; when off, only the question renders and the deck advances immediately. The rejected-but-close warning is deferred to a later refinement.
 - **Apple Intelligence evaluation (future refinement):** layer semantic answer evaluation over the offline token-set baseline, with mandatory offline fallback and content traced to official sources.
 - **State selector and jurisdiction-dependent answers (future refinement):** a state/territory selector is planned so answers like the governor resolve per state, and jurisdiction-dependent records form a modifiable content subset that Apple Intelligence can refresh on supported devices. See `docs/plan/uscis-test-rules.md` (Content That Can Change, Implementation Rules), `docs/plan/screen-inventory.md` (Test Configuration), and `docs/plan/product-plan.md` (Phase 5 Optional Intelligence Features).
+
+## Planned features (backlog)
+
+- **Study by category:** extend the Study tab deck builder with a category filter. Add a switch to toggle between "all" and "by category"; in category mode, surface the available categories as a list of named pills and allow selecting one or multiple. The deck is then filtered to the selected categories' questions. Builds on the existing SwiftData-free deck builder (Due / Unanswered / Needs work). Priority feature per the user.
 
 ## Deferred findings (mock test — revisit after closing the 4 phases)
 
@@ -100,7 +108,7 @@ The flashcards and targeted-review slices are implemented: flashcard study (ques
 - Official USCIS content remains the authoritative source; SwiftData stores learner state only, and questions are referenced by stable ID and resolved from the bundled banks.
 - UI and design are allowed to evolve independently, but must obey the same version rules.
 - The 2008 jurisdiction-dependent answers use the official "Answers will vary." wording from the 2025 bank until a jurisdiction-aware answer path exists.
-- Phase 0.5 is intentionally still open until the final design and accessibility review is complete.
+- Phase 0.5 closed on September 21, 2026. The final high-fidelity direction and on-device accessibility review were deferred rather than completed; the phase boundary is now fixed and further work lands in later phases or the backlog.
 - Self-assessment results are learner-reported and never represented as a passing score; accuracy-style metrics are labeled as "Got it" rate to avoid implying official grading.
 - Three themes are preferred over a single palette so the civic-product tone is preserved while users pick a feel: Civic Navy (default), Paper & Emerald, and Study Calm. Progress is a permanent tab, typography is SF system defaults, and audio playback is deferred to Phase 4.
 - Resume support stores the deck ordering and current position per session, so interrupting a targeted-review session does not lose in-progress state.
