@@ -21,7 +21,12 @@ struct SwiftyCitizenApp: App {
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
+            #if FILL_USER_DATA
+            let context = ModelContext(container)
+            try DemoSeeder.seedIfNeeded(in: context)
+            #endif
+            return container
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
