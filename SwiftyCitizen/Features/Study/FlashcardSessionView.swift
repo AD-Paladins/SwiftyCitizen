@@ -44,7 +44,7 @@ struct QuestionCard: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Question \(question.stableID)")
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(palette.dimmed)
 
             Text(question.officialQuestion)
                 .font(.title3.bold())
@@ -53,7 +53,7 @@ struct QuestionCard: View {
             if question.topic.isEmpty == false {
                 Text(question.topic)
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(palette.dimmed)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -148,7 +148,7 @@ struct AnswerCard: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Official answer")
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(palette.dimmed)
 
             ForEach(Array(question.acceptedAnswerVariants.enumerated()), id: \.offset) { variant in
                 HStack(alignment: .top, spacing: 8) {
@@ -176,7 +176,7 @@ struct AnswerCard: View {
                     .accessibilityHidden(true)
                 Text(title)
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(palette.dimmed)
             }
             Text(text)
                 .font(.footnote)
@@ -187,7 +187,7 @@ struct AnswerCard: View {
     private func notice(systemImage: String, text: String) -> some View {
         Label(text, systemImage: systemImage)
             .font(.footnote)
-            .foregroundStyle(.secondary)
+            .foregroundStyle(palette.dimmed)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

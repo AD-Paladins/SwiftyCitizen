@@ -22,7 +22,7 @@ struct MockTestResultView: View {
                         .foregroundStyle(palette.ink)
                     Text("Passing score: \(state.passingScore)")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(palette.dimmed)
                 }
 
                 if !missedQuestions.isEmpty {
@@ -32,7 +32,7 @@ struct MockTestResultView: View {
                             .foregroundStyle(palette.ink)
                         Text("\(missedQuestions.count) question(s) were answered incorrectly.")
                             .font(.footnote)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(palette.dimmed)
 
                         NavigationLink {
                             FlashcardSessionView(
@@ -60,7 +60,7 @@ struct MockTestResultView: View {
                             .foregroundStyle(palette.ink)
                         Text("You deferred \(skippedQuestions.count) question(s). Review them here.")
                             .font(.footnote)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(palette.dimmed)
 
                         NavigationLink {
                             FlashcardSessionView(
@@ -83,7 +83,7 @@ struct MockTestResultView: View {
 
                 Text("This simulation follows the official civics test rules but the app is a study aid, not an immigration authority. An officer's evaluation always decides the real interview.")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(palette.dimmed)
                     .multilineTextAlignment(.center)
 
                 PrimaryActionButton(title: "Done", systemImage: "checkmark") {

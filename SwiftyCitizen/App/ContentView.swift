@@ -51,7 +51,7 @@ private struct WelcomeView: View {
                     .font(.title3)
 
                 Text("SwiftyCitizen is for study support only. It does not determine immigration eligibility or replace official USCIS guidance.")
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(palette.dimmed)
 
                 Spacer(minLength: 0)
 

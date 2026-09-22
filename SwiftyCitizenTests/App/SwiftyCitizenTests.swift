@@ -99,6 +99,41 @@ struct SwiftyCitizenTests {
         #expect(saved.first?.configuration == original)
     }
 
+    @Test
+    func demoSeederFillsValidConfigWhenContainerIsEmpty() throws {
+        let modelContainer = try ModelContainer(
+            for: SavedOnboardingConfiguration.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let context = ModelContext(modelContainer)
+
+        try DemoSeeder.seedIfNeeded(in: context)
+
+        let saved = try context.fetch(FetchDescriptor<SavedOnboardingConfiguration>())
+        #expect(saved.count == 1)
+        #expect(saved.first?.configuration?.isValid == true)
+    }
+
+    @Test
+    func demoSeederDoesNotDuplicateExistingConfig() throws {
+        let modelContainer = try ModelContainer(
+            for: SavedOnboardingConfiguration.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let context = ModelContext(modelContainer)
+        guard let seed = DemoSeeder.seedConfiguration() else {
+            Issue.record("Expected DemoSeeder.seedConfiguration to return a valid configuration")
+            return
+        }
+        context.insert(SavedOnboardingConfiguration(configuration: seed))
+        try context.save()
+
+        try DemoSeeder.seedIfNeeded(in: context)
+
+        let saved = try context.fetch(FetchDescriptor<SavedOnboardingConfiguration>())
+        #expect(saved.count == 1)
+    }
+
     @Test(arguments: TestConfiguration.all)
     func configurationsHaveVerifiedRules(configuration: TestConfiguration) {
         switch configuration.version {

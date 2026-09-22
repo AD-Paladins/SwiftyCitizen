@@ -33,7 +33,7 @@ struct AcceptedAnswerCard: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Official answer")
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(palette.dimmed)
 
             ForEach(question.acceptedAnswerVariants, id: \.self) { variant in
                 HStack(alignment: .top, spacing: 8) {
@@ -110,12 +110,12 @@ struct EmptyStateView: View {
         VStack(spacing: 8) {
             Image(systemName: systemImage)
                 .font(.title2)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(palette.dimmed)
             Text(title)
                 .font(.headline)
             Text(message)
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(palette.dimmed)
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
@@ -175,7 +175,7 @@ struct SummaryMetricView: View {
                 .foregroundStyle(palette.ink)
             Text(label)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(palette.dimmed)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()

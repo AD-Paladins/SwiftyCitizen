@@ -45,7 +45,7 @@ struct TestConfigurationView: View {
                 DatePicker("N-400 filing date", selection: $filingDate, in: ...Date(), displayedComponents: .date)
                 Text("This selects the applicable civics test rules unless you choose the 65/20 option.")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(palette.dimmed)
             }
 
             Section("Test version") {
