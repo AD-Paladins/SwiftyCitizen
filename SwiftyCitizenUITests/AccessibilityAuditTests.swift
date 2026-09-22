@@ -9,16 +9,16 @@ final class AccessibilityAuditTests: XCTestCase {
 
         app.buttons["Set up your test"].tap()
 
-        let disclaimer = app.switchViews["I understand this is a study aid, not legal advice"]
-        if disclaimer.exists && disclaimer.isUnchecked {
-            disclaimer.isUnchecked = false
+        let disclaimer = app.switches["I understand this is a study aid, not legal advice"]
+        if disclaimer.exists && !disclaimer.isSelected {
+            disclaimer.tap()
         }
 
         // Study language picker: tap the cell, then pick English.
         let languageCell: XCUIElement?
         if app.buttons["Study support"].exists {
             languageCell = app.buttons["Study support"]
-        } else if let choose = app.staticTexts.elements.first(where: { $0.label == "Choose a language" }) {
+        } else if let choose = app.staticTexts.allElementsBoundByAccessibilityElement.first(where: { $0.label == "Choose a language" }) {
             languageCell = choose
         } else {
             languageCell = nil
