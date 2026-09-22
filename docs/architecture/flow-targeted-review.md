@@ -6,8 +6,9 @@ Review the questions that need attention, computed from persisted attempt histor
 
 1. Study tab → Targeted review.
 2. Pick a scope: Due, Unanswered, or Needs work.
-3. Start review over the filtered deck (bank order preserved).
-4. If a session is in progress, the list offers `Resume session`.
+3. (Optional) Toggle "Show categories" and select one or more topic pills to further narrow the deck.
+4. Start review over the filtered deck (bank order preserved).
+5. If a session is in progress, the list offers `Resume session`.
 
 ## Details
 
@@ -15,6 +16,7 @@ Review the questions that need attention, computed from persisted attempt histor
 | --- | --- |
 | Deck logic | `ReviewDeckBuilder` — pure, SwiftData-free; does not depend on `StudySession`/UI |
 | Scopes | `.due` (unanswered, or latest ≠ Got it), `.unanswered` (no attempt), `.needsWork` (answered, latest ≠ Got it) |
+| Category filter | Optional; layered on top of the scope in `ReviewDeckBuilder`. Enabled by the "Show categories" toggle; selected topics (`Set<String>`) narrow the scope-filtered deck by `QuestionContent.topic`; empty selection applies no filter. Selection is ephemeral (`@State`), multi-select. |
 | Rendering | Reuses `FlashcardSessionView` with `mode: .targetedReview` |
 | Resume | `StudySession(mode: .targetedReview)` with persisted `deckStableIDs` + `currentIndex`; list shows `Resume session` only while `!isComplete && answeredCount > 0` |
 
@@ -28,12 +30,17 @@ Review the questions that need attention, computed from persisted attempt histor
 
 `latestAssessmentByQuestion` groups attempts by question ID and picks the max by `answeredAt`; questions with no assessment (e.g. mock-test attempts) fall back to `.again`.
 
+## Category filter
+
+`ReviewDeckBuilder.build`/`questionCount` take an optional `categories: Set<String>` applied *after* scope filtering, preserving bank order. `categorySummary(questions:attempts:scope:)` returns the sorted topics present in the scope-filtered deck plus per-topic counts; the view renders them as pills labeled `"\(topic) (\(count))"`. The filter lives in the pure Foundation-only builder so it is unit-tested like the scopes; `TargetedReviewView` only manages the ephemeral mode toggle and the selection set. When "Show categories" is off, the view passes an empty set so behavior is identical to before.
+
 ## Data flow
 
 ```mermaid
 flowchart TD
     A[StudySession.attempts] --> B[snapshots]
     B --> C[ReviewDeckBuilder.build]
+    Cat[Ephemeral category selection] --> C
     C --> D[deck: QuestionContent list]
     D --> E[FlashcardSessionView]
     E --> F[new StudySession mode targetedReview]
@@ -50,6 +57,7 @@ flowchart TD
 ## Checklist
 
 - [ ] Each scope's count matches the deck that starts.
+- [x] Category filter narrows the scope-filtered deck by `topic`; empty selection applies no filter; scope counts and pills reflect both filters.
 - [ ] Resuming restores deck order and position.
 - [ ] A completed session no longer shows a resume row.
 - [ ] Targeted-review attempts persist with assessment, not `wasCorrect`.

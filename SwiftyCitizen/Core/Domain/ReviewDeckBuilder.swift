@@ -30,8 +30,43 @@ enum ReviewScope: String, Codable, CaseIterable, Identifiable {
     }
 }
 
+struct CategorySummary: Equatable {
+    var topics: [String]
+    var counts: [String: Int]
+}
+
 enum ReviewDeckBuilder {
     static func build(
+        questions: [QuestionContent],
+        attempts: [StudyAttemptSnapshot],
+        scope: ReviewScope,
+        categories: Set<String> = []
+    ) -> [QuestionContent] {
+        let scoped = scopedDeck(questions: questions, attempts: attempts, scope: scope)
+        guard !categories.isEmpty else { return scoped }
+        return scoped.filter { categories.contains($0.topic) }
+    }
+
+    static func questionCount(
+        questions: [QuestionContent],
+        attempts: [StudyAttemptSnapshot],
+        scope: ReviewScope,
+        categories: Set<String> = []
+    ) -> Int {
+        build(questions: questions, attempts: attempts, scope: scope, categories: categories).count
+    }
+
+    static func categorySummary(
+        questions: [QuestionContent],
+        attempts: [StudyAttemptSnapshot],
+        scope: ReviewScope
+    ) -> CategorySummary {
+        let scoped = scopedDeck(questions: questions, attempts: attempts, scope: scope)
+        let counts = scoped.reduce(into: [String: Int]()) { $0[$1.topic, default: 0] += 1 }
+        return CategorySummary(topics: counts.keys.sorted(), counts: counts)
+    }
+
+    private static func scopedDeck(
         questions: [QuestionContent],
         attempts: [StudyAttemptSnapshot],
         scope: ReviewScope
@@ -58,14 +93,6 @@ enum ReviewDeckBuilder {
                 return latest != .gotIt
             }
         }
-    }
-
-    static func questionCount(
-        questions: [QuestionContent],
-        attempts: [StudyAttemptSnapshot],
-        scope: ReviewScope
-    ) -> Int {
-        build(questions: questions, attempts: attempts, scope: scope).count
     }
 
     private static func latestAssessmentByQuestion(

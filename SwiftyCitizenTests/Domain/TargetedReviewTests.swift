@@ -111,6 +111,134 @@ struct TargetedReviewTests {
     }
 
     @Test
+    func categoryFilterEmptySetReturnsScopeDeck() {
+        let questions = [
+            makeQuestion(id: "one", topic: "Government"),
+            makeQuestion(id: "two", topic: "History"),
+        ]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .unanswered,
+            categories: []
+        )
+
+        #expect(deck.map(\.stableID) == ["one", "two"])
+    }
+
+    @Test
+    func categoryFilterKeepsOnlySelectedTopic() {
+        let questions = [
+            makeQuestion(id: "one", topic: "Government"),
+            makeQuestion(id: "two", topic: "History"),
+            makeQuestion(id: "three", topic: "Government"),
+        ]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .unanswered,
+            categories: ["Government"]
+        )
+
+        #expect(deck.map(\.stableID) == ["one", "three"])
+    }
+
+    @Test
+    func categoryFilterMultiSelectUnionsTopics() {
+        let questions = [
+            makeQuestion(id: "one", topic: "Government"),
+            makeQuestion(id: "two", topic: "History"),
+            makeQuestion(id: "three", topic: "Holidays"),
+        ]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .unanswered,
+            categories: ["Government", "Holidays"]
+        )
+
+        #expect(deck.map(\.stableID) == ["one", "three"])
+    }
+
+    @Test
+    func categoryFilterComposesWithScope() {
+        let questions = [
+            makeQuestion(id: "one", topic: "Government"),
+            makeQuestion(id: "two", topic: "History"),
+        ]
+        let attempts = [snapshot(id: "two", assessment: .gotIt)]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: attempts,
+            scope: .unanswered,
+            categories: ["Government", "History"]
+        )
+
+        #expect(deck.map(\.stableID) == ["one"])
+    }
+
+    @Test
+    func categoryFilterPreservesBankOrder() {
+        let questions = [
+            makeQuestion(id: "z", topic: "History"),
+            makeQuestion(id: "y", topic: "Government"),
+            makeQuestion(id: "x", topic: "History"),
+        ]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .unanswered,
+            categories: ["History"]
+        )
+
+        #expect(deck.map(\.stableID) == ["z", "x"])
+    }
+
+    @Test
+    func categorySummaryReportsSortedTopicsAndCounts() {
+        let questions = [
+            makeQuestion(id: "one", topic: "Government"),
+            makeQuestion(id: "two", topic: "History"),
+            makeQuestion(id: "three", topic: "Government"),
+            makeQuestion(id: "four", topic: "History"),
+            makeQuestion(id: "five", topic: "Holidays"),
+        ]
+
+        let summary = ReviewDeckBuilder.categorySummary(
+            questions: questions,
+            attempts: [],
+            scope: .unanswered
+        )
+
+        #expect(summary.topics == ["Government", "History", "Holidays"])
+        #expect(summary.counts == ["Government": 2, "History": 2, "Holidays": 1])
+    }
+
+    @Test
+    func categorySummaryReflectsScopeFilter() {
+        let questions = [
+            makeQuestion(id: "one", topic: "Government"),
+            makeQuestion(id: "two", topic: "Government"),
+            makeQuestion(id: "three", topic: "History"),
+        ]
+        let attempts = [snapshot(id: "three", assessment: .gotIt)]
+
+        let summary = ReviewDeckBuilder.categorySummary(
+            questions: questions,
+            attempts: attempts,
+            scope: .due
+        )
+
+        #expect(summary.topics == ["Government"])
+        #expect(summary.counts == ["Government": 2])
+    }
+
+    @Test
     func sessionPersistsDeckOrderAndIndex() throws {
         let modelContainer = try ModelContainer(
             for: StudySession.self, QuestionAttempt.self,
@@ -231,6 +359,22 @@ struct TargetedReviewTests {
             acceptedAnswerVariants: ["The Constitution"],
             answerCardinality: .exactly(1),
             topic: "Government",
+            sourceURL: URL(string: "https://www.uscis.gov/citizenship")!,
+            sourceRevision: "2025-09-10",
+            verificationDate: Date(timeIntervalSince1970: 0),
+            isJurisdictionDependent: false,
+            isSixtyFiveTwentyQuestion: false
+        )
+    }
+
+    private func makeQuestion(id: String, topic: String) -> QuestionContent {
+        QuestionContent(
+            stableID: id,
+            testVersion: .twoThousandTwentyFive,
+            officialQuestion: "What is the supreme law of the land?",
+            acceptedAnswerVariants: ["The Constitution"],
+            answerCardinality: .exactly(1),
+            topic: topic,
             sourceURL: URL(string: "https://www.uscis.gov/citizenship")!,
             sourceRevision: "2025-09-10",
             verificationDate: Date(timeIntervalSince1970: 0),

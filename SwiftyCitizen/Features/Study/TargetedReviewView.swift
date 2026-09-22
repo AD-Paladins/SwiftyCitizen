@@ -9,6 +9,8 @@ struct TargetedReviewView: View {
     private var palette: AppPalette { themeManager.palette }
     @Query private var sessions: [StudySession]
     @State private var selectedScope: ReviewScope = .due
+    @State private var byCategory = false
+    @State private var selectedCategories: Set<String> = []
 
     private var bankQuestions: [QuestionContent] {
         guard let version = configuration.selectedTestVersion else { return [] }
@@ -29,7 +31,8 @@ struct TargetedReviewView: View {
         ReviewDeckBuilder.questionCount(
             questions: bankQuestions,
             attempts: snapshots,
-            scope: scope
+            scope: scope,
+            categories: byCategory ? selectedCategories : []
         )
     }
 
@@ -37,8 +40,25 @@ struct TargetedReviewView: View {
         ReviewDeckBuilder.build(
             questions: bankQuestions,
             attempts: snapshots,
-            scope: scope
+            scope: scope,
+            categories: byCategory ? selectedCategories : []
         )
+    }
+
+    private var categorySummary: CategorySummary {
+        ReviewDeckBuilder.categorySummary(
+            questions: bankQuestions,
+            attempts: snapshots,
+            scope: selectedScope
+        )
+    }
+
+    private func toggleCategory(_ topic: String) {
+        if selectedCategories.contains(topic) {
+            selectedCategories.remove(topic)
+        } else {
+            selectedCategories.insert(topic)
+        }
     }
 
     var body: some View {
@@ -46,6 +66,29 @@ struct TargetedReviewView: View {
             if let resumeSession {
                 Section("In progress") {
                     resumeRow(session: resumeSession)
+                }
+            }
+
+            Section("By category") {
+                Toggle("Show categories", isOn: $byCategory)
+                if byCategory {
+                    ForEach(categorySummary.topics, id: \.self) { topic in
+                        Button {
+                            toggleCategory(topic)
+                        } label: {
+                            HStack {
+                                Label(
+                                    "\(topic) (\(categorySummary.counts[topic] ?? 0))",
+                                    systemImage: selectedCategories.contains(topic) ? "checkmark.circle.fill" : "circle"
+                                )
+                                Spacer()
+                            }
+                            .foregroundStyle(selectedCategories.contains(topic) ? palette.primary : palette.dimmed)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityAddTraits(selectedCategories.contains(topic) ? .isSelected : [])
+                    }
                 }
             }
 
