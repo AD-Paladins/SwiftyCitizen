@@ -45,6 +45,16 @@ struct HomeDashboardView: View {
         )
     }
 
+    private var mastery: MasteryBreakdown {
+        guard let testConfiguration = configuration.testConfiguration else {
+            return MasteryBreakdown(mastered: 0, due: 0, unseen: 0)
+        }
+        return StudyProgressMetrics.masteryBreakdown(
+            attempts: snapshots,
+            configuration: testConfiguration
+        )
+    }
+
     private var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
@@ -71,9 +81,11 @@ struct HomeDashboardView: View {
 
                     continueStudyingCard
 
-                    todaySection
+                  todaySection
 
-                    dueNextSection
+                     masterySection
+
+                     dueNextSection
                 }
                 .padding(Space.lg.value)
             }
@@ -144,6 +156,31 @@ struct HomeDashboardView: View {
                 )
             }
         }
+    }
+
+    private var masterySection: some View {
+        VStack(alignment: .leading, spacing: Space.sm.value) {
+            Text("Mastery")
+                .font(CivicText.headlineSM.font)
+            HStack(spacing: Space.md.value) {
+                SummaryMetricView(
+                    value: "\(mastery.mastered)",
+                    label: "Mastered",
+                    tint: palette.success
+                )
+                SummaryMetricView(
+                    value: "\(mastery.due)",
+                    label: "Due",
+                    tint: palette.warning
+                )
+                SummaryMetricView(
+                    value: "\(mastery.unseen)",
+                    label: "Unseen",
+                    tint: palette.dimmed
+                )
+            }
+        }
+        .cardStyle()
     }
 
     private var dueNextSection: some View {

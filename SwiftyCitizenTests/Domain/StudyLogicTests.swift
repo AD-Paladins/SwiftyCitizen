@@ -243,6 +243,84 @@ struct StudyLogicTests {
     }
 
     @Test
+    func readinessIsCoverageRatio() {
+        let snapshots = [
+            StudyAttemptSnapshot(
+                stableID: "a",
+                testVersion: .twoThousandTwentyFive,
+                assessment: .gotIt,
+                answeredAt: Date()
+            ),
+            StudyAttemptSnapshot(
+                stableID: "b",
+                testVersion: .twoThousandTwentyFive,
+                assessment: .hard,
+                answeredAt: Date()
+            ),
+            StudyAttemptSnapshot(
+                stableID: "c",
+                testVersion: .twoThousandTwentyFive,
+                assessment: .gotIt,
+                answeredAt: Date()
+            ),
+        ]
+
+        let readiness = StudyProgressMetrics.readinessPercentage(
+            attempts: snapshots,
+            configuration: .twoThousandTwentyFive
+        )
+        #expect(readiness != nil)
+        #expect(abs(readiness!) - (3.0 / 128.0) < 1e-9)
+    }
+
+    @Test
+    func masteryBreakdownUsesLatestAssessment() {
+        let older = Date(timeIntervalSince1970: 1_000)
+        let newer = Date(timeIntervalSince1970: 2_000)
+        let snapshots = [
+            // Latest is hard -> not mastered (due).
+            StudyAttemptSnapshot(
+                stableID: "a",
+                testVersion: .twoThousandTwentyFive,
+                assessment: .gotIt,
+                answeredAt: older
+            ),
+            StudyAttemptSnapshot(
+                stableID: "a",
+                testVersion: .twoThousandTwentyFive,
+                assessment: .hard,
+                answeredAt: newer
+            ),
+            // Latest is gotIt -> mastered.
+            StudyAttemptSnapshot(
+                stableID: "b",
+                testVersion: .twoThousandTwentyFive,
+                assessment: .hard,
+                answeredAt: older
+            ),
+            StudyAttemptSnapshot(
+                stableID: "b",
+                testVersion: .twoThousandTwentyFive,
+                assessment: .gotIt,
+                answeredAt: newer
+            ),
+            // Mastered.
+            StudyAttemptSnapshot(
+                stableID: "c",
+                testVersion: .twoThousandTwentyFive,
+                assessment: .gotIt,
+                answeredAt: older
+            ),
+        ]
+
+        let breakdown = StudyProgressMetrics.masteryBreakdown(
+            attempts: snapshots,
+            configuration: .twoThousandTwentyFive
+        )
+        #expect(breakdown == MasteryBreakdown(mastered: 2, due: 1, unseen: 125))
+    }
+
+    @Test
     func selfAssessmentCasesHaveExpectedPresentation() {
         #expect(SelfAssessment.allCases.map(\.displayName) == ["Again", "Hard", "Got it"])
         #expect(SelfAssessment.allCases.map(\.systemImage) == [

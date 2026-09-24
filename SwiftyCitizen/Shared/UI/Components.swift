@@ -162,6 +162,7 @@ struct ConfigurationSummaryView: View {
 struct SummaryMetricView: View {
     let value: String
     let label: String
+    var tint: Color? = nil
 
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
@@ -170,7 +171,7 @@ struct SummaryMetricView: View {
          VStack(alignment: .leading, spacing: Space.sm.value) {
              Text(value)
                  .font(CivicText.headlineLG.font)
-                 .foregroundStyle(palette.ink)
+                 .foregroundStyle(tint ?? palette.ink)
              Text(label)
                  .font(CivicText.labelMD.font)
                  .foregroundStyle(palette.dimmed)

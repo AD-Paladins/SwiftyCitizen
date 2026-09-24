@@ -7,6 +7,12 @@ struct StudyAttemptSnapshot: Equatable {
     let answeredAt: Date
 }
 
+struct MasteryBreakdown: Equatable {
+    let mastered: Int
+    let due: Int
+    let unseen: Int
+}
+
 enum StudyProgressMetrics {
     static func reviewedToday(
         attempts: [StudyAttemptSnapshot],
@@ -42,9 +48,30 @@ enum StudyProgressMetrics {
         attempts: [StudyAttemptSnapshot],
         configuration: TestConfiguration
     ) -> Double? {
-        let bank = configuration.questionBankCount
+       let bank = configuration.questionBankCount
         guard bank > 0 else { return nil }
         return Double(coveredCount(attempts: attempts, configuration: configuration)) / Double(bank)
+    }
+
+    static func masteryBreakdown(
+        attempts: [StudyAttemptSnapshot],
+        configuration: TestConfiguration
+    ) -> MasteryBreakdown {
+        let versionAttempts = attempts.filter { $0.testVersion == configuration.version }
+        let answeredIDs = Set(versionAttempts.map(\.stableID))
+        let unseen = max(0, configuration.questionBankCount - answeredIDs.count)
+
+        var mastered = 0
+        for stableID in answeredIDs {
+            let latest = versionAttempts
+                .filter { $0.stableID == stableID }
+                .max { $0.answeredAt < $1.answeredAt }
+            if latest?.assessment == .gotIt {
+                mastered += 1
+            }
+        }
+        let due = answeredIDs.count - mastered
+        return MasteryBreakdown(mastered: mastered, due: due, unseen: unseen)
     }
 
     static func gotItRate(
