@@ -6,6 +6,18 @@ Last verified: September 21, 2026
 
 SwiftyCitizen now has the verified content and rules foundation for the USCIS civics app, the first onboarding slice in SwiftUI, the tab-based dashboard, three working study flows (flashcards, targeted review, and mock test) backed by SwiftData persistence with resume support, and a deterministic answer evaluator for typed replies. The app correctly distinguishes 2008, 2025, and 65/20 configurations, persists a validated learner configuration, records study attempts, and renders the dashboard's Today and Due next metrics from real data.
 
+## Visual redesign planning (started September 24, 2026)
+
+A high-fidelity visual redesign is planned against the Google Stitch designs ("App Ciudadanía
+USA", project `13329010267888174190`, read via the `stitch` MCP). The full phased plan, the
+locked decisions, the design-system tokens, and the Home component breakdown live in
+`docs/plan/design-redesign-plan.md`. Locked decisions: restyle the current app (keep
+architecture and official content), use **SF Pro Rounded** natively instead of Stitch's Plus
+Jakarta Sans (no `Info.plist`, no font bundling), and align the existing `paperEmerald` theme
+to the Stitch tokens first. Phase 0 is the design-system base (colors, typography helper,
+cards/buttons, spacing); the Home is the biggest single change (~13 components, ~7 of which
+need logic or data that does not exist yet).
+
 ## Engineering-hygiene progress (docs/audit/code-and-architecture-audit.md)
 
 Phase 0.5 closed on September 21, 2026. The cross-cutting audit items below are tracked in `docs/audit/code-and-architecture-audit.md`; item 4 (accessibility device review) is deferred to lowest priority and is no longer part of the 0.5 closure.
