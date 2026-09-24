@@ -8,7 +8,7 @@ struct SessionFeedbackIndicator: View {
 
     var body: some View {
         let feedback = AnswerFeedback.make(answer, palette: palette)
-        HStack(alignment: .center, spacing: 8) {
+        HStack(alignment: .center, spacing: Space.sm.value) {
             Image(systemName: feedback.image)
                 .font(.headline)
                 .foregroundStyle(feedback.tint)
@@ -30,13 +30,13 @@ struct AcceptedAnswerCard: View {
     private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Space.sm.value) {
             Text("Official answer")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(palette.dimmed)
 
             ForEach(question.acceptedAnswerVariants, id: \.self) { variant in
-                HStack(alignment: .top, spacing: 8) {
+                HStack(alignment: .top, spacing: Space.sm.value) {
                     Image(systemName: "checkmark")
                         .font(.footnote.bold())
                         .foregroundStyle(palette.success)
@@ -105,7 +105,7 @@ struct EmptyStateView: View {
     private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: Space.sm.value) {
             Image(systemName: systemImage)
                 .font(.title2)
                 .foregroundStyle(palette.dimmed)
@@ -117,7 +117,7 @@ struct EmptyStateView: View {
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 20)
+        .padding(.vertical, Space.lg.value)
         .padding(.horizontal, 12)
         .cardStyle()
     }
@@ -206,7 +206,7 @@ struct SelectionTile: View {
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 8) {
+            HStack(spacing: Space.sm.value) {
                 if isSelected {
                     Image(systemName: "checkmark")
                         .font(.headline)
@@ -217,7 +217,7 @@ struct SelectionTile: View {
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding(16)
+            .padding(.md)
             .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
         }
         .border(isSelected ? palette.primary : palette.ink.opacity(0.3), width: isSelected ? 2 : 1)

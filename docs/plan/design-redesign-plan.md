@@ -121,6 +121,26 @@ were created in the `phase-0/cards-buttons` slice. `CardStyle` was applied to th
 > the old name silently fails to conform. `configuration.label` and `configuration.isPressed` still
 > apply. Reuse `PillButtonStyle` as the template for any future button style.
 
+#### Spacing migration backlog (deferred — resolve as screens are restyled)
+
+`Space` (`Shared/Theme/Space.swift`, enum with `xs=4, sm=8, md=16, lg=20, xl=28, 2xl=40` + a
+`.padding(_:)` extension) was created in the `phase-0/spacing` slice and applied to the shared
+`Components.swift`: `spacing: 8` → `Space.sm.value`, `.padding(.vertical, 20)` → `Space.lg.value`,
+`.padding(16)` → `.padding(.md)`.
+
+Two edges of the Stitch scale do **not** map cleanly and are intentionally left hardcoded (do not
+invent new tokens for them now):
+
+- **`24`** — the most common page-level padding (~7 sites across the app), but it is not in the
+  Stitch scale (which jumps `20 → 28`). It sits between `lg` and `xl`; mapping it is a design
+  decision, not a token one.
+- **`12`** — the single most common *stack* gap, also not a Stitch token.
+- Minor tight gaps (`2`, `6`, `10`) and the no-arg `.padding()` default are left as-is.
+- `space-2xl = 40` is not used anywhere yet.
+
+These get mapped per-screen as each phase restyles its screen; whether `24`/`12` earn new tokens is
+a Phase 1 design decision. Each migration is a per-screen slice, not a repo-wide find-and-replace.
+
 ### Phase 1 — Home / Exam Readiness (biggest change)
 
 The Home has ~13 components; roughly seven require logic or data that does not exist yet.
