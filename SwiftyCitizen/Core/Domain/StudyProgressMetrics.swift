@@ -31,6 +31,22 @@ enum StudyProgressMetrics {
         return max(0, configuration.questionBankCount - covered)
     }
 
+    static func coveredCount(
+        attempts: [StudyAttemptSnapshot],
+        configuration: TestConfiguration
+    ) -> Int {
+        coverage(attempts: attempts, for: configuration.version).count
+    }
+
+    static func readinessPercentage(
+        attempts: [StudyAttemptSnapshot],
+        configuration: TestConfiguration
+    ) -> Double? {
+        let bank = configuration.questionBankCount
+        guard bank > 0 else { return nil }
+        return Double(coveredCount(attempts: attempts, configuration: configuration)) / Double(bank)
+    }
+
     static func gotItRate(
         attempts: [StudyAttemptSnapshot],
         now: Date = .now,

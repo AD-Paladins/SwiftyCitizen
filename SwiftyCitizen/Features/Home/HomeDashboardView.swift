@@ -29,6 +29,22 @@ struct HomeDashboardView: View {
         )
     }
 
+    private var readinessPercentage: Double? {
+        guard let testConfiguration = configuration.testConfiguration else { return nil }
+        return StudyProgressMetrics.readinessPercentage(
+            attempts: snapshots,
+            configuration: testConfiguration
+        )
+    }
+
+    private var coveredCount: Int {
+        guard let testConfiguration = configuration.testConfiguration else { return 0 }
+        return StudyProgressMetrics.coveredCount(
+            attempts: snapshots,
+            configuration: testConfiguration
+        )
+    }
+
     private var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
@@ -48,6 +64,8 @@ struct HomeDashboardView: View {
                     Text(greeting)
                         .font(CivicText.headlineLG.font)
                         .foregroundStyle(palette.ink)
+
+                    readinessHeroCard
 
                     ConfigurationSummaryView(configuration: configuration)
 
@@ -88,6 +106,25 @@ struct HomeDashboardView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(Space.lg.value)
         .cardStyle()
+    }
+
+    private var readinessHeroCard: some View {
+        VStack(alignment: .leading, spacing: Space.lg.value) {
+            Text("Exam Readiness")
+                .font(CivicText.labelLG.font.weight(.semibold))
+                .foregroundStyle(palette.onPrimary)
+            HStack(alignment: .firstTextBaseline, spacing: Space.sm.value) {
+                Text(readinessText)
+                    .font(CivicText.metricDisplay.font)
+                    .foregroundStyle(palette.onPrimary)
+                Text(readinessSubtitle)
+                    .font(CivicText.labelMD.font)
+                    .foregroundStyle(palette.onPrimary.opacity(0.85))
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(Space.lg.value)
+        .background(palette.primary, in: RoundedRectangle(cornerRadius: Space.xl.value))
     }
 
     private var todaySection: some View {
@@ -164,6 +201,20 @@ struct HomeDashboardView: View {
     private var gotItRateText: String {
         guard let rate = gotItRate else { return "—" }
         return "\(Int((rate * 100).rounded()))%"
+    }
+
+    private var readinessText: String {
+        guard let pct = readinessPercentage else { return "—" }
+        return "\(Int((pct * 100).rounded()))%"
+    }
+
+    private var readinessSubtitle: String {
+        guard let testConfiguration = configuration.testConfiguration,
+              let pct = readinessPercentage else {
+            return "Start a review session to build coverage"
+        }
+        let covered = Int((pct * Double(testConfiguration.questionBankCount)).rounded())
+        return "\(covered) of \(testConfiguration.questionBankCount) questions covered"
     }
 }
 

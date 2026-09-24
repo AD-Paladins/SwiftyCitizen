@@ -158,9 +158,14 @@ Phase 0 base; deferred components show as placeholders or remain on the backlog.
   (`ConfigurationSummaryView`), "Continue studying" (Start review CTA), "Today" (reviewed-today +
   "Got it" rate), and "Due next" (due-count card → Study). The shared `SummaryMetricView`,
   `ConfigurationSummaryView`, and `EmptyStateView` were restyled to `CivicText`/`Space` too.
+- **Slice 2 (Exam Readiness hero):** Added a coverage-based `readinessPercentage` metric to
+  `StudyProgressMetrics` (`coveredCount / questionBankCount`) and rendered an "Exam Readiness" hero
+  card at the top of the Home — a metric-display percentage plus "X of N questions covered" on a
+  primary-filled card. This is the data-backed readiness component from the backlog; it counts
+  distinct answered question IDs for the active version (no new persistence).
 - **Deferred until their data layer exists** (backlog, resolved in later Phase 1 slices or moved to
-  the product backlog): Readiness Score (circular % + 6/10 threshold — needs a new readiness metric
-  from mastered/due/unseen), Mastery breakdown buckets, Streak card, Tip banner, Daily Milestone
+  the product backlog): Readiness Score mastery buckets + 6/10 threshold (coverage % now exists),
+  Mastery breakdown buckets, Streak card, Tip banner, Daily Milestone
   (target + today's progress), Focused Practice carousel, Oral Mock Interview (speech → Phase 4),
   Weak Spots, Weekly Memory Retention, Reading card, and the personalized "Good morning, Alex"
   header (no user-name field exists). Each is a separate slice; none are built as empty placeholders.
@@ -199,7 +204,7 @@ exists in the app.
 | Header | "Good morning, Alex", avatar, settings, verified badge | Persisted user name; badge reflects active config | Partial (badge is new) |
 | Streak card | "5-day streak" 🔥 | Current streak from study history | No |
 | Version pill | "2008 / 100 official bank / Spanish audio active" + edit | Reads active `TestConfiguration` | Yes (data) |
-| Readiness Score | 68% circular, "Naturalization Exam Ready", pass mark 6/10 | New readiness metric from mastered/due/unseen; 6/10 threshold | No |
+| Readiness Score | 68% circular, "Naturalization Exam Ready", pass mark 6/10 | Coverage % from distinct answered IDs (built as hero in Slice 2); mastery buckets + 6/10 threshold | Partial |
 | Mastery breakdown | Mastered 68 / Due 21 / Unseen 11 | Buckets from attempt history | Partial |
 | Tip banner | Statistical tip | Static/rotating tips content | No |
 | Daily Milestone | ~4 min, daily target 10 cards, progress bar 8/10, "Continue Daily Review", "12 due" | Persisted daily target + today's progress | No |
