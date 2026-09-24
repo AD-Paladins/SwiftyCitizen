@@ -4,18 +4,21 @@ struct FlashcardAttemptRecord {
     let stableID: String
     let testVersion: USCISTestVersion
     let assessment: SelfAssessment
+    let answerText: String?
 }
 
 struct FlashcardState {
     private(set) var questions: [QuestionContent]
     private(set) var currentIndex: Int
     private(set) var isRevealed: Bool
+    private(set) var currentAnswer: String?
     private(set) var attempts: [FlashcardAttemptRecord]
 
     init(questions: [QuestionContent]) {
         self.questions = questions
         self.currentIndex = 0
         self.isRevealed = false
+        self.currentAnswer = nil
         self.attempts = []
     }
 
@@ -43,9 +46,15 @@ struct FlashcardState {
         isRevealed = true
     }
 
+    mutating func recordAnswer(_ text: String) {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        currentAnswer = trimmed.isEmpty ? nil : trimmed
+    }
+
     mutating func seek(to index: Int) {
         currentIndex = min(max(0, index), questions.count)
         isRevealed = false
+        currentAnswer = nil
     }
 
     mutating func restore(attempts: [FlashcardAttemptRecord]) {
@@ -55,17 +64,26 @@ struct FlashcardState {
         self.attempts = attempts
     }
 
-    @discardableResult
-    mutating func assess(_ assessment: SelfAssessment) -> FlashcardAttemptRecord? {
+  @discardableResult
+   mutating func assess(_ assessment: SelfAssessment) -> FlashcardAttemptRecord? {
         guard !isComplete, let question = currentQuestion else { return nil }
-        let attempt = FlashcardAttemptRecord(
-            stableID: question.stableID,
-            testVersion: question.testVersion,
-            assessment: assessment
-        )
-        attempts.append(attempt)
-        currentIndex += 1
-        isRevealed = false
-        return attempt
+        switch assessment {
+        case .again:
+            isRevealed = false
+            currentAnswer = nil
+            return nil
+        case .hard, .gotIt:
+            let attempt = FlashcardAttemptRecord(
+                stableID: question.stableID,
+                testVersion: question.testVersion,
+                assessment: assessment,
+                answerText: currentAnswer
+            )
+            attempts.append(attempt)
+            currentIndex += 1
+            isRevealed = false
+            currentAnswer = nil
+            return attempt
+        }
     }
 }

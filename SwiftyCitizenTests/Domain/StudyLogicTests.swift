@@ -29,7 +29,7 @@ struct StudyLogicTests {
         #expect(state.isRevealed == false)
         #expect(state.answeredCount == 1)
 
-        state.assess(.again)
+        state.assess(.gotIt)
         #expect(state.isComplete)
         #expect(state.currentQuestion == nil)
         #expect(state.answeredCount == 2)
@@ -49,6 +49,69 @@ struct StudyLogicTests {
         #expect(single.assess(.gotIt) == nil)
         single.reveal()
         #expect(single.isRevealed == false)
+    }
+
+    @Test
+    func flashcardStateCapturesTypedAnswerOnAssess() {
+        var state = FlashcardState(questions: [makeQuestion(id: "one")])
+
+        state.recordAnswer("  The Constitution  ")
+        state.reveal()
+        #expect(state.currentAnswer == "The Constitution")
+
+        let attempt = state.assess(.gotIt)
+        #expect(attempt?.answerText == "The Constitution")
+        #expect(state.currentAnswer == nil)
+        #expect(state.isComplete)
+    }
+
+    @Test
+    func flashcardStateTreatsBlankAnswerAsNone() {
+        var state = FlashcardState(questions: [makeQuestion(id: "one")])
+        state.recordAnswer("   \n ")
+        #expect(state.currentAnswer == nil)
+
+        let attempt = state.assess(.again)
+        #expect(attempt?.answerText == nil)
+    }
+
+    @Test
+    func flashcardStateAgainRePresentsWithoutAdvancing() {
+        var state = FlashcardState(questions: [makeQuestion(id: "one"), makeQuestion(id: "two")])
+
+        state.recordAnswer("The Constitution")
+        state.reveal()
+        #expect(state.isRevealed)
+
+        let again = state.assess(.again)
+        #expect(again == nil)
+        #expect(state.currentQuestion?.stableID == "one")
+        #expect(state.isRevealed == false)
+        #expect(state.answeredCount == 0)
+
+        state.recordAnswer("The Constitution")
+        state.reveal()
+        let gotIt = state.assess(.gotIt)
+        #expect(gotIt?.stableID == "one")
+        #expect(gotIt?.answerText == "The Constitution")
+        #expect(state.currentQuestion?.stableID == "two")
+        #expect(state.answeredCount == 1)
+    }
+
+    @Test
+    func flashcardStateRecordsOnlyFinalConfirmation() {
+        var state = FlashcardState(questions: [makeQuestion(id: "one")])
+
+        state.recordAnswer("a")
+        state.reveal()
+        state.assess(.again)
+        state.recordAnswer("b")
+        state.reveal()
+        state.assess(.hard)
+
+        #expect(state.attempts.count == 1)
+        #expect(state.attempts.first?.assessment == .hard)
+        #expect(state.attempts.first?.answerText == "b")
     }
 
     @Test
@@ -85,6 +148,32 @@ struct StudyLogicTests {
         )
         #expect(byID["2025-001"]?.assessment == .gotIt)
         #expect(byID["2025-002"]?.assessment == .again)
+    }
+
+    @Test
+    func flashcardAnswerTextRoundTripsThroughSwiftData() throws {
+        let modelContainer = try ModelContainer(
+            for: StudySession.self, QuestionAttempt.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let context = ModelContext(modelContainer)
+
+        let session = StudySession(mode: .flashcards, testVersion: .twoThousandTwentyFive)
+        session.attempts.append(QuestionAttempt(
+            questionStableID: "2025-001",
+            testVersion: .twoThousandTwentyFive,
+            assessment: .gotIt,
+            answerText: "The Constitution"
+        ))
+        context.insert(session)
+        try context.save()
+
+        let fetched = try context.fetch(FetchDescriptor<StudySession>())
+        let byID = Dictionary(
+            uniqueKeysWithValues: (fetched.first?.attempts ?? []).map { ($0.questionStableID, $0) }
+        )
+        #expect(byID["2025-001"]?.answerText == "The Constitution")
+        #expect(byID["2025-001"]?.flashcardAttemptRecord?.answerText == "The Constitution")
     }
 
     @Test
