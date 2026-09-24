@@ -100,6 +100,27 @@ get rounded/migrated as each screen is restyled in later phases:
 Priority: shared components and Home first, then the dense flashcard screen, then the rest. Each
 migration is a per-screen slice, not a repo-wide find-and-replace.
 
+#### Cards + buttons migration backlog (deferred — resolve as screens are restyled)
+
+`CardStyle` (surface + radius 16–20px + warm dual shadow) and `PillButtonStyle` (fully-rounded CTA)
+were created in the `phase-0/cards-buttons` slice. `CardStyle` was applied to the shared cards in
+`Components.swift`; `PillButtonStyle` was applied to `PrimaryActionButton`. The rest is deferred:
+
+- **Cards:** every screen builds its surface with the old recipe
+  `.background(palette.surface, in: RoundedRectangle(cornerRadius: 12))`. Replace it with
+  `.cardStyle()` (radius 16–20) as each screen is restyled. Sites outside `Components.swift`:
+  `FlashcardSessionView` (QuestionCard, AnswerCard, SelfAssessmentControl), `MockTestSessionView`,
+  `SessionSummaryView`, `HomeDashboardView`. Leave tint-filled chips like `SessionFeedbackIndicator`
+  untouched — they are colored pills, not cards.
+- **Buttons:** the SRS rating tiles (`Again`/`Hard`/`Got it`) and the raw `.bordered`/`.borderedProminent`
+  CTAs scattered across screens pick up `PillButtonStyle` as they are restyled. Priority: shared
+  `Components.swift` first, then flashcards (densest), then the rest.
+
+> **iOS 27 API gotcha:** `ButtonStyle`'s requirement changed — it is now
+> `func makeBody(configuration:)`, not the older `func body(configuration:)`. A custom style using
+> the old name silently fails to conform. `configuration.label` and `configuration.isPressed` still
+> apply. Reuse `PillButtonStyle` as the template for any future button style.
+
 ### Phase 1 — Home / Exam Readiness (biggest change)
 
 The Home has ~13 components; roughly seven require logic or data that does not exist yet.

@@ -50,7 +50,7 @@ struct AcceptedAnswerCard: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(12)
-        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        .cardStyle()
     }
 }
 
@@ -92,9 +92,7 @@ struct PrimaryActionButton: View {
                 .font(.headline)
                 .frame(maxWidth: .infinity)
         }
-        .buttonStyle(.borderedProminent)
-        .controlSize(.large)
-        .tint(palette.primary)
+        .pillButton(background: palette.primary)
     }
 }
 
@@ -121,7 +119,7 @@ struct EmptyStateView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 20)
         .padding(.horizontal, 12)
-        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        .cardStyle()
     }
 }
 
@@ -150,7 +148,7 @@ struct ConfigurationSummaryView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
-                .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+                .cardStyle()
             }
         }
     }
@@ -179,7 +177,7 @@ struct SummaryMetricView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
-        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        .cardStyle()
     }
 }
 
