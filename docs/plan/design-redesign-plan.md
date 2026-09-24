@@ -173,9 +173,13 @@ Phase 0 base; deferred components show as placeholders or remain on the backlog.
   activity — the run stays alive through a not-yet-studied today and resets only after a full day
   passes without activity. Rendered as a fire icon + number "Streak" card between the readiness hero
   and the version pill. Fully derivable from existing attempt dates (no new persistence).
+- **Slice 5 (Tip banner):** Added a rotating "daily tip" card (lightbulb + body copy) rendered at
+   the bottom of the Home. The tip is chosen deterministically by day-of-year from a static
+   `StudyTips` list, so it is stable within a day and needs no persistence. Copy is sample content
+   for the content team to replace.
 - **Deferred until their data layer exists** (backlog, resolved in later Phase 1 slices or moved to
   the product backlog): Readiness Score mastery buckets + 6/10 threshold (coverage % now exists),
-  Tip banner, Daily Milestone
+  Daily Milestone
   (target + today's progress), Focused Practice carousel, Oral Mock Interview (speech → Phase 4),
   Weak Spots, Weekly Memory Retention, Reading card, and the personalized "Good morning, Alex"
   header (no user-name field exists). Each is a separate slice; none are built as empty placeholders.
@@ -216,7 +220,7 @@ exists in the app.
 | Version pill | "2008 / 100 official bank / Spanish audio active" + edit | Reads active `TestConfiguration` | Yes (data) |
 | Readiness Score | 68% circular, "Naturalization Exam Ready", pass mark 6/10 | Coverage % from distinct answered IDs (built as hero in Slice 2); mastery buckets + 6/10 threshold | Partial |
 | Mastery breakdown | Mastered 68 / Due 21 / Unseen 11 | Buckets from attempt history (latest self-assessment) | Yes (Slice 3) |
-| Tip banner | Statistical tip | Static/rotating tips content | No |
+| Tip banner | Statistical tip | Static/rotating tips content | Yes (Slice 5; sample copy for content team) |
 | Daily Milestone | ~4 min, daily target 10 cards, progress bar 8/10, "Continue Daily Review", "12 due" | Persisted daily target + today's progress | No |
 | Focused Practice carousel | "View all (5)" | **Undefined** — what are the 5 items? | No |
 | Oral Mock Interview | "Start simulation" (speech) | Speech recognition → Phase 4 | No (defer) |

@@ -91,7 +91,9 @@ struct HomeDashboardView: View {
 
                      masterySection
 
-                     dueNextSection
+                      dueNextSection
+
+                      tipBanner
                 }
                 .padding(Space.lg.value)
             }
@@ -279,6 +281,36 @@ struct HomeDashboardView: View {
         let covered = Int((pct * Double(testConfiguration.questionBankCount)).rounded())
         return "\(covered) of \(testConfiguration.questionBankCount) questions covered"
     }
+
+    private var tipBanner: some View {
+        HStack(alignment: .top, spacing: Space.md.value) {
+            Image(systemName: "lightbulb.fill")
+                .font(CivicText.headlineSM.font)
+                .foregroundStyle(palette.warning)
+                .accessibilityHidden(true)
+            Text(currentTip)
+                .font(CivicText.bodySM.font)
+                .foregroundStyle(palette.dimmed)
+                .multilineTextAlignment(.leading)
+        }
+        .padding(Space.md.value)
+        .cardStyle()
+    }
+
+    private var currentTip: String {
+        let tips = StudyTips.all
+        return tips[Calendar.current.component(.dayOfYear, from: Date()) % tips.count]
+    }
+}
+
+enum StudyTips {
+    static let all = [
+        "Tip: Take your time to read each question carefully before choosing an answer.",
+        "Tip: If you are unsure, eliminate the answers you know are wrong first.",
+        "Tip: Reviewing questions you got wrong helps them stick.",
+        "Tip: Short, daily practice beats long weekly sessions.",
+        "Tip: Say your answer out loud to practice for the in-person interview.",
+    ]
 }
 
 #Preview {
