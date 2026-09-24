@@ -150,6 +150,21 @@ speech/retention/reading until their data layer exists.
 Exit: the Home renders the prioritized components from real persisted data, styled with the
 Phase 0 base; deferred components show as placeholders or remain on the backlog.
 
+#### Phase 1 progress
+
+- **Slice 1 (Home restyled with the Phase 0 base):** `HomeDashboardView` now uses `Space`,
+  `CivicText`, and `.cardStyle()` instead of hardcoded radii/semantic fonts. It renders the
+  data-backed sections that already have persisted input — a time-based greeting, the version pill
+  (`ConfigurationSummaryView`), "Continue studying" (Start review CTA), "Today" (reviewed-today +
+  "Got it" rate), and "Due next" (due-count card → Study). The shared `SummaryMetricView`,
+  `ConfigurationSummaryView`, and `EmptyStateView` were restyled to `CivicText`/`Space` too.
+- **Deferred until their data layer exists** (backlog, resolved in later Phase 1 slices or moved to
+  the product backlog): Readiness Score (circular % + 6/10 threshold — needs a new readiness metric
+  from mastered/due/unseen), Mastery breakdown buckets, Streak card, Tip banner, Daily Milestone
+  (target + today's progress), Focused Practice carousel, Oral Mock Interview (speech → Phase 4),
+  Weak Spots, Weekly Memory Retention, Reading card, and the personalized "Good morning, Alex"
+  header (no user-name field exists). Each is a separate slice; none are built as empty placeholders.
+
 ### Phase 2 — Study Hub
 
 Redesign the Study tab landing and its entry points to match the new designs.

@@ -110,9 +110,9 @@ struct EmptyStateView: View {
                 .font(.title2)
                 .foregroundStyle(palette.dimmed)
             Text(title)
-                .font(.headline)
+                .font(CivicText.headlineSM.font)
             Text(message)
-                .font(.subheadline)
+                .font(CivicText.bodyMD.font)
                 .foregroundStyle(palette.dimmed)
                 .multilineTextAlignment(.center)
         }
@@ -132,15 +132,15 @@ struct ConfigurationSummaryView: View {
     var body: some View {
         Group {
             if let testConfiguration = configuration.testConfiguration {
-                VStack(alignment: .leading, spacing: 12) {
-                    HStack {
-                        Image(systemName: "checkmark.shield")
-                            .foregroundStyle(palette.primary)
-                        Text(testVersionTitle)
-                            .font(.headline)
-                            .foregroundStyle(palette.ink)
-                    }
-                    HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: Space.sm.value) {
+                     HStack {
+                         Image(systemName: "checkmark.shield")
+                             .foregroundStyle(palette.primary)
+                         Text(testVersionTitle)
+                             .font(CivicText.headlineSM.font)
+                             .foregroundStyle(palette.ink)
+                     }
+                     HStack(spacing: Space.md.value) {
                         SummaryMetricView(value: "\(testConfiguration.questionBankCount)", label: "Questions")
                         SummaryMetricView(value: "\(testConfiguration.maximumQuestionsAsked)", label: "Asked")
                         SummaryMetricView(value: "\(testConfiguration.passingScore)", label: "To pass")
@@ -167,18 +167,18 @@ struct SummaryMetricView: View {
     private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(value)
-                .font(.title2.bold())
-                .foregroundStyle(palette.ink)
-            Text(label)
-                .font(.caption)
-                .foregroundStyle(palette.dimmed)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .cardStyle()
-    }
+         VStack(alignment: .leading, spacing: Space.sm.value) {
+             Text(value)
+                 .font(CivicText.headlineLG.font)
+                 .foregroundStyle(palette.ink)
+             Text(label)
+                 .font(CivicText.labelMD.font)
+                 .foregroundStyle(palette.dimmed)
+         }
+         .frame(maxWidth: .infinity, alignment: .leading)
+         .padding(Space.lg.value)
+         .cardStyle()
+     }
 }
 
 struct StudyEntryPointView: View {

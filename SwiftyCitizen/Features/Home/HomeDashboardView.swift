@@ -29,10 +29,26 @@ struct HomeDashboardView: View {
         )
     }
 
+    private var greeting: String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        switch hour {
+        case 5..<12:
+            return "Good morning"
+        case 12..<19:
+            return "Good afternoon"
+        default:
+            return "Good evening"
+        }
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .leading, spacing: Space.xl.value) {
+                    Text(greeting)
+                        .font(CivicText.headlineLG.font)
+                        .foregroundStyle(palette.ink)
+
                     ConfigurationSummaryView(configuration: configuration)
 
                     continueStudyingCard
@@ -41,7 +57,7 @@ struct HomeDashboardView: View {
 
                     dueNextSection
                 }
-                .padding(24)
+                .padding(Space.lg.value)
             }
             .navigationTitle("Home")
             .toolbar {
@@ -59,27 +75,27 @@ struct HomeDashboardView: View {
     }
 
     private var continueStudyingCard: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Space.sm.value) {
             Text("Continue studying")
-                .font(.headline)
+                .font(CivicText.headlineMD.font)
             Text("Review your current set and keep your streak going.")
-                .font(.subheadline)
+                .font(CivicText.bodyMD.font)
                 .foregroundStyle(palette.dimmed)
             PrimaryActionButton(title: "Start review", systemImage: "arrow.right") {
                 selectedTab = .study
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        .padding(Space.lg.value)
+        .cardStyle()
     }
 
     private var todaySection: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Space.sm.value) {
             Text("Today")
-                .font(.headline)
+                .font(CivicText.headlineSM.font)
             if reviewedToday > 0 {
-                HStack(spacing: 12) {
+                HStack(spacing: Space.md.value) {
                     SummaryMetricView(value: "\(reviewedToday)", label: "Reviewed")
                     SummaryMetricView(value: gotItRateText, label: "Got it")
                 }
@@ -94,9 +110,9 @@ struct HomeDashboardView: View {
     }
 
     private var dueNextSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Space.sm.value) {
             Text("Due next")
-                .font(.headline)
+                .font(CivicText.headlineSM.font)
             if dueCount > 0 {
                 dueNextCard
             } else if reviewedToday > 0 {
@@ -116,28 +132,33 @@ struct HomeDashboardView: View {
     }
 
     private var dueNextCard: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 2) {
+        HStack(spacing: Space.md.value) {
+            VStack(alignment: .leading, spacing: Space.sm.value) {
                 Text("\(dueCount)")
-                    .font(.title2.bold())
+                    .font(CivicText.metricDisplay.font)
                     .foregroundStyle(palette.ink)
-                Text("question\(dueCount == 1 ? "" : "s") to review")
-                    .font(.caption)
+                Text(dueCountLabel)
+                    .font(CivicText.labelMD.font)
                     .foregroundStyle(palette.dimmed)
             }
             Spacer()
             Image(systemName: "chevron.right")
-                .foregroundStyle(palette.ink)
+                .font(CivicText.headlineSM.font)
+                .foregroundStyle(palette.dimmed)
                 .accessibilityHidden(true)
         }
-        .padding()
-        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        .padding(Space.lg.value)
+        .cardStyle()
         .contentShape(Rectangle())
         .onTapGesture {
             selectedTab = .study
         }
         .accessibilityElement(children: .combine)
         .accessibilityHint("Opens the Study tab")
+    }
+
+    private var dueCountLabel: String {
+        "\(dueCount) question\(dueCount == 1 ? "" : "s") to review"
     }
 
     private var gotItRateText: String {
