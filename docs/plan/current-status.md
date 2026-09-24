@@ -104,7 +104,7 @@ Additional mock-test UI findings (same deferment):
 
 The flashcards and targeted-review slices are implemented: flashcard study (question, reveal, self-assessment Again / Hard / Got it, session summary), targeted review scopes (Due, Unanswered, Needs work), persistence of sessions and attempts, and resume of interrupted targeted-review sessions. The mock test slice behind Practice is also implemented: setup, manual-answer session with early pass/fail, scoring, and missed-questions review.
 
-The visual redesign (Phase 0 design-system base + Phase 1 Home) is underway against the Stitch designs: Phase 0 (colors, typography `CivicText`, `CardStyle`/`PillButtonStyle`, `Space`) is complete, and Phase 1 slices 1 (Home restyled), 2 ("Exam Readiness" hero from a coverage-based readiness metric), and 3 (Mastery breakdown: Mastered / Due / Unseen tiles) are done. The next Phase 1 slice continues the Home backlog (Streak, Tip banner, Daily Milestone); remaining study-flow slices stay scoped to the current flows until the high-fidelity direction and accessibility review land.
+The visual redesign (Phase 0 design-system base + Phase 1 Home) is underway against the Stitch designs: Phase 0 (colors, typography `CivicText`, `CardStyle`/`PillButtonStyle`, `Space`) is complete, and Phase 1 slices 1 (Home restyled), 2 ("Exam Readiness" hero from a coverage-based readiness metric), 3 (Mastery breakdown: Mastered / Due / Unseen tiles), and 4 (Streak from existing attempt dates) are done. The next Phase 1 slice continues the Home backlog (Tip banner, Daily Milestone); remaining study-flow slices stay scoped to the current flows until the high-fidelity direction and accessibility review land.
 
 ### Non-goals for the next slice
 

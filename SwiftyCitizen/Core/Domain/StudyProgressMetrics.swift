@@ -85,6 +85,30 @@ enum StudyProgressMetrics {
         let gotIt = selfAssessed.filter { $0.assessment == .gotIt }.count
         return Double(gotIt) / Double(selfAssessed.count)
     }
+
+    static func streak(
+        attempts: [StudyAttemptSnapshot],
+        now: Date = .now,
+        calendar: Calendar = .current
+    ) -> Int {
+        let activeDays = Set(attempts.map { calendar.startOfDay(for: $0.answeredAt) })
+        guard !activeDays.isEmpty else { return 0 }
+
+        let today = calendar.startOfDay(for: now)
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
+
+        guard (activeDays.contains(today) || activeDays.contains(yesterday)) else { return 0 }
+        let start = activeDays.contains(today) ? today : yesterday
+
+        var streak = 1
+        var day = start
+        while let previous = calendar.date(byAdding: .day, value: -1, to: day),
+              activeDays.contains(previous) {
+            streak += 1
+            day = previous
+        }
+        return streak
+    }
 }
 
 extension QuestionAttempt {

@@ -21,6 +21,10 @@ struct HomeDashboardView: View {
         StudyProgressMetrics.gotItRate(attempts: snapshots)
     }
 
+    private var streak: Int {
+        StudyProgressMetrics.streak(attempts: snapshots)
+    }
+
     private var dueCount: Int {
         guard let testConfiguration = configuration.testConfiguration else { return 0 }
         return StudyProgressMetrics.dueCount(
@@ -76,6 +80,8 @@ struct HomeDashboardView: View {
                         .foregroundStyle(palette.ink)
 
                     readinessHeroCard
+
+                    streakCard
 
                     ConfigurationSummaryView(configuration: configuration)
 
@@ -137,6 +143,26 @@ struct HomeDashboardView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(Space.lg.value)
         .background(palette.primary, in: RoundedRectangle(cornerRadius: Space.xl.value))
+    }
+
+    private var streakCard: some View {
+        HStack(spacing: Space.md.value) {
+            Image(systemName: "fire")
+                .font(CivicText.headlineLG.font)
+                .foregroundStyle(palette.warning)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: Space.sm.value) {
+                Text("\(streak)")
+                    .font(CivicText.metricDisplay.font)
+                    .foregroundStyle(palette.ink)
+                Text("Streak")
+                    .font(CivicText.labelMD.font)
+                    .foregroundStyle(palette.dimmed)
+            }
+            Spacer()
+        }
+        .padding(Space.lg.value)
+        .cardStyle()
     }
 
     private var todaySection: some View {

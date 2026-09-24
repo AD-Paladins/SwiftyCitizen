@@ -320,6 +320,66 @@ struct StudyLogicTests {
         #expect(breakdown == MasteryBreakdown(mastered: 2, due: 1, unseen: 125))
     }
 
+    private func utcCalendar() -> Calendar {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(abbreviation: "UTC")!
+        return calendar
+    }
+
+    @Test
+    func streakIsZeroWithoutActivity() {
+        let streak = StudyProgressMetrics.streak(attempts: [])
+        #expect(streak == 0)
+    }
+
+    @Test
+    func streakCountsConsecutiveDaysIncludingToday() {
+        let calendar = utcCalendar()
+        let today = calendar.startOfDay(for: Date(timeIntervalSince1970: 2_000_000))
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
+
+        let snapshots = [
+            attempt(id: "a", assessment: .gotIt, at: today),
+            attempt(id: "b", assessment: .hard, at: yesterday),
+        ]
+
+        let streak = StudyProgressMetrics.streak(attempts: snapshots, now: today, calendar: calendar)
+        #expect(streak == 2)
+    }
+
+    @Test
+    func streakContinuesWhenTodayNotYetStudied() {
+        let reference = Date(timeIntervalSince1970: 2_000_000)
+        let calendar = utcCalendar()
+        let today = calendar.startOfDay(for: reference)
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
+        let dayBefore = calendar.date(byAdding: .day, value: -2, to: today)!
+
+        let snapshots = [
+            attempt(id: "a", assessment: .gotIt, at: yesterday),
+            attempt(id: "b", assessment: .gotIt, at: dayBefore),
+        ]
+
+        // Today not studied yet, but yesterday's run is still alive.
+        let streak = StudyProgressMetrics.streak(attempts: snapshots, now: today, calendar: calendar)
+        #expect(streak == 2)
+    }
+
+    @Test
+    func streakBreaksOnGapFromToday() {
+        let calendar = utcCalendar()
+        let today = calendar.startOfDay(for: Date(timeIntervalSince1970: 2_000_000))
+        let dayBeforeYesterday = calendar.date(byAdding: .day, value: -2, to: today)!
+
+        let snapshots = [
+            attempt(id: "a", assessment: .gotIt, at: dayBeforeYesterday),
+        ]
+
+        // Gap yesterday -> streak reset.
+        let streak = StudyProgressMetrics.streak(attempts: snapshots, now: today, calendar: calendar)
+        #expect(streak == 0)
+    }
+
     @Test
     func selfAssessmentCasesHaveExpectedPresentation() {
         #expect(SelfAssessment.allCases.map(\.displayName) == ["Again", "Hard", "Got it"])

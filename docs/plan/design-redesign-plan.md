@@ -168,10 +168,14 @@ Phase 0 base; deferred components show as placeholders or remain on the backlog.
   `.gotIt` = Due, never-answered = Unseen (`bank − covered`). Rendered as a three-tile card on the
   Home; `SummaryMetricView` gained an optional tint for the per-bucket colors. Mastered + Due +
   Unseen equals the bank size. Streak card, Tip banner, and Daily Milestone still need new
-  persistence (deferred).
+   persistence (deferred).
+- **Slice 4 (Streak):** Added a `streak` metric counting consecutive calendar days with study
+  activity — the run stays alive through a not-yet-studied today and resets only after a full day
+  passes without activity. Rendered as a fire icon + number "Streak" card between the readiness hero
+  and the version pill. Fully derivable from existing attempt dates (no new persistence).
 - **Deferred until their data layer exists** (backlog, resolved in later Phase 1 slices or moved to
   the product backlog): Readiness Score mastery buckets + 6/10 threshold (coverage % now exists),
-  Streak card, Tip banner, Daily Milestone
+  Tip banner, Daily Milestone
   (target + today's progress), Focused Practice carousel, Oral Mock Interview (speech → Phase 4),
   Weak Spots, Weekly Memory Retention, Reading card, and the personalized "Good morning, Alex"
   header (no user-name field exists). Each is a separate slice; none are built as empty placeholders.
@@ -208,7 +212,7 @@ exists in the app.
 | Component | Shows | Logic / data required | Already exists? |
 | --- | --- | --- | --- |
 | Header | "Good morning, Alex", avatar, settings, verified badge | Persisted user name; badge reflects active config | Partial (badge is new) |
-| Streak card | "5-day streak" 🔥 | Current streak from study history | No |
+| Streak card | "5-day streak" 🔥 | Current streak from study history | Yes (Slice 4) |
 | Version pill | "2008 / 100 official bank / Spanish audio active" + edit | Reads active `TestConfiguration` | Yes (data) |
 | Readiness Score | 68% circular, "Naturalization Exam Ready", pass mark 6/10 | Coverage % from distinct answered IDs (built as hero in Slice 2); mastery buckets + 6/10 threshold | Partial |
 | Mastery breakdown | Mastered 68 / Due 21 / Unseen 11 | Buckets from attempt history (latest self-assessment) | Yes (Slice 3) |
