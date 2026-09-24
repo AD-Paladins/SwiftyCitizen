@@ -62,12 +62,13 @@ final class QuestionAttempt {
         questionStableID: String,
         testVersion: USCISTestVersion,
         assessment: SelfAssessment,
+        answerText: String? = nil,
         answeredAt: Date = .now
     ) {
         self.questionStableID = questionStableID
         self.testVersionRawValue = testVersion.rawValue
         self.assessmentRawValue = assessment.rawValue
-        self.answerText = nil
+        self.answerText = answerText
         self.wasCorrect = nil
         self.answeredAt = answeredAt
     }
@@ -103,7 +104,8 @@ final class QuestionAttempt {
         return FlashcardAttemptRecord(
             stableID: questionStableID,
             testVersion: testVersion,
-            assessment: assessment
+            assessment: assessment,
+            answerText: answerText
         )
     }
 }

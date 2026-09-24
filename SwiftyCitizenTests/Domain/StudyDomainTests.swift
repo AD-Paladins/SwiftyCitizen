@@ -42,7 +42,8 @@ struct StudyDomainTests {
                 FlashcardAttemptRecord(
                     stableID: "a",
                     testVersion: .twoThousandTwentyFive,
-                    assessment: .gotIt
+                    assessment: .gotIt,
+                    answerText: nil
                 )
             ],
             deckQuestions: [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]

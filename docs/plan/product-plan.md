@@ -111,7 +111,7 @@ During the dashboard slice, the 2008 bank failed content validation: four jurisd
 - [x] Self-assessment is learner-reported and never presented as a passing score.
 - [x] Targeted review can select weak or unanswered questions from the attempt history.
 - [x] Sessions can be exited and resumed without losing the in-progress deck position.
-- [ ] A learner can give their own answer before revealing the official one, and then verify how theirs compares against it.
+- [x] A learner can give their own answer before revealing the official one, and then compare how theirs matches the official answer (side by side, no automated verdict; self-assessment stays learner-reported).
 
 #### Phase 1 Flashcard Slice Transition Review
 

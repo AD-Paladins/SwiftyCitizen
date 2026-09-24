@@ -63,32 +63,37 @@ struct QuestionCard: View {
     }
 }
 
-struct AnswerCard: View {
-    let question: QuestionContent
-    let notice: String?
-    let userAnswer: String?
+  struct AnswerCard: View {
+     let question: QuestionContent
+     let notice: String?
+     let userAnswer: String?
+     let grading: Bool
 
-    @Environment(ThemeManager.self) private var themeManager
-    private var palette: AppPalette { themeManager.palette }
+     @Environment(ThemeManager.self) private var themeManager
+     private var palette: AppPalette { themeManager.palette }
 
-    private var presentation: AnswerPresentation {
-        AnswerEvaluator.presentation(for: userAnswer, against: question)
-    }
+     private var presentation: AnswerPresentation {
+         AnswerEvaluator.presentation(for: userAnswer, against: question)
+     }
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            switch presentation.verdict {
-            case .correct:
-                verdictColumn(yourColor: palette.success, yourImage: "checkmark.seal.fill")
-            case .partial:
-                verdictColumn(yourColor: palette.warning, yourImage: "exclamationmark.triangle.fill")
-            case .incorrect:
-                comparisonColumn
-            case .unanswered:
-                officialVariants(success: false)
-            }
+     var body: some View {
+         VStack(alignment: .leading, spacing: 12) {
+             if grading {
+                 switch presentation.verdict {
+                 case .correct:
+                     verdictColumn(yourColor: palette.success, yourImage: "checkmark.seal.fill")
+                 case .partial:
+                     verdictColumn(yourColor: palette.warning, yourImage: "exclamationmark.triangle.fill")
+                 case .incorrect:
+                     comparisonColumn
+                 case .unanswered:
+                     officialVariants(success: false)
+                 }
+             } else {
+                 plainComparison
+             }
 
-            if let notice, !notice.isEmpty {
+             if let notice, !notice.isEmpty {
                 Text(notice)
                     .font(.footnote)
                     .foregroundStyle(palette.warning)
@@ -130,7 +135,20 @@ struct AnswerCard: View {
         }
     }
 
-    private var comparisonColumn: some View {
+    private var plainComparison: some View {
+         VStack(alignment: .leading, spacing: 12) {
+             answerBlock(
+                 title: "Your answer",
+                 text: userAnswer ?? "",
+                 systemImage: "pencil",
+                 color: palette.dimmed
+             )
+             .frame(maxWidth: .infinity, alignment: .leading)
+             officialVariants(success: true)
+         }
+     }
+
+   private var comparisonColumn: some View {
         HStack(alignment: .top, spacing: 12) {
             answerBlock(
                 title: "Your answer",
@@ -270,6 +288,7 @@ struct FlashcardSessionView: View {
     @State private var state: FlashcardState
     @State private var session: StudySession?
     @State private var confirmsExit = false
+    @State private var draftAnswer: String = ""
 
     init(
         configuration: OnboardingConfiguration,
@@ -325,16 +344,22 @@ struct FlashcardSessionView: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         if let question = state.currentQuestion {
-                            QuestionCard(question: question)
+                             QuestionCard(question: question)
 
-           if state.isRevealed {
-                 AnswerCard(
-                     question: question,
-                     notice: nil,
-                     userAnswer: userAnswers[question.stableID]
-                 )
-             }
-                        }
+                             if !state.isRevealed {
+                                 answerInput
+                             }
+
+                             if state.isRevealed {
+                                 let answerForQuestion = userAnswers[question.stableID] ?? state.currentAnswer
+                                 AnswerCard(
+                                     question: question,
+                                     notice: nil,
+                                     userAnswer: answerForQuestion,
+                                     grading: userAnswers[question.stableID] != nil
+                                 )
+                             }
+                         }
                     }
                     .padding(20)
                 }
@@ -370,6 +395,7 @@ struct FlashcardSessionView: View {
                 }
             } else {
                 PrimaryActionButton(title: "Reveal answer", systemImage: "eye") {
+                    state.recordAnswer(draftAnswer)
                     state.reveal()
                 }
             }
@@ -378,7 +404,25 @@ struct FlashcardSessionView: View {
         .padding(.bottom, 8)
     }
 
-    private static func loadedQuestions(for configuration: OnboardingConfiguration) -> [QuestionContent] {
+    private var answerInput: some View {
+         VStack(alignment: .leading, spacing: 8) {
+             Text("Your answer")
+                 .font(.caption.weight(.semibold))
+                 .foregroundStyle(palette.dimmed)
+             TextField("Type your reply…", text: $draftAnswer, axis: .vertical)
+                 .multilineTextAlignment(.leading)
+                 .lineLimit(1...4)
+                 .padding(12)
+                 .background(palette.canvas, in: RoundedRectangle(cornerRadius: 12))
+                 .overlay(
+                     RoundedRectangle(cornerRadius: 12)
+                         .stroke(palette.dimmed.opacity(0.3), lineWidth: 1)
+                 )
+         }
+         .frame(maxWidth: .infinity, alignment: .leading)
+     }
+
+   private static func loadedQuestions(for configuration: OnboardingConfiguration) -> [QuestionContent] {
         guard let version = configuration.selectedTestVersion else { return [] }
          guard let testConfiguration = configuration.testConfiguration else { return [] }
          let loaded = (try? QuestionBankLoader().load(version: version)) ?? []
@@ -409,13 +453,19 @@ struct FlashcardSessionView: View {
     }
 
     private func record(_ assessment: SelfAssessment) {
-        guard let attempt = state.assess(assessment) else { return }
+       let attempt = state.assess(assessment)
+        guard let attempt else {
+            draftAnswer = ""
+            return
+        }
 
         let record = QuestionAttempt(
             questionStableID: attempt.stableID,
             testVersion: attempt.testVersion,
-            assessment: attempt.assessment
+            assessment: attempt.assessment,
+            answerText: attempt.answerText
         )
+        draftAnswer = ""
         session?.attempts.append(record)
         session?.applyProgress(
             answeredIDs: state.questions.map(\.stableID),
