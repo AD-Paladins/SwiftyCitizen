@@ -17,6 +17,8 @@ struct HomeDashboardView: View {
         StudyProgressMetrics.reviewedToday(attempts: snapshots)
     }
 
+    private var dailyTarget: Int { 10 }
+
     private var gotItRate: Double? {
         StudyProgressMetrics.gotItRate(attempts: snapshots)
     }
@@ -87,6 +89,8 @@ struct HomeDashboardView: View {
 
                     continueStudyingCard
 
+                    dailyMilestoneCard
+
                   todaySection
 
                      masterySection
@@ -124,6 +128,26 @@ struct HomeDashboardView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(Space.lg.value)
+        .cardStyle()
+    }
+
+    private var dailyMilestoneCard: some View {
+        VStack(alignment: .leading, spacing: Space.sm.value) {
+            HStack {
+                Text("Daily Milestone")
+                    .font(CivicText.headlineSM.font)
+                Spacer()
+                Text("\(reviewedToday) of \(dailyTarget)")
+                    .font(CivicText.labelMD.font)
+                    .foregroundStyle(palette.dimmed)
+            }
+            ProgressView(value: Double(min(reviewedToday, dailyTarget)))
+                .tint(palette.primary)
+            PrimaryActionButton(title: "Continue Daily Review", systemImage: "arrow.right") {
+                selectedTab = .study
+            }
+        }
         .padding(Space.lg.value)
         .cardStyle()
     }

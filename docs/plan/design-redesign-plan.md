@@ -167,8 +167,7 @@ Phase 0 base; deferred components show as placeholders or remain on the backlog.
   buckets distinct answered IDs by their latest self-assessment — `.gotIt` = Mastered, seen-but-not
   `.gotIt` = Due, never-answered = Unseen (`bank − covered`). Rendered as a three-tile card on the
   Home; `SummaryMetricView` gained an optional tint for the per-bucket colors. Mastered + Due +
-  Unseen equals the bank size. Streak card, Tip banner, and Daily Milestone still need new
-   persistence (deferred).
+  Unseen equals the bank size.
 - **Slice 4 (Streak):** Added a `streak` metric counting consecutive calendar days with study
   activity — the run stays alive through a not-yet-studied today and resets only after a full day
   passes without activity. Rendered as a fire icon + number "Streak" card between the readiness hero
@@ -177,10 +176,13 @@ Phase 0 base; deferred components show as placeholders or remain on the backlog.
    the bottom of the Home. The tip is chosen deterministically by day-of-year from a static
    `StudyTips` list, so it is stable within a day and needs no persistence. Copy is sample content
    for the content team to replace.
+- **Slice 6 (Daily Milestone):** Added a "Daily Milestone" card (heading + progress bar +
+   "Continue Daily Review" CTA) rendered below the "Continue studying" card. Progress is derived
+   from existing `reviewedToday` against a default daily target of 10 cards; no new persistence.
+   Making the target configurable later is a one-line change. This completes Phase 1's Home scope.
 - **Deferred until their data layer exists** (backlog, resolved in later Phase 1 slices or moved to
   the product backlog): Readiness Score mastery buckets + 6/10 threshold (coverage % now exists),
-  Daily Milestone
-  (target + today's progress), Focused Practice carousel, Oral Mock Interview (speech → Phase 4),
+  Focused Practice carousel, Oral Mock Interview (speech → Phase 4),
   Weak Spots, Weekly Memory Retention, Reading card, and the personalized "Good morning, Alex"
   header (no user-name field exists). Each is a separate slice; none are built as empty placeholders.
 
@@ -221,7 +223,7 @@ exists in the app.
 | Readiness Score | 68% circular, "Naturalization Exam Ready", pass mark 6/10 | Coverage % from distinct answered IDs (built as hero in Slice 2); mastery buckets + 6/10 threshold | Partial |
 | Mastery breakdown | Mastered 68 / Due 21 / Unseen 11 | Buckets from attempt history (latest self-assessment) | Yes (Slice 3) |
 | Tip banner | Statistical tip | Static/rotating tips content | Yes (Slice 5; sample copy for content team) |
-| Daily Milestone | ~4 min, daily target 10 cards, progress bar 8/10, "Continue Daily Review", "12 due" | Persisted daily target + today's progress | No |
+| Daily Milestone | ~4 min, daily target 10 cards, progress bar 8/10, "Continue Daily Review", "12 due" | reviewedToday vs default target of 10 | Yes (Slice 6) |
 | Focused Practice carousel | "View all (5)" | **Undefined** — what are the 5 items? | No |
 | Oral Mock Interview | "Start simulation" (speech) | Speech recognition → Phase 4 | No (defer) |
 | Weak Spots | "3 items", weak area, "Drill tricky cards" | Algorithm for weak categories/questions | No |
