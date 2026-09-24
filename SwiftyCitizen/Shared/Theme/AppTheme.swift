@@ -91,15 +91,15 @@ extension AppPalette {
     )
 
     static let paperEmerald = AppPalette(
-        ink: dynamic(light: 0.15, green: 0.16, blue: 0.17, dark: 0.93, darkGreen: 0.91, darkBlue: 0.89),
-        primary: dynamic(light: 0.12, green: 0.56, blue: 0.43, dark: 0.30, darkGreen: 0.73, darkBlue: 0.60),
-        canvas: dynamic(light: 0.96, green: 0.95, blue: 0.92, dark: 0.09, darkGreen: 0.08, darkBlue: 0.07),
+        ink: dynamic(light: 0.10, green: 0.11, blue: 0.10, dark: 0.93, darkGreen: 0.91, darkBlue: 0.89),
+        primary: dynamic(light: 0.04, green: 0.43, blue: 0.31, dark: 0.30, darkGreen: 0.73, darkBlue: 0.60),
+        canvas: dynamic(light: 0.99, green: 0.98, blue: 0.94, dark: 0.09, darkGreen: 0.08, darkBlue: 0.07),
         surface: dynamic(light: 1.00, green: 1.00, blue: 1.00, dark: 0.15, darkGreen: 0.14, darkBlue: 0.13),
-        success: dynamic(light: 0.12, green: 0.56, blue: 0.43, dark: 0.30, darkGreen: 0.73, darkBlue: 0.60),
-        warning: dynamic(light: 0.73, green: 0.48, blue: 0.16, dark: 0.91, darkGreen: 0.63, darkBlue: 0.31),
-        danger: dynamic(light: 0.66, green: 0.29, blue: 0.23, dark: 0.85, darkGreen: 0.48, darkBlue: 0.42),
+        success: dynamic(light: 0.13, green: 0.77, blue: 0.37, dark: 0.30, darkGreen: 0.73, darkBlue: 0.60),
+        warning: dynamic(light: 0.88, green: 0.53, blue: 0.08, dark: 0.91, darkGreen: 0.63, darkBlue: 0.31),
+        danger: dynamic(light: 0.94, green: 0.27, blue: 0.27, dark: 0.85, darkGreen: 0.48, darkBlue: 0.42),
         onPrimary: Color.white,
-        dimmed: dynamic(light: 0.30, green: 0.30, blue: 0.30, dark: 0.70, darkGreen: 0.70, darkBlue: 0.70)
+        dimmed: dynamic(light: 0.22, green: 0.24, blue: 0.22, dark: 0.70, darkGreen: 0.70, darkBlue: 0.70)
     )
 
     static let studyCalm = AppPalette(
