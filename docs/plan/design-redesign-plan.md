@@ -76,6 +76,30 @@ Each phase is a reviewable slice. Start each phase by analyzing every new compon
 Exit: a learner can theme the whole app through `paperEmerald` and every screen uses
 `CardStyle`, the typography helper, and the spacing scale instead of hardcoded values.
 
+#### Typography migration backlog (deferred — resolve as screens are restyled)
+
+`CivicText` (the Stitch scale → SF Rounded) was created in the `phase-0/typography` slice, and
+SF Rounded is applied globally at the app root via `.environment(\.font, .system(design: .rounded))`.
+That global application only rounds views that do **not** set an explicit font style; SwiftUI
+resolves explicit styles like `.headline`/`.subheadline`/`.footnote`/`.caption` to their own
+non-rounded font. The app currently has **67** such `.font(` call sites (all semantic styles, no
+custom fonts registered). They are intentionally left untouched so each slice stays small; they
+get rounded/migrated as each screen is restyled in later phases:
+
+- **Phase 1 (Home)** — restyle `HomeDashboardView` and its components using `CivicText` by name.
+- **Phase 3 (Flashcards)** — `FlashcardSessionView` has the densest typography (headline, footnote,
+  caption, caption2, the `size: 56` score). Migrate it to `CivicText` here; replace the two raw
+  `.system(size: 56)` score displays with a rounded metric style.
+- **Phase 4 (Targeted Review)** — `TargetedReviewView`, `SessionSummaryView` (note the
+  `.monospacedDigit()` numeric readouts).
+- **Phase 5 (Settings + Config)** — `TestConfigurationView`, `SettingsView`.
+- **Practice** — `MockTestSetupView`, `MockTestSessionView`, `MockTestResultView`.
+- **Shared** — `Components.swift` (verdict/label styles) is the highest-leverage shared file;
+  migrate it early so reused pieces pick up the scale.
+
+Priority: shared components and Home first, then the dense flashcard screen, then the rest. Each
+migration is a per-screen slice, not a repo-wide find-and-replace.
+
 ### Phase 1 — Home / Exam Readiness (biggest change)
 
 The Home has ~13 components; roughly seven require logic or data that does not exist yet.
