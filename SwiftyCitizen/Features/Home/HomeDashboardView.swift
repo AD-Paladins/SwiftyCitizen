@@ -232,6 +232,7 @@ struct HomeDashboardView: View {
                 )
             }
         }
+        .padding(Space.lg.value)
         .cardStyle()
     }
 
@@ -317,6 +318,7 @@ struct HomeDashboardView: View {
                 .foregroundStyle(palette.dimmed)
                 .multilineTextAlignment(.leading)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(Space.md.value)
         .cardStyle()
     }
@@ -328,6 +330,7 @@ struct HomeDashboardView: View {
 }
 
 enum StudyTips {
+    // Sample copy for the content team to replace; tracked in docs/plan/design-redesign-plan.md:177.
     static let all = [
         "Tip: Take your time to read each question carefully before choosing an answer.",
         "Tip: If you are unsure, eliminate the answers you know are wrong first.",

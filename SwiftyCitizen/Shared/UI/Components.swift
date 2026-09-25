@@ -168,16 +168,17 @@ struct SummaryMetricView: View {
     private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
-         VStack(alignment: .leading, spacing: Space.sm.value) {
-             Text(value)
-                 .font(CivicText.headlineLG.font)
-                 .foregroundStyle(tint ?? palette.ink)
+         VStack(alignment: .leading, spacing: Space.xs.value) {
              Text(label)
                  .font(CivicText.labelMD.font)
                  .foregroundStyle(palette.dimmed)
+             Text(value)
+                 .font(CivicText.headlineLG.font)
+                 .foregroundStyle(tint ?? palette.ink)
          }
          .frame(maxWidth: .infinity, alignment: .leading)
-         .padding(Space.lg.value)
+         .padding(.horizontal, Space.md.value)
+         .padding(.vertical, Space.sm.value)
          .cardStyle()
      }
 }
