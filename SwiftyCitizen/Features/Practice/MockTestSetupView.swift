@@ -9,27 +9,27 @@ struct MockTestSetupView: View {
 
     var body: some View {
         List {
-            Section("Rules for this session") {
-                ConfigurationSummaryView(configuration: configuration)
-                    .listRowInsets(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
-            }
+            Section("mocktest.setup.rulesSection") {
+                 ConfigurationSummaryView(configuration: configuration)
+                     .listRowInsets(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
+             }
 
-            Section("How you answer") {
-                Text("Type or speak your answer. The app compares it against the official answers for each question.")
-                    .font(.footnote)
-                    .foregroundStyle(palette.dimmed)
-            }
+             Section("mocktest.setup.howYouAnswerSection") {
+                 Text("mocktest.setup.answerInstructions")
+                     .font(.footnote)
+                     .foregroundStyle(palette.dimmed)
+             }
 
             if let version = configuration.selectedTestVersion, !bankAvailable(version: version) {
                 EmptyStateView(
-                    systemImage: "exclamationmark.triangle",
-                    title: "Content unavailable",
-                    message: "The question bank for \(version.displayName) could not be loaded. Try updating the app or choosing another test version in Settings."
-                )
-                .listRowSeparator(.hidden)
+                     systemImage: "exclamationmark.triangle",
+                     title: "mocktest.session.contentUnavailable",
+                     message: "\(String(localized: "mocktest.session.contentUnavailableMessagePrefix"))\(version.displayName) \(String(localized: "mocktest.session.contentUnavailableMessageSuffixLoadFailed"))"
+                 )
+                 .listRowSeparator(.hidden)
             }
         }
-        .navigationTitle("Mock test")
+        .navigationTitle("mocktest.session.title")
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .background(palette.canvas.ignoresSafeArea())
@@ -38,7 +38,7 @@ struct MockTestSetupView: View {
                 NavigationLink {
                     MockTestSessionView(configuration: configuration, version: version)
                 } label: {
-                    Label("Start mock test", systemImage: "checklist")
+                    Label("mocktest.setup.startMockTest", systemImage: "checklist")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                 }

@@ -63,24 +63,24 @@ struct TargetedReviewView: View {
 
     var body: some View {
         List {
-            if let resumeSession {
-                Section("In progress") {
-                    resumeRow(session: resumeSession)
-                }
-            }
+        if let resumeSession {
+                 Section("study.targeted.inProgressSection") {
+                     resumeRow(session: resumeSession)
+                 }
+             }
 
-            Section("By category") {
-                Toggle("Show categories", isOn: $byCategory)
+             Section("study.targeted.byCategorySection") {
+                 Toggle("study.targeted.showCategories", isOn: $byCategory)
                 if byCategory {
                     ForEach(categorySummary.topics, id: \.self) { topic in
                         Button {
                             toggleCategory(topic)
                         } label: {
                             HStack {
-                                Label(
-                                    "\(topic) (\(categorySummary.counts[topic] ?? 0))",
-                                    systemImage: selectedCategories.contains(topic) ? "checkmark.circle.fill" : "circle"
-                                )
+                            Label(
+                                     "\(topic) \(String(localized: "study.targeted.countOpen"))\(categorySummary.counts[topic] ?? 0)\(String(localized: "study.targeted.countClose"))",
+                                     systemImage: selectedCategories.contains(topic) ? "checkmark.circle.fill" : "circle"
+                                 )
                                 Spacer()
                             }
                             .foregroundStyle(selectedCategories.contains(topic) ? palette.primary : palette.dimmed)
@@ -97,14 +97,14 @@ struct TargetedReviewView: View {
                     scopeRow(scope)
                 }
             } header: {
-                Text("Review scope")
-            } footer: {
-                if count(for: selectedScope) == 0 {
-                    Text("No questions in this scope yet. As you study, questions move into this review list.")
-                }
-            }
+                 Text("study.targeted.reviewScopeHeader")
+             } footer: {
+                 if count(for: selectedScope) == 0 {
+                     Text("study.targeted.noQuestionsInScope")
+                 }
+             }
         }
-        .navigationTitle("Targeted review")
+        .navigationTitle("study.targeted.title")
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .background(palette.canvas.ignoresSafeArea())
@@ -117,7 +117,7 @@ struct TargetedReviewView: View {
                         questions: deck(for: selectedScope)
                     )
                 } label: {
-                    Label("Start review (\(count(for: selectedScope)))", systemImage: "arrow.right")
+                    Label("\(String(localized: "study.targeted.startReviewPrefix"))\(count(for: selectedScope))\(String(localized: "study.targeted.startReviewSuffix"))", systemImage: "arrow.right")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                 }
@@ -139,11 +139,11 @@ struct TargetedReviewView: View {
             )
         } label: {
             HStack {
-                Label("Resume session", systemImage: "play.circle.fill")
-                Spacer()
-                Text("\(min(session.currentIndex, session.deckStableIDs.count)) of \(session.deckStableIDs.count)")
-                    .font(.subheadline.monospacedDigit())
-                    .foregroundStyle(palette.dimmed)
+                Label("study.targeted.resumeSession", systemImage: "play.circle.fill")
+                 Spacer()
+                 Text("\(min(session.currentIndex, session.deckStableIDs.count)) \(String(localized: "common.of")) \(session.deckStableIDs.count)")
+                     .font(.subheadline.monospacedDigit())
+                     .foregroundStyle(palette.dimmed)
             }
         }
     }

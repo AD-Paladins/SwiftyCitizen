@@ -31,7 +31,7 @@ struct AcceptedAnswerCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Space.sm.value) {
-            Text("Official answer")
+            Text("study.flashcard.officialAnswer")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(palette.dimmed)
 
@@ -61,19 +61,19 @@ struct AnswerFeedback {
 
     static func make(_ answer: MockTestAnswer, palette: AppPalette) -> AnswerFeedback {
         if !answer.isCorrect {
-            return AnswerFeedback(image: "xmark.circle.fill", label: "Incorrect", tint: palette.danger)
+            return AnswerFeedback(image: "xmark.circle.fill", label: String(localized: "mocktest.result.incorrectLabel"), tint: palette.danger)
         }
         switch answer.matchType {
         case .complete:
-            return AnswerFeedback(image: "checkmark.seal.fill", label: "Correct", tint: palette.success)
+            return AnswerFeedback(image: "checkmark.seal.fill", label: String(localized: "mocktest.result.correctLabel"), tint: palette.success)
         case .partial:
             return AnswerFeedback(
                 image: "exclamationmark.triangle.fill",
-                label: "Accepted: your answer covers one accepted version of the official answer.",
+                label: String(localized: "study.flashcard.acceptedNotice"),
                 tint: palette.warning
             )
         case .none:
-            return AnswerFeedback(image: "xmark.circle.fill", label: "Incorrect", tint: palette.danger)
+            return AnswerFeedback(image: "xmark.circle.fill", label: String(localized: "mocktest.result.incorrectLabel"), tint: palette.danger)
         }
     }
 }
@@ -141,9 +141,9 @@ struct ConfigurationSummaryView: View {
                              .foregroundStyle(palette.ink)
                      }
                      HStack(spacing: Space.md.value) {
-                        SummaryMetricView(value: "\(testConfiguration.questionBankCount)", label: "Questions")
-                        SummaryMetricView(value: "\(testConfiguration.maximumQuestionsAsked)", label: "Asked")
-                        SummaryMetricView(value: "\(testConfiguration.passingScore)", label: "To pass")
+                       SummaryMetricView(value: "\(testConfiguration.questionBankCount)", label: String(localized: "config.metricQuestions"))
+                         SummaryMetricView(value: "\(testConfiguration.maximumQuestionsAsked)", label: String(localized: "config.metricAsked"))
+                         SummaryMetricView(value: "\(testConfiguration.passingScore)", label: String(localized: "config.metricToPass"))
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -154,7 +154,7 @@ struct ConfigurationSummaryView: View {
     }
 
     private var testVersionTitle: String {
-        configuration.selectedTestVersion?.displayName ?? "Test configuration"
+        configuration.selectedTestVersion?.displayName ?? String(localized: "config.testConfigurationFallback")
     }
 
  }
@@ -274,6 +274,6 @@ struct SelectionTile: View {
             .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
         }
         .border(isSelected ? palette.primary : palette.ink.opacity(0.3), width: isSelected ? 2 : 1)
-        .accessibilityLabel(isSelected ? "\(text), selected" : text)
+        .accessibilityLabel(isSelected ? "\(text)\(String(localized: "selection.selected"))" : text)
     }
 }

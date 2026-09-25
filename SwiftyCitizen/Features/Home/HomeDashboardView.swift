@@ -65,11 +65,11 @@ struct HomeDashboardView: View {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
         case 5..<12:
-            return "Good morning"
+            return String(localized: "home.greeting.morning")
         case 12..<19:
-            return "Good afternoon"
+            return String(localized: "home.greeting.afternoon")
         default:
-            return "Good evening"
+            return String(localized: "home.greeting.evening")
         }
     }
 
@@ -101,15 +101,15 @@ struct HomeDashboardView: View {
                 }
                 .padding(Space.lg.value)
             }
-            .navigationTitle("Home")
+            .navigationTitle("home.title")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
                         SettingsView(configuration: configuration)
                     } label: {
-                        Label("Settings", systemImage: "gearshape")
+                        Label("settings.title", systemImage: "gearshape")
                     }
-                    .accessibilityLabel("Settings")
+                    .accessibilityLabel("settings.title")
                 }
             }
             .background(palette.canvas.ignoresSafeArea())
@@ -118,12 +118,12 @@ struct HomeDashboardView: View {
 
     private var continueStudyingCard: some View {
         VStack(alignment: .leading, spacing: Space.sm.value) {
-            Text("Continue studying")
+            Text("home.continue.title")
                 .font(CivicText.headlineMD.font)
-            Text("Review your current set and keep your streak going.")
+            Text("home.continue.subtitle")
                 .font(CivicText.bodyMD.font)
                 .foregroundStyle(palette.dimmed)
-            PrimaryActionButton(title: "Start review", systemImage: "arrow.right") {
+            PrimaryActionButton(title: "home.continue.cta", systemImage: "arrow.right") {
                 selectedTab = .study
             }
         }
@@ -135,16 +135,16 @@ struct HomeDashboardView: View {
     private var dailyMilestoneCard: some View {
         VStack(alignment: .leading, spacing: Space.sm.value) {
             HStack {
-                Text("Daily Milestone")
+                Text("home.milestone.title")
                     .font(CivicText.headlineSM.font)
                 Spacer()
-                Text("\(reviewedToday) of \(dailyTarget)")
+                Text("\(reviewedToday) \(String(localized: "common.of")) \(dailyTarget)")
                     .font(CivicText.labelMD.font)
                     .foregroundStyle(palette.dimmed)
             }
             ProgressView(value: Double(min(reviewedToday, dailyTarget)))
                 .tint(palette.primary)
-            PrimaryActionButton(title: "Continue Daily Review", systemImage: "arrow.right") {
+            PrimaryActionButton(title: "home.milestone.cta", systemImage: "arrow.right") {
                 selectedTab = .study
             }
         }
@@ -154,7 +154,7 @@ struct HomeDashboardView: View {
 
     private var readinessHeroCard: some View {
         VStack(alignment: .leading, spacing: Space.lg.value) {
-            Text("Exam Readiness")
+            Text("home.readiness.label")
                 .font(CivicText.labelLG.font.weight(.semibold))
                 .foregroundStyle(palette.onPrimary)
             HStack(alignment: .firstTextBaseline, spacing: Space.sm.value) {
@@ -181,7 +181,7 @@ struct HomeDashboardView: View {
                 Text("\(streak)")
                     .font(CivicText.metricDisplay.font)
                     .foregroundStyle(palette.ink)
-                Text("Streak")
+                Text("home.streak.label")
                     .font(CivicText.labelMD.font)
                     .foregroundStyle(palette.dimmed)
             }
@@ -193,18 +193,18 @@ struct HomeDashboardView: View {
 
     private var todaySection: some View {
         VStack(alignment: .leading, spacing: Space.sm.value) {
-            Text("Today")
+            Text("home.today.title")
                 .font(CivicText.headlineSM.font)
             if reviewedToday > 0 {
                 HStack(spacing: Space.md.value) {
-                    SummaryMetricView(value: "\(reviewedToday)", label: "Reviewed")
-                    SummaryMetricView(value: gotItRateText, label: "Got it")
+                    SummaryMetricView(value: "\(reviewedToday)", label: "home.metric.reviewed")
+                    SummaryMetricView(value: gotItRateText, label: "home.metric.gotit")
                 }
             } else {
                 EmptyStateView(
                     systemImage: "clock",
-                    title: "No sessions yet",
-                    message: "Start a review session to begin tracking today's progress."
+                    title: "home.today.empty.title",
+                    message: "home.today.empty.message"
                 )
             }
         }
@@ -212,22 +212,22 @@ struct HomeDashboardView: View {
 
     private var masterySection: some View {
         VStack(alignment: .leading, spacing: Space.sm.value) {
-            Text("Mastery")
+            Text("home.mastery.title")
                 .font(CivicText.headlineSM.font)
             HStack(spacing: Space.md.value) {
                 SummaryMetricView(
                     value: "\(mastery.mastered)",
-                    label: "Mastered",
+                    label: "home.mastery.mastered",
                     tint: palette.success
                 )
                 SummaryMetricView(
                     value: "\(mastery.due)",
-                    label: "Due",
+                    label: "home.mastery.due",
                     tint: palette.warning
                 )
                 SummaryMetricView(
                     value: "\(mastery.unseen)",
-                    label: "Unseen",
+                    label: "home.mastery.unseen",
                     tint: palette.dimmed
                 )
             }
@@ -238,21 +238,21 @@ struct HomeDashboardView: View {
 
     private var dueNextSection: some View {
         VStack(alignment: .leading, spacing: Space.sm.value) {
-            Text("Due next")
+            Text("home.duenext.title")
                 .font(CivicText.headlineSM.font)
             if dueCount > 0 {
                 dueNextCard
             } else if reviewedToday > 0 {
                 EmptyStateView(
                     systemImage: "checkmark.circle",
-                    title: "All caught up",
-                    message: "You have reviewed every question in your test set."
+                    title: "home.duenext.empty.caughtup.title",
+                    message: "home.duenext.empty.caughtup.message"
                 )
             } else {
                 EmptyStateView(
                     systemImage: "calendar",
-                    title: "Nothing due yet",
-                    message: "Due questions appear here once you have review history."
+                    title: "home.duenext.empty.none.title",
+                    message: "home.duenext.empty.none.message"
                 )
             }
         }
@@ -281,11 +281,12 @@ struct HomeDashboardView: View {
             selectedTab = .study
         }
         .accessibilityElement(children: .combine)
-        .accessibilityHint("Opens the Study tab")
+        .accessibilityHint("home.duenext.card.hint")
     }
 
     private var dueCountLabel: String {
-        "\(dueCount) question\(dueCount == 1 ? "" : "s") to review"
+        let unit = dueCount == 1 ? String(localized: "unit.questionSingular") : String(localized: "unit.questionPlural")
+        return "\(dueCount) \(unit) to review"
     }
 
     private var gotItRateText: String {
@@ -301,10 +302,12 @@ struct HomeDashboardView: View {
     private var readinessSubtitle: String {
         guard let testConfiguration = configuration.testConfiguration,
               let pct = readinessPercentage else {
-            return "Start a review session to build coverage"
+            return String(localized: "home.readiness.fallback")
         }
-        let covered = Int((pct * Double(testConfiguration.questionBankCount)).rounded())
-        return "\(covered) of \(testConfiguration.questionBankCount) questions covered"
+        let total = testConfiguration.questionBankCount
+        let covered = Int((pct * Double(total)).rounded())
+        let unit = total == 1 ? String(localized: "unit.questionsCoveredSingular") : String(localized: "unit.questionsCoveredPlural")
+        return "\(covered) \(String(localized: "common.of")) \(total) \(unit)"
     }
 
     private var tipBanner: some View {

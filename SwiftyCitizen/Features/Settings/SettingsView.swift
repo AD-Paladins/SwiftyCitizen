@@ -13,42 +13,42 @@ struct SettingsView: View {
         @Bindable var themeManager = themeManager
 
         List {
-            Section("Appearance") {
-                Picker("Theme", selection: $themeManager.themeName) {
-                    ForEach(AppThemeName.allCases) { theme in
-                        Text(theme.displayName).tag(theme)
-                    }
-                }
-            }
+           Section("settings.appearance") {
+                 Picker("settings.theme", selection: $themeManager.themeName) {
+                     ForEach(AppThemeName.allCases) { theme in
+                         Text(theme.displayName).tag(theme)
+                     }
+                 }
+             }
 
-            Section("Test configuration") {
-                NavigationLink("Edit test configuration") {
-                    TestConfigurationView(configuration: configuration)
-                }
-                 LabeledContent("Test version", value: configuration.selectedTestVersion?.displayName ?? "Not set")
-                LabeledContent(
-                    "Filing date",
-                    value: configuration.filingDate?.formatted(date: .abbreviated, time: .omitted) ?? "Not set"
-                )
-                LabeledContent(
-                    "Study language",
-                    value: configuration.studyLanguage?.displayName ?? "Not set"
-                )
-            }
+             Section("settings.testConfiguration") {
+                 NavigationLink("settings.editTestConfiguration") {
+                     TestConfigurationView(configuration: configuration)
+                 }
+                  LabeledContent("settings.testVersion", value: configuration.selectedTestVersion?.displayName ?? String(localized: "common.notSet"))
+                 LabeledContent(
+                     "settings.filingDate",
+                     value: configuration.filingDate?.formatted(date: .abbreviated, time: .omitted) ?? String(localized: "common.notSet")
+                 )
+                 LabeledContent(
+                     "settings.studyLanguage",
+                     value: configuration.studyLanguage?.displayName ?? String(localized: "common.notSet")
+                 )
+             }
 
             if configuration.isSixtyFiveTwentyEligible {
-                Section("65/20") {
-                    LabeledContent("Special consideration", value: "Age 65+, residency 20+ years")
-                }
-            }
+                 Section("65/20") {
+                     LabeledContent("settings.specialConsideration", value: "settings.specialConsiderationValue")
+                 }
+             }
 
-            Section("Privacy") {
-                Button("Reset local progress", role: .destructive) {
-                    resetProgress()
-                }
-            }
-        }
-        .navigationTitle("Settings")
+             Section("settings.privacy") {
+                 Button("settings.resetLocalProgress", role: .destructive) {
+                     resetProgress()
+                 }
+             }
+         }
+         .navigationTitle("settings.title")
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .background(palette.canvas.ignoresSafeArea())

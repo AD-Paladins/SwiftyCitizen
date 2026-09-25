@@ -35,11 +35,11 @@ struct MockTestSessionView: View {
         Group {
             if state.questions.isEmpty {
                 ScrollView {
-                    EmptyStateView(
-                        systemImage: "exclamationmark.triangle",
-                        title: "Content unavailable",
-                        message: "The question bank for \(version.displayName) is empty. Try updating the app or choosing another test version in Settings."
-                    )
+                   EmptyStateView(
+                         systemImage: "exclamationmark.triangle",
+                         title: "mocktest.session.contentUnavailable",
+                         message: "\(String(localized: "mocktest.session.contentUnavailableMessagePrefix"))\(version.displayName) \(String(localized: "mocktest.session.contentUnavailableMessageSuffixEmpty"))"
+                     )
                     .padding(24)
                 }
             } else if state.isComplete {
@@ -74,7 +74,7 @@ struct MockTestSessionView: View {
                                 }
                             }
                         } else if currentQuestionMode == .text {
-                            TextField("Type your answer", text: $answer, axis: .vertical)
+                            TextField("mocktest.session.typeAnswer", text: $answer, axis: .vertical)
                                 .textFieldStyle(.roundedBorder)
                                 .lineLimit(3...6)
                                 .padding(20)
@@ -97,16 +97,16 @@ struct MockTestSessionView: View {
                 VStack(spacing: 0) {
                     Divider()
                     if review != nil {
-                        PrimaryActionButton(
-                            title: state.isComplete ? "See results" : "Next",
-                            systemImage: state.isComplete ? "flag.checker" : "arrow.forward"
-                        ) {
-                            advance()
-                        }
-                    } else {
-                        PrimaryActionButton(title: "Record answer", systemImage: "checkmark.circle.fill") {
-                            submit()
-                        }
+                    PrimaryActionButton(
+                             title: state.isComplete ? "mocktest.session.seeResults" : "mocktest.session.next",
+                             systemImage: state.isComplete ? "flag.checker" : "arrow.forward"
+                         ) {
+                             advance()
+                         }
+                     } else {
+                         PrimaryActionButton(title: "mocktest.session.recordAnswer", systemImage: "checkmark.circle.fill") {
+                             submit()
+                         }
                         .disabled(!isSubmitEnabled)
                         .opacity(isSubmitEnabled ? 1 : 0.5)
                     }
@@ -116,26 +116,26 @@ struct MockTestSessionView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .navigationTitle("Mock test")
+      .navigationTitle("mocktest.session.title")
         .navigationBarTitleDisplayMode(.inline)
         .background(palette.canvas.ignoresSafeArea())
         .onAppear { beginSession() }
         .confirmationDialog(
-            "End this test?",
-            isPresented: $confirmsExit,
-            titleVisibility: .visible
-        ) {
-            Button("End test", role: .destructive) {
-                if state.answers.isEmpty {
-                    if let session { modelContext.delete(session) }
-                } else {
-                    session?.endedAt = .now
-                }
-                try? modelContext.save()
-                dismiss()
-            }
-            Button("Keep going", role: .cancel) {}
-        }
+             "mocktest.session.endTestConfirm",
+             isPresented: $confirmsExit,
+             titleVisibility: .visible
+         ) {
+             Button("mocktest.session.endTest", role: .destructive) {
+                 if state.answers.isEmpty {
+                     if let session { modelContext.delete(session) }
+                 } else {
+                     session?.endedAt = .now
+                 }
+                 try? modelContext.save()
+                 dismiss()
+             }
+             Button("mocktest.session.keepGoing", role: .cancel) {}
+         }
     }
 
     private var missedQuestions: [QuestionContent] {
@@ -276,9 +276,9 @@ struct MockTestSessionView: View {
                 Image(systemName: showOfficialAnswer ? "chevron.down" : "chevron.right")
                     .font(.subheadline.bold())
                     .foregroundStyle(palette.ink)
-                Text(showOfficialAnswer ? "Hide official answer" : "Show official answer")
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(palette.ink)
+                Text(showOfficialAnswer ? "mocktest.session.hideOfficialAnswer" : "mocktest.session.showOfficialAnswer")
+                     .font(.subheadline.weight(.medium))
+                     .foregroundStyle(palette.ink)
                 Spacer()
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -297,9 +297,9 @@ struct MockTestSessionView: View {
                 Image(systemName: "arrow.counterclockwise")
                     .font(.subheadline.bold())
                     .foregroundStyle(palette.ink)
-                Text("Skip this question")
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(palette.ink)
+                Text("mocktest.session.skipQuestion")
+                     .font(.subheadline.weight(.medium))
+                     .foregroundStyle(palette.ink)
                 Spacer()
             }
             .frame(maxWidth: .infinity, alignment: .leading)

@@ -44,18 +44,18 @@ private struct WelcomeView: View {
                     .foregroundStyle(.tint)
                     .accessibilityHidden(true)
 
-                Text("Welcome to SwiftyCitizen")
+                Text("welcome.title")
                     .font(.largeTitle.bold())
 
-                Text("Build confidence with an offline study aid for the USCIS civics test.")
+                 Text("welcome.subtitle")
                     .font(.title3)
 
-                Text("SwiftyCitizen is for study support only. It does not determine immigration eligibility or replace official USCIS guidance.")
+                 Text("welcome.disclaimer")
                     .foregroundStyle(palette.dimmed)
 
                 Spacer(minLength: 0)
 
-                NavigationLink("Set up your test", destination: TestConfigurationView())
+                NavigationLink("welcome.setUpButton", destination: TestConfigurationView())
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
                     .frame(maxWidth: .infinity)
@@ -64,7 +64,7 @@ private struct WelcomeView: View {
             .padding(24)
         }
         .defaultScrollAnchor(.center)
-        .navigationTitle("Welcome")
+        .navigationTitle("welcome.navTitle")
         .background(palette.canvas.ignoresSafeArea())
     }
 }

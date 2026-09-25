@@ -1,0 +1,2633 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "—": {},
+    "%@ (%lld)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@ (%2$lld)"
+          }
+        }
+      }
+    },
+    "%@ %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@ %2$lld"
+          }
+        }
+      }
+    },
+    "%@, %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@, %2$@"
+          }
+        }
+      }
+    },
+    "%lld": {},
+    "%lld %@ %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$lld %2$@ %3$lld"
+          }
+        }
+      }
+    },
+    "%lld of %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "%lld of %lld correct": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$lld of %2$lld correct"
+          }
+        }
+      }
+    },
+    "%lld question(s) were answered incorrectly.": {},
+    "65/20": {},
+    "Appearance": {},
+    "Build confidence with an offline study aid for the USCIS civics test.": {},
+    "By category": {},
+    "Choose a language": {},
+    "Close session": {},
+    "common.of": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "of"
+          }
+        }
+      }
+    },
+    "Edit test configuration": {},
+    "End session": {},
+    "End test": {},
+    "End this session?": {},
+    "End this test?": {},
+    "Filing date": {},
+    "Hide official answer": {},
+    "home.continue.cta": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start review"
+          }
+        }
+      }
+    },
+    "home.continue.subtitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review your current set and keep your streak going."
+          }
+        }
+      }
+    },
+    "home.continue.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue studying"
+          }
+        }
+      }
+    },
+    "home.due.questionsToReview": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "questions to review"
+          }
+        }
+      }
+    },
+    "home.due.questionToReview": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "question to review"
+          }
+        }
+      }
+    },
+    "home.duenext.card.hint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens the Study tab"
+          }
+        }
+      }
+    },
+    "home.duenext.empty.caughtup.message": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You have reviewed every question in your test set."
+          }
+        }
+      }
+    },
+    "home.duenext.empty.caughtup.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All caught up"
+          }
+        }
+      }
+    },
+    "home.duenext.empty.none.message": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Due questions appear here once you have review history."
+          }
+        }
+      }
+    },
+    "home.duenext.empty.none.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing due yet"
+          }
+        }
+      }
+    },
+    "home.duenext.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Due next"
+          }
+        }
+      }
+    },
+    "home.greeting.afternoon": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good afternoon"
+          }
+        }
+      }
+    },
+    "home.greeting.evening": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good evening"
+          }
+        }
+      }
+    },
+    "home.greeting.morning": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good morning"
+          }
+        }
+      }
+    },
+    "home.mastery.due": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Due"
+          }
+        }
+      }
+    },
+    "home.mastery.mastered": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mastered"
+          }
+        }
+      }
+    },
+    "home.mastery.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mastery"
+          }
+        }
+      }
+    },
+    "home.mastery.unseen": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unseen"
+          }
+        }
+      }
+    },
+    "home.metric.gotit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Got it"
+          }
+        }
+      }
+    },
+    "home.metric.reviewed": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reviewed"
+          }
+        }
+      }
+    },
+    "home.milestone.cta": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue Daily Review"
+          }
+        }
+      }
+    },
+    "home.milestone.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Milestone"
+          }
+        }
+      }
+    },
+    "home.readiness.fallback": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start a review session to build coverage"
+          }
+        }
+      }
+    },
+    "home.readiness.label": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exam Readiness"
+          }
+        }
+      }
+    },
+    "home.readiness.questionCovered": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "question covered"
+          }
+        }
+      }
+    },
+    "home.readiness.questionsCovered": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "questions covered"
+          }
+        }
+      }
+    },
+    "home.streak.label": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Streak"
+          }
+        }
+      }
+    },
+    "home.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home"
+          }
+        }
+      }
+    },
+    "home.today.empty.message": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start a review session to begin tracking today's progress."
+          }
+        }
+      }
+    },
+    "home.today.empty.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No sessions yet"
+          }
+        }
+      }
+    },
+    "home.today.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today"
+          }
+        }
+      }
+    },
+    "How well did you know it?": {},
+    "How you answer": {},
+    "I answered %@": {},
+    "I qualify for the 65/20 special consideration": {},
+    "I understand this is a study aid, not legal advice": {},
+    "In progress": {},
+    "Incomplete configuration: %@": {},
+    "Keep going": {},
+    "Keep studying": {},
+    "Mock test": {},
+    "N-400 filing date": {},
+    "No questions in this scope yet. As you study, questions move into this review list.": {},
+    "Not passed": {},
+    "Official answer": {},
+    "Oral practice": {},
+    "Passed": {},
+    "Passing score": {},
+    "Passing score: %lld": {},
+    "Pick a mode to start reviewing.": {},
+    "Practice": {},
+    "Privacy": {},
+    "Progress": {},
+    "Progress %@": {},
+    "Question %@": {},
+    "Question bank": {},
+    "Questions asked": {},
+    "Reset local progress": {},
+    "Resume session": {},
+    "Review in targeted review": {},
+    "Review missed questions": {},
+    "Review scope": {},
+    "Review skipped questions": {},
+    "Rules for this session": {},
+    "Save": {},
+    "Selected version": {},
+    "Session complete": {},
+    "Set up your test": {},
+    "Settings": {},
+    "settings.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        }
+      }
+    },
+    "Show categories": {},
+    "Show official answer": {},
+    "Shuffle questions when studying": {},
+    "Skip this question": {},
+    "Skipped during the test": {},
+    "Source": {},
+    "Source %@": {},
+    "Special consideration": {},
+    "Start mock test": {},
+    "Start review (%lld)": {},
+    "Study": {},
+    "Study language": {},
+    "Study options": {},
+    "Study support": {},
+    "SwiftyCitizen is for study support only. It does not determine immigration eligibility or replace official USCIS guidance.": {},
+    "Targeted review": {},
+    "Test configuration": {},
+    "Test version": {},
+    "Theme": {},
+    "This selects the applicable civics test rules unless you choose the 65/20 option.": {},
+    "This simulation follows the official civics test rules but the app is a study aid, not an immigration authority. An officer's evaluation always decides the real interview.": {},
+    "Type or speak your answer. The app compares it against the official answers for each question.": {},
+    "Type your answer": {},
+    "Type your reply…": {},
+    "Welcome": {},
+    "Welcome to SwiftyCitizen": {},
+    "You deferred %lld question(s). Review them here.": {},
+    "You reviewed %lld question%@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "You reviewed %1$lld question%2$@."
+          }
+        }
+      }
+    },
+    "Your answer": {},
+    "Your study set": {},
+    "mocktest.result.correctWord": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "correct"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.passingScoreLabel": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Passing score:"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.reviewMissed": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Review missed questions"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.reviewInTargeted": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Review in targeted review"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.skippedDuringTest": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Skipped during the test"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.reviewSkipped": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Review skipped questions"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.disclaimer": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "This simulation follows the official civics test rules but the app is a study aid, not an immigration authority. An officer's evaluation always decides the real interview."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.done": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Done"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.passed": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Passed"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.notPassed": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Not passed"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.bankEmptyPrefix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "The question bank for "
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.bankEmptySuffix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": " is empty. Try updating the app or choosing another test version in Settings."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.typeAnswer": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Type your answer"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.next": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Next"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.seeResults": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "See results"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.recordAnswer": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Record answer"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.title": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Mock test"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.endTestConfirm": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "End this test?"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.endTest": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "End test"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.keepGoing": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Keep going"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.hideOfficialAnswer": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Hide official answer"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.showOfficialAnswer": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Show official answer"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.skipQuestion": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Skip this question"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.answeredIncorrectlySingular": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "question was answered incorrectly."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.answeredIncorrectlyPlural": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "questions were answered incorrectly."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.deferredSingular": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "question. Review them here."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.deferredPlural": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "questions. Review them here."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.result.deferredPrefix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "You deferred "
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.session.contentUnavailable": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Content unavailable"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.setup.rulesSection": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Rules for this session"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.setup.howYouAnswerSection": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "How you answer"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.setup.answerInstructions": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Type or speak your answer. The app compares it against the official answers for each question."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.setup.bankLoadFailureSuffix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": " could not be loaded. Try updating the app or choosing another test version in Settings."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mocktest.setup.startMockTest": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Start mock test"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "practice.sectionHeader": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Practice"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "practice.title": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Practice"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "practice.mockTest": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Mock test"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "practice.oralPracticeTitle": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Oral practice"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "practice.oralPracticeMessage": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Practice answering aloud without exam pressure. Planned for a later phase."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.closeSession": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Close session"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.progressPrefix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Progress "
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.questionPrefix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Question "
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.answerDependsNotice": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Answer depends on where you live. Local officials accept any correct answer for your state."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.providePrefix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Provide "
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.answersShownSuffix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": " the answers shown."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.yourAnswer": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Your answer"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.officialAnswer": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Official answer"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.source": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Source"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.sourcePrefix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Source "
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.unknownHost": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "unknown"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.howWellDidYouKnowIt": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "How well did you know it?"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.iAnsweredPrefix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "I answered "
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.nothingToReview": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Nothing to review"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.nothingToReviewMessage": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "There are no questions in this review set. Try a different scope or test version."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.endSessionConfirm": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "End this session?"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.endSession": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "End session"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.keepStudying": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Keep studying"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.revealAnswer": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Reveal answer"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcard.typeReply": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Type your reply…"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targeted.inProgressSection": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "In progress"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targeted.byCategorySection": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "By category"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targeted.showCategories": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Show categories"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targeted.countPrefix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": " ("
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targeted.countSuffix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": ")"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targeted.reviewScopeHeader": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Review scope"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targeted.noQuestionsInScope": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "No questions in this scope yet. As you study, questions move into this review list."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targeted.title": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Targeted review"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targeted.startReviewPrefix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Start review ("
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targeted.startReviewSuffix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": ")"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targeted.resumeSession": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Resume session"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.summary.complete": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Session complete"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.summary.reviewedPrefix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "You reviewed "
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.summary.reviewedSingular": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "question."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.summary.reviewedPlural": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "questions."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.summary.done": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Done"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.title": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Study"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.headerSubtitle": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Pick a mode to start reviewing."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcardsEntryTitle": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Flashcards"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcardsEntrySubtitle": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Study the full version bank, one card at a time."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.flashcardsEntryAction": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Start"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targetedReviewEntryTitle": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Targeted Review"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targetedReviewEntrySubtitle": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Drill the questions you are still working on."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.targetedReviewEntryAction": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Review"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "study.studyView.selectedTestVersion": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "your selected test version"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "progress.title": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Progress"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "progress.noProgressTitle": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "No progress yet"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "progress.noProgressMessage": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Your attempts, accuracy, and coverage will appear here after your first study session."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "settings.appearance": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Appearance"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "settings.theme": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Theme"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "settings.testConfiguration": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Test configuration"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "settings.editTestConfiguration": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Edit test configuration"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "settings.testVersion": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Test version"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "settings.filingDate": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Filing date"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "settings.studyLanguage": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Study language"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "settings.specialConsideration": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Special consideration"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "settings.specialConsiderationValue": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Age 65+, residency 20+ years"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "settings.privacy": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Privacy"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "settings.resetLocalProgress": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Reset local progress"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "welcome.navTitle": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Welcome"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "welcome.title": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Welcome to SwiftyCitizen"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "welcome.subtitle": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Build confidence with an offline study aid for the USCIS civics test."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "welcome.disclaimer": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "SwiftyCitizen is for study support only. It does not determine immigration eligibility or replace official USCIS guidance."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "welcome.setUpButton": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Set up your test"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.titleNew": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Test Configuration"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.titleEdit": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Edit Configuration"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.filingDateSection": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Filing date"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.n400FilingDateLabel": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "N-400 filing date"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.filingDateHint": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "This selects the applicable civics test rules unless you choose the 65/20 option."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.testVersionSection": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Test version"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.sixtyTwentyToggle": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "I qualify for the 65/20 special consideration"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.selectedVersion": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Selected version"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.studyOptionsSection": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Study options"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.shuffleQuestions": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Shuffle questions when studying"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.studyLanguageSection": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Study language"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.studySupportLabel": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Study support"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.chooseALanguage": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Choose a language"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.yourStudySet": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Your study set"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.questionBank": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Question bank"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.questionBankValueSingular": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "question"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.questionBankValuePlural": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "questions"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.questionsAsked": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Questions asked"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.upTo": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Up to "
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.passingScore": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Passing score"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.disclaimerToggle": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "I understand this is a study aid, not legal advice"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.save": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Save"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.missingFilingDate": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Choose a filing date to continue."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.filingDateInFuture": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "The filing date can't be in the future."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.missingTestVersion": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Select a test version to continue."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.missingStudyLanguage": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Choose a study support language."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.disclaimerNotAccepted": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Accept the study aid notice to save your configuration."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.versionMismatchPrefix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "The selected version ("
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.versionMismatchSuffix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": ") doesn't match your filing date ()."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "common.notSet": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Not set"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "config.incompleteConfigPrefix": {
+      "stringUnit": {
+        "state": "translated",
+        "variationGroup": [
+          {
+            "name": "com.apple xcstrings.default",
+            "value": {
+              "unit": "string",
+              "value": {
+                "stringValue": "Incomplete configuration: "
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "version": "1.3"
+}

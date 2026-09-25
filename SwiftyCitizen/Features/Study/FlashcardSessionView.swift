@@ -17,7 +17,7 @@ struct SessionProgressHeader: View {
                     .contentShape(Rectangle())
             }
             .buttonStyle(.borderless)
-            .accessibilityLabel("Close session")
+            .accessibilityLabel("study.flashcard.closeSession")
 
             Spacer()
 
@@ -27,7 +27,7 @@ struct SessionProgressHeader: View {
                 .foregroundStyle(palette.ink)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
-                .accessibilityLabel("Progress \(progressText)")
+                .accessibilityLabel("\(String(localized: "study.flashcard.progressPrefix"))\(progressText)")
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 12)
@@ -42,7 +42,7 @@ struct QuestionCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Question \(question.stableID)")
+            Text("\(String(localized: "study.flashcard.questionPrefix"))\(question.stableID)")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(palette.dimmed)
 
@@ -102,17 +102,17 @@ struct QuestionCard: View {
 
             if question.isJurisdictionDependent {
                 notice(
-                    systemImage: "location",
-                    text: "Answer depends on where you live. Local officials accept any correct answer for your state."
-                )
-            }
+                     systemImage: "location",
+                     text: String(localized: "study.flashcard.answerDependsNotice")
+                 )
+             }
 
-            if case .exactly(let count) = question.answerCardinality, count > 1 {
-                notice(
-                    systemImage: "number",
-                    text: "Provide \(count) of the answers shown."
-                )
-            }
+             if case .exactly(let count) = question.answerCardinality, count > 1 {
+                 notice(
+                     systemImage: "number",
+                     text: "\(String(localized: "study.flashcard.providePrefix"))\(count) \(String(localized: "common.of"))\(String(localized: "study.flashcard.answersShownSuffix"))"
+                 )
+             }
 
             SourceBadge(question: question)
         }
@@ -126,7 +126,7 @@ struct QuestionCard: View {
         VStack(alignment: .leading, spacing: 12) {
             officialVariants(success: true)
             answerBlock(
-                title: "Your answer",
+                title: "study.flashcard.yourAnswer",
                 text: presentation.yourAnswer ?? "",
                 systemImage: yourImage,
                 color: yourColor
@@ -138,7 +138,7 @@ struct QuestionCard: View {
     private var plainComparison: some View {
          VStack(alignment: .leading, spacing: 12) {
              answerBlock(
-                 title: "Your answer",
+                 title: "study.flashcard.yourAnswer",
                  text: userAnswer ?? "",
                  systemImage: "pencil",
                  color: palette.dimmed
@@ -151,7 +151,7 @@ struct QuestionCard: View {
    private var comparisonColumn: some View {
         HStack(alignment: .top, spacing: 12) {
             answerBlock(
-                title: "Your answer",
+                title: "study.flashcard.yourAnswer",
                 text: presentation.yourAnswer ?? "",
                 systemImage: "xmark.circle.fill",
                 color: palette.danger
@@ -164,9 +164,9 @@ struct QuestionCard: View {
 
     private func officialVariants(success: Bool) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Official answer")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(palette.dimmed)
+            Text("study.flashcard.officialAnswer")
+                 .font(.caption.weight(.semibold))
+                 .foregroundStyle(palette.dimmed)
 
             ForEach(Array(question.acceptedAnswerVariants.enumerated()), id: \.offset) { variant in
                 HStack(alignment: .top, spacing: 8) {
@@ -215,9 +215,9 @@ struct SourceBadge: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("Source")
-                .font(.caption2.weight(.semibold))
-                .foregroundStyle(.tertiary)
+         Text("study.flashcard.source")
+                 .font(.caption2.weight(.semibold))
+                 .foregroundStyle(.tertiary)
             if let host = question.sourceURL?.host {
                 Text(host)
                     .font(.caption2)
@@ -226,7 +226,7 @@ struct SourceBadge: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .accessibilityLabel("Source \(question.sourceURL?.host ?? "unknown")")
+        .accessibilityLabel("\(String(localized: "study.flashcard.sourcePrefix"))\(question.sourceURL?.host ?? "unknown")")
     }
 }
 
@@ -239,9 +239,9 @@ struct SelfAssessmentControl: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            Text("How well did you know it?")
-                .font(.headline)
-                .foregroundStyle(palette.ink)
+        Text("study.flashcard.howWellDidYouKnowIt")
+                 .font(.headline)
+                 .foregroundStyle(palette.ink)
 
             if dynamicTypeSize >= .accessibility3 {
                 VStack(spacing: 10) {
@@ -268,7 +268,7 @@ struct SelfAssessmentControl: View {
             }
             .buttonStyle(.bordered)
             .tint(palette.tint(for: assessment))
-            .accessibilityLabel("I answered \(assessment.displayName)")
+            .accessibilityLabel("\(String(localized: "study.flashcard.iAnsweredPrefix"))\(assessment.displayName)")
         }
     }
 }
@@ -323,10 +323,10 @@ struct FlashcardSessionView: View {
             if initialQuestions.isEmpty {
                 ScrollView {
                     EmptyStateView(
-                        systemImage: "rectangle.stack",
-                        title: "Nothing to review",
-                        message: "There are no questions in this review set. Try a different scope or test version."
-                    )
+                         systemImage: "rectangle.stack",
+                         title: "study.flashcard.nothingToReview",
+                         message: "study.flashcard.nothingToReviewMessage"
+                     )
                     .padding(24)
                 }
             } else if state.isComplete {
@@ -373,16 +373,16 @@ struct FlashcardSessionView: View {
         .background(palette.canvas.ignoresSafeArea())
         .onAppear(perform: beginOrResumeSession)
         .confirmationDialog(
-            "End this session?",
-            isPresented: $confirmsExit,
-            titleVisibility: .visible
-        ) {
-            Button("End session", role: .destructive) {
-                endSession()
-                dismiss()
-            }
-            Button("Keep studying", role: .cancel) {}
-        }
+             "study.flashcard.endSessionConfirm",
+             isPresented: $confirmsExit,
+             titleVisibility: .visible
+         ) {
+             Button("study.flashcard.endSession", role: .destructive) {
+                 endSession()
+                 dismiss()
+             }
+             Button("study.flashcard.keepStudying", role: .cancel) {}
+         }
     }
 
     @ViewBuilder
@@ -394,7 +394,7 @@ struct FlashcardSessionView: View {
                     record(assessment)
                 }
             } else {
-                PrimaryActionButton(title: "Reveal answer", systemImage: "eye") {
+                PrimaryActionButton(title: "study.flashcard.revealAnswer", systemImage: "eye") {
                     state.recordAnswer(draftAnswer)
                     state.reveal()
                 }
@@ -406,10 +406,10 @@ struct FlashcardSessionView: View {
 
     private var answerInput: some View {
          VStack(alignment: .leading, spacing: 8) {
-             Text("Your answer")
-                 .font(.caption.weight(.semibold))
-                 .foregroundStyle(palette.dimmed)
-             TextField("Type your reply…", text: $draftAnswer, axis: .vertical)
+         Text("study.flashcard.yourAnswer")
+                  .font(.caption.weight(.semibold))
+                  .foregroundStyle(palette.dimmed)
+              TextField("study.flashcard.typeReply", text: $draftAnswer, axis: .vertical)
                  .multilineTextAlignment(.leading)
                  .lineLimit(1...4)
                  .padding(12)

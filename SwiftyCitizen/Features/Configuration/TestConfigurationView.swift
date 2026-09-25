@@ -41,56 +41,57 @@ struct TestConfigurationView: View {
 
     var body: some View {
         Form {
-            Section("Filing date") {
-                DatePicker("N-400 filing date", selection: $filingDate, in: ...Date(), displayedComponents: .date)
-                Text("This selects the applicable civics test rules unless you choose the 65/20 option.")
-                    .font(.footnote)
-                    .foregroundStyle(palette.dimmed)
-            }
+          Section("config.filingDateSection") {
+                 DatePicker("config.n400FilingDateLabel", selection: $filingDate, in: ...Date(), displayedComponents: .date)
+                 Text("config.filingDateNote")
+                     .font(.footnote)
+                     .foregroundStyle(palette.dimmed)
+             }
 
-            Section("Test version") {
-                Toggle("I qualify for the 65/20 special consideration", isOn: $isSixtyFiveTwentyEligible)
-                LabeledContent("Selected version", value: versionTitle)
-            }
+             Section("config.testVersionSection") {
+                 Toggle("config.sixtyTwentyToggle", isOn: $isSixtyFiveTwentyEligible)
+                 LabeledContent("config.selectedVersion", value: versionTitle)
+             }
 
-            Section("Study options") {
-                Toggle("Shuffle questions when studying", isOn: $shuffleQuestions)
-            }
+             Section("config.studyOptionsSection") {
+                 Toggle("config.shuffleQuestions", isOn: $shuffleQuestions)
+             }
 
-            Section("Study language") {
-                Picker("Study support", selection: $studyLanguage) {
-                    Text("Choose a language").tag(nil as StudyLanguage?)
-                    ForEach(StudyLanguage.allCases) { language in
-                        Text(language.displayName).tag(language as StudyLanguage?)
-                    }
-                }
-            }
+             Section("config.studyLanguageSection") {
+                 Picker("config.studySupportLabel", selection: $studyLanguage) {
+                     Text("config.chooseALanguage").tag(nil as StudyLanguage?)
+                     ForEach(StudyLanguage.allCases) { language in
+                         Text(language.displayName).tag(language as StudyLanguage?)
+                     }
+                 }
+             }
 
             if let testConfiguration = configuration.testConfiguration {
-                Section("Your study set") {
-                    LabeledContent("Question bank", value: "\(testConfiguration.questionBankCount) questions")
-                    LabeledContent("Questions asked", value: "Up to \(testConfiguration.maximumQuestionsAsked)")
-                    LabeledContent("Passing score", value: "\(testConfiguration.passingScore) correct")
-                }
-            }
+                 Section("config.yourStudySet") {
+                     let unit = testConfiguration.questionBankCount == 1 ? String(localized: "config.questionBankValueSingular") : String(localized: "config.questionBankValuePlural")
+                     LabeledContent("config.questionBank", value: "\(testConfiguration.questionBankCount) \(unit)")
+                     LabeledContent("config.questionsAsked", value: "\(String(localized: "config.questionsAskedPrefix"))\(testConfiguration.maximumQuestionsAsked)")
+                     LabeledContent("config.passingScore", value: "\(testConfiguration.passingScore) \(String(localized: "config.passingScoreValueSuffix"))")
+                 }
+             }
 
-            Section {
-                Toggle("I understand this is a study aid, not legal advice", isOn: $disclaimerAccepted)
-            }
+           Section {
+                 Toggle("config.disclaimerToggle", isOn: $disclaimerAccepted)
+             }
 
-            Section {
-                Button("Save") {
-                    saveConfiguration()
-                }
-                .disabled(!configuration.isValid)
+             Section {
+                 Button("config.save") {
+                     saveConfiguration()
+                 }
+                 .disabled(!configuration.isValid)
 
-                if let validationMessage {
-                    Label(validationMessage, systemImage: "exclamationmark.circle")
-                        .font(.footnote)
-                        .foregroundStyle(palette.danger)
-                        .accessibilityLabel("Incomplete configuration: \(validationMessage)")
-                }
-            }
+                 if let validationMessage {
+                     Label(validationMessage, systemImage: "exclamationmark.circle")
+                         .font(.footnote)
+                         .foregroundStyle(palette.danger)
+                         .accessibilityLabel("\(String(localized: "config.incompleteConfigPrefix"))\(validationMessage)")
+                 }
+             }
         }
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
@@ -98,28 +99,28 @@ struct TestConfigurationView: View {
         .background(palette.canvas.ignoresSafeArea())
     }
 
-    private var validationMessage: String? {
-        switch configuration.validationError() {
-        case .missingFilingDate:
-            "Choose a filing date to continue."
-        case .filingDateInFuture:
-            "The filing date can't be in the future."
-        case .missingTestVersion:
-            "Select a test version to continue."
-        case .missingStudyLanguage:
-            "Choose a study support language."
-        case .disclaimerNotAccepted:
-            "Accept the study aid notice to save your configuration."
-        case .selectedVersionDoesNotMatchFilingDate(let expected, let actual):
-            "The selected version (\(actual.displayName)) doesn't match your filing date (\(expected.displayName))."
-        case nil:
-            nil
-        }
-    }
+  private var validationMessage: String? {
+         switch configuration.validationError() {
+         case .missingFilingDate:
+             "config.missingFilingDate"
+         case .filingDateInFuture:
+             "config.filingDateInFuture"
+         case .missingTestVersion:
+             "config.missingTestVersion"
+         case .missingStudyLanguage:
+             "config.missingStudyLanguage"
+         case .disclaimerNotAccepted:
+             "config.disclaimerNotAccepted"
+         case .selectedVersionDoesNotMatchFilingDate(let expected, let actual):
+             "\(String(localized: "config.versionMismatchPrefix"))\(actual.displayName)\(String(localized: "config.versionMismatchSuffix"))\(expected.displayName)\(String(localized: "config.versionMismatchEnd"))"
+         case nil:
+             nil
+         }
+     }
 
-    private var title: String {
-        savedConfigurations.first == nil ? "Test Configuration" : "Edit Configuration"
-    }
+   private var title: String {
+         savedConfigurations.first == nil ? "config.titleNew" : "config.titleEdit"
+     }
 
     private var versionTitle: String {
         derivedVersion.displayName

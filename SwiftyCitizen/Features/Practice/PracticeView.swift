@@ -10,25 +10,25 @@ struct PracticeView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section("Practice") {
-                    NavigationLink {
-                        MockTestSetupView(configuration: configuration)
-                    } label: {
-                        Label("Mock test", systemImage: "checklist")
-                    }
+               Section("practice.title") {
+                     NavigationLink {
+                         MockTestSetupView(configuration: configuration)
+                     } label: {
+                         Label("practice.mockTest", systemImage: "checklist")
+                     }
 
-                    NavigationLink {
-                        StudyEntryPointView(
-                            title: "Oral practice",
-                            message: "Practice answering aloud without exam pressure. Planned for a later phase.",
-                            systemImage: "mic"
-                        )
-                    } label: {
-                        Label("Oral practice", systemImage: "mic")
-                    }
-                }
-            }
-            .navigationTitle("Practice")
+                     NavigationLink {
+                         StudyEntryPointView(
+                             title: "practice.oralPracticeTitle",
+                             message: "practice.oralPracticeMessage",
+                             systemImage: "mic"
+                         )
+                     } label: {
+                         Label("practice.oralPracticeTitle", systemImage: "mic")
+                     }
+                 }
+             }
+             .navigationTitle("practice.title")
             .scrollContentBackground(.hidden)
             .background(palette.canvas.ignoresSafeArea())
         }

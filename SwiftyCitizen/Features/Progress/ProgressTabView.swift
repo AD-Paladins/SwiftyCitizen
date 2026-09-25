@@ -8,15 +8,15 @@ struct ProgressTabView: View {
         NavigationStack {
             List {
                 Section {
-                    EmptyStateView(
-                        systemImage: "chart.bar",
-                        title: "No progress yet",
-                        message: "Your attempts, accuracy, and coverage will appear here after your first study session."
-                    )
-                    .listRowSeparator(.hidden)
-                }
-            }
-            .navigationTitle("Progress")
+                   EmptyStateView(
+                         systemImage: "chart.bar",
+                         title: "progress.noProgressTitle",
+                         message: "progress.noProgressMessage"
+                     )
+                     .listRowSeparator(.hidden)
+                 }
+             }
+             .navigationTitle("progress.title")
             .scrollContentBackground(.hidden)
             .background(palette.canvas.ignoresSafeArea())
         }
