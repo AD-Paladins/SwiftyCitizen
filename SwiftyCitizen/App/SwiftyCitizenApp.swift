@@ -36,6 +36,7 @@ struct SwiftyCitizenApp: App {
         WindowGroup {
             ContentView()
                  .environment(themeManager)
+                 .environment(\.font, .system(size: 16, weight: .regular, design: .rounded))
                  .tint(themeManager.palette.primary)
         }
         .modelContainer(sharedModelContainer)

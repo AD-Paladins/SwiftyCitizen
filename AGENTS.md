@@ -64,7 +64,7 @@ Never let a pure domain file (which must stay `import Foundation` only) import S
 
 Verified commands (Xcode 27, deployment target iOS 27.0, simulator iPhone 17e):
 
-- Build: `xcodebuild build -project SwiftyCitizen.xcodeproj -scheme SwiftyCitizen -destination 'platform=iOS Simulator,id=11E7E98A-D558-4E53-B211-CB4ACD1FBB38'`
-- Tests: `xcodebuild test -project SwiftyCitizen.xcodeproj -scheme SwiftyCitizen -destination 'platform=iOS Simulator,id=11E7E98A-D558-4E53-B211-CB4ACD1FBB38' -parallel-testing-enabled NO -only-testing:SwiftyCitizenTests`
+- Build: `xcodebuild build -project SwiftyCitizen.xcodeproj -scheme SwiftyCitizen -destination 'platform=iOS Simulator,id=9CC72DE8-ED58-4D07-B736-C9B4B6750139'`
+- Tests: `xcodebuild test -project SwiftyCitizen.xcodeproj -scheme SwiftyCitizen -destination 'platform=iOS Simulator,id=9CC72DE8-ED58-4D07-B736-C9B4B6750139' -parallel-testing-enabled NO -only-testing:SwiftyCitizenTests`
 
 The app uses `PBXFileSystemSynchronizedRootGroup`, so new `.swift` files under `SwiftyCitizen/` and `SwiftyCitizenTests/` are picked up automatically; do not edit `project.pbxproj` manually.

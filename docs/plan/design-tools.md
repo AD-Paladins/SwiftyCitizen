@@ -14,7 +14,20 @@ This combination is free enough for the project to operate without a paid subscr
 | Excalidraw | User flows, navigation maps, rough sketches, brainstorming | Free browser-based canvas; save files locally because browser storage is not durable | Use for early definition |
 | Figma Starter | Alternative UI design and prototyping | Free plan exists, but AI uses limited credits and the plan is not unlimited | Do not make it a dependency |
 | Canva Free | Visual assets and presentations | Free plan exists, but premium and AI capabilities are plan- and allowance-dependent | Not the primary product-design tool |
-| Google Stitch or similar AI generators | Prompt-to-UI exploration | Availability, quotas, export quality, and terms can change | Optional experiment only |
+| Google Stitch or similar AI generators | Prompt-to-UI exploration and high-fidelity direction | Availability, quotas, export quality, and terms can change | Active for the visual redesign (see below); still not a dependency |
+
+## Stitch Usage (Visual Redesign)
+
+Google Stitch is now the active source for the high-fidelity direction of the visual
+redesign (`docs/plan/design-redesign-plan.md`). The project is "App Ciudadanía USA"
+(project ID `13329010267888174190`), owned by the user and read through the `stitch` MCP.
+
+- The MCP exposes the project even though `list_mcp_resources` returns nothing; read it via
+  `tools.stitch.list_projects()` → `list_screens({ projectId })` → the screen's HTML or PNG.
+- Two screens expose interactive HTML (Home "Exam Readiness", Flashcards "Active Study
+  Session"); the rest are PNG screenshots.
+- The app must stay implementable from this repository's documented tokens without the AI
+  tool. Stitch is the design reference, not the content or rules source of truth.
 
 ## What “100% Free” Means Here
 
