@@ -190,6 +190,8 @@ Phase 0 base; deferred components show as placeholders or remain on the backlog.
 
 Redesign the Study tab landing and its entry points to match the new designs.
 
+- **Slice 1 (Study Hub landing):** `StudyView` now renders its two study modes as styled entry cards instead of a flat `List` row per mode. Each `StudyEntryCard` (new, in `Shared/UI/Components.swift`) follows the Phase 1 Home pattern from the Stitch "Home - Exam Readiness" interactive design: a 40px circular icon badge, `CivicText` headline + muted body copy, and a trailing action line with a `chevron.right`. Flashcards uses the primary emerald tint; Targeted Review uses the heritage-amber (`warning`) tint, matching the design's "review queues" semantic. Navigation is value-based (`StudyRoute` + `.navigationDestination(for:)`) so the whole card is tappable. A compact "Study / Pick a mode to start reviewing." header replaces the bare title (the personalized "Good morning, <name>" header stays deferred — no user-name field exists yet). Mock test and oral practice remain on the Practice tab (unchanged architecture). Data-backed, no new persistence. Build and all 148 tests pass.
+
 ### Phase 3 — Flashcards (active session + answered state)
 
 The design shows an explicit "Leitner box N" indicator and Again/Hard/Mastered ratings with

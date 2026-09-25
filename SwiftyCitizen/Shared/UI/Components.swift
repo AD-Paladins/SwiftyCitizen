@@ -183,6 +183,57 @@ struct SummaryMetricView: View {
      }
 }
 
+struct StudyEntryCard<Route: Hashable>: View {
+    let title: String
+    let subtitle: String
+    let systemImage: String
+    let actionLabel: String
+    let iconBackground: Color
+    let iconForeground: Color
+    let actionTint: Color
+    let value: Route
+
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
+    var body: some View {
+        NavigationLink(value: value) {
+            HStack(spacing: Space.lg.value) {
+                ZStack {
+                    Circle().fill(iconBackground)
+                    Image(systemName: systemImage)
+                        .font(.system(size: 20, weight: .semibold, design: .rounded))
+                        .foregroundStyle(iconForeground)
+                }
+                .frame(width: 40, height: 40)
+
+                VStack(alignment: .leading, spacing: Space.xs.value) {
+                    Text(title)
+                        .font(CivicText.headlineSM.font)
+                        .foregroundStyle(palette.ink)
+                    Text(subtitle)
+                        .font(CivicText.bodySM.font)
+                        .foregroundStyle(palette.dimmed)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+                HStack(spacing: Space.xs.value) {
+                    Text(actionLabel)
+                        .font(CivicText.labelSM.font)
+                        .fontWeight(.bold)
+                        .foregroundStyle(actionTint)
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 13, weight: .bold, design: .rounded))
+                        .foregroundStyle(palette.dimmed)
+                }
+            }
+            .padding(Space.lg.value)
+        }
+        .cardStyle()
+        .accessibilityLabel(Text("\(title), \(actionLabel)"))
+    }
+}
+
 struct StudyEntryPointView: View {
     let title: String
     let message: String
