@@ -1,6 +1,11 @@
 import SwiftUI
 import SwiftData
 
+enum StudyRoute: Hashable {
+    case flashcards
+    case targetedReview
+}
+
 struct StudyView: View {
     let configuration: OnboardingConfiguration
 
@@ -9,28 +14,66 @@ struct StudyView: View {
 
     var body: some View {
         NavigationStack {
-            if !bankAvailable {
-                contentUnavailable
-            } else {
-                List {
-                    Section("Study modes") {
-                        NavigationLink {
-                            FlashcardSessionView(configuration: configuration)
-                        } label: {
-                            Label("Flashcards", systemImage: "rectangle.stack")
-                        }
-
-                        NavigationLink {
-                            TargetedReviewView(configuration: configuration)
-                        } label: {
-                            Label("Targeted review", systemImage: "target")
-                        }
-                    }
+            Group {
+                if !bankAvailable {
+                    contentUnavailable
+                } else {
+                    studyModes
                 }
-.navigationTitle("Study")
-                .scrollContentBackground(.hidden)
-                .background(palette.canvas.ignoresSafeArea())
             }
+            .navigationDestination(for: StudyRoute.self) { route in
+                switch route {
+                case .flashcards:
+                    FlashcardSessionView(configuration: configuration)
+                case .targetedReview:
+                    TargetedReviewView(configuration: configuration)
+                }
+            }
+            .navigationTitle("Study")
+        }
+    }
+
+    private var studyModes: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: Space.md.value) {
+                header
+
+                StudyEntryCard(
+                    title: "Flashcards",
+                    subtitle: "Study the full version bank, one card at a time.",
+                    systemImage: "rectangle.stack.fill",
+                    actionLabel: "Start",
+                    iconBackground: palette.primary.opacity(0.12),
+                    iconForeground: palette.primary,
+                    actionTint: palette.primary,
+                    value: StudyRoute.flashcards
+                )
+
+                StudyEntryCard(
+                    title: "Targeted Review",
+                    subtitle: "Drill the questions you are still working on.",
+                    systemImage: "target",
+                    actionLabel: "Review",
+                    iconBackground: palette.warning.opacity(0.14),
+                    iconForeground: palette.warning,
+                    actionTint: palette.warning,
+                    value: StudyRoute.targetedReview
+                )
+            }
+            .padding(Space.lg.value)
+        }
+        .scrollContentBackground(.hidden)
+        .background(palette.canvas.ignoresSafeArea())
+    }
+
+    private var header: some View {
+        VStack(alignment: .leading, spacing: Space.xs.value) {
+            Text("Study")
+                .font(CivicText.headlineMD.font)
+                .foregroundStyle(palette.ink)
+            Text("Pick a mode to start reviewing.")
+                .font(CivicText.bodySM.font)
+                .foregroundStyle(palette.dimmed)
         }
     }
 
@@ -49,7 +92,6 @@ struct StudyView: View {
             .padding(24)
         }
         .background(palette.canvas.ignoresSafeArea())
-        .navigationTitle("Study")
     }
 }
 
