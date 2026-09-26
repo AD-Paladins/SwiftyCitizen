@@ -29,7 +29,7 @@ struct StudyView: View {
                     TargetedReviewView(configuration: configuration)
                 }
             }
-            .navigationTitle("study.title")
+            .navigationTitle("studyTitle")
         }
     }
 
@@ -39,10 +39,10 @@ struct StudyView: View {
                 header
 
                 StudyEntryCard(
-                    title: "study.flashcardsEntryTitle",
-                    subtitle: "study.flashcardsEntrySubtitle",
+                    title: "studyFlashcardsEntryTitle",
+                    subtitle: "studyFlashcardsEntrySubtitle",
                     systemImage: "rectangle.stack.fill",
-                    actionLabel: "study.flashcardsEntryAction",
+                    actionLabel: "studyFlashcardsEntryAction",
                     iconBackground: palette.primary.opacity(0.12),
                     iconForeground: palette.primary,
                     actionTint: palette.primary,
@@ -50,10 +50,10 @@ struct StudyView: View {
                 )
 
                 StudyEntryCard(
-                    title: "study.targetedReviewEntryTitle",
-                    subtitle: "study.targetedReviewEntrySubtitle",
+                    title: "studyTargetedReviewEntryTitle",
+                    subtitle: "studyTargetedReviewEntrySubtitle",
                     systemImage: "target",
-                    actionLabel: "study.targetedReviewEntryAction",
+                    actionLabel: "studyTargetedReviewEntryAction",
                     iconBackground: palette.warning.opacity(0.14),
                     iconForeground: palette.warning,
                     actionTint: palette.warning,
@@ -68,10 +68,10 @@ struct StudyView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: Space.xs.value) {
-             Text("study.title")
+             Text("studyTitle")
                  .font(CivicText.headlineMD.font)
                  .foregroundStyle(palette.ink)
-             Text("study.headerSubtitle")
+             Text("studyHeaderSubtitle")
                  .font(CivicText.bodySM.font)
                  .foregroundStyle(palette.dimmed)
          }
@@ -86,8 +86,8 @@ struct StudyView: View {
         ScrollView {
             EmptyStateView(
                 systemImage: "exclamationmark.triangle",
-                title: "study.contentUnavailable",
-                message: "study.contentUnavailableMessage"
+                title: "studyContentUnavailable",
+                message: "studyContentUnavailableMessage"
             )
             .padding(24)
         }

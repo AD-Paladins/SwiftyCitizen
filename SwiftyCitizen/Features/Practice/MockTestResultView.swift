@@ -17,20 +17,20 @@ struct MockTestResultView: View {
                 outcomeBadge
 
                 VStack(spacing: 8) {
-                     Text("\(state.correctCount) \(String(localized: "common.of")) \(state.maximumQuestionsAsked) \(String(localized: "mocktest.result.correctAdjective"))")
+                     Text("\(state.correctCount) \(String(localized: "commonOf")) \(state.maximumQuestionsAsked) \(String(localized: "mocktestResultCorrectAdjective"))")
                          .font(.title.bold())
                          .foregroundStyle(palette.ink)
-                     Text("\(String(localized: "mocktest.result.passingScoreLabel"))\(state.passingScore)")
+                     Text("\(String(localized: "mocktestResultPassingScoreLabel"))\(state.passingScore)")
                          .font(.subheadline)
                          .foregroundStyle(palette.dimmed)
                  }
 
                 if !missedQuestions.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
-                     Text("mocktest.result.reviewMissed")
+                     Text("mocktestResultReviewMissed")
                          .font(.headline)
                          .foregroundStyle(palette.ink)
-                     let unit = missedQuestions.count == 1 ? String(localized: "mocktest.result.incorrectSingular") : String(localized: "mocktest.result.incorrectPlural")
+                     let unit = missedQuestions.count == 1 ? String(localized: "mocktestResultIncorrectSingular") : String(localized: "mocktestResultIncorrectPlural")
                      Text("\(missedQuestions.count) \(unit)")
                          .font(.footnote)
                          .foregroundStyle(palette.dimmed)
@@ -43,7 +43,7 @@ struct MockTestResultView: View {
                                  userAnswers: userAnswers
                              )
                          } label: {
-                             Label("mocktest.result.reviewInTargeted", systemImage: "target")
+                             Label("mocktestResultReviewInTargeted", systemImage: "target")
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                         }
@@ -56,11 +56,11 @@ struct MockTestResultView: View {
 
                 if !skippedQuestions.isEmpty {
                VStack(alignment: .leading, spacing: 8) {
-                     Text("mocktest.result.skippedDuringTest")
+                     Text("mocktestResultSkippedDuringTest")
                          .font(.headline)
                          .foregroundStyle(palette.ink)
-                     let unit = skippedQuestions.count == 1 ? String(localized: "mocktest.result.deferredSingular") : String(localized: "mocktest.result.deferredPlural")
-                     Text("\(String(localized: "mocktest.result.deferredPrefix"))\(skippedQuestions.count) \(unit)")
+                     let unit = skippedQuestions.count == 1 ? String(localized: "mocktestResultDeferredSingular") : String(localized: "mocktestResultDeferredPlural")
+                     Text("\(String(localized: "mocktestResultDeferredPrefix"))\(skippedQuestions.count) \(unit)")
                          .font(.footnote)
                          .foregroundStyle(palette.dimmed)
 
@@ -72,7 +72,7 @@ struct MockTestResultView: View {
                                  userAnswers: userAnswers
                              )
                          } label: {
-                             Label("mocktest.result.reviewSkipped", systemImage: "target")
+                             Label("mocktestResultReviewSkipped", systemImage: "target")
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                         }
@@ -83,12 +83,12 @@ struct MockTestResultView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-              Text("mocktest.result.disclaimer")
+              Text("mocktestResultDisclaimer")
                      .font(.footnote)
                      .foregroundStyle(palette.dimmed)
                      .multilineTextAlignment(.center)
 
-                 PrimaryActionButton(title: "mocktest.result.done", systemImage: "checkmark") {
+                 PrimaryActionButton(title: "mocktestResultDone", systemImage: "checkmark") {
                      onFinish()
                  }
             }
@@ -108,11 +108,11 @@ struct MockTestResultView: View {
     private var outcomeBadge: some View {
         switch state.phase {
        case .complete(let outcome) where outcome == .passed:
-             Label("mocktest.result.passed", systemImage: "checkmark.seal.fill")
+             Label("mocktestResultPassed", systemImage: "checkmark.seal.fill")
                  .font(.headline)
                  .foregroundStyle(palette.success)
          case .complete(let outcome) where outcome == .failed:
-             Label("mocktest.result.notPassed", systemImage: "xmark.circle.fill")
+             Label("mocktestResultNotPassed", systemImage: "xmark.circle.fill")
                  .font(.headline)
                  .foregroundStyle(palette.danger)
         default:

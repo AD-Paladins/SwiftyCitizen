@@ -44,18 +44,18 @@ private struct WelcomeView: View {
                     .foregroundStyle(.tint)
                     .accessibilityHidden(true)
 
-                Text("welcome.title")
+                Text("welcomeTitle")
                     .font(.largeTitle.bold())
 
-                 Text("welcome.subtitle")
+                 Text("welcomeSubtitle")
                     .font(.title3)
 
-                 Text("welcome.disclaimer")
+                 Text("welcomeDisclaimer")
                     .foregroundStyle(palette.dimmed)
 
                 Spacer(minLength: 0)
 
-                NavigationLink("welcome.setUpButton", destination: TestConfigurationView())
+                NavigationLink("welcomeSetUpButton", destination: TestConfigurationView())
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
                     .frame(maxWidth: .infinity)
@@ -64,7 +64,7 @@ private struct WelcomeView: View {
             .padding(24)
         }
         .defaultScrollAnchor(.center)
-        .navigationTitle("welcome.navTitle")
+        .navigationTitle("welcomeNavTitle")
         .background(palette.canvas.ignoresSafeArea())
     }
 }

@@ -37,8 +37,8 @@ struct MockTestSessionView: View {
                 ScrollView {
                    EmptyStateView(
                          systemImage: "exclamationmark.triangle",
-                         title: "mocktest.session.contentUnavailable",
-                         message: "\(String(localized: "mocktest.session.contentUnavailableMessagePrefix"))\(version.displayName) \(String(localized: "mocktest.session.contentUnavailableMessageSuffixEmpty"))"
+                         title: "mocktestSessionContentUnavailable",
+                         message: "\(String(localized: "mocktestSessionContentUnavailableMessagePrefix"))\(version.displayName) \(String(localized: "mocktestSessionContentUnavailableMessageSuffixEmpty"))"
                      )
                     .padding(24)
                 }
@@ -74,7 +74,7 @@ struct MockTestSessionView: View {
                                 }
                             }
                         } else if currentQuestionMode == .text {
-                            TextField("mocktest.session.typeAnswer", text: $answer, axis: .vertical)
+                            TextField("mocktestSessionTypeAnswer", text: $answer, axis: .vertical)
                                 .textFieldStyle(.roundedBorder)
                                 .lineLimit(3...6)
                                 .padding(20)
@@ -98,13 +98,13 @@ struct MockTestSessionView: View {
                     Divider()
                     if review != nil {
                     PrimaryActionButton(
-                             title: state.isComplete ? "mocktest.session.seeResults" : "mocktest.session.next",
+                             title: state.isComplete ? "mocktestSessionSeeResults" : "mocktestSessionNext",
                              systemImage: state.isComplete ? "flag.checker" : "arrow.forward"
                          ) {
                              advance()
                          }
                      } else {
-                         PrimaryActionButton(title: "mocktest.session.recordAnswer", systemImage: "checkmark.circle.fill") {
+                         PrimaryActionButton(title: "mocktestSessionRecordAnswer", systemImage: "checkmark.circle.fill") {
                              submit()
                          }
                         .disabled(!isSubmitEnabled)
@@ -116,16 +116,16 @@ struct MockTestSessionView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-      .navigationTitle("mocktest.session.title")
+      .navigationTitle("mocktestSessionTitle")
         .navigationBarTitleDisplayMode(.inline)
         .background(palette.canvas.ignoresSafeArea())
         .onAppear { beginSession() }
         .confirmationDialog(
-             "mocktest.session.endTestConfirm",
+             "mocktestSessionEndTestConfirm",
              isPresented: $confirmsExit,
              titleVisibility: .visible
          ) {
-             Button("mocktest.session.endTest", role: .destructive) {
+             Button("mocktestSessionEndTest", role: .destructive) {
                  if state.answers.isEmpty {
                      if let session { modelContext.delete(session) }
                  } else {
@@ -134,7 +134,7 @@ struct MockTestSessionView: View {
                  try? modelContext.save()
                  dismiss()
              }
-             Button("mocktest.session.keepGoing", role: .cancel) {}
+             Button("mocktestSessionKeepGoing", role: .cancel) {}
          }
     }
 
@@ -276,7 +276,7 @@ struct MockTestSessionView: View {
                 Image(systemName: showOfficialAnswer ? "chevron.down" : "chevron.right")
                     .font(.subheadline.bold())
                     .foregroundStyle(palette.ink)
-                Text(showOfficialAnswer ? "mocktest.session.hideOfficialAnswer" : "mocktest.session.showOfficialAnswer")
+                Text(showOfficialAnswer ? "mocktestSessionHideOfficialAnswer" : "mocktestSessionShowOfficialAnswer")
                      .font(.subheadline.weight(.medium))
                      .foregroundStyle(palette.ink)
                 Spacer()
@@ -297,7 +297,7 @@ struct MockTestSessionView: View {
                 Image(systemName: "arrow.counterclockwise")
                     .font(.subheadline.bold())
                     .foregroundStyle(palette.ink)
-                Text("mocktest.session.skipQuestion")
+                Text("mocktestSessionSkipQuestion")
                      .font(.subheadline.weight(.medium))
                      .foregroundStyle(palette.ink)
                 Spacer()

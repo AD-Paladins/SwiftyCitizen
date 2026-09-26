@@ -13,42 +13,42 @@ struct SettingsView: View {
         @Bindable var themeManager = themeManager
 
         List {
-           Section("settings.appearance") {
-                 Picker("settings.theme", selection: $themeManager.themeName) {
+           Section("settingsAppearance") {
+                 Picker("settingsTheme", selection: $themeManager.themeName) {
                      ForEach(AppThemeName.allCases) { theme in
                          Text(theme.displayName).tag(theme)
                      }
                  }
              }
 
-             Section("settings.testConfiguration") {
-                 NavigationLink("settings.editTestConfiguration") {
+             Section("settingsTestConfiguration") {
+                 NavigationLink("settingsEditTestConfiguration") {
                      TestConfigurationView(configuration: configuration)
                  }
-                  LabeledContent("settings.testVersion", value: configuration.selectedTestVersion?.displayName ?? String(localized: "common.notSet"))
+                  LabeledContent("settingsTestVersion", value: configuration.selectedTestVersion?.displayName ?? String(localized: "commonNotSet"))
                  LabeledContent(
-                     "settings.filingDate",
-                     value: configuration.filingDate?.formatted(date: .abbreviated, time: .omitted) ?? String(localized: "common.notSet")
+                     "settingsFilingDate",
+                     value: configuration.filingDate?.formatted(date: .abbreviated, time: .omitted) ?? String(localized: "commonNotSet")
                  )
                  LabeledContent(
-                     "settings.studyLanguage",
-                     value: configuration.studyLanguage?.displayName ?? String(localized: "common.notSet")
+                     "settingsStudyLanguage",
+                     value: configuration.studyLanguage?.displayName ?? String(localized: "commonNotSet")
                  )
              }
 
             if configuration.isSixtyFiveTwentyEligible {
                  Section("65/20") {
-                     LabeledContent("settings.specialConsideration", value: "settings.specialConsiderationValue")
+                     LabeledContent("settingsSpecialConsideration", value: "settingsSpecialConsiderationValue")
                  }
              }
 
-             Section("settings.privacy") {
-                 Button("settings.resetLocalProgress", role: .destructive) {
+             Section("settingsPrivacy") {
+                 Button("settingsResetLocalProgress", role: .destructive) {
                      resetProgress()
                  }
              }
          }
-         .navigationTitle("settings.title")
+         .navigationTitle("settingsTitle")
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .background(palette.canvas.ignoresSafeArea())

@@ -18,13 +18,13 @@ struct SessionSummaryView: View {
                     .foregroundStyle(palette.success)
                     .accessibilityHidden(true)
 
-                Text("study.summary.complete")
+                Text("studySummaryComplete")
                      .font(.largeTitle.bold())
                      .foregroundStyle(palette.ink)
                      .padding(.top, 16)
 
-                 let unit = answeredCount == 1 ? String(localized: "study.summary.reviewedSingular") : String(localized: "study.summary.reviewedPlural")
-                 Text("\(String(localized: "study.summary.reviewedPrefix"))\(answeredCount) \(unit)")
+                 let unit = answeredCount == 1 ? String(localized: "studySummaryReviewedSingular") : String(localized: "studySummaryReviewedPlural")
+                 Text("\(String(localized: "studySummaryReviewedPrefix"))\(answeredCount) \(unit)")
                      .font(.subheadline)
                      .foregroundStyle(palette.dimmed)
                      .padding(.top, 4)
@@ -38,7 +38,7 @@ struct SessionSummaryView: View {
                 .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
                 .padding(.top, 24)
 
-                PrimaryActionButton(title: "study.summary.done", systemImage: "checkmark") {
+                PrimaryActionButton(title: "studySummaryDone", systemImage: "checkmark") {
                     onFinish()
                 }
                 .padding(.top, 28)

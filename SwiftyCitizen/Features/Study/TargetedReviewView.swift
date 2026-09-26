@@ -64,13 +64,13 @@ struct TargetedReviewView: View {
     var body: some View {
         List {
         if let resumeSession {
-                 Section("study.targeted.inProgressSection") {
+                 Section("studyTargetedInProgressSection") {
                      resumeRow(session: resumeSession)
                  }
              }
 
-             Section("study.targeted.byCategorySection") {
-                 Toggle("study.targeted.showCategories", isOn: $byCategory)
+             Section("studyTargetedByCategorySection") {
+                 Toggle("studyTargetedShowCategories", isOn: $byCategory)
                 if byCategory {
                     ForEach(categorySummary.topics, id: \.self) { topic in
                         Button {
@@ -78,7 +78,7 @@ struct TargetedReviewView: View {
                         } label: {
                             HStack {
                             Label(
-                                     "\(topic) \(String(localized: "study.targeted.countOpen"))\(categorySummary.counts[topic] ?? 0)\(String(localized: "study.targeted.countClose"))",
+                                     "\(topic) \(String(localized: "studyTargetedCountOpen"))\(categorySummary.counts[topic] ?? 0)\(String(localized: "studyTargetedCountClose"))",
                                      systemImage: selectedCategories.contains(topic) ? "checkmark.circle.fill" : "circle"
                                  )
                                 Spacer()
@@ -97,14 +97,14 @@ struct TargetedReviewView: View {
                     scopeRow(scope)
                 }
             } header: {
-                 Text("study.targeted.reviewScopeHeader")
+                 Text("studyTargetedReviewScopeHeader")
              } footer: {
                  if count(for: selectedScope) == 0 {
-                     Text("study.targeted.noQuestionsInScope")
+                     Text("studyTargetedNoQuestionsInScope")
                  }
              }
         }
-        .navigationTitle("study.targeted.title")
+        .navigationTitle("studyTargetedTitle")
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .background(palette.canvas.ignoresSafeArea())
@@ -117,7 +117,7 @@ struct TargetedReviewView: View {
                         questions: deck(for: selectedScope)
                     )
                 } label: {
-                    Label("\(String(localized: "study.targeted.startReviewPrefix"))\(count(for: selectedScope))\(String(localized: "study.targeted.startReviewSuffix"))", systemImage: "arrow.right")
+                    Label("\(String(localized: "studyTargetedStartReviewPrefix"))\(count(for: selectedScope))\(String(localized: "studyTargetedStartReviewSuffix"))", systemImage: "arrow.right")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                 }
@@ -139,9 +139,9 @@ struct TargetedReviewView: View {
             )
         } label: {
             HStack {
-                Label("study.targeted.resumeSession", systemImage: "play.circle.fill")
+                Label("studyTargetedResumeSession", systemImage: "play.circle.fill")
                  Spacer()
-                 Text("\(min(session.currentIndex, session.deckStableIDs.count)) \(String(localized: "common.of")) \(session.deckStableIDs.count)")
+                 Text("\(min(session.currentIndex, session.deckStableIDs.count)) \(String(localized: "commonOf")) \(session.deckStableIDs.count)")
                      .font(.subheadline.monospacedDigit())
                      .foregroundStyle(palette.dimmed)
             }

@@ -41,25 +41,25 @@ struct TestConfigurationView: View {
 
     var body: some View {
         Form {
-          Section("config.filingDateSection") {
-                 DatePicker("config.n400FilingDateLabel", selection: $filingDate, in: ...Date(), displayedComponents: .date)
-                 Text("config.filingDateNote")
+          Section("configFilingDateSection") {
+                 DatePicker("configN400FilingDateLabel", selection: $filingDate, in: ...Date(), displayedComponents: .date)
+                 Text("configFilingDateNote")
                      .font(.footnote)
                      .foregroundStyle(palette.dimmed)
              }
 
-             Section("config.testVersionSection") {
-                 Toggle("config.sixtyTwentyToggle", isOn: $isSixtyFiveTwentyEligible)
-                 LabeledContent("config.selectedVersion", value: versionTitle)
+             Section("configTestVersionSection") {
+                 Toggle("configSixtyTwentyToggle", isOn: $isSixtyFiveTwentyEligible)
+                 LabeledContent("configSelectedVersion", value: versionTitle)
              }
 
-             Section("config.studyOptionsSection") {
-                 Toggle("config.shuffleQuestions", isOn: $shuffleQuestions)
+             Section("configStudyOptionsSection") {
+                 Toggle("configShuffleQuestions", isOn: $shuffleQuestions)
              }
 
-             Section("config.studyLanguageSection") {
-                 Picker("config.studySupportLabel", selection: $studyLanguage) {
-                     Text("config.chooseALanguage").tag(nil as StudyLanguage?)
+             Section("configStudyLanguageSection") {
+                 Picker("configStudySupportLabel", selection: $studyLanguage) {
+                     Text(String(localized: "configChooseALanguage")).tag(nil as StudyLanguage?)
                      ForEach(StudyLanguage.allCases) { language in
                          Text(language.displayName).tag(language as StudyLanguage?)
                      }
@@ -67,20 +67,20 @@ struct TestConfigurationView: View {
              }
 
             if let testConfiguration = configuration.testConfiguration {
-                 Section("config.yourStudySet") {
-                     let unit = testConfiguration.questionBankCount == 1 ? String(localized: "config.questionBankValueSingular") : String(localized: "config.questionBankValuePlural")
-                     LabeledContent("config.questionBank", value: "\(testConfiguration.questionBankCount) \(unit)")
-                     LabeledContent("config.questionsAsked", value: "\(String(localized: "config.questionsAskedPrefix"))\(testConfiguration.maximumQuestionsAsked)")
-                     LabeledContent("config.passingScore", value: "\(testConfiguration.passingScore) \(String(localized: "config.passingScoreValueSuffix"))")
+                 Section("configYourStudySet") {
+                     let unit = testConfiguration.questionBankCount == 1 ? String(localized: "configQuestionBankValueSingular") : String(localized: "configQuestionBankValuePlural")
+                     LabeledContent("configQuestionBank", value: "\(testConfiguration.questionBankCount) \(unit)")
+                     LabeledContent("configQuestionsAsked", value: "\(String(localized: "configQuestionsAskedPrefix"))\(testConfiguration.maximumQuestionsAsked)")
+                     LabeledContent("configPassingScore", value: "\(testConfiguration.passingScore) \(String(localized: "configPassingScoreValueSuffix"))")
                  }
              }
 
            Section {
-                 Toggle("config.disclaimerToggle", isOn: $disclaimerAccepted)
+                 Toggle("configDisclaimerToggle", isOn: $disclaimerAccepted)
              }
 
              Section {
-                 Button("config.save") {
+                 Button("configSave") {
                      saveConfiguration()
                  }
                  .disabled(!configuration.isValid)
@@ -89,7 +89,7 @@ struct TestConfigurationView: View {
                      Label(validationMessage, systemImage: "exclamationmark.circle")
                          .font(.footnote)
                          .foregroundStyle(palette.danger)
-                         .accessibilityLabel("\(String(localized: "config.incompleteConfigPrefix"))\(validationMessage)")
+                         .accessibilityLabel("\(String(localized: "configIncompleteConfigPrefix"))\(validationMessage)")
                  }
              }
         }
@@ -102,24 +102,24 @@ struct TestConfigurationView: View {
   private var validationMessage: String? {
          switch configuration.validationError() {
          case .missingFilingDate:
-             "config.missingFilingDate"
+             "configMissingFilingDate"
          case .filingDateInFuture:
-             "config.filingDateInFuture"
+             "configFilingDateInFuture"
          case .missingTestVersion:
-             "config.missingTestVersion"
+             "configMissingTestVersion"
          case .missingStudyLanguage:
-             "config.missingStudyLanguage"
+             "configMissingStudyLanguage"
          case .disclaimerNotAccepted:
-             "config.disclaimerNotAccepted"
+             "configDisclaimerNotAccepted"
          case .selectedVersionDoesNotMatchFilingDate(let expected, let actual):
-             "\(String(localized: "config.versionMismatchPrefix"))\(actual.displayName)\(String(localized: "config.versionMismatchSuffix"))\(expected.displayName)\(String(localized: "config.versionMismatchEnd"))"
+             "\(String(localized: "configVersionMismatchPrefix"))\(actual.displayName)\(String(localized: "configVersionMismatchSuffix"))\(expected.displayName)\(String(localized: "configVersionMismatchEnd"))"
          case nil:
              nil
          }
      }
 
    private var title: String {
-         savedConfigurations.first == nil ? "config.titleNew" : "config.titleEdit"
+         savedConfigurations.first == nil ? "configTitleNew" : "configTitleEdit"
      }
 
     private var versionTitle: String {

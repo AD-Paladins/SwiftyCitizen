@@ -10,13 +10,13 @@ struct ProgressTabView: View {
                 Section {
                    EmptyStateView(
                          systemImage: "chart.bar",
-                         title: "progress.noProgressTitle",
-                         message: "progress.noProgressMessage"
+                         title: "progressNoProgressTitle",
+                         message: "progressNoProgressMessage"
                      )
                      .listRowSeparator(.hidden)
                  }
              }
-             .navigationTitle("progress.title")
+             .navigationTitle("progressTitle")
             .scrollContentBackground(.hidden)
             .background(palette.canvas.ignoresSafeArea())
         }

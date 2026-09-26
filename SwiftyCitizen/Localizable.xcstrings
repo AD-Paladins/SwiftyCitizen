@@ -1,1806 +1,1980 @@
 {
-  "sourceLanguage": "en",
-  "version": "1.0",
-  "strings": {
-    "app.tab.home": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Home"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "—" : {
+
+    },
+    "%@ %@%lld%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@%3$lld%4$@"
+          }
+        }
+      }
+    },
+    "%@ %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$lld"
+          }
+        }
+      }
+    },
+    "%@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$@"
+          }
+        }
+      }
+    },
+    "%@%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@"
+          }
+        }
+      }
+    },
+    "%@%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$lld"
+          }
+        }
+      }
+    },
+    "%@%lld %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$lld %3$@"
+          }
+        }
+      }
+    },
+    "%@%lld%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$lld%3$@"
+          }
+        }
+      }
+    },
+    "%lld" : {
+
+    },
+    "%lld %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld %2$@"
+          }
+        }
+      }
+    },
+    "%lld %@ %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld %2$@ %3$lld"
+          }
+        }
+      }
+    },
+    "%lld %@ %lld %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld %2$@ %3$lld %4$@"
+          }
+        }
+      }
+    },
+    "65/20" : {
+
+    },
+    "appTabHome" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home"
           }
         }
       }
     },
-    "app.tab.study": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Study"
+    "appTabPractice" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practice"
           }
         }
       }
     },
-    "app.tab.practice": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Practice"
+    "appTabProgress" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progress"
           }
         }
       }
     },
-    "app.tab.progress": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Progress"
+    "appTabStudy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study"
           }
         }
       }
     },
-    "welcome.navTitle": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Welcome"
+    "commonNotSet" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not set"
           }
         }
       }
     },
-    "welcome.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Welcome to SwiftyCitizen"
+    "commonOf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "of"
           }
         }
       }
     },
-    "welcome.subtitle": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Build confidence with an offline study aid for the USCIS civics test."
+    "configChooseALanguage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a language"
           }
         }
       }
     },
-    "welcome.disclaimer": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "SwiftyCitizen is for study support only. It does not determine immigration eligibility or replace official USCIS guidance."
+    "configDisclaimerNotAccepted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accept the study aid notice to save your configuration."
           }
         }
       }
     },
-    "welcome.setUpButton": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Set up your test"
+    "configDisclaimerToggle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I understand this is a study aid, not legal advice"
           }
         }
       }
     },
-    "home.greeting.morning": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Good morning"
+    "configFilingDateInFuture" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The filing date can't be in the future."
           }
         }
       }
     },
-    "home.greeting.afternoon": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Good afternoon"
+    "configFilingDateNote" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This selects the applicable civics test rules unless you choose the 65/20 option."
           }
         }
       }
     },
-    "home.greeting.evening": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Good evening"
+    "configFilingDateSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filing date"
           }
         }
       }
     },
-    "home.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Home"
+    "configIncompleteConfigPrefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Incomplete configuration: "
           }
         }
       }
     },
-    "home.continue.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Continue studying"
+    "configMetricAsked" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Asked"
           }
         }
       }
     },
-    "home.continue.subtitle": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Review your current set and keep your streak going."
+    "configMetricQuestions" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questions"
           }
         }
       }
     },
-    "home.continue.cta": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Start review"
+    "configMetricToPass" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To pass"
           }
         }
       }
     },
-    "home.milestone.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Daily Milestone"
+    "configMissingFilingDate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a filing date to continue."
           }
         }
       }
     },
-    "home.milestone.cta": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Continue Daily Review"
+    "configMissingStudyLanguage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a study support language."
           }
         }
       }
     },
-    "home.readiness.label": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Exam Readiness"
+    "configMissingTestVersion" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select a test version to continue."
           }
         }
       }
     },
-    "home.readiness.fallback": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Start a review session to build coverage"
+    "configN400FilingDateLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N-400 filing date"
           }
         }
       }
     },
-    "home.streak.label": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Streak"
+    "configPassingScore" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passing score"
           }
         }
       }
     },
-    "home.metric.reviewed": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Reviewed"
+    "configPassingScoreValueSuffix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "correct"
           }
         }
       }
     },
-    "home.metric.gotit": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Got it"
+    "configQuestionBank" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Question bank"
           }
         }
       }
     },
-    "home.mastery.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Mastery"
+    "configQuestionBankValuePlural" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "questions"
           }
         }
       }
     },
-    "home.mastery.mastered": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Mastered"
+    "configQuestionBankValueSingular" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "question"
           }
         }
       }
     },
-    "home.mastery.due": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Due"
+    "configQuestionsAsked" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questions asked"
           }
         }
       }
     },
-    "home.mastery.unseen": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Unseen"
+    "configQuestionsAskedPrefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up to "
           }
         }
       }
     },
-    "home.today.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Today"
+    "configSave" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
           }
         }
       }
     },
-    "home.today.empty.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "No sessions yet"
+    "configSelectedVersion" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selected version"
           }
         }
       }
     },
-    "home.today.empty.message": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Start a review session to begin tracking today's progress."
+    "configShuffleQuestions" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shuffle questions when studying"
           }
         }
       }
     },
-    "home.duenext.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Due next"
+    "configSixtyTwentyToggle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I qualify for the 65/20 special consideration"
           }
         }
       }
     },
-    "home.duenext.empty.caughtup.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "All caught up"
+    "configStudyLanguageSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study language"
           }
         }
       }
     },
-    "home.duenext.empty.caughtup.message": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "You have reviewed every question in your test set."
+    "configStudyOptionsSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study options"
           }
         }
       }
     },
-    "home.duenext.empty.none.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Nothing due yet"
+    "configStudySupportLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study support"
           }
         }
       }
     },
-    "home.duenext.empty.none.message": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Due questions appear here once you have review history."
+    "configTestConfigurationFallback" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test configuration"
           }
         }
       }
     },
-    "home.duenext.card.hint": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Opens the Study tab"
+    "configTestVersionSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test version"
           }
         }
       }
     },
-    "study.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Study"
+    "configTitleEdit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Configuration"
           }
         }
       }
     },
-    "study.headerSubtitle": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Pick a mode to start reviewing."
+    "configTitleNew" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test Configuration"
           }
         }
       }
     },
-    "study.flashcardsEntryTitle": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Flashcards"
+    "configVersionMismatchEnd" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ")"
           }
         }
       }
     },
-    "study.flashcardsEntrySubtitle": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Study the full version bank, one card at a time."
+    "configVersionMismatchPrefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The selected version ("
           }
         }
       }
     },
-    "study.flashcardsEntryAction": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Start"
+    "configVersionMismatchSuffix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ") doesn't match your filing date ("
           }
         }
       }
     },
-    "study.targetedReviewEntryTitle": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Targeted Review"
+    "configYourStudySet" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your study set"
           }
         }
       }
     },
-    "study.targetedReviewEntrySubtitle": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Drill the questions you are still working on."
+    "homeContinueCta" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start review"
           }
         }
       }
     },
-    "study.targetedReviewEntryAction": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Review"
+    "homeContinueSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review your current set and keep your streak going."
           }
         }
       }
     },
-    "study.contentUnavailable": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Content unavailable"
+    "homeContinueTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue studying"
           }
         }
       }
     },
-    "study.contentUnavailableMessage": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "The question bank for your selected test version could not be loaded. Try updating the app or choosing another test version in Settings."
+    "homeDuenextCardHint" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the Study tab"
           }
         }
       }
     },
-    "study.flashcard.closeSession": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Close session"
+    "homeDuenextEmptyCaughtupMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have reviewed every question in your test set."
           }
         }
       }
     },
-    "study.flashcard.progressPrefix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Progress "
+    "homeDuenextEmptyCaughtupTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All caught up"
           }
         }
       }
     },
-    "study.flashcard.questionPrefix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Question "
+    "homeDuenextEmptyNoneMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due questions appear here once you have review history."
           }
         }
       }
     },
-    "study.flashcard.answerDependsNotice": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Answer depends on where you live. Local officials accept any correct answer for your state."
+    "homeDuenextEmptyNoneTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing due yet"
           }
         }
       }
     },
-    "study.flashcard.howWellDidYouKnowIt": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "How well did you know it?"
+    "homeDuenextTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due next"
           }
         }
       }
     },
-    "study.flashcard.iAnsweredPrefix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "I answered "
+    "homeGreetingAfternoon" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good afternoon"
           }
         }
       }
     },
-    "study.flashcard.officialAnswer": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Official answer"
+    "homeGreetingEvening" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good evening"
           }
         }
       }
     },
-    "study.flashcard.acceptedNotice": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Accepted: your answer covers one accepted version of the official answer."
+    "homeGreetingMorning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good morning"
           }
         }
       }
     },
-    "study.flashcard.source": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Source"
+    "homeMasteryDue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due"
           }
         }
       }
     },
-    "study.flashcard.sourcePrefix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Source "
+    "homeMasteryMastered" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mastered"
           }
         }
       }
     },
-    "study.flashcard.yourAnswer": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Your answer"
+    "homeMasteryTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mastery"
           }
         }
       }
     },
-    "study.flashcard.nothingToReview": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Nothing to review"
+    "homeMasteryUnseen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unseen"
           }
         }
       }
     },
-    "study.flashcard.nothingToReviewMessage": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "There are no questions in this review set. Try a different scope or test version."
+    "homeMetricGotit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Got it"
           }
         }
       }
     },
-    "study.flashcard.endSessionConfirm": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "End this session?"
+    "homeMetricReviewed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reviewed"
           }
         }
       }
     },
-    "study.flashcard.endSession": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "End session"
+    "homeMilestoneCta" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue Daily Review"
           }
         }
       }
     },
-    "study.flashcard.keepStudying": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Keep studying"
+    "homeMilestoneTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Milestone"
           }
         }
       }
     },
-    "study.flashcard.revealAnswer": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Reveal answer"
+    "homeReadinessFallback" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start a review session to build coverage"
           }
         }
       }
     },
-    "study.flashcard.typeReply": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Type your reply…"
+    "homeReadinessLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exam Readiness"
           }
         }
       }
     },
-    "study.flashcard.providePrefix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Provide "
+    "homeStreakLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streak"
           }
         }
       }
     },
-    "study.flashcard.answersShownSuffix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": " the answers shown."
+    "homeTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home"
           }
         }
       }
     },
-    "study.summary.done": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Done"
+    "homeTodayEmptyMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start a review session to begin tracking today's progress."
           }
         }
       }
     },
-    "study.targeted.countOpen": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "("
+    "homeTodayEmptyTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No sessions yet"
           }
         }
       }
     },
-    "study.targeted.countClose": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": ")"
+    "homeTodayTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
           }
         }
       }
     },
-    "study.targeted.inProgressSection": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "In progress"
+    "mocktestResultCorrectAdjective" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "correct"
           }
         }
       }
     },
-    "study.targeted.byCategorySection": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "By category"
+    "mocktestResultCorrectLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Correct"
           }
         }
       }
     },
-    "study.targeted.showCategories": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Show categories"
+    "mocktestResultDeferredPlural" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "questions. Review them here."
           }
         }
       }
     },
-    "study.targeted.reviewScopeHeader": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Review scope"
+    "mocktestResultDeferredPrefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You deferred "
           }
         }
       }
     },
-    "study.targeted.noQuestionsInScope": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "No questions in this scope yet. As you study, questions move into this review list."
+    "mocktestResultDeferredSingular" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "question. Review them here."
           }
         }
       }
     },
-    "study.targeted.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Targeted review"
+    "mocktestResultDisclaimer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This simulation follows the official civics test rules but the app is a study aid, not an immigration authority. An officer's evaluation always decides the real interview."
           }
         }
       }
     },
-    "study.targeted.resumeSession": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Resume session"
+    "mocktestResultDone" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
           }
         }
       }
     },
-    "study.summary.complete": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Session complete"
+    "mocktestResultIncorrectLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Incorrect"
           }
         }
       }
     },
-    "study.summary.reviewedPrefix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "You reviewed "
+    "mocktestResultIncorrectPlural" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "questions were answered incorrectly."
           }
         }
       }
     },
-    "study.summary.reviewedSingular": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "question."
+    "mocktestResultIncorrectSingular" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "question was answered incorrectly."
           }
         }
       }
     },
-    "study.summary.reviewedPlural": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "questions."
+    "mocktestResultNotPassed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not passed"
           }
         }
       }
     },
-    "mocktest.result.passingScoreLabel": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Passing score: "
+    "mocktestResultPassed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passed"
           }
         }
       }
     },
-    "mocktest.result.reviewMissed": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Review missed questions"
+    "mocktestResultPassingScoreLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passing score: "
           }
         }
       }
     },
-    "mocktest.result.incorrectSingular": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "question was answered incorrectly."
+    "mocktestResultReviewInTargeted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review in targeted review"
           }
         }
       }
     },
-    "mocktest.result.incorrectPlural": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "questions were answered incorrectly."
+    "mocktestResultReviewMissed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review missed questions"
           }
         }
       }
     },
-    "mocktest.result.skippedDuringTest": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Skipped during the test"
+    "mocktestResultReviewSkipped" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review skipped questions"
           }
         }
       }
     },
-    "mocktest.result.deferredPrefix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "You deferred "
+    "mocktestResultSkippedDuringTest" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skipped during the test"
           }
         }
       }
     },
-    "mocktest.result.deferredSingular": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "question. Review them here."
+    "mocktestSessionContentUnavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Content unavailable"
           }
         }
       }
     },
-    "mocktest.result.deferredPlural": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "questions. Review them here."
+    "mocktestSessionContentUnavailableMessagePrefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The question bank for "
           }
         }
       }
     },
-    "mocktest.result.disclaimer": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "This simulation follows the official civics test rules but the app is a study aid, not an immigration authority. An officer's evaluation always decides the real interview."
+    "mocktestSessionContentUnavailableMessageSuffixEmpty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " is empty. Try updating the app or choosing another test version in Settings."
           }
         }
       }
     },
-    "mocktest.result.correctAdjective": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "correct"
+    "mocktestSessionContentUnavailableMessageSuffixLoadFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " could not be loaded. Try updating the app or choosing another test version in Settings."
           }
         }
       }
     },
-    "mocktest.result.correctLabel": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Correct"
+    "mocktestSessionEndTest" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End test"
           }
         }
       }
     },
-    "mocktest.result.incorrectLabel": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Incorrect"
+    "mocktestSessionEndTestConfirm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End this test?"
           }
         }
       }
     },
-    "mocktest.result.reviewInTargeted": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Review in targeted review"
+    "mocktestSessionHideOfficialAnswer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide official answer"
           }
         }
       }
     },
-    "mocktest.result.reviewSkipped": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Review skipped questions"
+    "mocktestSessionKeepGoing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep going"
           }
         }
       }
     },
-    "mocktest.result.done": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Done"
+    "mocktestSessionNext" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next"
           }
         }
       }
     },
-    "mocktest.result.passed": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Passed"
+    "mocktestSessionRecordAnswer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record answer"
           }
         }
       }
     },
-    "mocktest.result.notPassed": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Not passed"
+    "mocktestSessionSeeResults" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See results"
           }
         }
       }
     },
-    "mocktest.session.contentUnavailable": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Content unavailable"
+    "mocktestSessionShowOfficialAnswer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show official answer"
           }
         }
       }
     },
-    "mocktest.session.contentUnavailableMessagePrefix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "The question bank for "
+    "mocktestSessionSkipQuestion" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip this question"
           }
         }
       }
     },
-    "mocktest.session.contentUnavailableMessageSuffixEmpty": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": " is empty. Try updating the app or choosing another test version in Settings."
+    "mocktestSessionTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mock test"
           }
         }
       }
     },
-    "mocktest.session.contentUnavailableMessageSuffixLoadFailed": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": " could not be loaded. Try updating the app or choosing another test version in Settings."
+    "mocktestSessionTypeAnswer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type your answer"
           }
         }
       }
     },
-    "mocktest.session.typeAnswer": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Type your answer"
+    "mocktestSetupAnswerInstructions" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type or speak your answer. The app compares it against the official answers for each question."
           }
         }
       }
     },
-    "mocktest.session.seeResults": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "See results"
+    "mocktestSetupHowYouAnswerSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How you answer"
           }
         }
       }
     },
-    "mocktest.session.next": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Next"
+    "mocktestSetupRulesSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rules for this session"
           }
         }
       }
     },
-    "mocktest.session.recordAnswer": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Record answer"
+    "mocktestSetupStartMockTest" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start mock test"
           }
         }
       }
     },
-    "mocktest.session.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Mock test"
+    "practiceMockTest" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mock test"
           }
         }
       }
     },
-    "mocktest.session.endTestConfirm": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "End this test?"
+    "practiceOralPracticeMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practice answering aloud without exam pressure. Planned for a later phase."
           }
         }
       }
     },
-    "mocktest.session.endTest": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "End test"
+    "practiceOralPracticeTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oral practice"
           }
         }
       }
     },
-    "mocktest.session.keepGoing": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Keep going"
+    "practiceTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practice"
           }
         }
       }
     },
-    "mocktest.session.hideOfficialAnswer": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Hide official answer"
+    "progressNoProgressMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your attempts, accuracy, and coverage will appear here after your first study session."
           }
         }
       }
     },
-    "mocktest.session.showOfficialAnswer": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Show official answer"
+    "progressNoProgressTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No progress yet"
           }
         }
       }
     },
-    "mocktest.session.skipQuestion": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Skip this question"
+    "progressTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progress"
           }
         }
       }
     },
-    "mocktest.setup.rulesSection": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Rules for this session"
+    "selectionSelected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ", selected"
           }
         }
       }
     },
-    "mocktest.setup.answerInstructions": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Type or speak your answer. The app compares it against the official answers for each question."
+    "settingsAppearance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appearance"
           }
         }
       }
     },
-    "mocktest.setup.howYouAnswerSection": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "How you answer"
+    "settingsEditTestConfiguration" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit test configuration"
           }
         }
       }
     },
-    "mocktest.setup.startMockTest": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Start mock test"
+    "settingsFilingDate" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filing date"
           }
         }
       }
     },
-    "practice.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Practice"
+    "settingsPrivacy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy"
           }
         }
       }
     },
-    "practice.mockTest": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Mock test"
+    "settingsResetLocalProgress" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset local progress"
           }
         }
       }
     },
-    "practice.oralPracticeTitle": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Oral practice"
+    "settingsSpecialConsideration" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Special consideration"
           }
         }
       }
     },
-    "practice.oralPracticeMessage": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Practice answering aloud without exam pressure. Planned for a later phase."
+    "settingsSpecialConsiderationValue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Age 65+, residency 20+ years"
           }
         }
       }
     },
-    "progress.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Progress"
+    "settingsStudyLanguage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study language"
           }
         }
       }
     },
-    "progress.noProgressTitle": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "No progress yet"
+    "settingsTestConfiguration" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test configuration"
           }
         }
       }
     },
-    "progress.noProgressMessage": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Your attempts, accuracy, and coverage will appear here after your first study session."
+    "settingsTestVersion" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test version"
           }
         }
       }
     },
-    "settings.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Settings"
+    "settingsTheme" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theme"
           }
         }
       }
     },
-    "settings.appearance": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Appearance"
+    "settingsTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
           }
         }
       }
     },
-    "settings.theme": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Theme"
+    "studyContentUnavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Content unavailable"
           }
         }
       }
     },
-    "settings.testConfiguration": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Test configuration"
+    "studyContentUnavailableMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The question bank for your selected test version could not be loaded. Try updating the app or choosing another test version in Settings."
           }
         }
       }
     },
-    "settings.editTestConfiguration": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Edit test configuration"
+    "studyFlashcardAcceptedNotice" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accepted: your answer covers one accepted version of the official answer."
           }
         }
       }
     },
-    "settings.testVersion": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Test version"
+    "studyFlashcardAnswerDependsNotice" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Answer depends on where you live. Local officials accept any correct answer for your state."
           }
         }
       }
     },
-    "settings.filingDate": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Filing date"
+    "studyFlashcardAnswersShownSuffix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " the answers shown."
           }
         }
       }
     },
-    "settings.studyLanguage": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Study language"
+    "studyFlashcardCloseSession" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close session"
           }
         }
       }
     },
-    "settings.specialConsideration": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Special consideration"
+    "studyFlashcardEndSession" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End session"
           }
         }
       }
     },
-    "settings.specialConsiderationValue": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Age 65+, residency 20+ years"
+    "studyFlashcardEndSessionConfirm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End this session?"
           }
         }
       }
     },
-    "settings.privacy": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Privacy"
+    "studyFlashcardHowWellDidYouKnowIt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How well did you know it?"
           }
         }
       }
     },
-    "settings.resetLocalProgress": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Reset local progress"
+    "studyFlashcardIAnsweredPrefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I answered "
           }
         }
       }
     },
-    "common.notSet": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Not set"
+    "studyFlashcardKeepStudying" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep studying"
           }
         }
       }
     },
-    "selection.selected": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": ", selected"
+    "studyFlashcardNothingToReview" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing to review"
           }
         }
       }
     },
-    "config.titleNew": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Test Configuration"
+    "studyFlashcardNothingToReviewMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are no questions in this review set. Try a different scope or test version."
           }
         }
       }
     },
-    "config.titleEdit": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Edit Configuration"
+    "studyFlashcardOfficialAnswer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Official answer"
           }
         }
       }
     },
-    "config.filingDateSection": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Filing date"
+    "studyFlashcardProgressPrefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progress "
           }
         }
       }
     },
-    "config.n400FilingDateLabel": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "N-400 filing date"
+    "studyFlashcardProvidePrefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Provide "
           }
         }
       }
     },
-    "config.testVersionSection": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Test version"
+    "studyFlashcardQuestionPrefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Question "
           }
         }
       }
     },
-    "config.sixtyTwentyToggle": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "I qualify for the 65/20 special consideration"
+    "studyFlashcardRevealAnswer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reveal answer"
           }
         }
       }
     },
-    "config.selectedVersion": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Selected version"
+    "studyFlashcardsEntryAction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start"
           }
         }
       }
     },
-    "config.studyOptionsSection": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Study options"
+    "studyFlashcardsEntrySubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study the full version bank, one card at a time."
           }
         }
       }
     },
-    "config.shuffleQuestions": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Shuffle questions when studying"
+    "studyFlashcardsEntryTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flashcards"
           }
         }
       }
     },
-    "config.studyLanguageSection": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Study language"
+    "studyFlashcardSource" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source"
           }
         }
       }
     },
-    "config.studySupportLabel": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Study support"
+    "studyFlashcardSourcePrefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source "
           }
         }
       }
     },
-    "config.chooseALanguage": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Choose a language"
+    "studyFlashcardTypeReply" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type your reply…"
           }
         }
       }
     },
-    "config.yourStudySet": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Your study set"
+    "studyFlashcardYourAnswer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your answer"
           }
         }
       }
     },
-    "config.questionBank": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Question bank"
+    "studyHeaderSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick a mode to start reviewing."
           }
         }
       }
     },
-    "config.questionBankValueSingular": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "question"
+    "studySummaryComplete" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Session complete"
           }
         }
       }
     },
-    "config.questionBankValuePlural": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "questions"
+    "studySummaryDone" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
           }
         }
       }
     },
-    "config.questionsAsked": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Questions asked"
+    "studySummaryReviewedPlural" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "questions."
           }
         }
       }
     },
-    "config.questionsAskedPrefix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Up to "
+    "studySummaryReviewedPrefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You reviewed "
           }
         }
       }
     },
-    "config.passingScore": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Passing score"
+    "studySummaryReviewedSingular" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "question."
           }
         }
       }
     },
-    "config.passingScoreValueSuffix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "correct"
+    "studyTargetedByCategorySection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "By category"
           }
         }
       }
     },
-    "config.metricQuestions": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Questions"
+    "studyTargetedCountClose" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ")"
           }
         }
       }
     },
-    "config.metricAsked": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Asked"
+    "studyTargetedCountOpen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "("
           }
         }
       }
     },
-    "config.metricToPass": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "To pass"
+    "studyTargetedInProgressSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In progress"
           }
         }
       }
     },
-    "config.testConfigurationFallback": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Test configuration"
+    "studyTargetedNoQuestionsInScope" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No questions in this scope yet. As you study, questions move into this review list."
           }
         }
       }
     },
-    "config.disclaimerToggle": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "I understand this is a study aid, not legal advice"
+    "studyTargetedResumeSession" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resume session"
           }
         }
       }
     },
-    "config.save": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Save"
+    "studyTargetedReviewEntryAction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review"
           }
         }
       }
     },
-    "config.filingDateNote": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "This selects the applicable civics test rules unless you choose the 65/20 option."
+    "studyTargetedReviewEntrySubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drill the questions you are still working on."
           }
         }
       }
     },
-    "config.missingFilingDate": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Choose a filing date to continue."
+    "studyTargetedReviewEntryTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Targeted Review"
           }
         }
       }
     },
-    "config.filingDateInFuture": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "The filing date can't be in the future."
+    "studyTargetedReviewScopeHeader" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review scope"
           }
         }
       }
     },
-    "config.missingTestVersion": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Select a test version to continue."
+    "studyTargetedShowCategories" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show categories"
           }
         }
       }
     },
-    "config.missingStudyLanguage": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Choose a study support language."
+    "studyTargetedStartReviewPrefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start review ("
           }
         }
       }
     },
-    "config.disclaimerNotAccepted": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Accept the study aid notice to save your configuration."
+    "studyTargetedStartReviewSuffix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ")"
           }
         }
       }
     },
-    "config.incompleteConfigPrefix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Incomplete configuration: "
+    "studyTargetedTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Targeted review"
           }
         }
       }
     },
-    "config.versionMismatchPrefix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "The selected version ("
+    "studyTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study"
           }
         }
       }
     },
-    "config.versionMismatchSuffix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": ") doesn't match your filing date ("
+    "unitQuestionPlural" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "questions"
           }
         }
       }
     },
-    "config.versionMismatchEnd": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": ")"
+    "unitQuestionsCoveredPlural" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "questions covered"
           }
         }
       }
     },
-    "common.of": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "of"
+    "unitQuestionsCoveredSingular" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "question covered"
           }
         }
       }
     },
-    "unit.questionSingular": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "question"
+    "unitQuestionSingular" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "question"
           }
         }
       }
     },
-    "unit.questionPlural": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "questions"
+    "welcomeDisclaimer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SwiftyCitizen is for study support only. It does not determine immigration eligibility or replace official USCIS guidance."
           }
         }
       }
     },
-    "unit.questionsCoveredSingular": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "question covered"
+    "welcomeNavTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome"
           }
         }
       }
     },
-    "unit.questionsCoveredPlural": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "questions covered"
+    "welcomeSetUpButton" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set up your test"
           }
         }
       }
     },
-    "study.targeted.startReviewPrefix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Start review ("
+    "welcomeSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Build confidence with an offline study aid for the USCIS civics test."
           }
         }
       }
     },
-    "study.targeted.startReviewSuffix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": ")"
+    "welcomeTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to SwiftyCitizen"
           }
         }
       }
     }
-  }
+  },
+  "version" : "1.0"
 }

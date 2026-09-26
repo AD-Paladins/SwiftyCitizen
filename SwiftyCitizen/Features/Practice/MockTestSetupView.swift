@@ -9,13 +9,13 @@ struct MockTestSetupView: View {
 
     var body: some View {
         List {
-            Section("mocktest.setup.rulesSection") {
+            Section("mocktestSetupRulesSection") {
                  ConfigurationSummaryView(configuration: configuration)
                      .listRowInsets(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
              }
 
-             Section("mocktest.setup.howYouAnswerSection") {
-                 Text("mocktest.setup.answerInstructions")
+             Section("mocktestSetupHowYouAnswerSection") {
+                 Text("mocktestSetupAnswerInstructions")
                      .font(.footnote)
                      .foregroundStyle(palette.dimmed)
              }
@@ -23,13 +23,13 @@ struct MockTestSetupView: View {
             if let version = configuration.selectedTestVersion, !bankAvailable(version: version) {
                 EmptyStateView(
                      systemImage: "exclamationmark.triangle",
-                     title: "mocktest.session.contentUnavailable",
-                     message: "\(String(localized: "mocktest.session.contentUnavailableMessagePrefix"))\(version.displayName) \(String(localized: "mocktest.session.contentUnavailableMessageSuffixLoadFailed"))"
+                     title: "mocktestSessionContentUnavailable",
+                     message: "\(String(localized: "mocktestSessionContentUnavailableMessagePrefix"))\(version.displayName) \(String(localized: "mocktestSessionContentUnavailableMessageSuffixLoadFailed"))"
                  )
                  .listRowSeparator(.hidden)
             }
         }
-        .navigationTitle("mocktest.session.title")
+        .navigationTitle("mocktestSessionTitle")
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .background(palette.canvas.ignoresSafeArea())
@@ -38,7 +38,7 @@ struct MockTestSetupView: View {
                 NavigationLink {
                     MockTestSessionView(configuration: configuration, version: version)
                 } label: {
-                    Label("mocktest.setup.startMockTest", systemImage: "checklist")
+                    Label("mocktestSetupStartMockTest", systemImage: "checklist")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                 }
