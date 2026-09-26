@@ -118,7 +118,7 @@ struct TestConfigurationView: View {
          }
      }
 
-   private var title: String {
+   private var title: LocalizedStringKey {
          savedConfigurations.first == nil ? "configTitleNew" : "configTitleEdit"
      }
 

@@ -213,6 +213,7 @@ struct StudyEntryCard<Route: Hashable>: View {
                         .foregroundStyle(palette.ink)
                     Text(subtitle)
                         .font(CivicText.bodySM.font)
+                        .multilineTextAlignment(.leading)
                         .foregroundStyle(palette.dimmed)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
