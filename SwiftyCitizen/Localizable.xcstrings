@@ -127,6 +127,12 @@
             "state" : "translated",
             "value" : "Home"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicio"
+          }
         }
       }
     },
@@ -136,6 +142,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Practice"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practicar"
           }
         }
       }
@@ -147,6 +159,12 @@
             "state" : "translated",
             "value" : "Progress"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progreso"
+          }
         }
       }
     },
@@ -156,6 +174,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Study"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estudio"
           }
         }
       }
@@ -167,6 +191,12 @@
             "state" : "translated",
             "value" : "Not set"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin definir"
+          }
         }
       }
     },
@@ -177,6 +207,12 @@
             "state" : "translated",
             "value" : "of"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "de"
+          }
         }
       }
     },
@@ -186,6 +222,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choose a language"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegir un idioma"
           }
         }
       }
@@ -198,6 +240,12 @@
             "state" : "translated",
             "value" : "Accept the study aid notice to save your configuration."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acepta el aviso del material de estudio para guardar tu configuración."
+          }
         }
       }
     },
@@ -207,6 +255,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "I understand this is a study aid, not legal advice"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entiendo que esto es un material de estudio, no asesoría legal"
           }
         }
       }
@@ -219,6 +273,12 @@
             "state" : "translated",
             "value" : "The filing date can't be in the future."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La fecha de presentación no puede ser futura."
+          }
         }
       }
     },
@@ -229,6 +289,12 @@
             "state" : "translated",
             "value" : "This selects the applicable civics test rules unless you choose the 65/20 option."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta opción define las reglas de la prueba cívica aplicables, salvo que elijas la opción 65/20."
+          }
         }
       }
     },
@@ -238,6 +304,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Filing date"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fecha de presentación"
           }
         }
       }
@@ -250,6 +322,12 @@
             "state" : "translated",
             "value" : "Incomplete configuration: "
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración incompleta: "
+          }
         }
       }
     },
@@ -259,6 +337,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Asked"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respondidas"
           }
         }
       }
@@ -270,6 +354,12 @@
             "state" : "translated",
             "value" : "Questions"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preguntas"
+          }
         }
       }
     },
@@ -279,6 +369,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "To pass"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para aprobar"
           }
         }
       }
@@ -291,6 +387,12 @@
             "state" : "translated",
             "value" : "Choose a filing date to continue."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegí una fecha de presentación para continuar."
+          }
         }
       }
     },
@@ -301,6 +403,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choose a study support language."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegí un idioma de material de estudio."
           }
         }
       }
@@ -313,6 +421,12 @@
             "state" : "translated",
             "value" : "Select a test version to continue."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegí una versión de la prueba para continuar."
+          }
         }
       }
     },
@@ -323,6 +437,12 @@
             "state" : "translated",
             "value" : "N-400 filing date"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fecha de presentación del N-400"
+          }
         }
       }
     },
@@ -332,6 +452,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passing score"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nota para aprobar"
           }
         }
       }
@@ -344,6 +470,12 @@
             "state" : "translated",
             "value" : "correct"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "correctas"
+          }
         }
       }
     },
@@ -353,6 +485,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Question bank"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Banco de preguntas"
           }
         }
       }
@@ -364,6 +502,12 @@
             "state" : "translated",
             "value" : "questions"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "preguntas"
+          }
         }
       }
     },
@@ -374,6 +518,12 @@
             "state" : "translated",
             "value" : "question"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pregunta"
+          }
         }
       }
     },
@@ -383,6 +533,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Questions asked"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preguntas respondidas"
           }
         }
       }
@@ -395,6 +551,12 @@
             "state" : "translated",
             "value" : "Up to "
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hasta "
+          }
         }
       }
     },
@@ -404,6 +566,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Save"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar"
           }
         }
       }
@@ -415,6 +583,12 @@
             "state" : "translated",
             "value" : "Selected version"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión seleccionada"
+          }
         }
       }
     },
@@ -424,6 +598,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Shuffle questions when studying"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mezclar las preguntas al estudiar"
           }
         }
       }
@@ -435,6 +615,12 @@
             "state" : "translated",
             "value" : "I qualify for the 65/20 special consideration"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cumplo los requisitos de la excepción 65/20"
+          }
         }
       }
     },
@@ -444,6 +630,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Study language"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idioma de material"
           }
         }
       }
@@ -455,6 +647,12 @@
             "state" : "translated",
             "value" : "Study options"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opciones de estudio"
+          }
         }
       }
     },
@@ -465,16 +663,43 @@
             "state" : "translated",
             "value" : "Study support"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Material de apoyo"
+          }
         }
       }
     },
     "configTestConfigurationFallback" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Test configuration"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración de la prueba"
+          }
+        }
+      }
+    },
+    "configTestVersionNote" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The selected version follows your N-400 filing date: before October 20, 2025 it's the 2008 test, October 20, 2025 or later it's the 2025 test. The 65/20 option overrides this."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La versión seleccionada sigue la fecha de presentación del N-400: antes del 20 de octubre de 2025 es la prueba de 2008; del 20 de octubre de 2025 en adelante es la de 2025. La excepción 65/20 toma prioridad."
           }
         }
       }
@@ -485,6 +710,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Test version"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión de la prueba"
           }
         }
       }
@@ -497,6 +728,12 @@
             "state" : "translated",
             "value" : "Edit Configuration"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar configuración"
+          }
         }
       }
     },
@@ -507,6 +744,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Test Configuration"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración de la prueba"
           }
         }
       }
@@ -530,6 +773,12 @@
             "state" : "translated",
             "value" : "The selected version ("
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La versión seleccionada ("
+          }
         }
       }
     },
@@ -541,6 +790,12 @@
             "state" : "translated",
             "value" : ") doesn't match your filing date ("
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ") no coincide con tu fecha de presentación ("
+          }
         }
       }
     },
@@ -550,6 +805,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Your study set"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu set de estudio"
           }
         }
       }
@@ -562,6 +823,12 @@
             "state" : "translated",
             "value" : "Start review"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar repaso"
+          }
         }
       }
     },
@@ -571,6 +838,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Review your current set and keep your streak going."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisá tu set actual y sigue con tu racha."
           }
         }
       }
@@ -582,6 +855,12 @@
             "state" : "translated",
             "value" : "Continue studying"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continúa estudiando"
+          }
         }
       }
     },
@@ -591,6 +870,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Opens the Study tab"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre la pestaña de estudio"
           }
         }
       }
@@ -603,6 +888,12 @@
             "state" : "translated",
             "value" : "You have reviewed every question in your test set."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisaste todas las preguntas de tu set de prueba."
+          }
         }
       }
     },
@@ -613,6 +904,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "All caught up"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo revisado"
           }
         }
       }
@@ -625,6 +922,12 @@
             "state" : "translated",
             "value" : "Due questions appear here once you have review history."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las preguntas pendientes aparecen aquí una vez que tengas historial de revisión."
+          }
         }
       }
     },
@@ -636,6 +939,12 @@
             "state" : "translated",
             "value" : "Nothing due yet"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no hay nada pendiente"
+          }
         }
       }
     },
@@ -645,6 +954,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Due next"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siguientes"
           }
         }
       }
@@ -656,6 +971,12 @@
             "state" : "translated",
             "value" : "Good afternoon"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buenas tardes"
+          }
         }
       }
     },
@@ -666,6 +987,12 @@
             "state" : "translated",
             "value" : "Good evening"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buenas noches"
+          }
         }
       }
     },
@@ -675,6 +1002,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Good morning"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buenos días"
           }
         }
       }
@@ -687,6 +1020,12 @@
             "state" : "translated",
             "value" : "Due"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pendiente"
+          }
         }
       }
     },
@@ -698,6 +1037,12 @@
             "state" : "translated",
             "value" : "Mastered"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dominada"
+          }
         }
       }
     },
@@ -707,6 +1052,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mastery"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dominio"
           }
         }
       }
@@ -719,6 +1070,12 @@
             "state" : "translated",
             "value" : "Unseen"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin ver"
+          }
         }
       }
     },
@@ -729,6 +1086,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Got it"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La entendí"
           }
         }
       }
@@ -741,6 +1104,12 @@
             "state" : "translated",
             "value" : "Reviewed"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisadas"
+          }
         }
       }
     },
@@ -752,6 +1121,12 @@
             "state" : "translated",
             "value" : "Continue Daily Review"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar el estudio diario"
+          }
         }
       }
     },
@@ -761,6 +1136,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Daily Milestone"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hito diario"
           }
         }
       }
@@ -772,6 +1153,12 @@
             "state" : "translated",
             "value" : "Start a review session to build coverage"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezá una sesión de revisión para ir cubriendo las preguntas."
+          }
         }
       }
     },
@@ -781,6 +1168,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exam Readiness"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparación para el examen"
           }
         }
       }
@@ -792,6 +1185,12 @@
             "state" : "translated",
             "value" : "Streak"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Racha"
+          }
         }
       }
     },
@@ -801,6 +1200,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Home"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicio"
           }
         }
       }
@@ -813,6 +1218,12 @@
             "state" : "translated",
             "value" : "Start a review session to begin tracking today's progress."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezá una sesión de revisión para comenzar a registrar tu progreso de hoy."
+          }
         }
       }
     },
@@ -824,6 +1235,12 @@
             "state" : "translated",
             "value" : "No sessions yet"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no hay sesiones"
+          }
         }
       }
     },
@@ -833,6 +1250,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Today"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoy"
           }
         }
       }
@@ -845,6 +1268,12 @@
             "state" : "translated",
             "value" : "correct"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "correcta"
+          }
         }
       }
     },
@@ -855,6 +1284,12 @@
             "state" : "translated",
             "value" : "Correct"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Correctas"
+          }
         }
       }
     },
@@ -864,6 +1299,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "questions. Review them here."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "preguntas. Revisalas aquí."
           }
         }
       }
@@ -876,6 +1317,12 @@
             "state" : "translated",
             "value" : "You deferred "
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dejaste para revisar "
+          }
         }
       }
     },
@@ -886,6 +1333,12 @@
             "state" : "translated",
             "value" : "question. Review them here."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pregunta. Revisala aquí."
+          }
         }
       }
     },
@@ -895,6 +1348,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This simulation follows the official civics test rules but the app is a study aid, not an immigration authority. An officer's evaluation always decides the real interview."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta simulación sigue las reglas oficiales de la prueba cívica, pero la app es un material de estudio y no una autoridad inmigratoria. Un oficial siempre decide la entrevista real."
           }
         }
       }
@@ -907,6 +1366,12 @@
             "state" : "translated",
             "value" : "Done"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo"
+          }
         }
       }
     },
@@ -916,6 +1381,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Incorrect"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Incorrectas"
           }
         }
       }
@@ -927,6 +1398,12 @@
             "state" : "translated",
             "value" : "questions were answered incorrectly."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "preguntas respondidas incorrectamente."
+          }
         }
       }
     },
@@ -936,6 +1413,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "question was answered incorrectly."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pregunta respondida incorrectamente."
           }
         }
       }
@@ -947,6 +1430,12 @@
             "state" : "translated",
             "value" : "Not passed"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No aprobada"
+          }
         }
       }
     },
@@ -956,6 +1445,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passed"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aprobada"
           }
         }
       }
@@ -968,6 +1463,12 @@
             "state" : "translated",
             "value" : "Passing score: "
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para aprobar: "
+          }
         }
       }
     },
@@ -977,6 +1478,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Review in targeted review"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisar en revisión dirigida"
           }
         }
       }
@@ -988,6 +1495,12 @@
             "state" : "translated",
             "value" : "Review missed questions"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisar las preguntas que fallaste"
+          }
         }
       }
     },
@@ -998,6 +1511,12 @@
             "state" : "translated",
             "value" : "Review skipped questions"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisar las preguntas que omitiste"
+          }
         }
       }
     },
@@ -1007,6 +1526,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Skipped during the test"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Omitida durante el examen"
           }
         }
       }
@@ -1019,6 +1544,12 @@
             "state" : "translated",
             "value" : "Content unavailable"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin contenido"
+          }
         }
       }
     },
@@ -1029,6 +1560,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The question bank for "
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El banco de preguntas de "
           }
         }
       }
@@ -1041,6 +1578,12 @@
             "state" : "translated",
             "value" : " is empty. Try updating the app or choosing another test version in Settings."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "no tiene preguntas. Actualizá la app o elegí otra versión de la prueba en Ajustes."
+          }
         }
       }
     },
@@ -1052,6 +1595,12 @@
             "state" : "translated",
             "value" : " could not be loaded. Try updating the app or choosing another test version in Settings."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "no se pudo cargar. Actualizá la app o elegí otra versión de la prueba en Ajustes."
+          }
         }
       }
     },
@@ -1061,6 +1610,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "End test"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalizar examen"
           }
         }
       }
@@ -1072,6 +1627,12 @@
             "state" : "translated",
             "value" : "End this test?"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalizar el examen?"
+          }
         }
       }
     },
@@ -1082,6 +1643,12 @@
             "state" : "translated",
             "value" : "Hide official answer"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar respuesta oficial"
+          }
         }
       }
     },
@@ -1091,6 +1658,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Keep going"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continúa"
           }
         }
       }
@@ -1103,6 +1676,12 @@
             "state" : "translated",
             "value" : "Next"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siguiente"
+          }
         }
       }
     },
@@ -1113,6 +1692,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Record answer"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar respuesta"
           }
         }
       }
@@ -1125,6 +1710,12 @@
             "state" : "translated",
             "value" : "See results"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver resultados"
+          }
         }
       }
     },
@@ -1134,6 +1725,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Show official answer"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar respuesta oficial"
           }
         }
       }
@@ -1145,6 +1742,12 @@
             "state" : "translated",
             "value" : "Skip this question"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Omitir esta pregunta"
+          }
         }
       }
     },
@@ -1154,6 +1757,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mock test"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Examen de práctica"
           }
         }
       }
@@ -1165,6 +1774,12 @@
             "state" : "translated",
             "value" : "Type your answer"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe tu respuesta"
+          }
         }
       }
     },
@@ -1174,6 +1789,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Type or speak your answer. The app compares it against the official answers for each question."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe o di tu respuesta. La app la compara con las respuestas oficiales de cada pregunta."
           }
         }
       }
@@ -1185,6 +1806,12 @@
             "state" : "translated",
             "value" : "How you answer"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cómo respondes"
+          }
         }
       }
     },
@@ -1194,6 +1821,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rules for this session"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reglas de esta sesión"
           }
         }
       }
@@ -1205,6 +1838,12 @@
             "state" : "translated",
             "value" : "Start mock test"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar examen de práctica"
+          }
         }
       }
     },
@@ -1214,6 +1853,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mock test"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Examen de práctica"
           }
         }
       }
@@ -1226,6 +1871,12 @@
             "state" : "translated",
             "value" : "Practice answering aloud without exam pressure. Planned for a later phase."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practica responder en voz alta sin presión de examen. Planeado para una fase posterior."
+          }
         }
       }
     },
@@ -1236,6 +1887,12 @@
             "state" : "translated",
             "value" : "Oral practice"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Práctica oral"
+          }
         }
       }
     },
@@ -1245,6 +1902,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Practice"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practicar"
           }
         }
       }
@@ -1257,6 +1920,12 @@
             "state" : "translated",
             "value" : "Your attempts, accuracy, and coverage will appear here after your first study session."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu intentos, precisión y cobertura aparecerán después de tu primera sesión de estudio."
+          }
         }
       }
     },
@@ -1268,6 +1937,12 @@
             "state" : "translated",
             "value" : "No progress yet"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no hay progreso"
+          }
         }
       }
     },
@@ -1278,11 +1953,14 @@
             "state" : "translated",
             "value" : "Progress"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progreso"
+          }
         }
       }
-    },
-    "sdfasfasdfdsfadf" : {
-
     },
     "selectionSelected" : {
       "extractionState" : "manual",
@@ -1291,6 +1969,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : ", selected"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ", seleccionado"
           }
         }
       }
@@ -1302,6 +1986,12 @@
             "state" : "translated",
             "value" : "Appearance"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apariencia"
+          }
         }
       }
     },
@@ -1311,6 +2001,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Edit test configuration"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar configuración de la prueba"
           }
         }
       }
@@ -1322,6 +2018,12 @@
             "state" : "translated",
             "value" : "Filing date"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fecha de presentación"
+          }
         }
       }
     },
@@ -1331,6 +2033,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Privacy"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacidad"
           }
         }
       }
@@ -1342,6 +2050,12 @@
             "state" : "translated",
             "value" : "Reset local progress"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reiniciar progreso local"
+          }
         }
       }
     },
@@ -1351,6 +2065,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Special consideration"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consideración especial"
           }
         }
       }
@@ -1363,6 +2083,12 @@
             "state" : "translated",
             "value" : "Age 65+, residency 20+ years"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "65+ años, 20+ años de residencia"
+          }
         }
       }
     },
@@ -1372,6 +2098,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Study language"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idioma de material"
           }
         }
       }
@@ -1383,6 +2115,12 @@
             "state" : "translated",
             "value" : "Test configuration"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración de la prueba"
+          }
         }
       }
     },
@@ -1392,6 +2130,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Test version"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión de la prueba"
           }
         }
       }
@@ -1403,6 +2147,12 @@
             "state" : "translated",
             "value" : "Theme"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema"
+          }
         }
       }
     },
@@ -1412,6 +2162,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes"
           }
         }
       }
@@ -1424,6 +2180,12 @@
             "state" : "translated",
             "value" : "Content unavailable"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin contenido"
+          }
         }
       }
     },
@@ -1435,6 +2197,12 @@
             "state" : "translated",
             "value" : "The question bank for your selected test version could not be loaded. Try updating the app or choosing another test version in Settings."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El banco de preguntas de tu versión seleccionada no se pudo cargar. Actualizá la app o elegí otra versión de la prueba en Ajustes."
+          }
         }
       }
     },
@@ -1445,6 +2213,12 @@
             "state" : "translated",
             "value" : "Accepted: your answer covers one accepted version of the official answer."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceptada: tu respuesta cubre una versión aceptada de la respuesta oficial."
+          }
         }
       }
     },
@@ -1454,6 +2228,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Answer depends on where you live. Local officials accept any correct answer for your state."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La respuesta depende de dónde vivas. Los funcionarios locales aceptan cualquier respuesta correcta para tu estado."
           }
         }
       }
@@ -1466,6 +2246,12 @@
             "state" : "translated",
             "value" : " the answers shown."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " las respuestas mostradas."
+          }
         }
       }
     },
@@ -1475,6 +2261,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Close session"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar sesión"
           }
         }
       }
@@ -1486,6 +2278,12 @@
             "state" : "translated",
             "value" : "End session"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalizar sesión"
+          }
         }
       }
     },
@@ -1496,6 +2294,12 @@
             "state" : "translated",
             "value" : "End this session?"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalizar la sesión?"
+          }
         }
       }
     },
@@ -1505,6 +2309,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "How well did you know it?"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuánto bien la conocías?"
           }
         }
       }
@@ -1517,6 +2327,12 @@
             "state" : "translated",
             "value" : "I answered "
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respondí "
+          }
         }
       }
     },
@@ -1526,6 +2342,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Keep studying"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continúa estudiando"
           }
         }
       }
@@ -1538,6 +2360,12 @@
             "state" : "translated",
             "value" : "Nothing to review"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no hay qué revisar"
+          }
         }
       }
     },
@@ -1549,6 +2377,12 @@
             "state" : "translated",
             "value" : "There are no questions in this review set. Try a different scope or test version."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay preguntas en este set de revisión. Prueba un alcance o una versión de la prueba distinta."
+          }
         }
       }
     },
@@ -1558,6 +2392,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Official answer"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respuesta oficial"
           }
         }
       }
@@ -1570,6 +2410,12 @@
             "state" : "translated",
             "value" : "Progress "
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progreso "
+          }
         }
       }
     },
@@ -1580,6 +2426,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Provide "
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indica "
           }
         }
       }
@@ -1592,6 +2444,12 @@
             "state" : "translated",
             "value" : "Question "
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pregunta "
+          }
         }
       }
     },
@@ -1602,6 +2460,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reveal answer"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revelar respuesta"
           }
         }
       }
@@ -1614,6 +2478,12 @@
             "state" : "translated",
             "value" : "Start"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar"
+          }
         }
       }
     },
@@ -1624,6 +2494,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Study the full version bank, one card at a time."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estudia el banco completo de preguntas, una tarjeta a la vez."
           }
         }
       }
@@ -1636,6 +2512,12 @@
             "state" : "translated",
             "value" : "Flashcards"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarjetas"
+          }
         }
       }
     },
@@ -1645,6 +2527,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Source"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fuente"
           }
         }
       }
@@ -1657,6 +2545,12 @@
             "state" : "translated",
             "value" : "Source "
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fuente "
+          }
         }
       }
     },
@@ -1666,6 +2560,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Type your reply…"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe tu respuesta..."
           }
         }
       }
@@ -1677,6 +2577,12 @@
             "state" : "translated",
             "value" : "Your answer"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu respuesta"
+          }
         }
       }
     },
@@ -1687,6 +2593,12 @@
             "state" : "translated",
             "value" : "Pick a mode to start reviewing."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegí un modo para comenzar a revisar."
+          }
         }
       }
     },
@@ -1696,6 +2608,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Session complete"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sesión completa"
           }
         }
       }
@@ -1708,6 +2626,12 @@
             "state" : "translated",
             "value" : "Done"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo"
+          }
         }
       }
     },
@@ -1717,6 +2641,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "questions."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "preguntas."
           }
         }
       }
@@ -1729,6 +2659,12 @@
             "state" : "translated",
             "value" : "You reviewed "
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisaste "
+          }
         }
       }
     },
@@ -1739,6 +2675,12 @@
             "state" : "translated",
             "value" : "question."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pregunta."
+          }
         }
       }
     },
@@ -1748,6 +2690,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "By category"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por categoría"
           }
         }
       }
@@ -1781,6 +2729,12 @@
             "state" : "translated",
             "value" : "In progress"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En progreso"
+          }
         }
       }
     },
@@ -1791,6 +2745,12 @@
             "state" : "translated",
             "value" : "No questions in this scope yet. As you study, questions move into this review list."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay preguntas en este alcance todavía. A medida que estudias, las preguntas entran a esta lista de revisión."
+          }
         }
       }
     },
@@ -1800,6 +2760,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Resume session"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continúa la sesión"
           }
         }
       }
@@ -1812,6 +2778,12 @@
             "state" : "translated",
             "value" : "Review"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisar"
+          }
         }
       }
     },
@@ -1822,6 +2794,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Drill the questions you are still working on."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practica las preguntas en las que todavía trabajas."
           }
         }
       }
@@ -1834,6 +2812,12 @@
             "state" : "translated",
             "value" : "Targeted Review"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisión dirigida"
+          }
         }
       }
     },
@@ -1843,6 +2827,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Review scope"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alance de revisión"
           }
         }
       }
@@ -1854,6 +2844,12 @@
             "state" : "translated",
             "value" : "Show categories"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar categorías"
+          }
         }
       }
     },
@@ -1864,6 +2860,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Start review ("
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar revisión ("
           }
         }
       }
@@ -1886,6 +2888,12 @@
             "state" : "translated",
             "value" : "Targeted review"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisión dirigida"
+          }
         }
       }
     },
@@ -1895,6 +2903,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Study"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estudio"
           }
         }
       }
@@ -1906,6 +2920,12 @@
             "state" : "translated",
             "value" : "questions"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "preguntas"
+          }
         }
       }
     },
@@ -1915,6 +2935,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "questions covered"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "preguntas cubiertas"
           }
         }
       }
@@ -1926,6 +2952,12 @@
             "state" : "translated",
             "value" : "question covered"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pregunta cubierta"
+          }
         }
       }
     },
@@ -1935,6 +2967,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "question"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pregunta"
           }
         }
       }
@@ -1946,6 +2984,12 @@
             "state" : "translated",
             "value" : "SwiftyCitizen is for study support only. It does not determine immigration eligibility or replace official USCIS guidance."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SwiftyCitizen es solo para apoyo de estudio. No determina la elegibilidad inmigratoria ni reemplaza la guía oficial de USCIS."
+          }
         }
       }
     },
@@ -1955,6 +2999,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Welcome"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bienvenido"
           }
         }
       }
@@ -1966,6 +3016,12 @@
             "state" : "translated",
             "value" : "Set up your test"
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura tu prueba"
+          }
         }
       }
     },
@@ -1976,6 +3032,12 @@
             "state" : "translated",
             "value" : "Build confidence with an offline study aid for the USCIS civics test."
           }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gana confianza con un material de estudio offline para la prueba cívica de USCIS."
+          }
         }
       }
     },
@@ -1985,6 +3047,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Welcome to SwiftyCitizen"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bienvenido a SwiftyCitizen"
           }
         }
       }

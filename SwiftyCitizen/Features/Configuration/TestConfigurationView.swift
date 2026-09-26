@@ -50,8 +50,11 @@ struct TestConfigurationView: View {
 
              Section("configTestVersionSection") {
                  Toggle("configSixtyTwentyToggle", isOn: $isSixtyFiveTwentyEligible)
-                 LabeledContent("configSelectedVersion", value: versionTitle)
-             }
+                  LabeledContent("configSelectedVersion", value: versionTitle)
+                  Text("configTestVersionNote")
+                      .font(.footnote)
+                      .foregroundStyle(palette.dimmed)
+              }
 
              Section("configStudyOptionsSection") {
                  Toggle("configShuffleQuestions", isOn: $shuffleQuestions)
