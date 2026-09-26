@@ -153,10 +153,12 @@ struct ConfigurationSummaryView: View {
         }
     }
 
-    private var testVersionTitle: String {
-        configuration.selectedTestVersion?.displayName ?? "configTestConfigurationFallback"
+    private var testVersionTitle: LocalizedStringKey {
+        guard let value = configuration.selectedTestVersion?.displayName else {
+            return LocalizedStringKey("configTestConfigurationFallback")
+        }
+        return LocalizedStringKey(value)
     }
-
  }
 
 struct SummaryMetricView: View {
