@@ -31,7 +31,7 @@ struct AcceptedAnswerCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Space.sm.value) {
-            Text("Official answer")
+            Text("studyFlashcardOfficialAnswer")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(palette.dimmed)
 
@@ -61,25 +61,25 @@ struct AnswerFeedback {
 
     static func make(_ answer: MockTestAnswer, palette: AppPalette) -> AnswerFeedback {
         if !answer.isCorrect {
-            return AnswerFeedback(image: "xmark.circle.fill", label: "Incorrect", tint: palette.danger)
+            return AnswerFeedback(image: "xmark.circle.fill", label: String(localized: "mocktestResultIncorrectLabel"), tint: palette.danger)
         }
         switch answer.matchType {
         case .complete:
-            return AnswerFeedback(image: "checkmark.seal.fill", label: "Correct", tint: palette.success)
+            return AnswerFeedback(image: "checkmark.seal.fill", label: String(localized: "mocktestResultCorrectLabel"), tint: palette.success)
         case .partial:
             return AnswerFeedback(
                 image: "exclamationmark.triangle.fill",
-                label: "Accepted: your answer covers one accepted version of the official answer.",
+                label: String(localized: "studyFlashcardAcceptedNotice"),
                 tint: palette.warning
             )
         case .none:
-            return AnswerFeedback(image: "xmark.circle.fill", label: "Incorrect", tint: palette.danger)
+            return AnswerFeedback(image: "xmark.circle.fill", label: String(localized: "mocktestResultIncorrectLabel"), tint: palette.danger)
         }
     }
 }
 
 struct PrimaryActionButton: View {
-    let title: String
+    let title: LocalizedStringKey
     let systemImage: String
     let action: () -> Void
 
@@ -98,8 +98,8 @@ struct PrimaryActionButton: View {
 
 struct EmptyStateView: View {
     let systemImage: String
-    let title: String
-    let message: String
+    let title: LocalizedStringKey
+    let message: LocalizedStringKey
 
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
@@ -140,10 +140,10 @@ struct ConfigurationSummaryView: View {
                              .font(CivicText.headlineSM.font)
                              .foregroundStyle(palette.ink)
                      }
-                     HStack(spacing: Space.md.value) {
-                        SummaryMetricView(value: "\(testConfiguration.questionBankCount)", label: "Questions")
-                        SummaryMetricView(value: "\(testConfiguration.maximumQuestionsAsked)", label: "Asked")
-                        SummaryMetricView(value: "\(testConfiguration.passingScore)", label: "To pass")
+                    HStack(spacing: Space.md.value) {
+                        SummaryMetricView(value: "\(testConfiguration.questionBankCount)", label: "configMetricQuestions")
+                        SummaryMetricView(value: "\(testConfiguration.maximumQuestionsAsked)", label: "configMetricAsked")
+                        SummaryMetricView(value: "\(testConfiguration.passingScore)", label: "configMetricToPass")
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -154,14 +154,14 @@ struct ConfigurationSummaryView: View {
     }
 
     private var testVersionTitle: String {
-        configuration.selectedTestVersion?.displayName ?? "Test configuration"
+        configuration.selectedTestVersion?.displayName ?? "configTestConfigurationFallback"
     }
 
  }
 
 struct SummaryMetricView: View {
     let value: String
-    let label: String
+    let label: LocalizedStringKey
     var tint: Color? = nil
 
     @Environment(ThemeManager.self) private var themeManager
@@ -184,10 +184,10 @@ struct SummaryMetricView: View {
 }
 
 struct StudyEntryCard<Route: Hashable>: View {
-    let title: String
-    let subtitle: String
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
     let systemImage: String
-    let actionLabel: String
+    let actionLabel: LocalizedStringKey
     let iconBackground: Color
     let iconForeground: Color
     let actionTint: Color
@@ -213,6 +213,7 @@ struct StudyEntryCard<Route: Hashable>: View {
                         .foregroundStyle(palette.ink)
                     Text(subtitle)
                         .font(CivicText.bodySM.font)
+                        .multilineTextAlignment(.leading)
                         .foregroundStyle(palette.dimmed)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -241,8 +242,12 @@ struct StudyEntryPointView: View {
 
     var body: some View {
         ScrollView {
-            EmptyStateView(systemImage: systemImage, title: title, message: message)
-                .padding(24)
+            EmptyStateView(
+                systemImage: systemImage,
+                title: LocalizedStringKey(title),
+                message: LocalizedStringKey(message)
+            )
+            .padding(24)
         }
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
@@ -274,6 +279,6 @@ struct SelectionTile: View {
             .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
         }
         .border(isSelected ? palette.primary : palette.ink.opacity(0.3), width: isSelected ? 2 : 1)
-        .accessibilityLabel(isSelected ? "\(text), selected" : text)
+        .accessibilityLabel(isSelected ? "\(text)\(String(localized: "selectionSelected"))" : text)
     }
 }

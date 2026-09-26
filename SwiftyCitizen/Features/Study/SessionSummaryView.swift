@@ -18,15 +18,16 @@ struct SessionSummaryView: View {
                     .foregroundStyle(palette.success)
                     .accessibilityHidden(true)
 
-                Text("Session complete")
-                    .font(.largeTitle.bold())
-                    .foregroundStyle(palette.ink)
-                    .padding(.top, 16)
+                Text("studySummaryComplete")
+                     .font(.largeTitle.bold())
+                     .foregroundStyle(palette.ink)
+                     .padding(.top, 16)
 
-                Text("You reviewed \(answeredCount) question\(answeredCount == 1 ? "" : "s").")
-                    .font(.subheadline)
-                    .foregroundStyle(palette.dimmed)
-                    .padding(.top, 4)
+                 let unit = answeredCount == 1 ? String(localized: "studySummaryReviewedSingular") : String(localized: "studySummaryReviewedPlural")
+                 Text("\(String(localized: "studySummaryReviewedPrefix"))\(answeredCount) \(unit)")
+                     .font(.subheadline)
+                     .foregroundStyle(palette.dimmed)
+                     .padding(.top, 4)
 
                 VStack(spacing: 8) {
                     ForEach(SelfAssessment.allCases, id: \.self) { assessment in
@@ -37,7 +38,7 @@ struct SessionSummaryView: View {
                 .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
                 .padding(.top, 24)
 
-                PrimaryActionButton(title: "Done", systemImage: "checkmark") {
+                PrimaryActionButton(title: "studySummaryDone", systemImage: "checkmark") {
                     onFinish()
                 }
                 .padding(.top, 28)

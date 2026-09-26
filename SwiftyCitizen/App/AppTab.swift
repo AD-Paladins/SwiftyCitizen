@@ -9,13 +9,13 @@ enum AppTab: Hashable {
     var title: String {
         switch self {
         case .home:
-            "Home"
+            String(localized: "appTabHome")
         case .study:
-            "Study"
+            String(localized: "appTabStudy")
         case .practice:
-            "Practice"
+            String(localized: "appTabPractice")
         case .progress:
-            "Progress"
+            String(localized: "appTabProgress")
         }
     }
 

@@ -29,7 +29,7 @@ struct StudyView: View {
                     TargetedReviewView(configuration: configuration)
                 }
             }
-            .navigationTitle("Study")
+            .navigationTitle("studyTitle")
         }
     }
 
@@ -39,10 +39,10 @@ struct StudyView: View {
                 header
 
                 StudyEntryCard(
-                    title: "Flashcards",
-                    subtitle: "Study the full version bank, one card at a time.",
+                    title: "studyFlashcardsEntryTitle",
+                    subtitle: "studyFlashcardsEntrySubtitle",
                     systemImage: "rectangle.stack.fill",
-                    actionLabel: "Start",
+                    actionLabel: "studyFlashcardsEntryAction",
                     iconBackground: palette.primary.opacity(0.12),
                     iconForeground: palette.primary,
                     actionTint: palette.primary,
@@ -50,10 +50,10 @@ struct StudyView: View {
                 )
 
                 StudyEntryCard(
-                    title: "Targeted Review",
-                    subtitle: "Drill the questions you are still working on.",
+                    title: "studyTargetedReviewEntryTitle",
+                    subtitle: "studyTargetedReviewEntrySubtitle",
                     systemImage: "target",
-                    actionLabel: "Review",
+                    actionLabel: "studyTargetedReviewEntryAction",
                     iconBackground: palette.warning.opacity(0.14),
                     iconForeground: palette.warning,
                     actionTint: palette.warning,
@@ -68,13 +68,13 @@ struct StudyView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: Space.xs.value) {
-            Text("Study")
-                .font(CivicText.headlineMD.font)
-                .foregroundStyle(palette.ink)
-            Text("Pick a mode to start reviewing.")
-                .font(CivicText.bodySM.font)
-                .foregroundStyle(palette.dimmed)
-        }
+             Text("studyTitle")
+                 .font(CivicText.headlineMD.font)
+                 .foregroundStyle(palette.ink)
+             Text("studyHeaderSubtitle")
+                 .font(CivicText.bodySM.font)
+                 .foregroundStyle(palette.dimmed)
+         }
     }
 
     private var bankAvailable: Bool {
@@ -86,8 +86,8 @@ struct StudyView: View {
         ScrollView {
             EmptyStateView(
                 systemImage: "exclamationmark.triangle",
-                title: "Content unavailable",
-                message: "The question bank for your selected test version could not be loaded. Try updating the app or choosing another test version in Settings."
+                title: "studyContentUnavailable",
+                message: "studyContentUnavailableMessage"
             )
             .padding(24)
         }

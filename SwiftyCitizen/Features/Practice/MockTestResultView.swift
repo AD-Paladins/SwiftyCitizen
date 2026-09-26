@@ -17,32 +17,33 @@ struct MockTestResultView: View {
                 outcomeBadge
 
                 VStack(spacing: 8) {
-                    Text("\(state.correctCount) of \(state.maximumQuestionsAsked) correct")
-                        .font(.title.bold())
-                        .foregroundStyle(palette.ink)
-                    Text("Passing score: \(state.passingScore)")
-                        .font(.subheadline)
-                        .foregroundStyle(palette.dimmed)
-                }
+                     Text("\(state.correctCount) \(String(localized: "commonOf")) \(state.maximumQuestionsAsked) \(String(localized: "mocktestResultCorrectAdjective"))")
+                         .font(.title.bold())
+                         .foregroundStyle(palette.ink)
+                     Text("\(String(localized: "mocktestResultPassingScoreLabel"))\(state.passingScore)")
+                         .font(.subheadline)
+                         .foregroundStyle(palette.dimmed)
+                 }
 
                 if !missedQuestions.isEmpty {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Review missed questions")
-                            .font(.headline)
-                            .foregroundStyle(palette.ink)
-                        Text("\(missedQuestions.count) question(s) were answered incorrectly.")
-                            .font(.footnote)
-                            .foregroundStyle(palette.dimmed)
+                VStack(alignment: .leading, spacing: 8) {
+                     Text("mocktestResultReviewMissed")
+                         .font(.headline)
+                         .foregroundStyle(palette.ink)
+                     let unit = missedQuestions.count == 1 ? String(localized: "mocktestResultIncorrectSingular") : String(localized: "mocktestResultIncorrectPlural")
+                     Text("\(missedQuestions.count) \(unit)")
+                         .font(.footnote)
+                         .foregroundStyle(palette.dimmed)
 
-                        NavigationLink {
-                            FlashcardSessionView(
-                                configuration: configuration,
-                                mode: .targetedReview,
-                                questions: missedQuestions,
-                                userAnswers: userAnswers
-                            )
-                        } label: {
-                            Label("Review in targeted review", systemImage: "target")
+                         NavigationLink {
+                             FlashcardSessionView(
+                                 configuration: configuration,
+                                 mode: .targetedReview,
+                                 questions: missedQuestions,
+                                 userAnswers: userAnswers
+                             )
+                         } label: {
+                             Label("mocktestResultReviewInTargeted", systemImage: "target")
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                         }
@@ -54,23 +55,24 @@ struct MockTestResultView: View {
                 }
 
                 if !skippedQuestions.isEmpty {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Skipped during the test")
-                            .font(.headline)
-                            .foregroundStyle(palette.ink)
-                        Text("You deferred \(skippedQuestions.count) question(s). Review them here.")
-                            .font(.footnote)
-                            .foregroundStyle(palette.dimmed)
+               VStack(alignment: .leading, spacing: 8) {
+                     Text("mocktestResultSkippedDuringTest")
+                         .font(.headline)
+                         .foregroundStyle(palette.ink)
+                     let unit = skippedQuestions.count == 1 ? String(localized: "mocktestResultDeferredSingular") : String(localized: "mocktestResultDeferredPlural")
+                     Text("\(String(localized: "mocktestResultDeferredPrefix"))\(skippedQuestions.count) \(unit)")
+                         .font(.footnote)
+                         .foregroundStyle(palette.dimmed)
 
-                        NavigationLink {
-                            FlashcardSessionView(
-                                configuration: configuration,
-                                mode: .targetedReview,
-                                questions: skippedQuestions,
-                                userAnswers: userAnswers
-                            )
-                        } label: {
-                            Label("Review skipped questions", systemImage: "target")
+                         NavigationLink {
+                             FlashcardSessionView(
+                                 configuration: configuration,
+                                 mode: .targetedReview,
+                                 questions: skippedQuestions,
+                                 userAnswers: userAnswers
+                             )
+                         } label: {
+                             Label("mocktestResultReviewSkipped", systemImage: "target")
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                         }
@@ -81,14 +83,14 @@ struct MockTestResultView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                Text("This simulation follows the official civics test rules but the app is a study aid, not an immigration authority. An officer's evaluation always decides the real interview.")
-                    .font(.footnote)
-                    .foregroundStyle(palette.dimmed)
-                    .multilineTextAlignment(.center)
+              Text("mocktestResultDisclaimer")
+                     .font(.footnote)
+                     .foregroundStyle(palette.dimmed)
+                     .multilineTextAlignment(.center)
 
-                PrimaryActionButton(title: "Done", systemImage: "checkmark") {
-                    onFinish()
-                }
+                 PrimaryActionButton(title: "mocktestResultDone", systemImage: "checkmark") {
+                     onFinish()
+                 }
             }
             .padding(20)
         }
@@ -105,14 +107,14 @@ struct MockTestResultView: View {
     @ViewBuilder
     private var outcomeBadge: some View {
         switch state.phase {
-        case .complete(let outcome) where outcome == .passed:
-            Label("Passed", systemImage: "checkmark.seal.fill")
-                .font(.headline)
-                .foregroundStyle(palette.success)
-        case .complete(let outcome) where outcome == .failed:
-            Label("Not passed", systemImage: "xmark.circle.fill")
-                .font(.headline)
-                .foregroundStyle(palette.danger)
+       case .complete(let outcome) where outcome == .passed:
+             Label("mocktestResultPassed", systemImage: "checkmark.seal.fill")
+                 .font(.headline)
+                 .foregroundStyle(palette.success)
+         case .complete(let outcome) where outcome == .failed:
+             Label("mocktestResultNotPassed", systemImage: "xmark.circle.fill")
+                 .font(.headline)
+                 .foregroundStyle(palette.danger)
         default:
             Text("—")
         }

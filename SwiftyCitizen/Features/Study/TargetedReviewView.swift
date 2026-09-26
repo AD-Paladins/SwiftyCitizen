@@ -63,24 +63,24 @@ struct TargetedReviewView: View {
 
     var body: some View {
         List {
-            if let resumeSession {
-                Section("In progress") {
-                    resumeRow(session: resumeSession)
-                }
-            }
+        if let resumeSession {
+                 Section("studyTargetedInProgressSection") {
+                     resumeRow(session: resumeSession)
+                 }
+             }
 
-            Section("By category") {
-                Toggle("Show categories", isOn: $byCategory)
+             Section("studyTargetedByCategorySection") {
+                 Toggle("studyTargetedShowCategories", isOn: $byCategory)
                 if byCategory {
                     ForEach(categorySummary.topics, id: \.self) { topic in
                         Button {
                             toggleCategory(topic)
                         } label: {
                             HStack {
-                                Label(
-                                    "\(topic) (\(categorySummary.counts[topic] ?? 0))",
-                                    systemImage: selectedCategories.contains(topic) ? "checkmark.circle.fill" : "circle"
-                                )
+                            Label(
+                                     "\(topic) \(String(localized: "studyTargetedCountOpen"))\(categorySummary.counts[topic] ?? 0)\(String(localized: "studyTargetedCountClose"))",
+                                     systemImage: selectedCategories.contains(topic) ? "checkmark.circle.fill" : "circle"
+                                 )
                                 Spacer()
                             }
                             .foregroundStyle(selectedCategories.contains(topic) ? palette.primary : palette.dimmed)
@@ -97,14 +97,14 @@ struct TargetedReviewView: View {
                     scopeRow(scope)
                 }
             } header: {
-                Text("Review scope")
-            } footer: {
-                if count(for: selectedScope) == 0 {
-                    Text("No questions in this scope yet. As you study, questions move into this review list.")
-                }
-            }
+                 Text("studyTargetedReviewScopeHeader")
+             } footer: {
+                 if count(for: selectedScope) == 0 {
+                     Text("studyTargetedNoQuestionsInScope")
+                 }
+             }
         }
-        .navigationTitle("Targeted review")
+        .navigationTitle("studyTargetedTitle")
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .background(palette.canvas.ignoresSafeArea())
@@ -117,7 +117,7 @@ struct TargetedReviewView: View {
                         questions: deck(for: selectedScope)
                     )
                 } label: {
-                    Label("Start review (\(count(for: selectedScope)))", systemImage: "arrow.right")
+                    Label("\(String(localized: "studyTargetedStartReviewPrefix"))\(count(for: selectedScope))\(String(localized: "studyTargetedStartReviewSuffix"))", systemImage: "arrow.right")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                 }
@@ -139,11 +139,11 @@ struct TargetedReviewView: View {
             )
         } label: {
             HStack {
-                Label("Resume session", systemImage: "play.circle.fill")
-                Spacer()
-                Text("\(min(session.currentIndex, session.deckStableIDs.count)) of \(session.deckStableIDs.count)")
-                    .font(.subheadline.monospacedDigit())
-                    .foregroundStyle(palette.dimmed)
+                Label("studyTargetedResumeSession", systemImage: "play.circle.fill")
+                 Spacer()
+                 Text("\(min(session.currentIndex, session.deckStableIDs.count)) \(String(localized: "commonOf")) \(session.deckStableIDs.count)")
+                     .font(.subheadline.monospacedDigit())
+                     .foregroundStyle(palette.dimmed)
             }
         }
     }
