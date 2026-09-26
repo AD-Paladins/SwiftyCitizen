@@ -44,6 +44,14 @@ When a task changes behavior in a covered area, update the matching architecture
 
 Never let a pure domain file (which must stay `import Foundation` only) import SwiftUI or SwiftData; that is a design-review trigger, not a documentation update.
 
+## Localization
+
+- User-facing strings live in `SwiftyCitizen/Localizable.xcstrings` (Xcode String Catalog). The source language is English.
+- Add or edit a string by its key: set the `value` under `localizations.en.stringUnit`. Only `en` is populated today; keep new keys English-only unless the user asks for more languages.
+- Reference strings in code with `LocalizedStringKey` (`Text("key")`, `Section("key")`, `LabeledContent("labelKey", value: ...)`, `Picker("key", ...)`). The key is the stable identifier; the catalog holds the copy.
+- Key naming convention: prefix by feature/area (e.g. `config*` for configuration screens, `study*`, `mocktest*`). Never reuse a key for different copy — keys are identifiers, not temporary labels.
+- In-view notes/instructions also live in the catalog (e.g. `configFilingDateNote`, `configTestVersionNote`) and render as `.font(.footnote).foregroundStyle(palette.dimmed)`.
+
 ## Working Rules
 
 - Inspect the repository before making implementation decisions. Follow the conventions established by the first Xcode or Swift package files added here.
