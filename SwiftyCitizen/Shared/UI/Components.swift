@@ -79,7 +79,7 @@ struct AnswerFeedback {
 }
 
 struct PrimaryActionButton: View {
-    let title: String
+    let title: LocalizedStringKey
     let systemImage: String
     let action: () -> Void
 
@@ -98,8 +98,8 @@ struct PrimaryActionButton: View {
 
 struct EmptyStateView: View {
     let systemImage: String
-    let title: String
-    let message: String
+    let title: LocalizedStringKey
+    let message: LocalizedStringKey
 
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
@@ -140,10 +140,10 @@ struct ConfigurationSummaryView: View {
                              .font(CivicText.headlineSM.font)
                              .foregroundStyle(palette.ink)
                      }
-                     HStack(spacing: Space.md.value) {
-                       SummaryMetricView(value: "\(testConfiguration.questionBankCount)", label: String(localized: "configMetricQuestions"))
-                         SummaryMetricView(value: "\(testConfiguration.maximumQuestionsAsked)", label: String(localized: "configMetricAsked"))
-                         SummaryMetricView(value: "\(testConfiguration.passingScore)", label: String(localized: "configMetricToPass"))
+                    HStack(spacing: Space.md.value) {
+                        SummaryMetricView(value: "\(testConfiguration.questionBankCount)", label: "configMetricQuestions")
+                        SummaryMetricView(value: "\(testConfiguration.maximumQuestionsAsked)", label: "configMetricAsked")
+                        SummaryMetricView(value: "\(testConfiguration.passingScore)", label: "configMetricToPass")
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -154,14 +154,14 @@ struct ConfigurationSummaryView: View {
     }
 
     private var testVersionTitle: String {
-        configuration.selectedTestVersion?.displayName ?? String(localized: "configTestConfigurationFallback")
+        configuration.selectedTestVersion?.displayName ?? "configTestConfigurationFallback"
     }
 
  }
 
 struct SummaryMetricView: View {
     let value: String
-    let label: String
+    let label: LocalizedStringKey
     var tint: Color? = nil
 
     @Environment(ThemeManager.self) private var themeManager
@@ -184,10 +184,10 @@ struct SummaryMetricView: View {
 }
 
 struct StudyEntryCard<Route: Hashable>: View {
-    let title: String
-    let subtitle: String
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
     let systemImage: String
-    let actionLabel: String
+    let actionLabel: LocalizedStringKey
     let iconBackground: Color
     let iconForeground: Color
     let actionTint: Color
@@ -241,8 +241,12 @@ struct StudyEntryPointView: View {
 
     var body: some View {
         ScrollView {
-            EmptyStateView(systemImage: systemImage, title: title, message: message)
-                .padding(24)
+            EmptyStateView(
+                systemImage: systemImage,
+                title: LocalizedStringKey(title),
+                message: LocalizedStringKey(message)
+            )
+            .padding(24)
         }
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)

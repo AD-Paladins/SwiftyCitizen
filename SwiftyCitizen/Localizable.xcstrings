@@ -44,6 +44,16 @@
         }
       }
     },
+    "%@%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$@ %3$@"
+          }
+        }
+      }
+    },
     "%@%lld" : {
       "localizations" : {
         "en" : {
@@ -459,6 +469,7 @@
       }
     },
     "configTestConfigurationFallback" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1269,6 +1280,9 @@
           }
         }
       }
+    },
+    "sdfasfasdfdsfadf" : {
+
     },
     "selectionSelected" : {
       "extractionState" : "manual",
