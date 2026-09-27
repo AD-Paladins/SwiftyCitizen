@@ -36,7 +36,7 @@ Source of truth for the shipped slice: `spec.md` and `design.md`.
 
 **Current state:** `StudyProgressMetrics.streak` is a **derivable metric** that counts streak days; it has no persistence and no protection logic. No milestone-loss prevention exists.
 
-**Placeholder now:** `HabitsMotivationSection` shows "Streak Shield — Prevents milestone loss on busy days" with static `"1 active"` copy. No navigation, no behavior.
+**Placeholder now:** `AppearanceSection` shows "Streak Shield — Prevents milestone loss on busy days" with static `"1 active"` copy. No navigation, no behavior.
 
 **When promoted (real feature):**
 - New durable user state: a shield `on/off` flag + an expiry date. Decide persistence:
@@ -49,6 +49,6 @@ Source of truth for the shipped slice: `spec.md` and `design.md`.
 ---
 
 ## Notes for future slices
-- All three are behind the composed-section boundary (`AppearanceSection`, `HabitsMotivationSection`) so they can be promoted or swapped without touching the config editor or reset behavior.
+- All three live inside the composed `AppearanceSection` so they can be promoted or swapped without touching the config editor or reset behavior.
 - Keep each promotion additive and keyed; do not refactor existing `ThemeManager` storage.
 - Revisit these only when product confirms they are real features, not placeholder rows.

@@ -2,7 +2,7 @@
 
 ## Technical Approach
 
-Rebuild `SettingsView` as a composition of section subviews under `Features/Settings/`. The root keeps the SwiftData environment (`modelContext`, `@Query savedConfigurations`) and injected `OnboardingConfiguration`; it lays out section subviews in one `List`. No domain change: `OnboardingConfiguration`/`TestConfiguration` stay Foundation-only; the editor (`TestConfigurationView`) is reused as-is. The read-only Study Set summary derives from `OnboardingConfiguration.testConfiguration`. Reset is scoped to `QuestionAttempt`. Styling reuses existing `CardStyle`/`CivicText`/`Space`.
+Rebuild `SettingsView` as a composition of four section subviews under `Features/Settings/`. The root keeps the SwiftData environment (`modelContext`, `@Query savedConfigurations`) and injected `OnboardingConfiguration`; it lays out the section subviews (config, study-set, appearance, danger zone) under a `ScrollView` + `VStack`, each separated by an icon-led `SettingsSectionTitle` primitive. No domain change: `OnboardingConfiguration`/`TestConfiguration` stay Foundation-only; the editor (`TestConfigurationView`) is reused as-is. The read-only Study Set summary derives from `OnboardingConfiguration.testConfiguration`. Reset is scoped to `QuestionAttempt`. Styling reuses existing `CardStyle`/`CivicText`/`Space`.
 
 ## Architecture Decisions
 
@@ -31,7 +31,7 @@ Rationale: value derives from `passingScore ÷ maximumQuestionsAsked`; all three
 | Free function deleting only `QuestionAttempt` rows via `modelContext` | Config/filing untouched; zero-attempts is a no-op | **Chosen** |
 | New reset-tracking model | Unnecessary schema change | **Rejected** |
 
-Rationale: the current bug deletes the filing date. The fix queries `FetchDescriptor<QuestionAttempt>`, deletes those rows only, and leaves `SavedOnboardingConfiguration` untouched (confirmation copy never mentions bookmarks). Reset is a pure destructive action: a single red confirmation dialog (`.buttonRole(.destructive)`), matching the existing reset copy.
+Rationale: the current bug deletes the filing date. The fix queries `FetchDescriptor<QuestionAttempt>`, deletes those rows only, and leaves `SavedOnboardingConfiguration` untouched (confirmation copy never mentions bookmarks). Reset is a pure destructive action rendered as a card-based danger zone (`SettingsResetCard`, a `.cardStyle()` button with icon + label) that opens a single red `.confirmationDialog`, matching the existing reset copy.
 
 ### Decision: restyle via existing helpers
 | Option | Tradeoff | Decision |
@@ -44,25 +44,27 @@ Rationale: helpers already exist and are used by Phase 1 `HomeDashboardView`; `C
 ## Data Flow
 
 ```
-OnboardingConfiguration ──► SettingsView (root)
-        │
+OnboardingConfiguration ──► SettingsView (root, ScrollView + VStack)
+        │              │
+        │              ├─(icon-led)─► SettingsSectionTitle ─┐  (separates each section header from its card)
+        │              │
         ├──► ConfigPreferencesSection ──► NavigationLink ─► TestConfigurationView (edit → persist SavedOnboardingConfiguration)
         │                                         │
         └──► testConfiguration ─► StudySetSummarySection ─► passingPercentage (0.6 / 60%)
         │
-        └─(modelContext)─► reset button ─► resetSpacedRepetition ─► delete QuestionAttempt only
-        │
         └─(themeManager.palette)─► AppearanceSection ─► ThemePaletteRow (swatch + "Archive")
+        │
+        └─(modelContext)─► SettingsResetCard (danger zone) ─► .confirmationDialog ─► resetSpacedRepetition ─► delete QuestionAttempt only
 ```
 
 ## File Changes
 | File | Action | Description |
 |------|--------|-------------|
-| `Features/Settings/SettingsView.swift` | Modify | Thin List of section subviews; wire reset button + confirmation |
+| `Features/Settings/SettingsView.swift` | Modify | Thin ScrollView composing four section subviews + danger-zone card; icon-led titles between sections; wire reset dialog |
 | `Features/Settings/ConfigPreferencesSection.swift` | Create | "Test Configuration" row (version, filing date, language) → editor link |
 | `Features/Settings/StudySetSummarySection.swift` | Create | Read-only Your Study Set / USCIS Standards + static gavel disclaimer |
 | `Features/Settings/AppearanceSection.swift` | Create | Theme picker + presentation rows (swatch+Archive, Card Text Sizing, Streak Shield) |
-| `Features/Settings/SettingsRow.swift` | Create | Shared styled row/section primitives |
+| `Features/Settings/SettingsRow.swift` | Create | Icon-led `SettingsSectionTitle`, key-value row (`SettingsKeyValueRow`), and `SettingsCard` |
 | `Core/Domain/TestConfiguration.swift` | Modify | Add `passingPercentage: Double?` |
 | `Core/Persistence/SettingsReset.swift` | Create | `resetSpacedRepetition(_:)` deletes only QuestionAttempt rows |
 | `SwiftyCitizen/Localizable.xcstrings` | Modify | Add `settings*` keys; localize hardcoded "65/20" header |
@@ -103,7 +105,7 @@ No migration required.
 ## Decisions (resolved from product input)
 
 - **65/20 placement:** Stays where the app already has it — inside the `TestConfigurationView` editor. Settings shows only the read-only "Test Configuration" summary row; the 65/20 toggle is edited in the editor, not a standalone Settings section.
-- **Reset dialog style:** Pure destructive action — a single red confirmation dialog (`.buttonRole(.destructive)`), matching the existing reset copy.
+- **Reset dialog style:** Pure destructive action — a card-based danger zone (`SettingsResetCard`) that opens a single red `.confirmationDialog`, matching the existing reset copy.
 - **Streak Shield "1 active":** Static placeholder copy for now; no live `StudyProgressMetrics.streak` binding, no domain dependency. Presentation-only.
 
 ## Deferred Features

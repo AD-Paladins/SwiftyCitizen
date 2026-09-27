@@ -30,7 +30,7 @@ Chain strategy: size-exception
 - [x] 1.2 Add `passingPercentage: Double?` to `Core/Domain/TestConfiguration.swift`; keep `import Foundation`; run GREEN.
 - [x] 1.3 RED test in new `SwiftyCitizenTests/Domain/SettingsResetTests.swift`: in-memory container with saved config + two attempts; after reset attempts == 0 and config + filing date remain.
 - [x] 1.4 Create `Core/Persistence/SettingsReset.swift` free function deleting only QuestionAttempt rows (no-op when none); run GREEN; add zero-attempts no-op assertion.
-- [x] 1.5 Create `Features/Settings/SettingsRow.swift`: shared section header, key-value row, card modifier on existing `.cardStyle()`, `Space`, `CivicText`.
+- [x] 1.5 Create `Features/Settings/SettingsRow.swift`: icon-led section title (`SettingsSectionTitle`), key-value row (`SettingsKeyValueRow`), card modifier on existing `.cardStyle()`, `Space`, `CivicText`.
 
 ## Phase 2: Core Implementation
 
@@ -40,8 +40,8 @@ Chain strategy: size-exception
 
 ## Phase 3: Integration / Wiring
 
-- [x] 3.1 Rewrite `Features/Settings/SettingsView.swift` as a thin `List` composing the three sections; keep modelContext, saved-config query, ThemeManager, injected configuration.
-- [x] 3.2 Replace buggy `resetProgress()` with scoped reset: single RED dialog (`.buttonRole(.destructive)` → `resetSpacedRepetition(modelContext)`); no bookmark mentions.
+- [x] 3.1 Rewrite `Features/Settings/SettingsView.swift` as a thin `ScrollView` composing four section subviews (config, study-set, appearance, danger zone); keep modelContext, saved-config query, ThemeManager, injected configuration.
+- [x] 3.2 Replace buggy `resetProgress()` with scoped reset: card-based danger zone (`SettingsResetCard`) opening a single RED `.confirmationDialog` → `resetSpacedRepetition(modelContext)`; no bookmark mentions.
 - [x] 3.3 Remove old inline sections (settingsTestConfiguration, the `isSixtyFiveTwentyEligible` "65/20" block, settingsPrivacy).
 - [x] 3.4 Add `settings*` keys to `SwiftyCitizen/Localizable.xcstrings` (English): section headers, gavel disclaimer, reset dialog copy; localize hardcoded `"65/20"` header.
 

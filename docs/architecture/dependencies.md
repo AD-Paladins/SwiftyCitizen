@@ -84,7 +84,9 @@ flowchart LR
 | `AnswerEvaluator.swift` | Foundation | `QuestionContent`, `AnswerCardinality` |
 | `AppTab.swift` | SwiftUI | — |
 | `AppTheme.swift` | SwiftUI, Observation | `SelfAssessment` (assessment tint), `ThemeManager` (`@Observable`), `AppThemeName`, `AppPalette` |
+| `AppearanceSection.swift` | SwiftUI | `ThemeManager`, `AppThemeName`, `ThemePaletteRow`, `SettingsCard`, `SettingsKeyValueRow` |
 | `Components.swift` | SwiftUI | `OnboardingConfiguration`, `TestConfiguration` (summary), `AppPalette` |
+| `ConfigPreferencesSection.swift` | SwiftUI | `OnboardingConfiguration`, `TestConfigurationView`, `SettingsCard`, `SettingsKeyValueRow` |
 | `ContentView.swift` | SwiftUI, SwiftData | `MainTabView`, `SavedOnboardingConfiguration`, `TestConfigurationView` |
 | `ExamEngine.swift` | Foundation | `TestConfiguration`, `MockTestState`, `QuestionContent` |
 | `FlashcardSessionView.swift` | SwiftUI, SwiftData | `FlashcardState`, `StudySession`, `QuestionAttempt`, `QuestionBankLoader`, `SessionSummaryView` |
@@ -103,15 +105,18 @@ flowchart LR
 | `QuestionContent.swift` | Foundation | `TestConfiguration` (via validator) |
 | `ReviewDeckBuilder.swift` | Foundation | `QuestionContent`, `StudyAttemptSnapshot`, `SelfAssessment` |
 | `SessionSummaryView.swift` | SwiftUI | `SelfAssessment`, `AppPalette` |
-| `SettingsView.swift` | SwiftUI, SwiftData | `OnboardingConfiguration`, `SavedOnboardingConfiguration`, `TestConfigurationView`, `AppThemeName` |
+| `SettingsReset.swift` | Foundation, SwiftData | `QuestionAttempt`, `ModelContext` |
+| `SettingsRow.swift` | SwiftUI | `ThemeManager`, `AppPalette`, `CivicText`, `Space` |
+| `SettingsView.swift` | SwiftUI, SwiftData | `OnboardingConfiguration`, `SavedOnboardingConfiguration`, `ThemeManager`, `resetSpacedRepetition`, section subviews (`ConfigPreferencesSection`, `StudySetSummarySection`, `AppearanceSection`), `SettingsSectionTitle`, `SettingsResetCard` |
 | `StudyDomain.swift` | Foundation | `FlashcardState`, `FlashcardAttemptRecord`, `QuestionContent`, `SelfAssessment` |
 | `StudyProgressMetrics.swift` | Foundation | `QuestionAttempt`, `TestConfiguration`, `SelfAssessment` |
 | `StudySession.swift` | Foundation, SwiftData | `StudyMode`, `SelfAssessment`, `FlashcardAttemptRecord` |
+| `StudySetSummarySection.swift` | SwiftUI | `OnboardingConfiguration`, `TestConfiguration`, `SettingsCard`, `SettingsKeyValueRow` |
 | `StudyView.swift` | SwiftUI | `FlashcardSessionView`, `TargetedReviewView`, `QuestionBankLoader` |
 | `SwiftyCitizenApp.swift` | SwiftUI, SwiftData | `ContentView`, `Item`, `SavedOnboardingConfiguration`, `StudySession`, `QuestionAttempt`, `AppThemeName`, `AppPalette` |
 | `TargetedReviewView.swift` | SwiftUI, SwiftData | `ReviewDeckBuilder`, `StudySession`, `FlashcardSessionView` |
 | `TestConfiguration.swift` | Foundation | — |
-| `TestConfigurationView.swift` | SwiftUI, SwiftData | `OnboardingConfiguration`, `SavedOnboardingConfiguration` |
+| `TestConfigurationView.swift` | SwiftUI, SwiftData | `OnboardingConfiguration`, `SavedOnboardingConfiguration`, `ConfigurationSummaryView` |
 
 ## Anti-patterns to avoid
 

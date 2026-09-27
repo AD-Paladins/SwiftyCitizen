@@ -19,24 +19,27 @@ already done and building cleanly; it was not touched.
 - **2.1** `Features/Settings/ConfigPreferencesSection.swift` — `SettingsCard` with header
   "Study & Exam Preferences" + a `NavigationLink(destination:)` to `TestConfigurationView`
   whose label is a `SettingsKeyValueRow` showing version + filing date + study language.
-- **2.2** `Features/Settings/StudySetSummarySection.swift` — `SettingsCard` header "Your
-  Study Set" with read-only rows deriving `maximumQuestionsAsked`, `passingScore`, and
-  `passingPercentage` from `configuration.testConfiguration`, plus the static gavel
-  disclaimer. Three `#Preview`s (2025, 2008/Spanish) show the summary per active version.
+- **2.2** `Features/Settings/StudySetSummarySection.swift` — `SettingsCard` with read-only
+  rows deriving `maximumQuestionsAsked`, `passingScore`, and `passingPercentage` from
+  `configuration.testConfiguration`, plus the static gavel disclaimer. The "Your Study Set"
+  title is an icon-led `SettingsSectionTitle` placed OUTSIDE the card by `SettingsView`.
+  Three `#Preview`s (2025, 2008/Spanish) show the summary per active version.
 - **2.3** `Features/Settings/AppearanceSection.swift` — theme `Picker` (bound to
   `ThemeManager.themeName`) + presentation-only rows: `ThemePaletteRow` (swatch + "Archive"
   tag), "Card Text Sizing", "Streak Shield" ("1 active"). No navigation/logic.
 
 ### Phase 3 — Integration / wiring
-- **3.1** `Features/Settings/SettingsView.swift` rewritten as a thin `List` composing the
-  three sections; retains `modelContext`, `@Query savedConfigurations`, injected
-  `OnboardingConfiguration`, `ThemeManager`.
+- **3.1** `Features/Settings/SettingsView.swift` rewritten as a thin `ScrollView` composing
+  four section subviews (config, study-set, appearance, danger zone) with icon-led
+  `SettingsSectionTitle`s between them; retains `modelContext`, `@Query savedConfigurations`,
+  injected `OnboardingConfiguration`, `ThemeManager`.
 - **3.2** Buggy `resetProgress()` (which deleted `SavedOnboardingConfiguration`) replaced
-  with a row that presents a single red `.confirmationDialog` calling
-  `resetSpacedRepetition(modelContext)`. Copy never mentions bookmarks.
+  with a card-based danger zone (`SettingsResetCard`) that presents a single red
+  `.confirmationDialog` calling `resetSpacedRepetition(modelContext)`. Copy never mentions
+  bookmarks.
 - **3.3** Removed the old inline `settingsTestConfiguration` section, the
   `isSixtyFiveTwentyEligible` "65/20" block, and `settingsPrivacy`.
-- **3.4** Added 19 new `settings*` keys to `SwiftyCitizen/Localizable.xcstrings` (English
+- **3.4** Populated the `settings*` keys in `SwiftyCitizen/Localizable.xcstrings` (English
   source) and populated the previously-empty `"65/20"` key.
 
 ### Phase 4 — Testing / verification
@@ -56,8 +59,8 @@ already done and building cleanly; it was not touched.
 | `Features/Settings/ConfigPreferencesSection.swift` | Create | Study & Exam Preferences section + editor link; per-version Preview |
 | `Features/Settings/StudySetSummarySection.swift` | Create | Your Study Set summary (derived) + gavel disclaimer; 3 Previews |
 | `Features/Settings/AppearanceSection.swift` | Create | Theme picker + presentation-only rows; `ThemePaletteRow` helper; Preview |
-| `Features/Settings/SettingsView.swift` | Modify | Thin composed List; scoped reset dialog; removed inline sections |
-| `SwiftyCitizen/Localizable.xcstrings` | Modify | 19 new `settings*` keys + localized `"65/20"` header |
+| `Features/Settings/SettingsView.swift` | Modify | Thin ScrollView composing four section subviews + danger-zone card; icon-led titles; scoped reset; removed inline sections |
+| `SwiftyCitizen/Localizable.xcstrings` | Modify | `settings*` keys + localized `"65/20"` header |
 | `docs/sdd/Settings-Civic-Scholar/tasks.md` | Modify | Marked Phases 2–4 tasks `[x]` |
 
 ## Build Result
