@@ -1,15 +1,21 @@
 import SwiftUI
 
-struct SettingsSectionHeader: View {
+struct SettingsSectionTitle: View {
+    let icon: String
     let title: LocalizedStringKey
 
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
-        Text(title)
-            .font(CivicText.headlineSM.font)
-            .foregroundStyle(palette.ink)
+        HStack(alignment: .center, spacing: Space.sm.value) {
+            Image(systemName: icon)
+                .foregroundStyle(palette.primary)
+                .font(.system(size: 18, weight: .semibold, design: .rounded))
+            Text(title)
+                .font(CivicText.bodyMD.font)
+                .foregroundStyle(palette.dimmed)
+        }
     }
 }
 

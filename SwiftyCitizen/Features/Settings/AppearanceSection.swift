@@ -10,8 +10,6 @@ struct AppearanceSection: View {
 
         SettingsCard {
             VStack(alignment: .leading, spacing: Space.lg.value) {
-                SettingsSectionHeader(title: "settingsAppearance")
-
                 Picker("settingsTheme", selection: $themeManager.themeName) {
                     ForEach(AppThemeName.allCases) { theme in
                         Text(theme.displayName).tag(theme)

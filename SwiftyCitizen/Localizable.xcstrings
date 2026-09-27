@@ -2132,6 +2132,17 @@
         }
       }
     },
+    "settingsDangerZone" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Danger zone"
+          }
+        }
+      }
+    },
     "settingsDataSection" : {
       "extractionState" : "stale",
       "localizations" : {

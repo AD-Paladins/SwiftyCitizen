@@ -6,17 +6,24 @@ struct SettingsView: View {
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
     @Query private var savedConfigurations: [SavedOnboardingConfiguration]
-
+    
     let configuration: OnboardingConfiguration
-
+    
     @State private var showResetConfirmation = false
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Space.sm.value) {
+                SettingsSectionTitle(icon: "graduationcap", title: "settingsStudyExamPreferences")
                 ConfigPreferencesSection(configuration: configuration)
+                    .padding(.bottom, Space.lg.value)
+                SettingsSectionTitle(icon: "questionmark.circle", title: "settingsStudySetHeader")
                 StudySetSummarySection(configuration: configuration)
+                    .padding(.bottom, Space.lg.value)
+                SettingsSectionTitle(icon: "paintpalette", title: "settingsAppearance")
                 AppearanceSection()
+                    .padding(.bottom, Space.lg.value)
+                SettingsSectionTitle(icon: "exclamationmark.triangle", title: "settingsDangerZone")
                 SettingsResetCard(onReset: { showResetConfirmation = true })
             }
             .padding(Space.lg.value)
@@ -44,7 +51,7 @@ struct SettingsResetCard: View {
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
     let onReset: () -> Void
-
+    
     var body: some View {
         Button(action: onReset) {
             HStack(alignment: .center, spacing: Space.md.value) {

@@ -14,8 +14,6 @@ struct StudySetSummarySection: View {
     var body: some View {
         SettingsCard {
             VStack(alignment: .leading, spacing: Space.lg.value) {
-                SettingsSectionHeader(title: "settingsStudySetHeader")
-
                 if let maximumQuestionsAsked, let passingScore, let passingPercentage {
                     SettingsKeyValueRow(
                         label: "settingsQuestionsAsked",

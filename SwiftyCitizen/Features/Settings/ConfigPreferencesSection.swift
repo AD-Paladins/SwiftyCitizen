@@ -16,8 +16,6 @@ struct ConfigPreferencesSection: View {
     var body: some View {
         SettingsCard {
             VStack(alignment: .leading, spacing: Space.lg.value) {
-                SettingsSectionHeader(title: "settingsStudyExamPreferences")
-
                 NavigationLink(destination: {
                     TestConfigurationView(configuration: configuration)
                 }) {
