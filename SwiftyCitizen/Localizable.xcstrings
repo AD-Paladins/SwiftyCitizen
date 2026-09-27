@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "—" : {
 
     },
@@ -2114,7 +2117,6 @@
       }
     },
     "settingsCardTextSizingValue" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2131,6 +2133,7 @@
       }
     },
     "settingsDataSection" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2392,7 +2395,6 @@
       }
     },
     "settingsStreakShieldValue" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

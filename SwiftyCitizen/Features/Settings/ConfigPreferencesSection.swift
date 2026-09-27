@@ -22,7 +22,7 @@ struct ConfigPreferencesSection: View {
                     TestConfigurationView(configuration: configuration)
                 }) {
                     HStack(spacing: Space.md.value) {
-                        SettingsKeyValueRow(label: "settingsTestConfiguration", value: summaryValue)
+                        SettingsKeyValueRow(label: "settingsTestConfiguration", value: LocalizedStringKey(summaryValue))
                         Image(systemName: "chevron.right")
                             .font(.system(size: 13, weight: .bold, design: .rounded))
                             .foregroundStyle(palette.dimmed)

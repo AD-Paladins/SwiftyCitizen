@@ -15,7 +15,7 @@ struct SettingsSectionHeader: View {
 
 struct SettingsKeyValueRow: View {
     let label: LocalizedStringKey
-    let value: String
+    let value: LocalizedStringKey
 
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }

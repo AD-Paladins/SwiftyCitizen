@@ -27,7 +27,7 @@ struct StudySetSummarySection: View {
                     )
                     SettingsKeyValueRow(
                         label: "settingsPassingPercentage",
-                        value: percentageLabel(passingPercentage)
+                        value: LocalizedStringKey(percentageLabel(passingPercentage))
                     )
                 } else {
                     Text("settingsStudySetIncomplete")
