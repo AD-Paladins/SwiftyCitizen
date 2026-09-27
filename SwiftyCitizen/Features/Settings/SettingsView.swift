@@ -9,63 +9,45 @@ struct SettingsView: View {
 
     let configuration: OnboardingConfiguration
 
+    @State private var showResetConfirmation = false
+
     var body: some View {
-        @Bindable var themeManager = themeManager
-
         List {
-           Section("settingsAppearance") {
-                 Picker("settingsTheme", selection: $themeManager.themeName) {
-                     ForEach(AppThemeName.allCases) { theme in
-                         Text(theme.displayName).tag(theme)
-                     }
-                 }
-             }
+            ConfigPreferencesSection(configuration: configuration)
 
-             Section("settingsTestConfiguration") {
-                 NavigationLink("settingsEditTestConfiguration") {
-                     TestConfigurationView(configuration: configuration)
-                 }
-                  LabeledContent("settingsTestVersion", value: configuration.selectedTestVersion?.displayName ?? String(localized: "commonNotSet"))
-                 LabeledContent(
-                     "settingsFilingDate",
-                     value: configuration.filingDate?.formatted(date: .abbreviated, time: .omitted) ?? String(localized: "commonNotSet")
-                 )
-                 LabeledContent(
-                     "settingsStudyLanguage",
-                     value: configuration.studyLanguage?.displayName ?? String(localized: "commonNotSet")
-                 )
-             }
+            StudySetSummarySection(configuration: configuration)
 
-            if configuration.isSixtyFiveTwentyEligible {
-                 Section("65/20") {
-                     LabeledContent("settingsSpecialConsideration", value: "settingsSpecialConsiderationValue")
-                 }
-             }
+            AppearanceSection()
 
-             Section("settingsPrivacy") {
-                 Button("settingsResetLocalProgress", role: .destructive) {
-                     resetProgress()
-                 }
-             }
-         }
-         .navigationTitle("settingsTitle")
+            Section("settingsDataSection") {
+                Button("settingsResetLocalProgress", role: .destructive) {
+                    showResetConfirmation = true
+                }
+            }
+        }
+        .navigationTitle("settingsTitle")
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .background(palette.canvas.ignoresSafeArea())
-    }
-
-    private func resetProgress() {
-        for savedConfiguration in savedConfigurations {
-            modelContext.delete(savedConfiguration)
+        .confirmationDialog(
+            String(localized: "settingsResetDialogTitle"),
+            isPresented: $showResetConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button(String(localized: "settingsResetDialogConfirm"), role: .destructive) {
+                resetSpacedRepetition(modelContext)
+            }
+            Button(String(localized: "settingsResetDialogCancel"), role: .cancel) {}
+        } message: {
+            Text(String(localized: "settingsResetDialogMessage"))
         }
-        try? modelContext.save()
     }
 }
 
 #Preview {
     NavigationStack {
         SettingsView(configuration: OnboardingConfiguration(
-            filingDate: Date(),
+            filingDate: Date(timeIntervalSince1970: 1_700_000_000),
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
             studyLanguage: .english,
@@ -74,5 +56,5 @@ struct SettingsView: View {
         ))
     }
     .environment(ThemeManager())
-    .modelContainer(for: [SavedOnboardingConfiguration.self], inMemory: true)
+    .modelContainer(for: [SavedOnboardingConfiguration.self, QuestionAttempt.self], inMemory: true)
 }

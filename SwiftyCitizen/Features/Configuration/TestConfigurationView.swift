@@ -39,94 +39,187 @@ struct TestConfigurationView: View {
             : (filingDate < OnboardingConfiguration.testVersionChangeDate ? .twoThousandEight : .twoThousandTwentyFive)
     }
 
-    var body: some View {
-        Form {
-          Section("configFilingDateSection") {
-                 DatePicker("configN400FilingDateLabel", selection: $filingDate, in: ...Date(), displayedComponents: .date)
-                 Text("configFilingDateNote")
-                     .font(.footnote)
-                     .foregroundStyle(palette.dimmed)
-             }
-
-             Section("configTestVersionSection") {
-                 Toggle("configSixtyTwentyToggle", isOn: $isSixtyFiveTwentyEligible)
-                  LabeledContent("configSelectedVersion", value: versionTitle)
-                  Text("configTestVersionNote")
-                      .font(.footnote)
-                      .foregroundStyle(palette.dimmed)
-              }
-
-             Section("configStudyOptionsSection") {
-                 Toggle("configShuffleQuestions", isOn: $shuffleQuestions)
-             }
-
-             Section("configStudyLanguageSection") {
-                 Picker("configStudySupportLabel", selection: $studyLanguage) {
-                     Text(String(localized: "configChooseALanguage")).tag(nil as StudyLanguage?)
-                     ForEach(StudyLanguage.allCases) { language in
-                         Text(language.displayName).tag(language as StudyLanguage?)
-                     }
-                 }
-             }
-
-            if let testConfiguration = configuration.testConfiguration {
-                 Section("configYourStudySet") {
-                     let unit = testConfiguration.questionBankCount == 1 ? String(localized: "configQuestionBankValueSingular") : String(localized: "configQuestionBankValuePlural")
-                     LabeledContent("configQuestionBank", value: "\(testConfiguration.questionBankCount) \(unit)")
-                     LabeledContent("configQuestionsAsked", value: "\(String(localized: "configQuestionsAskedPrefix"))\(testConfiguration.maximumQuestionsAsked)")
-                     LabeledContent("configPassingScore", value: "\(testConfiguration.passingScore) \(String(localized: "configPassingScoreValueSuffix"))")
-                 }
-             }
-
-           Section {
-                 Toggle("configDisclaimerToggle", isOn: $disclaimerAccepted)
-             }
-
-             Section {
-                 Button("configSave") {
-                     saveConfiguration()
-                 }
-                 .disabled(!configuration.isValid)
-
-                 if let validationMessage {
-                     Label(validationMessage, systemImage: "exclamationmark.circle")
-                         .font(.footnote)
-                         .foregroundStyle(palette.danger)
-                         .accessibilityLabel("\(String(localized: "configIncompleteConfigPrefix"))\(validationMessage)")
-                 }
-             }
+    private var validationMessage: String? {
+        switch configuration.validationError() {
+        case .missingFilingDate:
+            "configMissingFilingDate"
+        case .filingDateInFuture:
+            "configFilingDateInFuture"
+        case .missingTestVersion:
+            "configMissingTestVersion"
+        case .missingStudyLanguage:
+            "configMissingStudyLanguage"
+        case .disclaimerNotAccepted:
+            "configDisclaimerNotAccepted"
+        case .selectedVersionDoesNotMatchFilingDate(let expected, let actual):
+            "\(String(localized: "configVersionMismatchPrefix"))\(actual.displayName)\(String(localized: "configVersionMismatchSuffix"))\(expected.displayName)\(String(localized: "configVersionMismatchEnd"))"
+        case nil:
+            nil
         }
-        .navigationTitle(title)
-        .navigationBarTitleDisplayMode(.inline)
-        .scrollContentBackground(.hidden)
-        .background(palette.canvas.ignoresSafeArea())
     }
 
-  private var validationMessage: String? {
-         switch configuration.validationError() {
-         case .missingFilingDate:
-             "configMissingFilingDate"
-         case .filingDateInFuture:
-             "configFilingDateInFuture"
-         case .missingTestVersion:
-             "configMissingTestVersion"
-         case .missingStudyLanguage:
-             "configMissingStudyLanguage"
-         case .disclaimerNotAccepted:
-             "configDisclaimerNotAccepted"
-         case .selectedVersionDoesNotMatchFilingDate(let expected, let actual):
-             "\(String(localized: "configVersionMismatchPrefix"))\(actual.displayName)\(String(localized: "configVersionMismatchSuffix"))\(expected.displayName)\(String(localized: "configVersionMismatchEnd"))"
-         case nil:
-             nil
-         }
-     }
+    private var title: LocalizedStringKey {
+        savedConfigurations.first == nil ? "configTitleNew" : "configTitleEdit"
+    }
 
-   private var title: LocalizedStringKey {
-         savedConfigurations.first == nil ? "configTitleNew" : "configTitleEdit"
-     }
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: Space.sm.value) {
 
-    private var versionTitle: String {
-        derivedVersion.displayName
+                HStack(alignment: .center, spacing: Space.sm.value) {
+                    Image(systemName: "calendar.badge.clock")
+                        .foregroundStyle(palette.primary)
+                        .font(.system(size: 18, weight: .semibold, design: .rounded))
+                    Text("configFilingDateSection")
+                        .font(CivicText.bodyMD.font)
+                        .foregroundStyle(palette.dimmed)
+                }
+                
+                ConfigCard(topPadding: Space.xs.value) {
+                    HStack(alignment: .top, spacing: Space.md.value) {
+                        VStack(alignment: .leading, spacing: Space.sm.value) {
+                            DatePicker(
+                                "configN400FilingDateLabel",
+                                selection: $filingDate,
+                                in: ...Date(),
+                                displayedComponents: .date
+                            )
+                            .tint(palette.primary)
+                            .foregroundStyle(palette.primary)
+                            .font(CivicText.headlineSM.font)
+                            
+                            Text("configFilingDateNote")
+                                .font(CivicText.bodySM.font)
+                                .foregroundStyle(palette.dimmed)
+                                .multilineTextAlignment(.leading)
+                            
+                            Text("configTestVersionNote")
+                                .font(CivicText.bodySM.font)
+                                .foregroundStyle(palette.dimmed)
+                                .multilineTextAlignment(.leading)
+                        }
+                    }
+                }
+
+                HStack(alignment: .center, spacing: Space.sm.value) {
+                    Image(systemName: "person.badge.clock")
+                        .foregroundStyle(palette.primary)
+                        .font(.system(size: 18, weight: .semibold, design: .rounded))
+                    Text("configSpecialConsideration")
+                        .font(CivicText.bodyMD.font)
+                        .foregroundStyle(palette.dimmed)
+                }
+
+                ConfigCard(topPadding: Space.xs.value) {
+                    VStack(alignment: .leading, spacing: Space.sm.value) {
+                        HStack(alignment: .top, spacing: Space.md.value) {
+                            Text("configSixtyTwentyToggle")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .tint(palette.primary)
+                            .foregroundStyle(palette.primary)
+                            .font(CivicText.headlineSM.font)
+
+                            Toggle("", isOn: $isSixtyFiveTwentyEligible)
+                                .frame(maxWidth: Space.twoXL.value * 2, alignment: .leading)
+                                .tint(palette.primary)
+                        }
+                        
+                        Text("configSixtyTwentyExemption")
+                            .font(CivicText.bodySM.font)
+                            .foregroundStyle(palette.dimmed)
+                            .multilineTextAlignment(.leading)
+                        
+                    }
+                }
+
+                if configuration.testConfiguration != nil {
+                    HStack(alignment: .center, spacing: Space.sm.value) {
+                        Image(systemName: "questionmark.text.page")
+                            .foregroundStyle(palette.primary)
+                            .font(.system(size: 18, weight: .semibold, design: .rounded))
+                        Text("configQuestionaries")
+                            .font(CivicText.bodyMD.font)
+                            .foregroundStyle(palette.dimmed)
+                    }
+                    .padding(.bottom, Space.xs.value)
+                    
+                    ConfigurationSummaryView(configuration: configuration)
+                }
+                
+                ConfigCard {
+                    HStack(alignment: .center, spacing: Space.md.value) {
+                        Image(systemName: "shuffle")
+                            .foregroundStyle(palette.primary)
+                            .font(.system(size: 18, weight: .semibold, design: .rounded))
+                        VStack(alignment: .leading, spacing: Space.sm.value) {
+                            HStack(alignment: .top, spacing: Space.md.value) {
+                                Text("configShuffleQuestions")
+                                    .multilineTextAlignment(.leading)
+                                    .tint(palette.primary)
+                                    .foregroundStyle(palette.primary)
+                                    .font(CivicText.headlineSM.font)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                
+                                Toggle("", isOn: $shuffleQuestions)
+                                    .frame(maxWidth: Space.twoXL.value * 2, alignment: .leading)
+                                    .tint(palette.primary)
+                            }
+                            
+                            Text("configShuffleQuestionsNote")
+                                .font(CivicText.bodySM.font)
+                                .foregroundStyle(palette.dimmed)
+                                .multilineTextAlignment(.leading)
+                        }
+                    }
+                }
+                
+                HStack(alignment: .center, spacing: Space.sm.value) {
+                    Image(systemName: "character.book.closed")
+                        .foregroundStyle(palette.primary)
+                        .font(.system(size: 18, weight: .semibold, design: .rounded))
+                    Text("configLanguageSettings")
+                        .font(CivicText.bodyMD.font)
+                        .foregroundStyle(palette.dimmed)
+                }
+
+                ConfigCard(topPadding: Space.xs.value) {
+                    HStack(alignment: .center, spacing: Space.md.value) {
+                        Image(systemName: "globe")
+                            .foregroundStyle(palette.primary)
+                            .font(.system(size: 18, weight: .semibold, design: .rounded))
+                        VStack(alignment: .leading, spacing: Space.sm.value) {
+                            Text("configStudyLanguageSection")
+                                .font(CivicText.labelMD.font)
+                                .foregroundStyle(palette.dimmed)
+                            Picker("configStudySupportLabel", selection: $studyLanguage) {
+                                Text(String(localized: "configChooseALanguage")).tag(nil as StudyLanguage?)
+                                ForEach(StudyLanguage.allCases) { language in
+                                    Text(language.displayName).tag(language as StudyLanguage?)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                ConfigCard {
+                    Toggle("configDisclaimerToggle", isOn: $disclaimerAccepted)
+                        .tint(palette.primary)
+                }
+
+                Text("configWhyThisMatters")
+                    .font(CivicText.bodySM.font)
+                    .foregroundStyle(palette.dimmed)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                SaveSection(isValid: configuration.isValid, validationMessage: validationMessage, save: saveConfiguration)
+            }
+            .padding(Space.lg.value)
+        }
+        .scrollContentBackground(.hidden)
+        .background(palette.canvas.ignoresSafeArea())
+        .navigationTitle(title)
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     private func saveConfiguration() {
@@ -140,4 +233,68 @@ struct TestConfigurationView: View {
         try? modelContext.save()
         dismiss()
     }
+}
+
+struct ConfigCard<Content: View>: View {
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+    let topPadding: CGFloat
+    let bottomPadding: CGFloat
+    
+    @ViewBuilder let content: Content
+    
+    init(
+        topPadding: CGFloat = Space.lg.value,
+        bottomPadding: CGFloat = Space.lg.value,
+        @ViewBuilder content: () -> Content
+    ) {
+        self.topPadding = topPadding
+        self.bottomPadding = bottomPadding
+        self.content = content()
+    }
+
+    var body: some View {
+        content
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(Space.lg.value)
+            .cardStyle()
+            .padding(.top, topPadding)
+            .padding(.bottom, bottomPadding)
+    }
+}
+
+struct SaveSection: View {
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+    let isValid: Bool
+    let validationMessage: String?
+    let save: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Space.md.value) {
+            PrimaryActionButton(title: "configSave", systemImage: "check", action: save)
+                .disabled(!isValid)
+            if let validationMessage {
+                Text(validationMessage)
+                    .font(CivicText.bodySM.font)
+                    .foregroundStyle(palette.danger)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+    }
+}
+
+#Preview {
+    NavigationStack {
+        TestConfigurationView(configuration: OnboardingConfiguration(
+            filingDate: Date(),
+            selectedTestVersion: .twoThousandTwentyFive,
+            isSixtyFiveTwentyEligible: false,
+            studyLanguage: .spanish,
+            disclaimerAccepted: true,
+            shuffleQuestions: false
+        ))
+    }
+    .environment(ThemeManager())
 }

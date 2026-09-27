@@ -32,6 +32,11 @@ struct TestConfiguration: Codable, Hashable, Identifiable {
 
     var id: USCISTestVersion { version }
 
+    var passingPercentage: Double? {
+        guard maximumQuestionsAsked > 0 else { return nil }
+        return Double(passingScore) / Double(maximumQuestionsAsked)
+    }
+
     static let twoThousandEight = TestConfiguration(
         version: .twoThousandEight,
         questionBankCount: 100,

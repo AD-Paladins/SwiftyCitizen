@@ -58,4 +58,23 @@ struct TestConfigurationTests {
         #expect(USCISTestVersion.twoThousandTwentyFive.displayName == "2025 civics test")
         #expect(USCISTestVersion.sixtyFiveTwenty.displayName == "65/20 special consideration")
     }
+
+    @Test
+    func passingPercentageIsSixtyPercentForAllVersions() {
+        #expect(TestConfiguration.twoThousandEight.passingPercentage == 0.6)
+        #expect(TestConfiguration.twoThousandTwentyFive.passingPercentage == 0.6)
+        #expect(TestConfiguration.sixtyFiveTwenty.passingPercentage == 0.6)
+    }
+
+    @Test
+    func passingPercentageIsNilWhenNoQuestionsAsked() {
+        let empty = TestConfiguration(
+            version: .twoThousandEight,
+            questionBankCount: 100,
+            maximumQuestionsAsked: 0,
+            passingScore: 6,
+            applicability: .filingBeforeOctober20th2025
+        )
+        #expect(empty.passingPercentage == nil)
+    }
 }
