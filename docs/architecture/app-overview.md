@@ -45,7 +45,7 @@ flowchart TD
     MockTestResultView --> FlashcardSessionView
 ```
 
-`SettingsView` edits the persisted configuration in place via `TestConfigurationView` and can delete all saved state (`Reset local progress`). `WelcomeView` and `TestConfigurationView` are the only non-tab flows.
+`SettingsView` edits the persisted configuration in place via `TestConfigurationView`. Its reset is scoped: `Reset local progress` deletes only `QuestionAttempt` rows, preserving the saved configuration and filing date (`resetSpacedRepetition`). `WelcomeView` and `TestConfigurationView` are the only non-tab flows.
 
 ## Layer boundaries
 

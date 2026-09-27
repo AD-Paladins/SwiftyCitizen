@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "—" : {
 
     },
@@ -118,7 +121,21 @@
       }
     },
     "65/20" : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "65/20 special consideration"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consideración 65/20"
+          }
+        }
+      }
     },
     "appTabHome" : {
       "localizations" : {
@@ -331,6 +348,17 @@
         }
       }
     },
+    "configLanguageSettings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language settings"
+          }
+        }
+      }
+    },
     "configMetricAsked" : {
       "localizations" : {
         "en" : {
@@ -447,6 +475,7 @@
       }
     },
     "configPassingScore" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -479,7 +508,19 @@
         }
       }
     },
+    "configQuestionaries" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questionaries"
+          }
+        }
+      }
+    },
     "configQuestionBank" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -496,6 +537,7 @@
       }
     },
     "configQuestionBankValuePlural" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -512,6 +554,7 @@
       }
     },
     "configQuestionBankValueSingular" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -528,6 +571,7 @@
       }
     },
     "configQuestionsAsked" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -577,6 +621,7 @@
       }
     },
     "configSelectedVersion" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -597,13 +642,33 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shuffle questions when studying"
+            "value" : "Shuffle questions"
           }
         },
         "es-419" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Mezclar las preguntas al estudiar"
+          }
+        }
+      }
+    },
+    "configShuffleQuestionsNote" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Randomize question order across all categories when studying."
+          }
+        }
+      }
+    },
+    "configSixtyTwentyExemption" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Age 65+ with 20+ years as a permanent resident. You study 20 specific marked questions."
           }
         }
       }
@@ -620,6 +685,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cumplo los requisitos de la excepción 65/20"
+          }
+        }
+      }
+    },
+    "configSpecialConsideration" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Special consideration"
           }
         }
       }
@@ -641,6 +717,7 @@
       }
     },
     "configStudyOptionsSection" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -705,6 +782,7 @@
       }
     },
     "configTestVersionSection" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -799,7 +877,18 @@
         }
       }
     },
+    "configWhyThisMatters" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "USCIS assigns your exact question bank and test criteria based on your N-400 filing date and permanent resident status."
+          }
+        }
+      }
+    },
     "configYourStudySet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1995,7 +2084,84 @@
         }
       }
     },
+    "settingsArchiveTag" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archive"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archivado"
+          }
+        }
+      }
+    },
+    "settingsCardTextSizing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Card Text Sizing"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamaño de texto de las tarjetas"
+          }
+        }
+      }
+    },
+    "settingsCardTextSizingValue" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dignified Large"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grande digno"
+          }
+        }
+      }
+    },
+    "settingsDangerZone" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Danger zone"
+          }
+        }
+      }
+    },
+    "settingsDataSection" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datos"
+          }
+        }
+      }
+    },
     "settingsEditTestConfiguration" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2012,6 +2178,7 @@
       }
     },
     "settingsFilingDate" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2027,7 +2194,56 @@
         }
       }
     },
+    "settingsGavelDisclaimer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The number of questions and passing score reflect the official USCIS standards for your selected test version. There is no time limit and no penalty for guessing."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El número de preguntas y la nota para aprobar reflejan los oficiales de USCIS para tu versión seleccionada. No hay límite de tiempo ni penalidad por responder."
+          }
+        }
+      }
+    },
+    "settingsPassingPercentage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passing percentage"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porcentaje para aprobar"
+          }
+        }
+      }
+    },
+    "settingsPassingScore" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passing score"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nota para aprobar"
+          }
+        }
+      }
+    },
     "settingsPrivacy" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2039,6 +2255,86 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Privacidad"
+          }
+        }
+      }
+    },
+    "settingsQuestionsAsked" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questions asked"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preguntas respondidas"
+          }
+        }
+      }
+    },
+    "settingsResetDialogCancel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
+          }
+        }
+      }
+    },
+    "settingsResetDialogConfirm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset spaced repetition"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reiniciar repetición espaciada"
+          }
+        }
+      }
+    },
+    "settingsResetDialogMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This deletes all spaced-repetition progress for the questions you have answered. Your test configuration and filing date are kept."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto elimina todo el progreso de repetición espaciada de las preguntas que respondiste. Tu configuración y fecha de presentación se mantienen."
+          }
+        }
+      }
+    },
+    "settingsResetDialogTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset spaced repetition?"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Reiniciar la repetición espaciada?"
           }
         }
       }
@@ -2060,6 +2356,7 @@
       }
     },
     "settingsSpecialConsideration" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2092,7 +2389,56 @@
         }
       }
     },
+    "settingsStreakShield" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streak Shield"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escudo de racha"
+          }
+        }
+      }
+    },
+    "settingsStreakShieldValue" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 active"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 activo"
+          }
+        }
+      }
+    },
+    "settingsStudyExamPreferences" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study & Exam Preferences"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferencias de estudio y examen"
+          }
+        }
+      }
+    },
     "settingsStudyLanguage" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2104,6 +2450,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Idioma de material"
+          }
+        }
+      }
+    },
+    "settingsStudySetHeader" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Study Set"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu conjunto de estudio"
+          }
+        }
+      }
+    },
+    "settingsStudySetIncomplete" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update your test configuration to see your study set."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualiza tu configuración de la prueba para ver tu conjunto de estudio."
           }
         }
       }
@@ -2125,6 +2503,7 @@
       }
     },
     "settingsTestVersion" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2152,6 +2531,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tema"
+          }
+        }
+      }
+    },
+    "settingsThemePalette" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theme Palette"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paleta del tema"
+          }
+        }
+      }
+    },
+    "settingsThemePaletteSwatch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theme palette swatch"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra de la paleta del tema"
           }
         }
       }

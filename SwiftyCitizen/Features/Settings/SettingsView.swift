@@ -6,66 +6,81 @@ struct SettingsView: View {
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
     @Query private var savedConfigurations: [SavedOnboardingConfiguration]
-
+    
     let configuration: OnboardingConfiguration
-
+    
+    @State private var showResetConfirmation = false
+    
     var body: some View {
-        @Bindable var themeManager = themeManager
-
-        List {
-           Section("settingsAppearance") {
-                 Picker("settingsTheme", selection: $themeManager.themeName) {
-                     ForEach(AppThemeName.allCases) { theme in
-                         Text(theme.displayName).tag(theme)
-                     }
-                 }
-             }
-
-             Section("settingsTestConfiguration") {
-                 NavigationLink("settingsEditTestConfiguration") {
-                     TestConfigurationView(configuration: configuration)
-                 }
-                  LabeledContent("settingsTestVersion", value: configuration.selectedTestVersion?.displayName ?? String(localized: "commonNotSet"))
-                 LabeledContent(
-                     "settingsFilingDate",
-                     value: configuration.filingDate?.formatted(date: .abbreviated, time: .omitted) ?? String(localized: "commonNotSet")
-                 )
-                 LabeledContent(
-                     "settingsStudyLanguage",
-                     value: configuration.studyLanguage?.displayName ?? String(localized: "commonNotSet")
-                 )
-             }
-
-            if configuration.isSixtyFiveTwentyEligible {
-                 Section("65/20") {
-                     LabeledContent("settingsSpecialConsideration", value: "settingsSpecialConsiderationValue")
-                 }
-             }
-
-             Section("settingsPrivacy") {
-                 Button("settingsResetLocalProgress", role: .destructive) {
-                     resetProgress()
-                 }
-             }
-         }
-         .navigationTitle("settingsTitle")
-        .navigationBarTitleDisplayMode(.inline)
+        ScrollView {
+            VStack(alignment: .leading, spacing: Space.sm.value) {
+                SettingsSectionTitle(icon: "graduationcap", title: "settingsStudyExamPreferences")
+                ConfigPreferencesSection(configuration: configuration)
+                    .padding(.bottom, Space.lg.value)
+                SettingsSectionTitle(icon: "questionmark.circle", title: "settingsStudySetHeader")
+                StudySetSummarySection(configuration: configuration)
+                    .padding(.bottom, Space.lg.value)
+                SettingsSectionTitle(icon: "paintpalette", title: "settingsAppearance")
+                AppearanceSection()
+                    .padding(.bottom, Space.lg.value)
+                SettingsSectionTitle(icon: "exclamationmark.triangle", title: "settingsDangerZone")
+                SettingsResetCard(onReset: { showResetConfirmation = true })
+            }
+            .padding(Space.lg.value)
+        }
         .scrollContentBackground(.hidden)
         .background(palette.canvas.ignoresSafeArea())
-    }
-
-    private func resetProgress() {
-        for savedConfiguration in savedConfigurations {
-            modelContext.delete(savedConfiguration)
+        .navigationTitle("settingsTitle")
+        .navigationBarTitleDisplayMode(.inline)
+        .confirmationDialog(
+            String(localized: "settingsResetDialogTitle"),
+            isPresented: $showResetConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button(String(localized: "settingsResetDialogConfirm"), role: .destructive) {
+                resetSpacedRepetition(modelContext)
+            }
+            Button(String(localized: "settingsResetDialogCancel"), role: .cancel) {}
+        } message: {
+            Text(String(localized: "settingsResetDialogMessage"))
         }
-        try? modelContext.save()
+    }
+}
+
+struct SettingsResetCard: View {
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+    let onReset: () -> Void
+    
+    var body: some View {
+        Button(action: onReset) {
+            HStack(alignment: .center, spacing: Space.md.value) {
+                Image(systemName: "restart.alt")
+                    .foregroundStyle(palette.danger)
+                    .font(.system(size: 18, weight: .semibold, design: .rounded))
+                VStack(alignment: .leading, spacing: Space.xs.value) {
+                    Text("settingsResetLocalProgress")
+                        .font(CivicText.headlineSM.font)
+                        .foregroundStyle(palette.danger)
+                    Text("settingsResetDialogMessage")
+                        .font(CivicText.bodySM.font)
+                        .foregroundStyle(palette.dimmed)
+                        .multilineTextAlignment(.leading)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .buttonStyle(.plain)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(Space.lg.value)
+        .cardStyle()
     }
 }
 
 #Preview {
     NavigationStack {
         SettingsView(configuration: OnboardingConfiguration(
-            filingDate: Date(),
+            filingDate: Date(timeIntervalSince1970: 1_700_000_000),
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
             studyLanguage: .english,
@@ -74,5 +89,5 @@ struct SettingsView: View {
         ))
     }
     .environment(ThemeManager())
-    .modelContainer(for: [SavedOnboardingConfiguration.self], inMemory: true)
+    .modelContainer(for: [SavedOnboardingConfiguration.self, QuestionAttempt.self], inMemory: true)
 }
