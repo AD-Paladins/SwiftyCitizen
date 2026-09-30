@@ -18,6 +18,7 @@ struct MockTestSessionView: View {
     @State private var confirmsExit = false
     @State private var review: MockTestAnswer?
     @State private var showOfficialAnswer = false
+    @State private var headerStyle: FlashcardHeaderStyle = .navBarCounter
 
     init(configuration: OnboardingConfiguration, version: USCISTestVersion) {
         self.configuration = configuration
@@ -51,6 +52,22 @@ struct MockTestSessionView: View {
                         onFinish: { finishTest() }
                     )
             } else {
+                Picker("studyFlashcardHeaderStyle", selection: $headerStyle) {
+                    ForEach(FlashcardHeaderStyle.allCases, id: \.self) { style in
+                        Text(style.label).tag(style)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 20)
+                .padding(.top, 12)
+
+                if headerStyle == .progressBar {
+                    ProgressView(value: progressFraction)
+                        .progressViewStyle(.linear)
+                        .tint(palette.primary)
+                        .accessibilityLabel("studyFlashcardHeaderProgress")
+                }
+
                 SessionProgressHeader(
                     progressText: state.progressText,
                     onClose: { confirmsExit = true }
@@ -118,6 +135,16 @@ struct MockTestSessionView: View {
         .navigationBarBackButtonHidden(true)
       .navigationTitle("mocktestSessionTitle")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            if headerStyle == .navBarCounter {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Text(state.progressText)
+                        .font(.headline)
+                        .monospacedDigit()
+                        .accessibilityLabel("\(String(localized: "studyFlashcardProgressPrefix"))\(state.progressText)")
+                }
+            }
+        }
         .background(palette.canvas.ignoresSafeArea())
         .onAppear { beginSession() }
         .confirmationDialog(
@@ -191,6 +218,12 @@ struct MockTestSessionView: View {
             return !answer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         }
         return selectedOptionIndexes.count == requiredAnswerCount
+    }
+
+    private var progressFraction: Double {
+        let total = state.maximumQuestionsAsked
+        guard total > 0 else { return 0 }
+        return Double(min(state.currentIndex + 1, total)) / Double(total)
     }
 
     private func tileToggled(_ index: Int) {

@@ -2797,14 +2797,44 @@
         }
       }
     },
-    "studyFlashcardOfficialAnswer" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Official answer"
-          }
-        },
+    "studyFlashcardHeaderNavBar" : {
+       "localizations" : {
+         "en" : {
+           "stringUnit" : {
+             "state" : "translated",
+             "value" : "Nav bar"
+           }
+         }
+       }
+     },
+     "studyFlashcardHeaderProgress" : {
+       "localizations" : {
+         "en" : {
+           "stringUnit" : {
+             "state" : "translated",
+             "value" : "Progress bar"
+           }
+         }
+       }
+     },
+     "studyFlashcardHeaderStyle" : {
+       "localizations" : {
+         "en" : {
+           "stringUnit" : {
+             "state" : "translated",
+             "value" : "Progress display"
+           }
+         }
+       }
+     },
+     "studyFlashcardOfficialAnswer" : {
+       "localizations" : {
+         "en" : {
+           "stringUnit" : {
+             "state" : "translated",
+             "value" : "Official answer"
+           }
+         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
