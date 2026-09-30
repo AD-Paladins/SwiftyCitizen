@@ -19,6 +19,7 @@ Oral-style simulation of the civics test using the selected version's official r
 | Answer evaluation | `AnswerEvaluator` token-set matcher; cardinality 1 vs 2 distinct rules |
 | Answer format | Typed free-text, single-select, and multi-select. Selection is used when the question has ≥2 fixed official variants; otherwise text (`answerInputMode` rule, see `mock-test-selection-spec.md`). Multi-select options combine accepted variants with runtime topic-pool distractors (see below). |
 | Persistence | `StudySession(mode: .mockTest)` + `QuestionAttempt(wasCorrect, answerText)` |
+| Progress display | Selectable via a segmented picker (`FlashcardHeaderStyle`): nav bar counter (default) or linear `ProgressView`. Identical to flashcard session; reuses `SessionProgressHeader` and the same localization keys. `progressFraction` derives from `state.currentIndex + 1 / maximumQuestionsAsked` (1-based), matching `progressText`. |
 
 ## State machine
 
@@ -114,3 +115,4 @@ flowchart TD
 - [ ] Per-answer feedback indicator shows for all verdicts inline on the question card; every verdict waits for a "Next" tap (uniform manual advance).
 - [x] Wrong answers expose an expandable "Show official answer" disclosure that reveals the accepted variants before advancing.
 - [ ] `sessionFeedbackEnabled` flag toggles all indicators off at runtime.
+- [x] Mock test session exposes a selectable progress display (nav bar counter / linear progress bar) matching flashcards UX via a segmented picker.

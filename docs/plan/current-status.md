@@ -1,6 +1,6 @@
 # SwiftyCitizen Current Status
 
-Last verified: September 23, 2026
+Last verified: September 29, 2026
 
 ## Current state
 
@@ -69,6 +69,7 @@ The code-level VoiceOver/contrast audit is complete (verdict icon hidden in `Ses
 - Low-fidelity Penpot flows for onboarding, flashcards, mock tests, and speech fallback were aligned to the first-slice scope.
 - Screen states are defined where they apply: empty states on Home (no sessions, all caught up, nothing due) and Progress; content-unavailable states in Study, Mock Test Setup, and Mock Test Session when a bank cannot load or is empty; an empty review-set state in Flashcard Session; zero-question scope footers in Targeted Review; and an inline validation error in Test Configuration that explains why Save is disabled. Loading states do not apply because question banks are bundled JSON loaded synchronously.
 - Three user-selectable themes (Civic Navy, Paper & Emerald, Study Calm) are implemented: `AppTheme` defines semantic palette tokens with light/dark variants, `ThemeManager` (`@Observable`) owns the selection (persisted under `appThemeName` in UserDefaults) and is injected via `.environment`, so switching the theme in Settings re-renders the app live — including the global `.tint`. All status colors flow from palette tokens (assessment tints, pass/fail badge, validation error), replacing the old hardcoded `AppColor` and error reds, per the Phase 0.5 design decisions. Screens paint `palette.canvas` as their background so `surface` cards stay visibly elevated; the old `secondarySystemBackground`-based `surface` that no longer distinguished cards from the window was replaced by a real canvas/surface contrast.
+- Mock-test session now exposes a selectable progress display matching flashcards UX: a segmented picker (`FlashcardHeaderStyle`) lets the learner switch between a nav bar counter (default) and a linear `ProgressView`. The picker sits above `SessionProgressHeader`, the bar shows when `.progressBar` is selected, and the trailing nav-bar counter shows when `.navBarCounter` is selected. `progressFraction` derives from `state.currentIndex + 1 / maximumQuestionsAsked` (1-based), matching `progressText`; reuses `SessionProgressHeader` and the same localization keys (`studyFlashcardHeaderStyle`, `studyFlashcardHeaderNavBar`, `studyFlashcardHeaderProgress`, `studyFlashcardProgressPrefix`). No domain or persistence changes.
 
 ## Phase 0.5 — closed (September 21, 2026)
 
