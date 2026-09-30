@@ -1,18 +1,6 @@
 import SwiftUI
 import SwiftData
 
-enum FlashcardHeaderStyle: String, CaseIterable {
-    case navBarCounter
-    case progressBar
-
-    var label: String {
-        switch self {
-        case .navBarCounter: return String(localized: "studyFlashcardHeaderNavBar")
-        case .progressBar:   return String(localized: "studyFlashcardHeaderProgress")
-        }
-    }
-}
-
 struct SessionProgressHeader: View {
     let progressText: String
     let onClose: () -> Void
@@ -301,7 +289,6 @@ struct FlashcardSessionView: View {
     @State private var session: StudySession?
     @State private var confirmsExit = false
     @State private var draftAnswer: String = ""
-    @State private var headerStyle: FlashcardHeaderStyle = .navBarCounter
 
     init(
         configuration: OnboardingConfiguration,
@@ -350,21 +337,10 @@ struct FlashcardSessionView: View {
                 )
             } else {
                 VStack(spacing: 0) {
-                    Picker("studyFlashcardHeaderStyle", selection: $headerStyle) {
-                        ForEach(FlashcardHeaderStyle.allCases, id: \.self) { style in
-                            Text(style.label).tag(style)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(.horizontal, 20)
-                    .padding(.top, 12)
-
-                    if headerStyle == .progressBar {
-                        ProgressView(value: progressFraction)
-                            .progressViewStyle(.linear)
-                            .tint(palette.primary)
-                            .accessibilityLabel("studyFlashcardHeaderProgress")
-                    }
+                    ProgressView(value: progressFraction)
+                        .progressViewStyle(.linear)
+                        .tint(palette.primary)
+                        .accessibilityLabel("studyFlashcardHeaderProgress")
 
                     ScrollView {
                         VStack(spacing: 16) {
@@ -400,14 +376,6 @@ struct FlashcardSessionView: View {
                         .font(.body.weight(.semibold))
                 }
                 .accessibilityLabel("studyFlashcardCloseSession")
-            }
-            if headerStyle == .navBarCounter {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Text(state.progressText)
-                        .font(.headline)
-                        .monospacedDigit()
-                        .accessibilityLabel("\(String(localized: "studyFlashcardProgressPrefix"))\(state.progressText)")
-                }
             }
         }
         .navigationBarBackButtonHidden(true)

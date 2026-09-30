@@ -18,7 +18,6 @@ struct MockTestSessionView: View {
     @State private var confirmsExit = false
     @State private var review: MockTestAnswer?
     @State private var showOfficialAnswer = false
-    @State private var headerStyle: FlashcardHeaderStyle = .navBarCounter
 
     init(configuration: OnboardingConfiguration, version: USCISTestVersion) {
         self.configuration = configuration
@@ -52,21 +51,10 @@ struct MockTestSessionView: View {
                         onFinish: { finishTest() }
                     )
             } else {
-                Picker("studyFlashcardHeaderStyle", selection: $headerStyle) {
-                    ForEach(FlashcardHeaderStyle.allCases, id: \.self) { style in
-                        Text(style.label).tag(style)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal, 20)
-                .padding(.top, 12)
-
-                if headerStyle == .progressBar {
-                    ProgressView(value: progressFraction)
-                        .progressViewStyle(.linear)
-                        .tint(palette.primary)
-                        .accessibilityLabel("studyFlashcardHeaderProgress")
-                }
+                ProgressView(value: progressFraction)
+                    .progressViewStyle(.linear)
+                    .tint(palette.primary)
+                    .accessibilityLabel("studyFlashcardHeaderProgress")
 
                 SessionProgressHeader(
                     progressText: state.progressText,
@@ -135,16 +123,6 @@ struct MockTestSessionView: View {
         .navigationBarBackButtonHidden(true)
       .navigationTitle("mocktestSessionTitle")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            if headerStyle == .navBarCounter {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Text(state.progressText)
-                        .font(.headline)
-                        .monospacedDigit()
-                        .accessibilityLabel("\(String(localized: "studyFlashcardProgressPrefix"))\(state.progressText)")
-                }
-            }
-        }
         .background(palette.canvas.ignoresSafeArea())
         .onAppear { beginSession() }
         .confirmationDialog(
