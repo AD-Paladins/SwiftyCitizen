@@ -70,9 +70,12 @@ Never let a pure domain file (which must stay `import Foundation` only) import S
 
 ## Validation
 
+You can build, test, and run the project **without Xcode open** — `xcodebuild` and `simctl` run headlessly from the terminal, and `./run-simulator.sh` opens DeviceHub for you.
+
 Verified commands (Xcode 27, deployment target iOS 27.0, simulator iPhone 17e):
 
 - Build: `xcodebuild build -project SwiftyCitizen.xcodeproj -scheme SwiftyCitizen -destination 'platform=iOS Simulator,id=9CC72DE8-ED58-4D07-B736-C9B4B6750139'`
 - Tests: `xcodebuild test -project SwiftyCitizen.xcodeproj -scheme SwiftyCitizen -destination 'platform=iOS Simulator,id=9CC72DE8-ED58-4D07-B736-C9B4B6750139' -parallel-testing-enabled NO -only-testing:SwiftyCitizenTests`
+- Run on simulator: `./run-simulator.sh` — builds, installs and launches on a booted iPhone (else boots iPhone 17e), then opens DeviceHub. Note: Xcode 27 replaced the Simulator app with DeviceHub (`/Applications/Xcode.app/Contents/Applications/DeviceHub.app`); open it with `open -a DeviceHub`. `simctl` still drives the simulator runtime.
 
 The app uses `PBXFileSystemSynchronizedRootGroup`, so new `.swift` files under `SwiftyCitizen/` and `SwiftyCitizenTests/` are picked up automatically; do not edit `project.pbxproj` manually.

@@ -14,6 +14,12 @@ DERIVED_DATA=".build/DerivedData"
 
 log() { printf '\033[1;36m[swiftycitizen]\033[0m %s\n' "$*" >&2; }
 
+open_device_hub() {
+    log "Opening DeviceHub (Xcode 27 simulator frontend) ..."
+    open -a "DeviceHub" 2>/dev/null \
+        || log "Could not open DeviceHub automatically; open it from Xcode to see the simulator."
+}
+
 list_devices() {
     xcrun simctl list devices available | awk '
         /\(Booted\)|\(Shutdown\)/ {
@@ -79,3 +85,5 @@ log "Installing and launching on $UDID ..."
 xcrun simctl install "$UDID" "$APP"
 xcrun simctl launch "$UDID" "$APP_BUNDLE"
 log "Launched $APP_BUNDLE."
+
+open_device_hub
