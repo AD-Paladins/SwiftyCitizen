@@ -1,6 +1,18 @@
 import SwiftUI
 import SwiftData
 
+enum FlashcardHeaderStyle: String, CaseIterable {
+    case navBarCounter
+    case progressBar
+
+    var label: String {
+        switch self {
+        case .navBarCounter: return String(localized: "studyFlashcardHeaderNavBar")
+        case .progressBar:   return String(localized: "studyFlashcardHeaderProgress")
+        }
+    }
+}
+
 struct SessionProgressHeader: View {
     let progressText: String
     let onClose: () -> Void
@@ -289,6 +301,7 @@ struct FlashcardSessionView: View {
     @State private var session: StudySession?
     @State private var confirmsExit = false
     @State private var draftAnswer: String = ""
+    @State private var headerStyle: FlashcardHeaderStyle = .navBarCounter
 
     init(
         configuration: OnboardingConfiguration,
@@ -336,35 +349,65 @@ struct FlashcardSessionView: View {
                     onFinish: finishSession
                 )
             } else {
-                SessionProgressHeader(
-                    progressText: state.progressText,
-                    onClose: { confirmsExit = true }
-                )
-
-                ScrollView {
-                    VStack(spacing: 16) {
-                        if let question = state.currentQuestion {
-                             QuestionCard(question: question)
-
-                             if !state.isRevealed {
-                                 answerInput
-                             }
-
-                             if state.isRevealed {
-                                 let answerForQuestion = userAnswers[question.stableID] ?? state.currentAnswer
-                                 AnswerCard(
-                                     question: question,
-                                     notice: nil,
-                                     userAnswer: answerForQuestion,
-                                     grading: userAnswers[question.stableID] != nil
-                                 )
-                             }
-                         }
+                VStack(spacing: 0) {
+                    Picker("studyFlashcardHeaderStyle", selection: $headerStyle) {
+                        ForEach(FlashcardHeaderStyle.allCases, id: \.self) { style in
+                            Text(style.label).tag(style)
+                        }
                     }
-                    .padding(20)
-                }
+                    .pickerStyle(.segmented)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 12)
 
-                controls
+                    if headerStyle == .progressBar {
+                        ProgressView(value: progressFraction)
+                            .progressViewStyle(.linear)
+                            .tint(palette.primary)
+                            .accessibilityLabel("studyFlashcardHeaderProgress")
+                    }
+
+                    ScrollView {
+                        VStack(spacing: 16) {
+                            if let question = state.currentQuestion {
+                                 QuestionCard(question: question)
+
+                                 if !state.isRevealed {
+                                     answerInput
+                                 }
+
+                                 if state.isRevealed {
+                                     let answerForQuestion = userAnswers[question.stableID] ?? state.currentAnswer
+                                     AnswerCard(
+                                         question: question,
+                                         notice: nil,
+                                         userAnswer: answerForQuestion,
+                                         grading: userAnswers[question.stableID] != nil
+                                     )
+                                 }
+                             }
+                        }
+                        .padding(20)
+                    }
+
+                    controls
+                }
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: { confirmsExit = true }) {
+                    Image(systemName: "xmark")
+                        .font(.body.weight(.semibold))
+                }
+                .accessibilityLabel("studyFlashcardCloseSession")
+            }
+            if headerStyle == .navBarCounter {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Text(state.progressText)
+                        .font(.headline)
+                        .monospacedDigit()
+                        .accessibilityLabel("\(String(localized: "studyFlashcardProgressPrefix"))\(state.progressText)")
+                }
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -402,6 +445,12 @@ struct FlashcardSessionView: View {
         }
         .padding(20)
         .padding(.bottom, 8)
+    }
+
+    private var progressFraction: Double {
+        let total = state.questions.count
+        guard total > 0 else { return 0 }
+        return Double(min(state.currentIndex + 1, total)) / Double(total)
     }
 
     private var answerInput: some View {
