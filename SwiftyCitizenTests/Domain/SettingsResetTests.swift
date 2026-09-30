@@ -15,7 +15,10 @@ struct SettingsResetTests {
     private let filingDate = Date(timeIntervalSince1970: 1_768_000_000)
 
     private func makeContainer() -> ModelContainer {
-        try! ModelContainer(for: SavedOnboardingConfiguration.self, QuestionAttempt.self)
+        try! ModelContainer(
+            for: SavedOnboardingConfiguration.self, QuestionAttempt.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
     }
 
     private func makeSavedConfiguration() -> SavedOnboardingConfiguration {
