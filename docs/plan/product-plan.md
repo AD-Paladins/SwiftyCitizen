@@ -176,6 +176,11 @@ Three bank entries (2008-088, 2025-028, 2025-037) declared `answerCardinality` 2
 - Add Dynamic Type, VoiceOver labels, color-independent feedback, reduced motion support, and clear audio controls.
 - Add optional Spanish explanations without changing the official English answer used for practice.
 
+- **Leitner flashcard UI** (slices 1–6) is implemented at the domain level (5-box `LeitnerScheduler`, box
+  tracking in `FlashcardState`, persistence/resume) and is pending only the Stitch restyle of the session UI
+  (nav bar + progress, Question State, Answered State + Leitner buttons). Recovery & continuation state lives
+  in `docs/plan/flashcard-leitner-ui.md`.
+
 ### Phase 4: Speech Practice
 
 - Use Apple's Speech framework to transcribe live answers when supported.

@@ -34,6 +34,49 @@ struct SessionProgressHeader: View {
     }
 }
 
+struct FlashcardSessionHeader: View {
+    let progressText: String
+    let fraction: Double
+    let onClose: () -> Void
+
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
+    var body: some View {
+        VStack(spacing: 12) {
+            HStack(spacing: 8) {
+                Button(action: onClose) {
+                    Image(systemName: "xmark")
+                        .font(.headline)
+                        .foregroundStyle(palette.ink)
+                        .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.borderless)
+                .accessibilityLabel("studyFlashcardCloseSession")
+
+                Text(progressText)
+                    .font(CivicText.labelMD.font)
+                    .monospacedDigit()
+                    .foregroundStyle(palette.ink)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+
+            ProgressView(value: fraction)
+                .progressViewStyle(.linear)
+                .tint(palette.primary)
+                .padding(.horizontal, 20)
+                .accessibilityLabel("studyFlashcardHeaderProgress")
+        }
+        .padding(.top, 12)
+        .padding(.bottom, 8)
+    }
+}
+
 struct QuestionCard: View {
     let question: QuestionContent
 
@@ -41,24 +84,28 @@ struct QuestionCard: View {
     private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 14) {
             Text("\(String(localized: "studyFlashcardQuestionPrefix"))\(question.stableID)")
-                .font(.caption.weight(.semibold))
+                .font(CivicText.labelSM.font.weight(.semibold))
                 .foregroundStyle(palette.dimmed)
 
-            Text(question.officialQuestion)
-                .font(.title3.bold())
-                .foregroundStyle(palette.ink)
-
-            if question.topic.isEmpty == false {
+            HStack(alignment: .top, spacing: 6) {
+                Image(systemName: "tag")
+                    .font(CivicText.labelSM.font)
+                    .accessibilityHidden(true)
                 Text(question.topic)
-                    .font(.caption)
+                    .font(CivicText.labelSM.font)
                     .foregroundStyle(palette.dimmed)
             }
+
+            Text(question.officialQuestion)
+                .font(CivicText.headlineLG.font)
+                .foregroundStyle(palette.ink)
+                .textSelection(.enabled)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(20)
-        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        .padding(.xl)
+        .cardStyle()
         .accessibilityElement(children: .combine)
     }
 }
@@ -117,8 +164,8 @@ struct QuestionCard: View {
             SourceBadge(question: question)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(20)
-        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        .padding(.xl)
+        .cardStyle()
         .accessibilityElement(children: .combine)
     }
 
@@ -164,9 +211,15 @@ struct QuestionCard: View {
 
     private func officialVariants(success: Bool) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("studyFlashcardOfficialAnswer")
-                 .font(.caption.weight(.semibold))
-                 .foregroundStyle(palette.dimmed)
+            HStack(spacing: 6) {
+                 Image(systemName: "checkmark.seal.fill")
+                     .font(CivicText.labelSM.font)
+                     .foregroundStyle(palette.primary)
+                     .accessibilityHidden(true)
+                 Text("studyFlashcardOfficialAnswer")
+                     .font(CivicText.labelSM.font.weight(.semibold))
+                     .foregroundStyle(palette.ink)
+             }
 
             ForEach(Array(question.acceptedAnswerVariants.enumerated()), id: \.offset) { variant in
                 HStack(alignment: .top, spacing: 8) {
@@ -232,44 +285,75 @@ struct SourceBadge: View {
 
 struct SelfAssessmentControl: View {
     let onSelect: (SelfAssessment) -> Void
+    let currentBox: Int
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
-        VStack(spacing: 12) {
-        Text("studyFlashcardHowWellDidYouKnowIt")
-                 .font(.headline)
-                 .foregroundStyle(palette.ink)
+        VStack(spacing: 16) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("studyFlashcardHowWellDidYouKnowIt")
+                    .font(CivicText.headlineSM.font)
+                    .foregroundStyle(palette.ink)
+                Text("\(String(localized: "studyFlashcardLeitnerBoxPrefix"))\(currentBox)")
+                    .font(CivicText.labelSM.font.weight(.semibold))
+                    .foregroundStyle(palette.primary)
+            }
 
             if dynamicTypeSize >= .accessibility3 {
-                VStack(spacing: 10) {
-                    assessmentButtons
-                }
+                VStack(spacing: 10) { assessmentButtons }
             } else {
-                HStack(spacing: 10) {
-                    assessmentButtons
-                }
+                HStack(spacing: 10) { assessmentButtons }
             }
         }
-        .padding(20)
-        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        .padding(.xl)
+        .cardStyle()
     }
 
     private var assessmentButtons: some View {
         ForEach(SelfAssessment.allCases, id: \.self) { assessment in
-            Button {
-                onSelect(assessment)
-            } label: {
-                Label(assessment.displayName, systemImage: assessment.systemImage)
-                    .font(.subheadline.weight(.semibold))
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.bordered)
-            .tint(palette.tint(for: assessment))
-            .accessibilityLabel("\(String(localized: "studyFlashcardIAnsweredPrefix"))\(assessment.displayName)")
+            gradeButton(assessment)
         }
+    }
+
+    private func gradeLabel(_ assessment: SelfAssessment) -> String {
+        switch assessment {
+        case .again, .hard:
+            return assessment.displayName
+        case .gotIt:
+            return String(localized: "studyFlashcardMasteredLabel")
+        }
+    }
+
+    /// Interval the grade leaves the card in. `again` re-presents now; `hard`/`mastered` show days from the Leitner table.
+    private func intervalLabel(_ assessment: SelfAssessment) -> String {
+        let nextBox = assessment == .again ? 1 : LeitnerScheduler.nextBox(after: assessment, currentBox: currentBox)
+        let interval = LeitnerScheduler.interval(forBox: nextBox)
+        if interval <= 0 {
+            return String(localized: "studyFlashcardAgainInterval")
+        }
+        let days = Int(round(interval / 86_400))
+        return String(format: String(localized: "studyFlashcardIntervalFormat"), String(max(days, 1)))
+    }
+
+    private func gradeButton(_ assessment: SelfAssessment) -> some View {
+        Button {
+            onSelect(assessment)
+        } label: {
+            VStack(spacing: 2) {
+                Label(gradeLabel(assessment), systemImage: assessment.systemImage)
+                    .font(.subheadline.weight(.semibold))
+                Text(intervalLabel(assessment))
+                    .font(CivicText.labelSM.font)
+                    .foregroundStyle(palette.dimmed)
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.bordered)
+        .tint(palette.tint(for: assessment))
+        .accessibilityLabel("\(String(localized: "studyFlashcardIAnsweredPrefix"))\(gradeLabel(assessment))")
     }
 }
 
@@ -337,10 +421,11 @@ struct FlashcardSessionView: View {
                 )
             } else {
                 VStack(spacing: 0) {
-                    ProgressView(value: progressFraction)
-                        .progressViewStyle(.linear)
-                        .tint(palette.primary)
-                        .accessibilityLabel("studyFlashcardHeaderProgress")
+                    FlashcardSessionHeader(
+                        progressText: state.progressText,
+                        fraction: progressFraction,
+                        onClose: { confirmsExit = true }
+                    )
 
                     ScrollView {
                         VStack(spacing: 16) {
@@ -369,15 +454,6 @@ struct FlashcardSessionView: View {
                 }
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button(action: { confirmsExit = true }) {
-                    Image(systemName: "xmark")
-                        .font(.body.weight(.semibold))
-                }
-                .accessibilityLabel("studyFlashcardCloseSession")
-            }
-        }
         .navigationBarBackButtonHidden(true)
         .navigationTitle(mode.displayName)
         .navigationBarTitleDisplayMode(.inline)
@@ -401,9 +477,7 @@ struct FlashcardSessionView: View {
         VStack(spacing: 0) {
             Divider()
             if state.isRevealed {
-                SelfAssessmentControl { assessment in
-                    record(assessment)
-                }
+                SelfAssessmentControl(onSelect: { assessment in record(assessment) }, currentBox: state.currentBox)
             } else {
                 PrimaryActionButton(title: "studyFlashcardRevealAnswer", systemImage: "eye") {
                     state.recordAnswer(draftAnswer)
@@ -426,7 +500,7 @@ struct FlashcardSessionView: View {
          Text("studyFlashcardYourAnswer")
                   .font(.caption.weight(.semibold))
                   .foregroundStyle(palette.dimmed)
-              TextField("studyFlashcardTypeReply", text: $draftAnswer, axis: .vertical)
+              TextField("studyFlashcardOptionalPractice", text: $draftAnswer, axis: .vertical)
                  .multilineTextAlignment(.leading)
                  .lineLimit(1...4)
                  .padding(12)
@@ -480,7 +554,8 @@ struct FlashcardSessionView: View {
             questionStableID: attempt.stableID,
             testVersion: attempt.testVersion,
             assessment: attempt.assessment,
-            answerText: attempt.answerText
+            answerText: attempt.answerText,
+            boxLevel: attempt.boxLevel
         )
         draftAnswer = ""
         session?.attempts.append(record)

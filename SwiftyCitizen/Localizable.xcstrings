@@ -2633,6 +2633,16 @@
         }
       }
     },
+    "studyFlashcardAgainInterval" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "< 1 min"
+          }
+        }
+      }
+    },
     "studyFlashcardAnswerDependsNotice" : {
       "localizations" : {
         "en" : {
@@ -2714,6 +2724,38 @@
         }
       }
     },
+    "studyFlashcardHeaderNavBar" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nav bar"
+          }
+        }
+      }
+    },
+    "studyFlashcardHeaderProgress" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progress bar"
+          }
+        }
+      }
+    },
+    "studyFlashcardHeaderStyle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progress display"
+          }
+        }
+      }
+    },
     "studyFlashcardHowWellDidYouKnowIt" : {
       "localizations" : {
         "en" : {
@@ -2747,6 +2789,16 @@
         }
       }
     },
+    "studyFlashcardIntervalFormat" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %1$@ days"
+          }
+        }
+      }
+    },
     "studyFlashcardKeepStudying" : {
       "localizations" : {
         "en" : {
@@ -2759,6 +2811,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continúa estudiando"
+          }
+        }
+      }
+    },
+    "studyFlashcardLeitnerBoxPrefix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leitner box "
+          }
+        }
+      }
+    },
+    "studyFlashcardMasteredLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mastered"
           }
         }
       }
@@ -2797,48 +2869,28 @@
         }
       }
     },
-    "studyFlashcardHeaderNavBar" : {
-       "localizations" : {
-         "en" : {
-           "stringUnit" : {
-             "state" : "translated",
-             "value" : "Nav bar"
-           }
-         }
-       }
-     },
-     "studyFlashcardHeaderProgress" : {
-       "localizations" : {
-         "en" : {
-           "stringUnit" : {
-             "state" : "translated",
-             "value" : "Progress bar"
-           }
-         }
-       }
-     },
-     "studyFlashcardHeaderStyle" : {
-       "localizations" : {
-         "en" : {
-           "stringUnit" : {
-             "state" : "translated",
-             "value" : "Progress display"
-           }
-         }
-       }
-     },
-     "studyFlashcardOfficialAnswer" : {
-       "localizations" : {
-         "en" : {
-           "stringUnit" : {
-             "state" : "translated",
-             "value" : "Official answer"
-           }
-         },
+    "studyFlashcardOfficialAnswer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Official answer"
+          }
+        },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Respuesta oficial"
+          }
+        }
+      }
+    },
+    "studyFlashcardOptionalPractice" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optional practice"
           }
         }
       }
@@ -2996,6 +3048,7 @@
       }
     },
     "studyFlashcardTypeReply" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
