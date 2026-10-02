@@ -32,7 +32,7 @@ Use these documents as the default source of truth. Do not start from a blank sl
 
 ## Active Engineering-Hygiene Roadmap
 
-`docs/audit/code-and-architecture-audit.md` tracks four cross-cutting items (accessibility device review, moving `StudySession.resumeState()` out of the `@Model`, thin tests for the untested core, deferred mock-test findings). Work these in order and delete the audit file once all four are complete.
+`docs/audit/code-and-architecture-audit.md` tracks four cross-cutting items (moving `StudySession.resumeState()` out of the `@Model`, thin tests for the untested core, deferred mock-test findings, accessibility device review — deferred to LAST, hardware-dependent and lowest priority). Work these in order and delete the audit file once all four are complete.
 
 ## Architecture Documentation
 
