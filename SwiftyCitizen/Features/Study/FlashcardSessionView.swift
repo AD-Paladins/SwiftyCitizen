@@ -37,43 +37,58 @@ struct SessionProgressHeader: View {
 struct FlashcardSessionHeader: View {
     let progressText: String
     let fraction: Double
+    let currentBox: Int
     let onClose: () -> Void
 
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
-        VStack(spacing: 12) {
+        // ponytail: compact session header — less padding/spacing and a thinner bar so it does not crowd the small card screen.
+        VStack(spacing: 6) {
             HStack(spacing: 8) {
                 Button(action: onClose) {
                     Image(systemName: "xmark")
-                        .font(.headline)
+                        .font(.subheadline.weight(.semibold))
                         .foregroundStyle(palette.ink)
-                        .frame(width: 44, height: 44)
+                        .frame(width: 40, height: 40)
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.borderless)
                 .accessibilityLabel("studyFlashcardCloseSession")
 
                 Text(progressText)
-                    .font(CivicText.labelMD.font)
+                    .font(CivicText.labelSM.font)
                     .monospacedDigit()
                     .foregroundStyle(palette.ink)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
 
                 Spacer()
+
+                // ponytail: box/mastery indicator moved up here (number + flame) to use the empty top-right and free the bottom card.
+                HStack(spacing: 2) {
+                    Text("\(currentBox)")
+                        .font(CivicText.labelSM.font.weight(.semibold))
+                        .monospacedDigit()
+                        .foregroundStyle(palette.primary)
+                    Image(systemName: "flame.fill")
+                        .font(CivicText.labelSM.font)
+                        .foregroundStyle(palette.warning)
+                }
+                .accessibilityLabel("\(String(localized: "studyFlashcardLeitnerBoxPrefix"))\(currentBox)")
             }
             .padding(.horizontal, 20)
 
             ProgressView(value: fraction)
                 .progressViewStyle(.linear)
                 .tint(palette.primary)
+                .frame(height: 4)
                 .padding(.horizontal, 20)
                 .accessibilityLabel("studyFlashcardHeaderProgress")
         }
-        .padding(.top, 12)
-        .padding(.bottom, 8)
+        .padding(.top, 8)
+        .padding(.bottom, 4)
     }
 }
 
@@ -104,7 +119,7 @@ struct QuestionCard: View {
                 .textSelection(.enabled)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.xl)
+        .padding(.md)
         .cardStyle()
         .accessibilityElement(children: .combine)
     }
@@ -164,7 +179,7 @@ struct QuestionCard: View {
             SourceBadge(question: question)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.xl)
+        .padding(.md)
         .cardStyle()
         .accessibilityElement(children: .combine)
     }
@@ -292,23 +307,14 @@ struct SelfAssessmentControl: View {
     private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
-        VStack(spacing: 16) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("studyFlashcardHowWellDidYouKnowIt")
-                    .font(CivicText.headlineSM.font)
-                    .foregroundStyle(palette.ink)
-                Text("\(String(localized: "studyFlashcardLeitnerBoxPrefix"))\(currentBox)")
-                    .font(CivicText.labelSM.font.weight(.semibold))
-                    .foregroundStyle(palette.primary)
-            }
-
+        Group {
             if dynamicTypeSize >= .accessibility3 {
                 VStack(spacing: 10) { assessmentButtons }
             } else {
                 HStack(spacing: 10) { assessmentButtons }
             }
         }
-        .padding(.xl)
+        .padding(.md)
         .cardStyle()
     }
 
@@ -327,27 +333,16 @@ struct SelfAssessmentControl: View {
         }
     }
 
-    /// Interval the grade leaves the card in. `again` re-presents now; `hard`/`mastered` show days from the Leitner table.
-    private func intervalLabel(_ assessment: SelfAssessment) -> String {
-        let nextBox = assessment == .again ? 1 : LeitnerScheduler.nextBox(after: assessment, currentBox: currentBox)
-        let interval = LeitnerScheduler.interval(forBox: nextBox)
-        if interval <= 0 {
-            return String(localized: "studyFlashcardAgainInterval")
-        }
-        let days = Int(round(interval / 86_400))
-        return String(format: String(localized: "studyFlashcardIntervalFormat"), String(max(days, 1)))
-    }
-
     private func gradeButton(_ assessment: SelfAssessment) -> some View {
         Button {
             onSelect(assessment)
         } label: {
-            VStack(spacing: 2) {
-                Label(gradeLabel(assessment), systemImage: assessment.systemImage)
+            VStack(spacing: 0) {
+                // ponytail: drop the per-button SF Symbol and the interval text ("< 1 min", "In 1 days") — just the grade label reads clearer on this small screen.
+                Text(gradeLabel(assessment))
                     .font(.subheadline.weight(.semibold))
-                Text(intervalLabel(assessment))
-                    .font(CivicText.labelSM.font)
-                    .foregroundStyle(palette.dimmed)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
             }
             .frame(maxWidth: .infinity)
         }
@@ -424,6 +419,7 @@ struct FlashcardSessionView: View {
                     FlashcardSessionHeader(
                         progressText: state.progressText,
                         fraction: progressFraction,
+                        currentBox: state.currentBox,
                         onClose: { confirmsExit = true }
                     )
 
