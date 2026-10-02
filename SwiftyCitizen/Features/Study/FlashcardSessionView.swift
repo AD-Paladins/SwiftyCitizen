@@ -1,18 +1,6 @@
 import SwiftUI
 import SwiftData
 
-enum FlashcardHeaderStyle: String, CaseIterable {
-    case navBarCounter
-    case progressBar
-
-    var label: String {
-        switch self {
-        case .navBarCounter: return String(localized: "studyFlashcardHeaderNavBar")
-        case .progressBar:   return String(localized: "studyFlashcardHeaderProgress")
-        }
-    }
-}
-
 struct SessionProgressHeader: View {
     let progressText: String
     let onClose: () -> Void
@@ -46,6 +34,64 @@ struct SessionProgressHeader: View {
     }
 }
 
+struct FlashcardSessionHeader: View {
+    let progressText: String
+    let fraction: Double
+    let currentBox: Int
+    let onClose: () -> Void
+
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
+    var body: some View {
+        // ponytail: compact session header — less padding/spacing and a thinner bar so it does not crowd the small card screen.
+        VStack(spacing: 6) {
+            HStack(spacing: 8) {
+                Button(action: onClose) {
+                    Image(systemName: "xmark")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(palette.ink)
+                        .frame(width: 40, height: 40)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.borderless)
+                .accessibilityLabel("studyFlashcardCloseSession")
+
+                Text(progressText)
+                    .font(CivicText.labelSM.font)
+                    .monospacedDigit()
+                    .foregroundStyle(palette.ink)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+
+                Spacer()
+
+                // ponytail: box/mastery indicator moved up here (number + flame) to use the empty top-right and free the bottom card.
+                HStack(spacing: 2) {
+                    Text("\(currentBox)")
+                        .font(CivicText.labelSM.font.weight(.semibold))
+                        .monospacedDigit()
+                        .foregroundStyle(palette.primary)
+                    Image(systemName: "flame.fill")
+                        .font(CivicText.labelSM.font)
+                        .foregroundStyle(palette.warning)
+                }
+                .accessibilityLabel("\(String(localized: "studyFlashcardLeitnerBoxPrefix"))\(currentBox)")
+            }
+            .padding(.horizontal, 20)
+
+            ProgressView(value: fraction)
+                .progressViewStyle(.linear)
+                .tint(palette.primary)
+                .frame(height: 4)
+                .padding(.horizontal, 20)
+                .accessibilityLabel("studyFlashcardHeaderProgress")
+        }
+        .padding(.top, 8)
+        .padding(.bottom, 4)
+    }
+}
+
 struct QuestionCard: View {
     let question: QuestionContent
 
@@ -53,24 +99,28 @@ struct QuestionCard: View {
     private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 14) {
             Text("\(String(localized: "studyFlashcardQuestionPrefix"))\(question.stableID)")
-                .font(.caption.weight(.semibold))
+                .font(CivicText.labelSM.font.weight(.semibold))
                 .foregroundStyle(palette.dimmed)
 
-            Text(question.officialQuestion)
-                .font(.title3.bold())
-                .foregroundStyle(palette.ink)
-
-            if question.topic.isEmpty == false {
+            HStack(alignment: .top, spacing: 6) {
+                Image(systemName: "tag")
+                    .font(CivicText.labelSM.font)
+                    .accessibilityHidden(true)
                 Text(question.topic)
-                    .font(.caption)
+                    .font(CivicText.labelSM.font)
                     .foregroundStyle(palette.dimmed)
             }
+
+            Text(question.officialQuestion)
+                .font(CivicText.headlineLG.font)
+                .foregroundStyle(palette.ink)
+                .textSelection(.enabled)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(20)
-        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        .padding(.md)
+        .cardStyle()
         .accessibilityElement(children: .combine)
     }
 }
@@ -129,8 +179,8 @@ struct QuestionCard: View {
             SourceBadge(question: question)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(20)
-        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        .padding(.md)
+        .cardStyle()
         .accessibilityElement(children: .combine)
     }
 
@@ -176,9 +226,15 @@ struct QuestionCard: View {
 
     private func officialVariants(success: Bool) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("studyFlashcardOfficialAnswer")
-                 .font(.caption.weight(.semibold))
-                 .foregroundStyle(palette.dimmed)
+            HStack(spacing: 6) {
+                 Image(systemName: "checkmark.seal.fill")
+                     .font(CivicText.labelSM.font)
+                     .foregroundStyle(palette.primary)
+                     .accessibilityHidden(true)
+                 Text("studyFlashcardOfficialAnswer")
+                     .font(CivicText.labelSM.font.weight(.semibold))
+                     .foregroundStyle(palette.ink)
+             }
 
             ForEach(Array(question.acceptedAnswerVariants.enumerated()), id: \.offset) { variant in
                 HStack(alignment: .top, spacing: 8) {
@@ -244,44 +300,55 @@ struct SourceBadge: View {
 
 struct SelfAssessmentControl: View {
     let onSelect: (SelfAssessment) -> Void
+    let currentBox: Int
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
 
     var body: some View {
-        VStack(spacing: 12) {
-        Text("studyFlashcardHowWellDidYouKnowIt")
-                 .font(.headline)
-                 .foregroundStyle(palette.ink)
-
+        Group {
             if dynamicTypeSize >= .accessibility3 {
-                VStack(spacing: 10) {
-                    assessmentButtons
-                }
+                VStack(spacing: 10) { assessmentButtons }
             } else {
-                HStack(spacing: 10) {
-                    assessmentButtons
-                }
+                HStack(spacing: 10) { assessmentButtons }
             }
         }
-        .padding(20)
-        .background(palette.surface, in: RoundedRectangle(cornerRadius: 12))
+        .padding(.md)
+        .cardStyle()
     }
 
     private var assessmentButtons: some View {
         ForEach(SelfAssessment.allCases, id: \.self) { assessment in
-            Button {
-                onSelect(assessment)
-            } label: {
-                Label(assessment.displayName, systemImage: assessment.systemImage)
-                    .font(.subheadline.weight(.semibold))
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.bordered)
-            .tint(palette.tint(for: assessment))
-            .accessibilityLabel("\(String(localized: "studyFlashcardIAnsweredPrefix"))\(assessment.displayName)")
+            gradeButton(assessment)
         }
+    }
+
+    private func gradeLabel(_ assessment: SelfAssessment) -> String {
+        switch assessment {
+        case .again, .hard:
+            return assessment.displayName
+        case .gotIt:
+            return String(localized: "studyFlashcardMasteredLabel")
+        }
+    }
+
+    private func gradeButton(_ assessment: SelfAssessment) -> some View {
+        Button {
+            onSelect(assessment)
+        } label: {
+            VStack(spacing: 0) {
+                // ponytail: drop the per-button SF Symbol and the interval text ("< 1 min", "In 1 days") — just the grade label reads clearer on this small screen.
+                Text(gradeLabel(assessment))
+                    .font(.subheadline.weight(.semibold))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.bordered)
+        .tint(palette.tint(for: assessment))
+        .accessibilityLabel("\(String(localized: "studyFlashcardIAnsweredPrefix"))\(gradeLabel(assessment))")
     }
 }
 
@@ -301,7 +368,6 @@ struct FlashcardSessionView: View {
     @State private var session: StudySession?
     @State private var confirmsExit = false
     @State private var draftAnswer: String = ""
-    @State private var headerStyle: FlashcardHeaderStyle = .navBarCounter
 
     init(
         configuration: OnboardingConfiguration,
@@ -350,21 +416,12 @@ struct FlashcardSessionView: View {
                 )
             } else {
                 VStack(spacing: 0) {
-                    Picker("studyFlashcardHeaderStyle", selection: $headerStyle) {
-                        ForEach(FlashcardHeaderStyle.allCases, id: \.self) { style in
-                            Text(style.label).tag(style)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(.horizontal, 20)
-                    .padding(.top, 12)
-
-                    if headerStyle == .progressBar {
-                        ProgressView(value: progressFraction)
-                            .progressViewStyle(.linear)
-                            .tint(palette.primary)
-                            .accessibilityLabel("studyFlashcardHeaderProgress")
-                    }
+                    FlashcardSessionHeader(
+                        progressText: state.progressText,
+                        fraction: progressFraction,
+                        currentBox: state.currentBox,
+                        onClose: { confirmsExit = true }
+                    )
 
                     ScrollView {
                         VStack(spacing: 16) {
@@ -393,23 +450,6 @@ struct FlashcardSessionView: View {
                 }
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button(action: { confirmsExit = true }) {
-                    Image(systemName: "xmark")
-                        .font(.body.weight(.semibold))
-                }
-                .accessibilityLabel("studyFlashcardCloseSession")
-            }
-            if headerStyle == .navBarCounter {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Text(state.progressText)
-                        .font(.headline)
-                        .monospacedDigit()
-                        .accessibilityLabel("\(String(localized: "studyFlashcardProgressPrefix"))\(state.progressText)")
-                }
-            }
-        }
         .navigationBarBackButtonHidden(true)
         .navigationTitle(mode.displayName)
         .navigationBarTitleDisplayMode(.inline)
@@ -433,9 +473,7 @@ struct FlashcardSessionView: View {
         VStack(spacing: 0) {
             Divider()
             if state.isRevealed {
-                SelfAssessmentControl { assessment in
-                    record(assessment)
-                }
+                SelfAssessmentControl(onSelect: { assessment in record(assessment) }, currentBox: state.currentBox)
             } else {
                 PrimaryActionButton(title: "studyFlashcardRevealAnswer", systemImage: "eye") {
                     state.recordAnswer(draftAnswer)
@@ -458,7 +496,7 @@ struct FlashcardSessionView: View {
          Text("studyFlashcardYourAnswer")
                   .font(.caption.weight(.semibold))
                   .foregroundStyle(palette.dimmed)
-              TextField("studyFlashcardTypeReply", text: $draftAnswer, axis: .vertical)
+              TextField("studyFlashcardOptionalPractice", text: $draftAnswer, axis: .vertical)
                  .multilineTextAlignment(.leading)
                  .lineLimit(1...4)
                  .padding(12)
@@ -512,7 +550,8 @@ struct FlashcardSessionView: View {
             questionStableID: attempt.stableID,
             testVersion: attempt.testVersion,
             assessment: attempt.assessment,
-            answerText: attempt.answerText
+            answerText: attempt.answerText,
+            boxLevel: attempt.boxLevel
         )
         draftAnswer = ""
         session?.attempts.append(record)

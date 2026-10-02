@@ -49,6 +49,7 @@ erDiagram
 | `testVersionRawValue` | String | Version scope for metrics |
 | `assessmentRawValue` | String | `""` for mock-test results → decodes nil |
 | `answerText` / `wasCorrect` | String? / Bool? | `wasCorrect` is mock-test only; `answerText` is set by mock-test correctness and, since the flashcard own-answer slice, by flashcards too (nil when the learner did not type a reply) |
+| `boxLevel` | Int | Leitner box this result left the card in (1...`LeitnerScheduler.maxBox`); defaults to `1`. Restored into `FlashcardAttemptRecord.boxLevel` on resume so the retention scheduler survives across sessions. Optional/defaulted per migration policy. |
 | `answeredAt` | Date | Drives "Today" buckets and latest-assessment picks |
 | `session` | StudySession? | Inverse relationship |
 

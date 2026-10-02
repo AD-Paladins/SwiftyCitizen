@@ -56,6 +56,8 @@ final class QuestionAttempt {
     var answerText: String?
     var wasCorrect: Bool?
     var answeredAt: Date
+    /// Leitner box this result left the card in (1...`LeitnerScheduler.maxBox`). Defaults to 1.
+    var boxLevel: Int = 1
     var session: StudySession?
 
     init(
@@ -63,7 +65,8 @@ final class QuestionAttempt {
         testVersion: USCISTestVersion,
         assessment: SelfAssessment,
         answerText: String? = nil,
-        answeredAt: Date = .now
+        answeredAt: Date = .now,
+        boxLevel: Int = 1
     ) {
         self.questionStableID = questionStableID
         self.testVersionRawValue = testVersion.rawValue
@@ -71,6 +74,7 @@ final class QuestionAttempt {
         self.answerText = answerText
         self.wasCorrect = nil
         self.answeredAt = answeredAt
+        self.boxLevel = boxLevel
     }
 
     convenience init(
@@ -105,7 +109,8 @@ final class QuestionAttempt {
             stableID: questionStableID,
             testVersion: testVersion,
             assessment: assessment,
-            answerText: answerText
+            answerText: answerText,
+            boxLevel: boxLevel
         )
     }
 }

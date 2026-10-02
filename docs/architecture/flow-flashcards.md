@@ -17,8 +17,8 @@ The flashcard flow is the base study loop: one official question at a time, the 
 | Topic | Decision |
 | --- | --- |
 | Entry points | `FlashcardSessionView` is pushed from `StudyView` (mode `.flashcards`), from `TargetedReviewView` (mode `.targetedReview`, custom deck, optional resume), and from `MockTestResultView` (missed question deck) |
-| State machine | `FlashcardState` — pure struct: `currentIndex`, `isRevealed`, `currentAnswer`, `attempts` |
-| Persistence | `StudySession(mode:)` + `QuestionAttempt(assessment:, answerText:)` per answer |
+| State machine | `FlashcardState` — pure struct: `currentIndex`, `isRevealed`, `currentAnswer`, `attempts`, `boxes` (stableID → Leitner box) |
+| Persistence | `StudySession(mode:)` + `QuestionAttempt(assessment:, answerText:, boxLevel:)` per answer |
 | Version source | `configuration.selectedTestVersion` → `QuestionBankLoader` |
 
 ## State machine
@@ -37,13 +37,14 @@ flowchart LR
 
 - `reveal()` sets `isRevealed`; no auto-advance.
 - `recordAnswer(_:)` stores the learner's typed reply (trimmed; blank becomes nil) in `currentAnswer`. The view calls it on `Reveal`, before `reveal()`.
-- `assess(_ assessment:)` branches on the choice: `.again` re-presents (resets `isRevealed`/`currentAnswer`, advances nothing, records no attempt); `.hard`/`.gotIt` record the attempt with the captured `answerText`, advance `currentIndex`, and reset `isRevealed`/`currentAnswer`. The final confirmation is what marks the card.
-- `seek(to:)` and `restore(attempts:)` support resuming an interrupted session; `seek` clears any in-progress answer.
+- `assess(_ assessment:)` branches on the choice: `.again` re-presents (resets `isRevealed`/`currentAnswer`, advances nothing, records no attempt, and drops the card to box 1); `.hard`/`.gotIt` record the attempt with the captured `answerText`, advance `currentIndex`, reset `isRevealed`/`currentAnswer`, and move the card's Leitner box forward via `LeitnerScheduler.nextBox(after:currentBox:)`. The final confirmation is what marks the card.
+- Box progression is the Leitner retention scheduler (see `LeitnerScheduler`): each question tracks its current box in `FlashcardState.boxes`; `.again` resets it to 1, `.hard`/`.gotIt` advance it one step per the scheduler's intervals. The UI surfaces `state.currentBox` as "Leitner box N".
+- `seek(to:)` and `restore(attempts:)` support resuming an interrupted session; `seek` clears any in-progress answer. `restore` rebuilds both `attempts` and `boxes` from each record's `boxLevel` (later attempts for the same card override earlier ones, so the last box wins).
 - Questions are selected with order preserved from the bank unless `shuffleQuestions` is enabled in settings, in which case they are shuffled via `selectQuestions(from:maximum:shuffleEnabled:)`.
 
 ### Resume
 
-`resumeFlashcardState(deckStableIDs:currentIndex:attempts:deckQuestions:)` rebuilds a `FlashcardState` from the persisted deck order (`session.deckStableIDs`) and answered attempts (`session.attempts.compactMap { $0.flashcardAttemptRecord }`), then seeks to the saved `session.currentIndex`. The reconstruction is pure; the `@Model` only exposes its persisted deck, index, and attempts. `FlashcardSessionView` starts from a resumed state when a resume session is passed in; otherwise it builds a fresh state and creates a new `StudySession`.
+`resumeFlashcardState(deckStableIDs:currentIndex:attempts:deckQuestions:)` rebuilds a `FlashcardState` from the persisted deck order (`session.deckStableIDs`) and answered attempts (`session.attempts.compactMap { $0.flashcardAttemptRecord }`), then seeks to the saved `session.currentIndex`. The reconstruction is pure; the `@Model` only exposes its persisted deck, index, attempts, and each attempt's `boxLevel`, which restores the Leitner boxes. `FlashcardSessionView` starts from a resumed state when a resume session is passed in; otherwise it builds a fresh state and creates a new `StudySession`.
 
 ## Data flow
 
