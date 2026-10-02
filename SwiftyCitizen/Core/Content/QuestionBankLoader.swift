@@ -23,6 +23,10 @@ struct QuestionBankResource: Codable, Hashable {
         let verificationDate: Date
         let isJurisdictionDependent: Bool
         let isSixtyFiveTwentyQuestion: Bool
+        // No `= nil` default on the stored property: a defaulted `let` in a Codable type is never
+        // populated from JSON. Absent keys still decode to nil because the type is optional.
+        let spanishExplanation: String?
+        let insight: String?
 
         func question(for version: USCISTestVersion) -> QuestionContent {
             QuestionContent(
@@ -36,7 +40,9 @@ struct QuestionBankResource: Codable, Hashable {
                 sourceRevision: sourceRevision,
                 verificationDate: verificationDate,
                 isJurisdictionDependent: isJurisdictionDependent,
-                isSixtyFiveTwentyQuestion: isSixtyFiveTwentyQuestion
+                isSixtyFiveTwentyQuestion: isSixtyFiveTwentyQuestion,
+                spanishExplanation: spanishExplanation,
+                insight: insight
             )
         }
     }
@@ -110,7 +116,9 @@ struct QuestionBankLoader {
                     sourceRevision: $0.sourceRevision,
                     verificationDate: $0.verificationDate,
                     isJurisdictionDependent: $0.isJurisdictionDependent,
-                    isSixtyFiveTwentyQuestion: true
+                    isSixtyFiveTwentyQuestion: true,
+                    spanishExplanation: $0.spanishExplanation,
+                    insight: $0.insight
                 )
             }
         } else if resource.derivedFromVersion != nil {

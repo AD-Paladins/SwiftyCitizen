@@ -25,7 +25,7 @@ Failures surface as `QuestionBankLoaderError` (validation details in the failure
 
 ## Question content
 
-`QuestionContent` fields: stable ID, version, official text, accepted answer variants, `answerCardinality` (1 or 2), topic, source URL/revision/verification date, jurisdiction flag, 65/20 flag.
+`QuestionContent` fields: stable ID, version, official text, accepted answer variants, `answerCardinality` (1 or 2), topic, source URL/revision/verification date, jurisdiction flag, 65/20 flag, plus optional study aids `spanishExplanation` and `insight` (optional, backward-compatible; populated by curated human content in Phase 3, never AI-generated).
 
 Cardinality is meaningful for both display ("Provide 2 of the answers shown") and evaluation (`AnswerEvaluator`).
 
@@ -38,6 +38,10 @@ Banks today are typed free-text only (`acceptedAnswerVariants`). Supported answe
 - **Multi-select** — a subset of the official variants, scored against them (implemented for qualifying questions; Slice A).
 
 Selection is used when a question has ≥2 fixed official variants; otherwise the learner types (see `answerInputMode` in `mock-test-selection-spec.md`). In Slice A the options are always the accepted variants themselves — no distractors. The project explicitly rejects AI-generated or fabricated distractors (see `product-plan.md` non-goals); multi-select distractors are deferred to a later iteration. Choice support is a content-format and evaluation extension, not a change to the authoritative source banks.
+
+### Optional study aids
+
+`spanishExplanation` and `insight` are optional `String?` fields on `QuestionContent`, carried through `QuestionBankResource.QuestionRecord` (both the direct and derived/65-20 paths). They are backward-compatible: existing banks without these keys decode to `nil`, so `schemaVersion` stays 1 and no validation is added. They hold curated human content only — never AI-generated — per the repo's official-content authority rule. Populated in Phase 3; consumed by flashcard UI later.
 
 ## Configuration mapping
 

@@ -29,10 +29,13 @@ Phase 0.5 closed on September 21, 2026. The cross-cutting audit items below are 
 
 The audit file is deleted once all four items are complete.
 
-## Next session — first task
+## Next steps
 
-### Deferred: accessibility review on a real device
-The code-level VoiceOver/contrast audit is complete (verdict icon hidden in `SessionFeedbackIndicator`). The on-device checks below are deferred to lowest priority and are no longer part of the 0.5 closure; run them only when a real iPhone becomes available and nothing higher-priority is queued.
+No product slice is prioritized next. The shipped work (flashcards + Leitner scheduler, targeted review, mock test, home dashboard, onboarding) is complete or nearly so. The flashcard follow-ups' data-model backbone (optional `spanishExplanation` + `insight` fields on `QuestionContent`, carried through the loader) is now in place; what remains is curated content curation and UI: Spanish explanations + "Civics Insight" card need curated human content (never AI-generated) populated into those fields — Spanish is Phase 3, Insight is Phase 3/5. Audio (`volume_up`) needs Phase 4 infra; bookmark has no model yet.
+
+### Deferred: accessibility review on a real device — LAST, lowest priority
+
+This is intentionally the **last** item on the roadmap. The code-level VoiceOver/contrast audit is complete (verdict icon hidden in `SessionFeedbackIndicator`). Run these on-device checks only when a real iPhone becomes available AND nothing higher-priority is queued:
 
 - **VoiceOver** (Settings → VoiceOver ON): navigate Home, Study (Targeted review), Mock-test session. Check each metric reads as a coherent unit, the selected scope announces "selected", the verdict → "Show official answer" disclosure → Next button reads in order and the toggle exposes its state, and tappable rows announce an action rather than being silent.
 - **Dynamic Type** (Text size → max): SessionSummaryView fixed-height container (400/600) does not clip; Home metric big numbers wrap instead of truncate; Question/Answer card long text fits at max size.
@@ -73,6 +76,7 @@ The code-level VoiceOver/contrast audit is complete (verdict icon hidden in `Ses
 - Mock-test session now exposes a selectable progress display matching flashcards UX: a segmented picker (`FlashcardHeaderStyle`) lets the learner switch between a nav bar counter (default) and a linear `ProgressView`. The picker sits above `SessionProgressHeader`, the bar shows when `.progressBar` is selected, and the trailing nav-bar counter shows when `.navBarCounter` is selected. `progressFraction` derives from `state.currentIndex + 1 / maximumQuestionsAsked` (1-based), matching `progressText`; reuses `SessionProgressHeader` and the same localization keys (`studyFlashcardHeaderStyle`, `studyFlashcardHeaderNavBar`, `studyFlashcardHeaderProgress`, `studyFlashcardProgressPrefix`). No domain or persistence changes.
 - Flashcards now use a Leitner retention scheduler (5 boxes; intervals 0/1/3/7/14 days): each question tracks its current box in `FlashcardState.boxes`, `.again` drops it to box 1 and `.hard`/`.gotIt` advance it via `LeitnerScheduler.nextBox(after:currentBox:)`. The level persists as `QuestionAttempt.boxLevel` (defaults to 1, optional/defaulted for clean migration) and is restored on resume. The session UI is restyled against the Stitch designs — `QuestionCard` (question ID prefix, topic chip, headline question), `AnswerCard` ("Official answer" header), and `SelfAssessmentControl` showing "Leitner box N", live per-grade interval labels, and a "Mastered" button (maps `.gotIt` at UI level; the enum case and its persistence rawValue are unchanged). Full state in `docs/plan/flashcard-leitner-ui.md`. Follow-ups deferred: audio, Spanish translation, bookmark, "Civics Insight" card.
 - Flashcard session UI refined: moved the Leitner box indicator up to the session header (a number + flame next to the progress bar) to free space on the assessment card; removed the interval captions ("< 1 min", "In 1 days") from the Again/Hard/Mastered buttons; tightened internal card padding (Space.xl → Space.md) on the question, answer and assessment cards; and let the "Mastered" button text shrink instead of truncating. PR #23.
+- Flashcard content-model backbone for optional study aids is in place: `QuestionContent` gains optional `spanishExplanation` and `insight` fields (backward-compatible — absent keys decode to nil, so existing banks are unchanged; `schemaVersion` stays 1, no validation added), carried through `QuestionBankLoader` via the direct path and the derived 65/20 path (`question(for:)`). Covered by round-trip and backward-compat tests. Curated content curation and UI are separate follow-ups (see flashcard-leitner-ui.md §10).
 
 ## Phase 0.5 — closed (September 21, 2026)
 

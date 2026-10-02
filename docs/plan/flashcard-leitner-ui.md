@@ -168,13 +168,12 @@ Both were answered by reading the Stitch designs and implemented:
 
 ## 10. Deliberately deferred (follow-ups, not bugs)
 
-These appear in the Stitch designs but need data or a later phase — do NOT implement without their prerequisites:
+These appear in the Stitch designs but need curated content or a later phase — do NOT implement without their prerequisites. The data-model backbone (`spanishExplanation` + `insight` optional fields on `QuestionContent`, carried through the loader) landed in Phase 3; what remains is **content curation** and **UI**:
 
-- **Audio** (`volume_up` on question/answer) — Phase 4.
-- **"Traducir (ES)" / Spanish per-question explanations** — needs Spanish content in `QuestionContent` (Phase 3).
+- **Audio** (`volume_up` on question/answer) — Phase 4. No audio infra yet.
+- **"Traducir (ES)" / Spanish per-question explanations** — field exists on `QuestionContent`; needs curated Spanish content (human-reviewed, never AI-generated) populated into it (Phase 3).
 - **Bookmark** (`bookmark_border`) — no model/support yet.
-- **"Civics Insight" card** (lightbulb explanation) — needs an insight/explanation field on the question; do not
-  fabricate content.
+- **"Civics Insight" card** (lightbulb explanation) — field exists on `QuestionContent`; needs curated insight content (never fabricated; if generated later, clearly labeled as such) (Phase 3/5).
 
 ## 11. Session log
 
