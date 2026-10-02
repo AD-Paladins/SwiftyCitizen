@@ -16,6 +16,44 @@ struct QuestionContent: Codable, Hashable, Identifiable {
     let verificationDate: Date?
     let isJurisdictionDependent: Bool
     let isSixtyFiveTwentyQuestion: Bool
+    // Optional study aids (Phase 3). Optional + backward-compatible: banks without these
+    // keys decode to nil. Curated human content only — never AI-generated.
+    // No `= nil` default on the stored property: a defaulted `let` in a Codable type is never
+    // populated from JSON, so decoding would always yield nil. The nil default lives on the
+    // initializer parameter below instead, which keeps existing 11-arg call sites compiling
+    // while still decoding present keys.
+    let spanishExplanation: String?
+    let insight: String?
+
+    init(
+        stableID: String,
+        testVersion: USCISTestVersion,
+        officialQuestion: String,
+        acceptedAnswerVariants: [String],
+        answerCardinality: AnswerCardinality,
+        topic: String,
+        sourceURL: URL?,
+        sourceRevision: String,
+        verificationDate: Date?,
+        isJurisdictionDependent: Bool,
+        isSixtyFiveTwentyQuestion: Bool,
+        spanishExplanation: String? = nil,
+        insight: String? = nil
+    ) {
+        self.stableID = stableID
+        self.testVersion = testVersion
+        self.officialQuestion = officialQuestion
+        self.acceptedAnswerVariants = acceptedAnswerVariants
+        self.answerCardinality = answerCardinality
+        self.topic = topic
+        self.sourceURL = sourceURL
+        self.sourceRevision = sourceRevision
+        self.verificationDate = verificationDate
+        self.isJurisdictionDependent = isJurisdictionDependent
+        self.isSixtyFiveTwentyQuestion = isSixtyFiveTwentyQuestion
+        self.spanishExplanation = spanishExplanation
+        self.insight = insight
+    }
 
     var id: String { stableID }
 }

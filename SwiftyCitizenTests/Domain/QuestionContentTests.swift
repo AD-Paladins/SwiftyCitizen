@@ -200,6 +200,80 @@ struct QuestionContentTests {
         }
     }
 
+    // MARK: optional study-aid fields (spanishExplanation, insight)
+
+    @Test
+    func optionalFieldsRoundTripThroughJSON() throws {
+        let question = QuestionContent(
+            stableID: "2025-001",
+            testVersion: .twoThousandTwentyFive,
+            officialQuestion: "What is Congress?",
+            acceptedAnswerVariants: ["The legislature"],
+            answerCardinality: .exactly(1),
+            topic: "Government",
+            sourceURL: URL(string: "https://www.uscis.gov")!,
+            sourceRevision: "2025-09-10",
+            verificationDate: Date(timeIntervalSince1970: 0),
+            isJurisdictionDependent: false,
+            isSixtyFiveTwentyQuestion: false,
+            spanishExplanation: "El Congreso hace las leyes.",
+            insight: "Congress writes the laws."
+        )
+        let data = try JSONEncoder().encode(question)
+        let decoded = try JSONDecoder().decode(QuestionContent.self, from: data)
+        #expect(decoded.spanishExplanation == "El Congreso hace las leyes.")
+        #expect(decoded.insight == "Congress writes the laws.")
+    }
+
+    @Test
+    func absentOptionalFieldsDecodeToNil() throws {
+        // Encode a question whose study aids are nil: encodeIfPresent omits those keys, so the
+        // resulting JSON is exactly what an older bank (without these fields) contains. Decoding it
+        // must succeed and yield nil for both optional fields — that's the backward-compat guarantee.
+        let question = QuestionContent(
+            stableID: "2025-001",
+            testVersion: .twoThousandTwentyFive,
+            officialQuestion: "What is Congress?",
+            acceptedAnswerVariants: ["The legislature"],
+            answerCardinality: .exactly(1),
+            topic: "Government",
+            sourceURL: URL(string: "https://www.uscis.gov")!,
+            sourceRevision: "2025-09-10",
+            verificationDate: Date(timeIntervalSince1970: 0),
+            isJurisdictionDependent: false,
+            isSixtyFiveTwentyQuestion: false
+        )
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        let data = try encoder.encode(question)
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let decoded = try decoder.decode(QuestionContent.self, from: data)
+        #expect(decoded.spanishExplanation == nil)
+        #expect(decoded.insight == nil)
+    }
+
+    @Test
+    func questionRecordPassesOptionalFieldsThrough() {
+        let record = QuestionBankResource.QuestionRecord(
+            stableID: "2025-001",
+            officialQuestion: "What is Congress?",
+            acceptedAnswerVariants: ["The legislature"],
+            answerCardinality: 1,
+            topic: "Government",
+            sourceURL: URL(string: "https://www.uscis.gov")!,
+            sourceRevision: "2025-09-10",
+            verificationDate: Date(timeIntervalSince1970: 0),
+            isJurisdictionDependent: false,
+            isSixtyFiveTwentyQuestion: false,
+            spanishExplanation: "El Congreso hace las leyes.",
+            insight: "Congress writes the laws."
+        )
+        let content = record.question(for: .twoThousandTwentyFive)
+        #expect(content.spanishExplanation == "El Congreso hace las leyes.")
+        #expect(content.insight == "Congress writes the laws.")
+    }
+
     private func matchingConfig(count: Int) -> TestConfiguration {
         TestConfiguration(
             version: .twoThousandTwentyFive,
