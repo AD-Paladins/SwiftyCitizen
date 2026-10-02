@@ -168,7 +168,7 @@ Both were answered by reading the Stitch designs and implemented:
 
 ## 10. Deliberately deferred (follow-ups, not bugs)
 
-These appear in the Stitch designs but need curated content or a later phase — do NOT implement without their prerequisites. The data-model backbone (`spanishExplanation` + `insight` optional fields on `QuestionContent`, carried through the loader) landed in Phase 3; what remains is **content curation** and **UI**:
+These appear in the Stitch designs but need curated content or a later phase — do NOT implement without their prerequisites. The data-model backbone (`explanation` + `insight` optional fields on `QuestionContent`, carried through the loader) landed in Phase 3; what remains is **content curation** and **UI**:
 
 - **Audio** (`volume_up` on question/answer) — Phase 4. No audio infra yet.
 - **"Traducir (ES)" / Spanish per-question explanations** — field exists on `QuestionContent`; needs curated Spanish content (human-reviewed, never AI-generated) populated into it (Phase 3).
