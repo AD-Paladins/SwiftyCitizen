@@ -129,7 +129,9 @@ struct QuestionBankLoader {
 
         switch QuestionContentValidator.validate(questions, for: configuration(for: version)) {
         case .success:
-            return questions
+            // Optional, non-invasive: populate `explanation` from a bundled dataset when present.
+            return QuestionExplanationLoader(bundle: bundle)
+                .applyExplanations(version, to: questions)
         case .failure(let failure):
             throw QuestionBankLoaderError.validationFailed(version: version, errors: failure.errors)
         }

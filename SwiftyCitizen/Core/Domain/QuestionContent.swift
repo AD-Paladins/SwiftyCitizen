@@ -158,6 +158,25 @@ struct QuestionContentValidator {
 }
 
 extension QuestionContent {
+    /// Returns a copy of this question with `explanation` replaced, leaving every other
+    /// field unchanged. Used to populate explanations from an external dataset after load.
+    func withExplanation(_ explanation: String?) -> QuestionContent {
+        QuestionContent(
+            stableID: stableID,
+            testVersion: testVersion,
+            officialQuestion: officialQuestion,
+            acceptedAnswerVariants: acceptedAnswerVariants,
+            answerCardinality: answerCardinality,
+            topic: topic,
+            sourceURL: sourceURL,
+            sourceRevision: sourceRevision,
+            verificationDate: verificationDate,
+            isJurisdictionDependent: isJurisdictionDependent,
+            isSixtyFiveTwentyQuestion: isSixtyFiveTwentyQuestion,
+            explanation: explanation
+        )
+    }
+
     enum AnswerInputMode {
         case selection
         case text
