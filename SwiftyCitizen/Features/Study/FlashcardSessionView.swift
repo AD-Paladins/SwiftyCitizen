@@ -38,7 +38,11 @@ struct FlashcardSessionHeader: View {
     let progressText: String
     let fraction: Double
     let currentBox: Int
-    let onClose: () -> Void
+    /// Stable ID of the question being studied; nil hides the bookmark toggle.
+    let bookmarkStableID: String?
+    var isBookmarked: Bool = false
+    var onToggleBookmark: () -> Void = {}
+    var onClose: () -> Void = {}
 
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
@@ -77,6 +81,20 @@ struct FlashcardSessionHeader: View {
                         .foregroundStyle(palette.warning)
                 }
                 .accessibilityLabel("\(String(localized: "studyFlashcardLeitnerBoxPrefix"))\(currentBox)")
+
+                // ponytail: bookmark toggle at the far right so the learner can save the
+                // current question without leaving the session.
+                if bookmarkStableID != nil {
+                    Button(action: onToggleBookmark) {
+                        Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark_border")
+                            .font(CivicText.labelSM.font)
+                            .foregroundStyle(isBookmarked ? palette.primary : palette.dimmed)
+                            .frame(width: 40, height: 40)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.borderless)
+                    .accessibilityLabel(String(localized: "studyFlashcardBookmark"))
+                }
             }
             .padding(.horizontal, 20)
 
@@ -442,7 +460,9 @@ struct FlashcardSessionView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Environment(ThemeManager.self) private var themeManager
+    @Environment(SessionActivityCoordinator.self) private var sessionCoordinator
     private var palette: AppPalette { themeManager.palette }
+    @Query private var bookmarks: [Bookmark]
 
     @State private var state: FlashcardState
     @State private var session: StudySession?
@@ -502,6 +522,9 @@ struct FlashcardSessionView: View {
                         progressText: state.progressText,
                         fraction: progressFraction,
                         currentBox: state.currentBox,
+                        bookmarkStableID: state.currentQuestion?.stableID,
+                        isBookmarked: isCurrentQuestionBookmarked,
+                        onToggleBookmark: { toggleCurrentBookmark() },
                         onClose: { confirmsExit = true }
                     )
 
@@ -533,22 +556,38 @@ struct FlashcardSessionView: View {
                 }
             }
         }
-        .navigationBarBackButtonHidden(true)
+       .navigationBarBackButtonHidden(true)
         .navigationTitle(mode.displayName)
         .navigationBarTitleDisplayMode(.inline)
         .background(palette.canvas.ignoresSafeArea())
-        .onAppear(perform: beginOrResumeSession)
-        .confirmationDialog(
-             "studyFlashcardEndSessionConfirm",
-             isPresented: $confirmsExit,
-             titleVisibility: .visible
-         ) {
-             Button("studyFlashcardEndSession", role: .destructive) {
-                 endSession()
-                 dismiss()
-             }
-             Button("studyFlashcardKeepStudying", role: .cancel) {}
-         }
+        .onAppear {
+            beginOrResumeSession()
+            sessionCoordinator.setActive(true)
+        }
+        // F4: when the tab-switch guard ends this session, dismiss it here.
+        .onChange(of: sessionCoordinator.isActive) { _, active in
+            if !active {
+                endSession()
+                dismiss()
+            }
+        }
+        .onDisappear {
+            if let session, session.endedAt == nil {
+                endSession()
+            }
+            sessionCoordinator.setActive(false)
+        }
+        .alert(
+              "studyFlashcardEndSessionConfirm",
+              isPresented: $confirmsExit,
+              actions: {
+                  Button("studyFlashcardEndSession", role: .destructive) {
+                      endSession()
+                      dismiss()
+                  }
+                  Button("studyFlashcardKeepStudying", role: .cancel) {}
+              }
+          )
     }
 
     @ViewBuilder
@@ -572,6 +611,35 @@ struct FlashcardSessionView: View {
         let total = state.questions.count
         guard total > 0 else { return 0 }
         return Double(min(state.currentIndex + 1, total)) / Double(total)
+    }
+
+    private var activeVersionRawValue: String? {
+        configuration.selectedTestVersion?.rawValue
+    }
+
+    /// Stable IDs of bookmarked questions for the active test version. Version scoping
+    /// lives here (SwiftData query); the pure builder never touches SwiftData.
+    private var bookmarkedStableIDs: Set<String> {
+        guard let raw = activeVersionRawValue else { return [] }
+        return Set(bookmarks.filter { $0.testVersionRawValue == raw }.map(\.questionStableID))
+    }
+
+    private var isCurrentQuestionBookmarked: Bool {
+        guard let id = state.currentQuestion?.stableID else { return false }
+        return bookmarkedStableIDs.contains(id)
+    }
+
+    /// Adds or removes the bookmark for the question currently on screen.
+    private func toggleCurrentBookmark() {
+        guard let version = configuration.selectedTestVersion,
+              let stableID = state.currentQuestion?.stableID else { return }
+        let raw = version.rawValue
+        if let existing = bookmarks.first(where: { $0.questionStableID == stableID && $0.testVersionRawValue == raw }) {
+            modelContext.delete(existing)
+        } else {
+            modelContext.insert(Bookmark(questionStableID: stableID, testVersion: version))
+        }
+        try? modelContext.save()
     }
 
     private var answerInput: some View {
@@ -676,5 +744,6 @@ struct FlashcardSessionView: View {
         ))
     }
     .environment(ThemeManager())
-    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
+    .environment(SessionActivityCoordinator())
+    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self, Bookmark.self], inMemory: true)
 }

@@ -6,8 +6,10 @@ struct HomeDashboardView: View {
     @Binding var selectedTab: AppTab
 
     @Environment(ThemeManager.self) private var themeManager
+    @Environment(PendingNavigation.self) private var pendingNavigation
     private var palette: AppPalette { themeManager.palette }
     @Query private var attempts: [QuestionAttempt]
+    @Query private var bookmarks: [Bookmark]
 
     private var snapshots: [StudyAttemptSnapshot] {
         attempts.compactMap(\.snapshot)
@@ -33,6 +35,13 @@ struct HomeDashboardView: View {
             attempts: snapshots,
             configuration: testConfiguration
         )
+    }
+
+    /// Number of bookmarked questions for the active test version. Bookmarks are scoped
+    /// by version here; the pure domain layer never touches SwiftData.
+    private var bookmarkedCount: Int {
+        guard let raw = configuration.selectedTestVersion?.rawValue else { return 0 }
+        return bookmarks.filter { $0.testVersionRawValue == raw }.count
     }
 
     private var readinessPercentage: Double? {
@@ -97,7 +106,9 @@ struct HomeDashboardView: View {
 
                       dueNextSection
 
-                      tipBanner
+                       bookmarkedSection
+
+                       tipBanner
                 }
                 .padding(Space.lg.value)
             }
@@ -289,6 +300,60 @@ struct HomeDashboardView: View {
         return "\(dueCount) \(unit) to review"
     }
 
+    private var bookmarkedSection: some View {
+        VStack(alignment: .leading, spacing: Space.sm.value) {
+            Text("homeBookmarkedCardTitle")
+                .font(CivicText.headlineSM.font)
+            if bookmarkedCount > 0 {
+                bookmarkedCard
+            } else if reviewedToday > 0 {
+                EmptyStateView(
+                    systemImage: "bookmark",
+                    title: "homeBookmarkedEmptyCaughtupTitle",
+                    message: "homeBookmarkedEmptyCaughtupMessage"
+                )
+            } else {
+                EmptyStateView(
+                    systemImage: "bookmark.slash",
+                    title: "homeBookmarkedEmptyTitle",
+                    message: "homeBookmarkedEmptyMessage"
+                )
+            }
+        }
+    }
+
+    private var bookmarkedCard: some View {
+        HStack(spacing: Space.md.value) {
+            VStack(alignment: .leading, spacing: Space.sm.value) {
+                Text("\(bookmarkedCount)")
+                    .font(CivicText.metricDisplay.font)
+                    .foregroundStyle(palette.ink)
+                Text("homeBookmarkedCardHint")
+                    .font(CivicText.labelMD.font)
+                    .foregroundStyle(palette.dimmed)
+            }
+            Spacer()
+            Image(systemName: "chevron.right")
+                .font(CivicText.headlineSM.font)
+                .foregroundStyle(palette.dimmed)
+                .accessibilityHidden(true)
+        }
+        .padding(Space.lg.value)
+        .cardStyle()
+        .contentShape(Rectangle())
+        .onTapGesture { openBookmarked() }
+        .accessibilityElement(children: .combine)
+        .accessibilityHint("homeBookmarkedCardHint")
+    }
+
+    /// Switches to the Study tab and records that targeted review should open on the
+    /// Bookmarked scope. `StudyView` performs the navigation; `TargetedReviewView`
+    /// consumes and clears the pending scope when it appears.
+    private func openBookmarked() {
+        pendingNavigation.setBookmarked()
+        selectedTab = .study
+    }
+
     private var gotItRateText: String {
         guard let rate = gotItRate else { return "—" }
         return "\(Int((rate * 100).rounded()))%"
@@ -356,5 +421,5 @@ enum StudyTips {
         selectedTab: .constant(.home)
     )
     .environment(ThemeManager())
-    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
+    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self, Bookmark.self], inMemory: true)
 }

@@ -7,6 +7,7 @@ struct MockTestSessionView: View {
     let bank: [QuestionContent]
 
     @Environment(ThemeManager.self) private var themeManager
+    @Environment(SessionActivityCoordinator.self) private var sessionCoordinator
     private var palette: AppPalette { themeManager.palette }
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -124,20 +125,27 @@ struct MockTestSessionView: View {
       .navigationTitle("mocktestSessionTitle")
         .navigationBarTitleDisplayMode(.inline)
         .background(palette.canvas.ignoresSafeArea())
-        .onAppear { beginSession() }
+        .onAppear {
+            beginSession()
+            sessionCoordinator.setActive(true)
+        }
+        // F4: when the tab-switch guard ends this session, dismiss it here.
+        .onChange(of: sessionCoordinator.isActive) { _, active in
+            if !active { endMockTest() }
+        }
+        .onDisappear {
+            if let session, session.endedAt == nil {
+                endMockTest()
+            }
+            sessionCoordinator.setActive(false)
+        }
         .confirmationDialog(
              "mocktestSessionEndTestConfirm",
              isPresented: $confirmsExit,
              titleVisibility: .visible
          ) {
              Button("mocktestSessionEndTest", role: .destructive) {
-                 if state.answers.isEmpty {
-                     if let session { modelContext.delete(session) }
-                 } else {
-                     session?.endedAt = .now
-                 }
-                 try? modelContext.save()
-                 dismiss()
+                 endMockTest()
              }
              Button("mocktestSessionKeepGoing", role: .cancel) {}
          }
@@ -227,6 +235,18 @@ struct MockTestSessionView: View {
         )
         modelContext.insert(newSession)
         session = newSession
+    }
+
+    /// Ends the mock-test session (persisting it if any answers were recorded, otherwise
+    /// deleting it), then dismisses the view. Shared by the close button and the tab-switch guard.
+    private func endMockTest() {
+        if state.answers.isEmpty {
+            if let session { modelContext.delete(session) }
+        } else {
+            session?.endedAt = .now
+        }
+        try? modelContext.save()
+        dismiss()
     }
 
     private func submit() {

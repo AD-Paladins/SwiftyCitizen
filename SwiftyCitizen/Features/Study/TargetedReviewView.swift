@@ -6,6 +6,7 @@ struct TargetedReviewView: View {
 
     @Environment(\.modelContext) private var modelContext
     @Environment(ThemeManager.self) private var themeManager
+    @Environment(PendingNavigation.self) private var pendingNavigation
     private var palette: AppPalette { themeManager.palette }
     @Query private var sessions: [StudySession]
     @Query private var bookmarks: [Bookmark]
@@ -72,19 +73,7 @@ struct TargetedReviewView: View {
         }
     }
 
-    /// Toggles the bookmark for the first (next-to-review) question of a scope's deck.
-    /// The Bookmarked scope then surfaces every bookmarked question across scopes.
-    private func toggleBookmark(_ scope: ReviewScope) {
-        guard let version = configuration.selectedTestVersion,
-              let stableID = deck(for: scope).first?.stableID else { return }
-        let raw = version.rawValue
-        if let existing = bookmarks.first(where: { $0.questionStableID == stableID && $0.testVersionRawValue == raw }) {
-            modelContext.delete(existing)
-        } else {
-            modelContext.insert(Bookmark(questionStableID: stableID, testVersion: version))
-        }
-        try? modelContext.save()
-    }
+  
 
     var body: some View {
         List {
@@ -133,6 +122,13 @@ struct TargetedReviewView: View {
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .background(palette.canvas.ignoresSafeArea())
+        // Home may request a specific scope (e.g. Bookmarked); open it and clear the request.
+        .onAppear {
+            if let scope = pendingNavigation.reviewScope {
+                selectedScope = scope
+                pendingNavigation.clear()
+            }
+        }
         .safeAreaInset(edge: .bottom) {
             if count(for: selectedScope) > 0 {
                 NavigationLink {
@@ -175,20 +171,9 @@ struct TargetedReviewView: View {
 
     private func scopeRow(_ scope: ReviewScope) -> some View {
         let isSelected = selectedScope == scope
-        let firstStableID = deck(for: scope).first?.stableID
-        let isBookmarked = firstStableID.map { bookmarkedStableIDs.contains($0) } ?? false
-
         return HStack(spacing: 12) {
             Label(scope.displayName, systemImage: scope.systemImage)
             Spacer()
-            Button {
-                toggleBookmark(scope)
-            } label: {
-                Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark_border")
-                    .foregroundStyle(isBookmarked ? palette.primary : palette.dimmed)
-                    .accessibilityLabel(String(localized: "studyTargetedReviewBookmarked"))
-            }
-            .buttonStyle(.plain)
             if isSelected {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundStyle(palette.primary)

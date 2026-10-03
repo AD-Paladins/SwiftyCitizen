@@ -11,6 +11,116 @@
         }
       }
     },
+    "commonCancel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "homeBookmarkedCardHint" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questions you saved to review"
+          }
+        }
+      }
+    },
+    "homeBookmarkedCardTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmarked"
+          }
+        }
+      }
+    },
+    "homeBookmarkedEmptyCaughtupMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All your saved questions have been reviewed. Keep going to add more."
+          }
+        }
+      }
+    },
+    "homeBookmarkedEmptyCaughtupTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No bookmarked questions yet"
+          }
+        }
+      }
+    },
+    "homeBookmarkedEmptyMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You've reviewed everything you saved."
+          }
+        }
+      }
+    },
+    "homeBookmarkedEmptyTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing saved yet"
+          }
+        }
+      }
+    },
+    "studyFlashcardBookmark" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmark"
+          }
+        }
+      }
+    },
+    "studySessionEndAndSwitch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End & Switch"
+          }
+        }
+      }
+    },
+    "studySessionSwitchConfirm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End session?"
+          }
+        }
+      }
+    },
+    "studySessionSwitchMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your current session will end."
+          }
+        }
+      }
+    },
     "studyFlashcardExplanation" : {
       "localizations" : {
         "en" : {
