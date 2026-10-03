@@ -121,7 +121,9 @@ struct QuestionExplanationLoaderTests {
         let map = try #require(loader.explanationMap(for: .twoThousandEight))
         #expect(map["2008-001"] != nil)
         #expect(map["2008-025"] != nil)
-        #expect(map.count == 25)
+        #expect(map["2008-026"] != nil)
+        #expect(map["2008-050"] != nil)
+        #expect(map.count == 50)
     }
 
     private func sampleQuestion(id: String, explanation: String?) -> QuestionContent {
