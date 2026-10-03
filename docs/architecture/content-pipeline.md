@@ -25,7 +25,7 @@ Failures surface as `QuestionBankLoaderError` (validation details in the failure
 
 ## Question content
 
-`QuestionContent` fields: stable ID, version, official text, accepted answer variants, `answerCardinality` (1 or 2), topic, source URL/revision/verification date, jurisdiction flag, 65/20 flag, plus optional study aids `spanishExplanation` and `insight` (optional, backward-compatible; populated by curated human content in Phase 3, never AI-generated).
+`QuestionContent` fields: stable ID, version, official text, accepted answer variants, `answerCardinality` (1 or 2), topic, source URL/revision/verification date, jurisdiction flag, 65/20 flag, plus optional study aids `explanation` and `insight` (optional, backward-compatible; populated by curated human content in Phase 3, never AI-generated).
 
 Cardinality is meaningful for both display ("Provide 2 of the answers shown") and evaluation (`AnswerEvaluator`).
 
@@ -41,7 +41,7 @@ Selection is used when a question has ≥2 fixed official variants; otherwise th
 
 ### Optional study aids
 
-`spanishExplanation` and `insight` are optional `String?` fields on `QuestionContent`, carried through `QuestionBankResource.QuestionRecord` (both the direct and derived/65-20 paths). They are backward-compatible: existing banks without these keys decode to `nil`, so `schemaVersion` stays 1 and no validation is added. They hold curated human content only — never AI-generated — per the repo's official-content authority rule. Populated in Phase 3; consumed by flashcard UI later.
+`explanation` and `insight` are optional `String?` fields on `QuestionContent`, carried through `QuestionBankResource.QuestionRecord` (both the direct and derived/65-20 paths). They are backward-compatible: existing banks without these keys decode to `nil`, so `schemaVersion` stays 1 and no validation is added. `explanation` holds a single English-canonical study aid — curated human content only, never AI-generated — per the repo's official-content authority rule. The flashcard `AnswerCard` renders `explanation` when present (gated by `AnswerCard.hasExplanation(_:)`) alongside native en-US Text-to-Speech via `SpeechManager`. Populated in Phase 3; consumed by flashcard UI.
 
 ## Configuration mapping
 

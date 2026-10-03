@@ -92,11 +92,46 @@ struct FlashcardSessionHeader: View {
     }
 }
 
+struct SpeakerButton: View {
+    let textToSpeak: String
+    let idleLabelKey: String
+    @ObservedObject var speechManager: SpeechManager
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
+    var body: some View {
+        Button {
+            speechManager.isSpeaking ? speechManager.stop() : speechManager.speak(textToSpeak)
+        } label: {
+            Image(systemName: speechManager.isSpeaking ? "speaker.wave.2.fill" : "speaker.fill")
+                .font(.subheadline)
+                .frame(width: 40, height: 44)
+                .contentShape(Rectangle())
+                .accessibilityLabel(
+                    speechManager.isSpeaking
+                        ? String(localized: "studyFlashcardStop")
+                        : NSLocalizedString(idleLabelKey, comment: "")
+                )
+        }
+        .buttonStyle(.borderless)
+    }
+}
+
 struct QuestionCard: View {
     let question: QuestionContent
+    // Optional so QuestionCard can be shared by flows without TTS (e.g. MockTestSessionView).
+    // Plain stored optional (not @ObservedObject — an Optional can't be a property wrapper): the
+    // flashcard session injects its SpeechManager and other callers omit it (init defaults nil); the
+    // child SpeakerButton owns the observation of isSpeaking, so QuestionCard only needs to know if one is present.
+    let speechManager: SpeechManager?
 
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
+
+    init(question: QuestionContent, speechManager: SpeechManager? = nil) {
+        self.question = question
+        self.speechManager = speechManager
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -113,10 +148,21 @@ struct QuestionCard: View {
                     .foregroundStyle(palette.dimmed)
             }
 
-            Text(question.officialQuestion)
-                .font(CivicText.headlineLG.font)
-                .foregroundStyle(palette.ink)
-                .textSelection(.enabled)
+            HStack(alignment: .top, spacing: 6) {
+                Text(question.officialQuestion)
+                    .font(CivicText.headlineLG.font)
+                    .foregroundStyle(palette.ink)
+                    .textSelection(.enabled)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                if let speechManager {
+                    SpeakerButton(
+                        textToSpeak: question.officialQuestion,
+                        idleLabelKey: "studyFlashcardSpeakQuestion",
+                        speechManager: speechManager
+                    )
+                }
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.md)
@@ -129,14 +175,19 @@ struct QuestionCard: View {
      let question: QuestionContent
      let notice: String?
      let userAnswer: String?
-     let grading: Bool
+    let grading: Bool
+     // Plain stored value (the child SpeakerButton owns @ObservedObject + isSpeaking); AnswerCard only
+     // forwards the manager it is given. The flashcard session always injects one.
+     let speechManager: SpeechManager
 
-     @Environment(ThemeManager.self) private var themeManager
-     private var palette: AppPalette { themeManager.palette }
+      @Environment(ThemeManager.self) private var themeManager
+      private var palette: AppPalette { themeManager.palette }
 
-     private var presentation: AnswerPresentation {
-         AnswerEvaluator.presentation(for: userAnswer, against: question)
-     }
+      private var presentation: AnswerPresentation {
+          AnswerEvaluator.presentation(for: userAnswer, against: question)
+      }
+
+      static func hasExplanation(_ question: QuestionContent) -> Bool { question.explanation != nil }
 
      var body: some View {
          VStack(alignment: .leading, spacing: 12) {
@@ -152,10 +203,12 @@ struct QuestionCard: View {
                      officialVariants(success: false)
                  }
              } else {
-                 plainComparison
-             }
+                  plainComparison
+              }
 
-             if let notice, !notice.isEmpty {
+              explanationBlock()
+
+              if let notice, !notice.isEmpty {
                 Text(notice)
                     .font(.footnote)
                     .foregroundStyle(palette.warning)
@@ -276,6 +329,33 @@ struct QuestionCard: View {
             .foregroundStyle(palette.dimmed)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
+
+    @ViewBuilder
+    private func explanationBlock() -> some View {
+        if let explanation = question.explanation, !explanation.isEmpty {
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(spacing: 6) {
+                    Image(systemName: "book.closed")     // distinct study-aid icon; avoid translate/globe/checkmark/sparkles
+                        .font(CivicText.labelSM.font)
+                        .foregroundStyle(palette.dimmed)
+                        .accessibilityHidden(true)
+                    Text("studyFlashcardExplanation")
+                        .font(CivicText.labelSM.font.weight(.semibold))
+                        .foregroundStyle(palette.dimmed)
+                    Spacer()
+                    SpeakerButton(textToSpeak: explanation, idleLabelKey: "studyFlashcardSpeakExplanation", speechManager: speechManager)
+                }
+                Text(explanation)
+                    .font(.footnote)
+                    .foregroundStyle(palette.dimmed)
+                    .textSelection(.enabled)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.sm)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(String(localized: "studyFlashcardExplanationAid"))
+        }
+    }
 }
 
 struct SourceBadge: View {
@@ -369,6 +449,8 @@ struct FlashcardSessionView: View {
     @State private var confirmsExit = false
     @State private var draftAnswer: String = ""
 
+    @StateObject private var speechManager = SpeechManager()
+
     init(
         configuration: OnboardingConfiguration,
         mode: StudyMode = .flashcards,
@@ -425,8 +507,8 @@ struct FlashcardSessionView: View {
 
                     ScrollView {
                         VStack(spacing: 16) {
-                            if let question = state.currentQuestion {
-                                 QuestionCard(question: question)
+                                 if let question = state.currentQuestion {
+                                  QuestionCard(question: question, speechManager: speechManager)
 
                                  if !state.isRevealed {
                                      answerInput
@@ -435,11 +517,12 @@ struct FlashcardSessionView: View {
                                  if state.isRevealed {
                                      let answerForQuestion = userAnswers[question.stableID] ?? state.currentAnswer
                                      AnswerCard(
-                                         question: question,
-                                         notice: nil,
-                                         userAnswer: answerForQuestion,
-                                         grading: userAnswers[question.stableID] != nil
-                                     )
+                                          question: question,
+                                          notice: nil,
+                                          userAnswer: answerForQuestion,
+                                          grading: userAnswers[question.stableID] != nil,
+                                          speechManager: speechManager
+                                      )
                                  }
                              }
                         }

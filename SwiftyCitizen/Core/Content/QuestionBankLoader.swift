@@ -25,7 +25,7 @@ struct QuestionBankResource: Codable, Hashable {
         let isSixtyFiveTwentyQuestion: Bool
         // No `= nil` default on the stored property: a defaulted `let` in a Codable type is never
         // populated from JSON. Absent keys still decode to nil because the type is optional.
-        let spanishExplanation: String?
+        let explanation: String?
         let insight: String?
 
         func question(for version: USCISTestVersion) -> QuestionContent {
@@ -41,8 +41,8 @@ struct QuestionBankResource: Codable, Hashable {
                 verificationDate: verificationDate,
                 isJurisdictionDependent: isJurisdictionDependent,
                 isSixtyFiveTwentyQuestion: isSixtyFiveTwentyQuestion,
-                spanishExplanation: spanishExplanation,
-                insight: insight
+                explanation: explanation,
+                 insight: insight
             )
         }
     }
@@ -117,8 +117,8 @@ struct QuestionBankLoader {
                     verificationDate: $0.verificationDate,
                     isJurisdictionDependent: $0.isJurisdictionDependent,
                     isSixtyFiveTwentyQuestion: true,
-                    spanishExplanation: $0.spanishExplanation,
-                    insight: $0.insight
+                    explanation: $0.explanation,
+                     insight: $0.insight
                 )
             }
         } else if resource.derivedFromVersion != nil {
@@ -129,7 +129,9 @@ struct QuestionBankLoader {
 
         switch QuestionContentValidator.validate(questions, for: configuration(for: version)) {
         case .success:
-            return questions
+            // Optional, non-invasive: populate `explanation` from a bundled dataset when present.
+            return QuestionExplanationLoader(bundle: bundle)
+                .applyExplanations(version, to: questions)
         case .failure(let failure):
             throw QuestionBankLoaderError.validationFailed(version: version, errors: failure.errors)
         }
