@@ -96,7 +96,9 @@ struct QuestionExplanationLoaderTests {
         #expect(map["2025-050"] != nil)
         #expect(map["2025-051"] != nil)
         #expect(map["2025-075"] != nil)
-        #expect(map.count == 75)
+        #expect(map["2025-076"] != nil)
+        #expect(map["2025-100"] != nil)
+        #expect(map.count == 100)
     }
 
     // MARK: applyExplanations (orchestration)
