@@ -79,10 +79,10 @@ struct QuestionExplanationLoaderTests {
 
     @Test
     func missingDatasetForVersionDecodesToNil() {
-        // The 2008 bank has no explanation dataset in this pilot; loading must return nil
+        // The 65-20 version has no explanation dataset in this pilot; loading must return nil
         // so banks load identically whether or not explanations exist (graceful + optional).
         let loader = QuestionExplanationLoader()
-        #expect(loader.dataset(for: .twoThousandEight) == nil)
+        #expect(loader.dataset(for: .sixtyFiveTwenty) == nil)
     }
 
     @Test
@@ -107,11 +107,21 @@ struct QuestionExplanationLoaderTests {
 
     @Test
     func applyExplanationsIsNoOpWhenDatasetAbsent() {
-        // 2008 has no explanation dataset in this pilot, so applying it must be a no-op.
+        // The 65-20 version has no explanation dataset in this pilot, so applying it must be a no-op.
         let original = sampleQuestion(id: "2008-001", explanation: nil)
         let loader = QuestionExplanationLoader()
-        let result = loader.applyExplanations(.twoThousandEight, to: [original])
+        let result = loader.applyExplanations(.sixtyFiveTwenty, to: [original])
         #expect(result[0].explanation == nil)
+    }
+
+    @Test
+    func realBundled2008DatasetLoads() throws {
+        // End-to-end: the committed 2008 pilot file is bundled and discovered by the loader.
+        let loader = QuestionExplanationLoader()
+        let map = try #require(loader.explanationMap(for: .twoThousandEight))
+        #expect(map["2008-001"] != nil)
+        #expect(map["2008-025"] != nil)
+        #expect(map.count == 25)
     }
 
     private func sampleQuestion(id: String, explanation: String?) -> QuestionContent {
