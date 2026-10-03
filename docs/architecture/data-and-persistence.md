@@ -17,6 +17,7 @@ erDiagram
 | `SavedOnboardingConfiguration` | The single persisted learner configuration (one row); value bridge to `OnboardingConfiguration` |
 | `StudySession` | One study flow run; mode, version, started/ended, deck order, position |
 | `QuestionAttempt` | One answered question inside a session |
+| `Bookmark` | One "review later" marker for a question, scoped by test version; independent of sessions |
 
 ## Models
 
@@ -52,6 +53,19 @@ erDiagram
 | `boxLevel` | Int | Leitner box this result left the card in (1...`LeitnerScheduler.maxBox`); defaults to `1`. Restored into `FlashcardAttemptRecord.boxLevel` on resume so the retention scheduler survives across sessions. Optional/defaulted per migration policy. |
 | `answeredAt` | Date | Drives "Today" buckets and latest-assessment picks |
 | `session` | StudySession? | Inverse relationship |
+
+### Bookmark
+
+| Property | Type | Notes |
+| --- | --- | --- |
+| `questionStableID` | String | References bank content (a `QuestionContent.stableID`) |
+| `testVersionRawValue` | String | Version scope; the active-version filter lives in the view, not here |
+| `createdAt` | Date | Defaulted to `.now` at init |
+
+- Independent of `StudySession` — a global learner preference for which questions to revisit. No relationship back to a session.
+- One row per (question, version) pair; toggling reuses the existing row or inserts a new one.
+- Registered in `SwiftyCitizenApp.swift`'s shared `Schema`; every preview that lists `StudySession`/`QuestionAttempt` also lists `Bookmark`.
+- Follows the migration policy: `createdAt` is defaulted, so stores created before it existed migrate in place.
 
 ## Session lifecycle
 

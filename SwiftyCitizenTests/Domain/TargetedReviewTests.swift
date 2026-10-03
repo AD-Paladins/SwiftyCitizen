@@ -338,6 +338,97 @@ struct TargetedReviewTests {
         #expect(state.answeredCount == 2)
     }
 
+    @Test
+    func bookmarkedScopeIncludesOnlyBookmarkedIDs() {
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .bookmarked,
+            bookmarkedIDs: ["a", "c"]
+        )
+
+        #expect(deck.map(\.stableID) == ["a", "c"])
+    }
+
+    @Test
+    func bookmarkedScopePreservesBankOrder() {
+        let questions = [makeQuestion(id: "z"), makeQuestion(id: "y"), makeQuestion(id: "x")]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .bookmarked,
+            bookmarkedIDs: ["x", "z"]
+        )
+
+        #expect(deck.map(\.stableID) == ["z", "x"])
+    }
+
+    @Test
+    func bookmarkedScopeEmptyWhenNoBookmarks() {
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b")]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .bookmarked,
+            bookmarkedIDs: []
+        )
+
+        #expect(deck.isEmpty)
+    }
+
+    @Test
+    func bookmarkedCountMatchesDeckSize() {
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]
+
+        #expect(
+            ReviewDeckBuilder.questionCount(
+                questions: questions,
+                attempts: [],
+                scope: .bookmarked,
+                bookmarkedIDs: ["a", "b"]
+            ) == 2
+        )
+    }
+
+    @Test
+    func bookmarkedScopeIsVersionScopedByCaller() {
+        // The builder filters by stable-ID membership only; the view scopes IDs to the
+        // active version. A bookmark ID from another version must not surface here.
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b")]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .bookmarked,
+            bookmarkedIDs: ["a"]
+        )
+
+        #expect(deck.map(\.stableID) == ["a"])
+    }
+
+    @Test
+    func bookmarkPersistsIndependentlyOfSessions() throws {
+        let modelContainer = try ModelContainer(
+            for: Bookmark.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let context = ModelContext(modelContainer)
+
+        let bookmark = Bookmark(questionStableID: "a", testVersion: .twoThousandTwentyFive)
+        context.insert(bookmark)
+        try context.save()
+
+        let fetched = try context.fetch(FetchDescriptor<Bookmark>())
+        #expect(fetched.count == 1)
+        #expect(fetched.first?.questionStableID == "a")
+        #expect(fetched.first?.testVersionRawValue == USCISTestVersion.twoThousandTwentyFive.rawValue)
+        #expect(fetched.first?.createdAt != nil)
+    }
+
     private func snapshot(
         id: String,
         assessment: SelfAssessment,

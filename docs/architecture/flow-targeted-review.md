@@ -5,18 +5,20 @@ Review the questions that need attention, computed from persisted attempt histor
 ## Quick path
 
 1. Study tab → Targeted review.
-2. Pick a scope: Due, Unanswered, or Needs work.
+2. Pick a scope: Due, Unanswered, Needs work, or Bookmarked.
 3. (Optional) Toggle "Show categories" and select one or more topic pills to further narrow the deck.
 4. Start review over the filtered deck (bank order preserved).
-5. If a session is in progress, the list offers `Resume session`.
+5. Tap the bookmark icon on any scope row to bookmark/unbookmark that scope's next question.
+6. If a session is in progress, the list offers `Resume session`.
 
 ## Details
 
 | Topic | Decision |
 | --- | --- |
 | Deck logic | `ReviewDeckBuilder` — pure, SwiftData-free; does not depend on `StudySession`/UI |
-| Scopes | `.due` (unanswered, or latest ≠ Got it), `.unanswered` (no attempt), `.needsWork` (answered, latest ≠ Got it) |
+| Scopes | `.due` (unanswered, or latest ≠ Got it), `.unanswered` (no attempt), `.needsWork` (answered, latest ≠ Got it), `.bookmarked` (stable-ID membership) |
 | Category filter | Optional; layered on top of the scope in `ReviewDeckBuilder`. Enabled by the "Show categories" toggle; selected topics (`Set<String>`) narrow the scope-filtered deck by `QuestionContent.topic`; empty selection applies no filter. Selection is ephemeral (`@State`), multi-select. |
+| Bookmarks | `Bookmark` SwiftData model (independent of `StudySession`); `TargetedReviewView` queries bookmarks for the active version and passes their stable IDs as `bookmarkedIDs`. Each scope row has a `bookmark`/`bookmark_border` toggle that adds/removes the bookmark for that scope's next question (`deck.first`) and saves. The `.bookmarked` scope then surfaces every bookmarked question across scopes. |
 | Rendering | Reuses `FlashcardSessionView` with `mode: .targetedReview` |
 | Resume | `StudySession(mode: .targetedReview)` with persisted `deckStableIDs` + `currentIndex`; list shows `Resume session` only while `!isComplete && answeredCount > 0` |
 
@@ -27,6 +29,13 @@ Review the questions that need attention, computed from persisted attempt histor
 | Due | No attempt yet, *or* latest self-assessment is not Got it |
 | Unanswered | No recorded attempt |
 | Needs work | Has an attempt, and latest self-assessment is not Got it |
+| Bookmarked | Its `stableID` is in `bookmarkedIDs` (the active-version bookmark set) |
+
+## Bookmarks
+
+`ReviewDeckBuilder.build`/`questionCount`/`categorySummary` take an optional `bookmarkedIDs: Set<String>` applied *after* scope filtering; the `.bookmarked` scope returns every question whose `stableID` is a member, preserving bank order. The builder stays pure Foundation-only — it never imports SwiftData and does not itself scope by version. `TargetedReviewView` owns that scoping: it reads `@Query private var bookmarks`, keeps only those whose `testVersionRawValue` matches the active `configuration.selectedTestVersion`, and passes their `questionStableID`s as `bookmarkedIDs`.
+
+Each scope row renders a `bookmark`/`bookmark_border` toggle. Tapping it adds or removes a `Bookmark` for that scope's next question (`deck(for:).first?.stableID`) in the active version, then saves via `modelContext`. Because bookmarks are per-question and this screen lists scopes (not questions), the toggle bookmarks the single next-to-review question of the tapped scope; the `.bookmarked` scope then unions every bookmarked question across scopes. The Bookmarked scope's count (and the start button) derive from `ReviewDeckBuilder.questionCount(..., scope: .bookmarked, bookmarkedIDs:)`, so the count always matches the deck that starts.
 
 `latestAssessmentByQuestion` groups attempts by question ID and picks the max by `answeredAt`; questions with no assessment (e.g. mock-test attempts) fall back to `.again`.
 
@@ -41,9 +50,12 @@ flowchart TD
     A[StudySession.attempts] --> B[snapshots]
     B --> C[ReviewDeckBuilder.build]
     Cat[Ephemeral category selection] --> C
+    Bk[Active-version bookmark stable IDs] --> C
     C --> D[deck: QuestionContent list]
     D --> E[FlashcardSessionView]
     E --> F[new StudySession mode targetedReview]
+    T[Bookmark toggle per scope row] --> M[Bookmark model via modelContext]
+    M --> Bk
 ```
 
 ## Gotchas
@@ -53,11 +65,14 @@ flowchart TD
 - Scope counts and the start button both derive from `ReviewDeckBuilder`, so they never disagree.
 - Mock-test missed-questions reuse this flow's deck rendering (`.targetedReview` mode) from `MockTestResultView`.
 - Missed-question review shows the learner's own (wrong) answer next to the official answer. `FlashcardSessionView` passes the recorded answer as `userAnswer`; `AnswerCard` compares it with `AnswerEvaluator.presentation(for:against:)`, which color-codes the verdict and renders wrong answers side-by-side with the official answer. The review host pairs each question with its recorded answer instead of showing a bare `QuestionContent` deck.
+- Bookmarks are scoped to the active test version. `TargetedReviewView` filters `@Query var bookmarks` by `testVersionRawValue == configuration.selectedTestVersion.rawValue` before passing IDs to the builder; the pure builder does not re-scope, so a stale version filter would leak cross-version bookmarks.
+- The per-row bookmark toggle bookmarks the scope's *next* question (`deck.first`), not every question in the scope. The `.bookmarked` scope is the place to see and review all bookmarked questions at once.
 
 ## Checklist
 
-- [ ] Each scope's count matches the deck that starts.
+- [x] Each scope's count matches the deck that starts (including `.bookmarked`, derived from `bookmarkedIDs`).
 - [x] Category filter narrows the scope-filtered deck by `topic`; empty selection applies no filter; scope counts and pills reflect both filters.
+- [x] Bookmarked scope lists every bookmarked question for the active version; per-row toggle adds/removes a `Bookmark` and saves; bookmarks are scoped by test version.
 - [ ] Resuming restores deck order and position.
 - [ ] A completed session no longer shows a resume row.
 - [ ] Targeted-review attempts persist with assessment, not `wasCorrect`.

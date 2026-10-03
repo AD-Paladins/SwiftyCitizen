@@ -17,6 +17,7 @@ struct SwiftyCitizenApp: App {
             SavedOnboardingConfiguration.self,
             StudySession.self,
             QuestionAttempt.self,
+            Bookmark.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

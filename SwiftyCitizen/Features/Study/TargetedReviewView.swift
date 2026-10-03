@@ -8,6 +8,7 @@ struct TargetedReviewView: View {
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
     @Query private var sessions: [StudySession]
+    @Query private var bookmarks: [Bookmark]
     @State private var selectedScope: ReviewScope = .due
     @State private var byCategory = false
     @State private var selectedCategories: Set<String> = []
@@ -21,6 +22,13 @@ struct TargetedReviewView: View {
         sessions.flatMap(\.attempts).compactMap(\.snapshot)
     }
 
+    /// Stable IDs of bookmarked questions for the active test version. The view owns
+    /// version scoping (SwiftData query); the pure builder only filters by membership.
+    private var bookmarkedStableIDs: Set<String> {
+        guard let raw = configuration.selectedTestVersion?.rawValue else { return [] }
+        return Set(bookmarks.filter { $0.testVersionRawValue == raw }.map(\.questionStableID))
+    }
+
     private var resumeSession: StudySession? {
         sessions.first {
             $0.mode == .targetedReview && !$0.isComplete && $0.answeredCount > 0
@@ -32,7 +40,8 @@ struct TargetedReviewView: View {
             questions: bankQuestions,
             attempts: snapshots,
             scope: scope,
-            categories: byCategory ? selectedCategories : []
+            categories: byCategory ? selectedCategories : [],
+            bookmarkedIDs: bookmarkedStableIDs
         )
     }
 
@@ -41,7 +50,8 @@ struct TargetedReviewView: View {
             questions: bankQuestions,
             attempts: snapshots,
             scope: scope,
-            categories: byCategory ? selectedCategories : []
+            categories: byCategory ? selectedCategories : [],
+            bookmarkedIDs: bookmarkedStableIDs
         )
     }
 
@@ -49,7 +59,8 @@ struct TargetedReviewView: View {
         ReviewDeckBuilder.categorySummary(
             questions: bankQuestions,
             attempts: snapshots,
-            scope: selectedScope
+            scope: selectedScope,
+            bookmarkedIDs: bookmarkedStableIDs
         )
     }
 
@@ -59,6 +70,20 @@ struct TargetedReviewView: View {
         } else {
             selectedCategories.insert(topic)
         }
+    }
+
+    /// Toggles the bookmark for the first (next-to-review) question of a scope's deck.
+    /// The Bookmarked scope then surfaces every bookmarked question across scopes.
+    private func toggleBookmark(_ scope: ReviewScope) {
+        guard let version = configuration.selectedTestVersion,
+              let stableID = deck(for: scope).first?.stableID else { return }
+        let raw = version.rawValue
+        if let existing = bookmarks.first(where: { $0.questionStableID == stableID && $0.testVersionRawValue == raw }) {
+            modelContext.delete(existing)
+        } else {
+            modelContext.insert(Bookmark(questionStableID: stableID, testVersion: version))
+        }
+        try? modelContext.save()
     }
 
     var body: some View {
@@ -150,24 +175,31 @@ struct TargetedReviewView: View {
 
     private func scopeRow(_ scope: ReviewScope) -> some View {
         let isSelected = selectedScope == scope
-        return Button {
-            selectedScope = scope
-        } label: {
-            HStack {
-                Label(scope.displayName, systemImage: scope.systemImage)
-                Spacer()
-                if isSelected {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(palette.primary)
-                        .accessibilityHidden(true)
-                }
-                Text("\(count(for: scope))")
-                    .font(.headline.monospacedDigit())
-                    .foregroundStyle(palette.dimmed)
+        let firstStableID = deck(for: scope).first?.stableID
+        let isBookmarked = firstStableID.map { bookmarkedStableIDs.contains($0) } ?? false
+
+        return HStack(spacing: 12) {
+            Label(scope.displayName, systemImage: scope.systemImage)
+            Spacer()
+            Button {
+                toggleBookmark(scope)
+            } label: {
+                Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark_border")
+                    .foregroundStyle(isBookmarked ? palette.primary : palette.dimmed)
+                    .accessibilityLabel(String(localized: "studyTargetedReviewBookmarked"))
             }
-            .contentShape(Rectangle())
+            .buttonStyle(.plain)
+            if isSelected {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundStyle(palette.primary)
+                    .accessibilityHidden(true)
+            }
+            Text("\(count(for: scope))")
+                .font(.headline.monospacedDigit())
+                .foregroundStyle(palette.dimmed)
         }
-        .buttonStyle(.plain)
+        .contentShape(Rectangle())
+        .onTapGesture { selectedScope = scope }
         .listRowBackground(isSelected ? palette.surface : Color.clear)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
@@ -185,5 +217,5 @@ struct TargetedReviewView: View {
         ))
     }
     .environment(ThemeManager())
-    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
+    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self, Bookmark.self], inMemory: true)
 }
