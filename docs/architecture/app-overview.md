@@ -4,7 +4,7 @@ SwiftyCitizen is a SwiftUI + SwiftData app. The root decides between onboarding 
 
 ## Entry point
 
-`SwiftyCitizenApp.swift` creates a shared `ModelContainer` (schema: `SavedOnboardingConfiguration`, `StudySession`, `QuestionAttempt`) and injects it via `.modelContainer(sharedModelContainer)`.
+`SwiftyCitizenApp.swift` creates a shared `ModelContainer` (schema: `SavedOnboardingConfiguration`, `StudySession`, `QuestionAttempt`, `Bookmark`) and injects it via `.modelContainer(sharedModelContainer)`. It also injects two app-wide coordinators via `.environment()`: `PendingNavigation` (Home deep-link to a review scope) and `SessionActivityCoordinator` (tab-switch guard). See [Global state](#global-state-coordinators).
 
 `ContentView` decides the root:
 
@@ -22,7 +22,14 @@ SwiftyCitizen is a SwiftUI + SwiftData app. The root decides between onboarding 
 | practice | Practice | mic | `PracticeView` |
 | progress | Progress | chart.bar | `ProgressTabView` (placeholder empty state) |
 
-`HomeDashboardView` receives a `@Binding selectedTab` so its cards (`Start review`, due-next) can switch the user to the Study tab programmatically.
+`HomeDashboardView` receives a `@Binding selectedTab` so its cards (`Start review`, due-next) can switch the user to the Study tab programmatically. It also opens the Bookmarked scope: on tap it sets `PendingNavigation.reviewScope = .bookmarked` and selects the Study tab.
+
+## Global state (coordinators)
+
+Two `@MainActor @Observable` coordinators live in `App/AppCoordination.swift` and are injected once at the app root; screens read them via `@Environment`. They mirror the `ThemeManager` pattern.
+
+- `PendingNavigation` — carries a one-shot deep link (`reviewScope: ReviewScope?`). Home sets it and switches to Study; `StudyView` pushes `.targetedReview` onto its `NavigationStack(path:)` (fresh tab via `.onAppear`, cached tab via `.onChange`), and `TargetedReviewView` consumes it on appear and clears it.
+- `SessionActivityCoordinator` — `private(set) isActive`. Every session view (`FlashcardSessionView` for flashcards + targeted review, `MockTestSessionView`) marks itself active on appear and inactive on disappear, and dismisses itself when the coordinator flips to inactive. `MainTabView` observes `isActive` in an `.onChange(of: selectedTab)` guard: while a session is active it reverts the selection (keeping the session visible) and shows a confirm alert; on confirm it deactivates the session (which self-dismisses) and navigates to the target tab.
 
 ## Navigation map
 
