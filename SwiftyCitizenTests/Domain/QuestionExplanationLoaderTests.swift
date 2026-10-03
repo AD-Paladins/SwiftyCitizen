@@ -92,7 +92,9 @@ struct QuestionExplanationLoaderTests {
         let map = try #require(loader.explanationMap(for: .twoThousandTwentyFive))
         #expect(map["2025-001"] != nil)
         #expect(map["2025-025"] != nil)
-        #expect(map.count == 25)
+        #expect(map["2025-026"] != nil)
+        #expect(map["2025-050"] != nil)
+        #expect(map.count == 50)
     }
 
     // MARK: applyExplanations (orchestration)
