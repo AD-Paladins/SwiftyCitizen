@@ -86,8 +86,11 @@ struct FlashcardSessionHeader: View {
                 // current question without leaving the session.
                 if bookmarkStableID != nil {
                     Button(action: onToggleBookmark) {
+                        // ponytail: outline glyph (bookmark_border) at labelSM (11pt) is too thin to
+                        // read on the canvas; headlineSM keeps the unselected state visible while
+                        // bookmark.fill stays distinct when saved.
                         Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark_border")
-                            .font(CivicText.labelSM.font)
+                            .font(CivicText.headlineSM.font)
                             .foregroundStyle(isBookmarked ? palette.primary : palette.dimmed)
                             .frame(width: 40, height: 40)
                             .contentShape(Rectangle())
