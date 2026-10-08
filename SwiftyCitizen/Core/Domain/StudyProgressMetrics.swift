@@ -4,13 +4,53 @@ struct StudyAttemptSnapshot: Equatable {
     let stableID: String
     let testVersion: USCISTestVersion
     let assessment: SelfAssessment?
+    let wasCorrect: Bool?
     let answeredAt: Date
+
+    /// Backward-compatible initializer for study attempts (correctness lives in `assessment`).
+    init(
+        stableID: String,
+        testVersion: USCISTestVersion,
+        assessment: SelfAssessment?,
+        answeredAt: Date
+    ) {
+        self.stableID = stableID
+        self.testVersion = testVersion
+        self.assessment = assessment
+        self.wasCorrect = nil
+        self.answeredAt = answeredAt
+    }
+
+    /// Full initializer carrying the mock-test correctness flag.
+    init(
+        stableID: String,
+        testVersion: USCISTestVersion,
+        assessment: SelfAssessment?,
+        wasCorrect: Bool?,
+        answeredAt: Date
+    ) {
+        self.stableID = stableID
+        self.testVersion = testVersion
+        self.assessment = assessment
+        self.wasCorrect = wasCorrect
+        self.answeredAt = answeredAt
+    }
 }
 
 struct MasteryBreakdown: Equatable {
     let mastered: Int
     let due: Int
     let unseen: Int
+}
+
+/// Per-topic coverage for a single test version. `accuracy` is nil when the topic has no
+/// attempts; otherwise it is the fraction of correct attempts over all attempts on the topic.
+struct TopicCoverage: Equatable {
+    let topic: String
+    let mastered: Int
+    let due: Int
+    let unseen: Int
+    let accuracy: Double?
 }
 
 enum StudyProgressMetrics {
@@ -74,6 +114,65 @@ enum StudyProgressMetrics {
         return MasteryBreakdown(mastered: mastered, due: due, unseen: unseen)
     }
 
+    /// Whether an attempt counts as correct. Study attempts resolve through self-assessment;
+    /// mock-test attempts through the persisted answer flag. An attempt is correct when either
+    /// holds.
+    static func isCorrect(_ attempt: StudyAttemptSnapshot) -> Bool {
+        attempt.assessment == .gotIt || attempt.wasCorrect == true
+    }
+
+    /// Per-topic coverage + accuracy for a single test version.
+    ///
+    /// `topicIndex` maps every stableID of the *version* to its topic and is resolved once by
+    /// the content layer; keeping it as an injected parameter keeps this function pure,
+    /// SwiftData-free, and unit-testable (no bank loading in the domain layer). Topics are
+    /// emitted in first-appearance order so callers get deterministic output.
+    static func coverageByTopic(
+        attempts: [StudyAttemptSnapshot],
+        for version: USCISTestVersion,
+        topicIndex: [String: String]
+    ) -> [TopicCoverage] {
+        // Total question count per topic comes from the content-layer index. Iterating in
+        // first-appearance order keeps the output ordering deterministic below.
+        var totalByTopic: [String: Int] = [:]
+        for topic in topicIndex.values {
+            totalByTopic[topic, default: 0] += 1
+        }
+
+        let versionAttempts = attempts.filter { $0.testVersion == version }
+        let mapped = versionAttempts.compactMap { attempt -> (StudyAttemptSnapshot, String)? in
+            guard let topic = topicIndex[attempt.stableID] else { return nil }
+            return (attempt, topic)
+        }
+        let grouped = Dictionary(grouping: mapped, by: { $0.1 })
+
+        return totalByTopic.keys.map { topic in
+            let attemptsInTopic = grouped[topic] ?? []
+            let attemptedIDs = Set(attemptsInTopic.map(\.0.stableID))
+            let unseen = max(0, (totalByTopic[topic] ?? 0) - attemptedIDs.count)
+
+            let correctAttempts = attemptsInTopic.filter { isCorrect($0.0) }.count
+            let accuracy = attemptsInTopic.isEmpty ? nil : Double(correctAttempts) / Double(attemptsInTopic.count)
+
+            var mastered = 0
+            for stableID in attemptedIDs {
+                let latest = attemptsInTopic
+                    .filter { $0.0.stableID == stableID }
+                    .max { $0.0.answeredAt < $1.0.answeredAt }
+                if let latest, isCorrect(latest.0) { mastered += 1 }
+            }
+            let due = attemptedIDs.count - mastered
+
+            return TopicCoverage(
+                topic: topic,
+                mastered: mastered,
+                due: due,
+                unseen: unseen,
+                accuracy: accuracy
+            )
+        }
+    }
+
     static func gotItRate(
         attempts: [StudyAttemptSnapshot],
         now: Date = .now,
@@ -118,6 +217,7 @@ extension QuestionAttempt {
             stableID: questionStableID,
             testVersion: version,
             assessment: assessment,
+            wasCorrect: wasCorrect,
             answeredAt: answeredAt
         )
     }
