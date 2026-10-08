@@ -1,176 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "studyTargetedReviewBookmarked" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bookmarked"
-          }
-        }
-      }
-    },
-    "commonCancel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
-          }
-        }
-      }
-    },
-    "homeBookmarkedCardHint" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Questions you saved to review"
-          }
-        }
-      }
-    },
-    "homeBookmarkedCardTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bookmarked"
-          }
-        }
-      }
-    },
-    "homeBookmarkedEmptyCaughtupMessage" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All your saved questions have been reviewed. Keep going to add more."
-          }
-        }
-      }
-    },
-    "homeBookmarkedEmptyCaughtupTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No bookmarked questions yet"
-          }
-        }
-      }
-    },
-    "homeBookmarkedEmptyMessage" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You've reviewed everything you saved."
-          }
-        }
-      }
-    },
-    "homeBookmarkedEmptyTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nothing saved yet"
-          }
-        }
-      }
-    },
-    "studyFlashcardBookmark" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bookmark"
-          }
-        }
-      }
-    },
-    "studySessionEndAndSwitch" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "End & Switch"
-          }
-        }
-      }
-    },
-    "studySessionSwitchConfirm" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "End session?"
-          }
-        }
-      }
-    },
-    "studySessionSwitchMessage" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your current session will end."
-          }
-        }
-      }
-    },
-    "studyFlashcardExplanation" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Explanation"
-          }
-        }
-      }
-    },
-    "studyFlashcardExplanationAid" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Explanation — study aid, not the official answer"
-          }
-        }
-      }
-    },
-    "studyFlashcardSpeakQuestion" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ask question aloud"
-          }
-        }
-      }
-    },
-    "studyFlashcardSpeakExplanation" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ask explanation aloud"
-          }
-        }
-      }
-    },
-    "studyFlashcardStop" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stop"
-          }
-        }
-      }
-    },
     "" : {
 
     },
@@ -367,6 +197,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Estudio"
+          }
+        }
+      }
+    },
+    "commonCancel" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
           }
         }
       }
@@ -1070,6 +911,66 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tu set de estudio"
+          }
+        }
+      }
+    },
+    "homeBookmarkedCardHint" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questions you saved to review"
+          }
+        }
+      }
+    },
+    "homeBookmarkedCardTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmarked"
+          }
+        }
+      }
+    },
+    "homeBookmarkedEmptyCaughtupMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All your saved questions have been reviewed. Keep going to add more."
+          }
+        }
+      }
+    },
+    "homeBookmarkedEmptyCaughtupTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No bookmarked questions yet"
+          }
+        }
+      }
+    },
+    "homeBookmarkedEmptyMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You've reviewed everything you saved."
+          }
+        }
+      }
+    },
+    "homeBookmarkedEmptyTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing saved yet"
           }
         }
       }
@@ -2804,6 +2705,7 @@
       }
     },
     "studyFlashcardAgainInterval" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2842,6 +2744,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : " las respuestas mostradas."
+          }
+        }
+      }
+    },
+    "studyFlashcardBookmark" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmark"
           }
         }
       }
@@ -2894,6 +2806,26 @@
         }
       }
     },
+    "studyFlashcardExplanation" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explanation"
+          }
+        }
+      }
+    },
+    "studyFlashcardExplanationAid" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explanation — study aid, not the official answer"
+          }
+        }
+      }
+    },
     "studyFlashcardHeaderNavBar" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2927,6 +2859,7 @@
       }
     },
     "studyFlashcardHowWellDidYouKnowIt" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2960,6 +2893,7 @@
       }
     },
     "studyFlashcardIntervalFormat" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3217,6 +3151,38 @@
         }
       }
     },
+    "studyFlashcardSpeakExplanation" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ask explanation aloud"
+          }
+        }
+      }
+    },
+    "studyFlashcardSpeakQuestion" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ask question aloud"
+          }
+        }
+      }
+    },
+    "studyFlashcardStop" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop"
+          }
+        }
+      }
+    },
     "studyFlashcardTypeReply" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3262,6 +3228,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Elegí un modo para comenzar a revisar."
+          }
+        }
+      }
+    },
+    "studySessionEndAndSwitch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End & Switch"
+          }
+        }
+      }
+    },
+    "studySessionSwitchConfirm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End session?"
+          }
+        }
+      }
+    },
+    "studySessionSwitchMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your current session will end."
           }
         }
       }
@@ -3430,6 +3426,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continúa la sesión"
+          }
+        }
+      }
+    },
+    "studyTargetedReviewBookmarked" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmarked"
           }
         }
       }
