@@ -36,7 +36,18 @@ anxiety, *"Am I ready to pass?"*
 add a **pure** function that receives a topic index (`stableID → topic`, resolved once by the
 content layer from the bundled bank) and returns per-topic coverage + accuracy:
 
+`StudyAttemptSnapshot` gana un campo `wasCorrect: Bool?` (se deriva del intento existente,
+**no** cambia el esquema):
+
 ```swift
+struct StudyAttemptSnapshot: Equatable {
+    let stableID: String
+    let testVersion: USCISTestVersion
+    let assessment: SelfAssessment?
+    let wasCorrect: Bool?
+    let answeredAt: Date
+}
+
 struct TopicCoverage: Equatable {
     let topic: String
     let mastered: Int
@@ -56,9 +67,8 @@ enum StudyProgressMetrics {
 
 - `topicIndex` keeps `StudyProgressMetrics` SwiftData-free and unit-testable (no bank loading
   in the domain layer).
-- Accuracy rule: a study attempt counts as "correct" when `assessment == .gotIt`; a mock-test
-  attempt counts as correct when `wasCorrect == true`. Unseen = questions never attempted on
-  that topic.
+- Correctness rule: an attempt is "correct" when `assessment == .gotIt` (study) **or**
+  `wasCorrect == true` (mock-test). Unseen = questions never attempted on that topic.
 - Covered by unit tests (no SwiftUI): per-topic mastered/due/unseen, accuracy math, and empty
   handling.
 
