@@ -22,8 +22,8 @@ struct MainTabView: View {
                 PracticeView(configuration: configuration)
             }
             Tab(AppTab.progress.title, systemImage: AppTab.progress.systemImage, value: AppTab.progress) {
-                ProgressTabView()
-            }
+                 ProgressTabView(configuration: configuration, selectedTab: $selectedTab)
+             }
         }
         // A native TabView writes the selection directly, so there is no hook to cancel a
         // switch mid-flight. Detect the change here: while a session is active, revert the

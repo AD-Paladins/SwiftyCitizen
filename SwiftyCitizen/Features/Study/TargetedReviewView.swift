@@ -30,6 +30,13 @@ struct TargetedReviewView: View {
         return Set(bookmarks.filter { $0.testVersionRawValue == raw }.map(\.questionStableID))
     }
 
+    /// Categories the deck is filtered by. A scoped topic (from Progress's coverage map) wins
+    /// over the manual category selection; otherwise it follows the on-screen toggle.
+    private var activeCategories: Set<String> {
+        if let scopedTopic = pendingNavigation.scopedTopic { return [scopedTopic] }
+        return byCategory ? selectedCategories : []
+    }
+
     private var resumeSession: StudySession? {
         sessions.first {
             $0.mode == .targetedReview && !$0.isComplete && $0.answeredCount > 0
@@ -41,7 +48,7 @@ struct TargetedReviewView: View {
             questions: bankQuestions,
             attempts: snapshots,
             scope: scope,
-            categories: byCategory ? selectedCategories : [],
+            categories: activeCategories,
             bookmarkedIDs: bookmarkedStableIDs
         )
     }
@@ -51,7 +58,7 @@ struct TargetedReviewView: View {
             questions: bankQuestions,
             attempts: snapshots,
             scope: scope,
-            categories: byCategory ? selectedCategories : [],
+            categories: activeCategories,
             bookmarkedIDs: bookmarkedStableIDs
         )
     }
@@ -122,12 +129,17 @@ struct TargetedReviewView: View {
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .background(palette.canvas.ignoresSafeArea())
-        // Home may request a specific scope (e.g. Bookmarked); open it and clear the request.
+        // Home/Progress may request a specific scope (Bookmarked) or topic; open it and clear.
         .onAppear {
             if let scope = pendingNavigation.reviewScope {
                 selectedScope = scope
-                pendingNavigation.clear()
             }
+            if let scopedTopic = pendingNavigation.scopedTopic {
+                byCategory = true
+                selectedCategories = [scopedTopic]
+                selectedScope = .due
+            }
+            pendingNavigation.clear()
         }
         .safeAreaInset(edge: .bottom) {
             if count(for: selectedScope) > 0 {

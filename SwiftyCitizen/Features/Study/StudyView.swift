@@ -33,15 +33,20 @@ struct StudyView: View {
             }
             .navigationTitle("studyTitle")
         }
-        // Home records the scope it wants to land on; turn that into a push here.
+        // Home/Progress record the scope (or topic) they want to land on; turn that into a push here.
         // onAppear covers a freshly loaded Study tab; onChange covers a cached one.
         .onAppear {
-            if pendingNavigation.reviewScope != nil, !path.contains(.targetedReview) {
+            if (pendingNavigation.reviewScope != nil || pendingNavigation.scopedTopic != nil), !path.contains(.targetedReview) {
                 path.append(.targetedReview)
             }
         }
         .onChange(of: pendingNavigation.reviewScope) { _, scope in
             if scope != nil, !path.contains(.targetedReview) {
+                path.append(.targetedReview)
+            }
+        }
+        .onChange(of: pendingNavigation.scopedTopic) { _, topic in
+            if topic != nil, !path.contains(.targetedReview) {
                 path.append(.targetedReview)
             }
         }

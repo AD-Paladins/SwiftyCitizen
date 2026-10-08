@@ -14,12 +14,22 @@ final class PendingNavigation {
     /// with this scope selected instead of the default `.due`.
     var reviewScope: ReviewScope?
 
+    /// When non-nil, targeted review should open filtered to this topic (from Progress's
+    /// coverage map). The domain builder already filters by topic via its category filter, so
+    /// the view maps this onto a single selected category.
+    var scopedTopic: String?
+
     func setBookmarked() {
         reviewScope = .bookmarked
     }
 
+    func setScopedTopic(_ topic: String) {
+        scopedTopic = topic
+    }
+
     func clear() {
         reviewScope = nil
+        scopedTopic = nil
     }
 }
 
