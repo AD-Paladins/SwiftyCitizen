@@ -2007,6 +2007,46 @@
         }
       }
     },
+    "practiceHeaderSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a mode to get ready for the exam."
+          }
+        }
+      }
+    },
+    "practiceMockTestEntryAction" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take test"
+          }
+        }
+      }
+    },
+    "practiceMockTestSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A timed practice run of the full civics question bank."
+          }
+        }
+      }
+    },
+    "practiceOralPracticeEntryAction" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start"
+          }
+        }
+      }
+    },
     "practiceMockTest" : {
       "localizations" : {
         "en" : {
