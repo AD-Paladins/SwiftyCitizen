@@ -38,7 +38,11 @@ struct FlashcardSessionHeader: View {
     let progressText: String
     let fraction: Double
     let currentBox: Int
-    let onClose: () -> Void
+    /// Stable ID of the question being studied; nil hides the bookmark toggle.
+    let bookmarkStableID: String?
+    var isBookmarked: Bool = false
+    var onToggleBookmark: () -> Void = {}
+    var onClose: () -> Void = {}
 
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
@@ -77,6 +81,23 @@ struct FlashcardSessionHeader: View {
                         .foregroundStyle(palette.warning)
                 }
                 .accessibilityLabel("\(String(localized: "studyFlashcardLeitnerBoxPrefix"))\(currentBox)")
+
+                // ponytail: bookmark toggle at the far right so the learner can save the
+                // current question without leaving the session.
+                if bookmarkStableID != nil {
+                    Button(action: onToggleBookmark) {
+                        // ponytail: outline glyph (bookmark_border) at labelSM (11pt) is too thin to
+                        // read on the canvas; headlineSM keeps the unselected state visible while
+                        // bookmark.fill stays distinct when saved.
+                        Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark_border")
+                            .font(CivicText.headlineSM.font)
+                            .foregroundStyle(isBookmarked ? palette.primary : palette.dimmed)
+                            .frame(width: 40, height: 40)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.borderless)
+                    .accessibilityLabel(String(localized: "studyFlashcardBookmark"))
+                }
             }
             .padding(.horizontal, 20)
 
@@ -92,11 +113,46 @@ struct FlashcardSessionHeader: View {
     }
 }
 
+struct SpeakerButton: View {
+    let textToSpeak: String
+    let idleLabelKey: String
+    @ObservedObject var speechManager: SpeechManager
+    @Environment(ThemeManager.self) private var themeManager
+    private var palette: AppPalette { themeManager.palette }
+
+    var body: some View {
+        Button {
+            speechManager.isSpeaking ? speechManager.stop() : speechManager.speak(textToSpeak)
+        } label: {
+            Image(systemName: speechManager.isSpeaking ? "speaker.wave.2.fill" : "speaker.fill")
+                .font(.subheadline)
+                .frame(width: 40, height: 44)
+                .contentShape(Rectangle())
+                .accessibilityLabel(
+                    speechManager.isSpeaking
+                        ? String(localized: "studyFlashcardStop")
+                        : NSLocalizedString(idleLabelKey, comment: "")
+                )
+        }
+        .buttonStyle(.borderless)
+    }
+}
+
 struct QuestionCard: View {
     let question: QuestionContent
+    // Optional so QuestionCard can be shared by flows without TTS (e.g. MockTestSessionView).
+    // Plain stored optional (not @ObservedObject — an Optional can't be a property wrapper): the
+    // flashcard session injects its SpeechManager and other callers omit it (init defaults nil); the
+    // child SpeakerButton owns the observation of isSpeaking, so QuestionCard only needs to know if one is present.
+    let speechManager: SpeechManager?
 
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
+
+    init(question: QuestionContent, speechManager: SpeechManager? = nil) {
+        self.question = question
+        self.speechManager = speechManager
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -113,10 +169,21 @@ struct QuestionCard: View {
                     .foregroundStyle(palette.dimmed)
             }
 
-            Text(question.officialQuestion)
-                .font(CivicText.headlineLG.font)
-                .foregroundStyle(palette.ink)
-                .textSelection(.enabled)
+            HStack(alignment: .top, spacing: 6) {
+                Text(question.officialQuestion)
+                    .font(CivicText.headlineLG.font)
+                    .foregroundStyle(palette.ink)
+                    .textSelection(.enabled)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                if let speechManager {
+                    SpeakerButton(
+                        textToSpeak: question.officialQuestion,
+                        idleLabelKey: "studyFlashcardSpeakQuestion",
+                        speechManager: speechManager
+                    )
+                }
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.md)
@@ -129,14 +196,19 @@ struct QuestionCard: View {
      let question: QuestionContent
      let notice: String?
      let userAnswer: String?
-     let grading: Bool
+    let grading: Bool
+     // Plain stored value (the child SpeakerButton owns @ObservedObject + isSpeaking); AnswerCard only
+     // forwards the manager it is given. The flashcard session always injects one.
+     let speechManager: SpeechManager
 
-     @Environment(ThemeManager.self) private var themeManager
-     private var palette: AppPalette { themeManager.palette }
+      @Environment(ThemeManager.self) private var themeManager
+      private var palette: AppPalette { themeManager.palette }
 
-     private var presentation: AnswerPresentation {
-         AnswerEvaluator.presentation(for: userAnswer, against: question)
-     }
+      private var presentation: AnswerPresentation {
+          AnswerEvaluator.presentation(for: userAnswer, against: question)
+      }
+
+      static func hasExplanation(_ question: QuestionContent) -> Bool { question.explanation != nil }
 
      var body: some View {
          VStack(alignment: .leading, spacing: 12) {
@@ -152,10 +224,12 @@ struct QuestionCard: View {
                      officialVariants(success: false)
                  }
              } else {
-                 plainComparison
-             }
+                  plainComparison
+              }
 
-             if let notice, !notice.isEmpty {
+              explanationBlock()
+
+              if let notice, !notice.isEmpty {
                 Text(notice)
                     .font(.footnote)
                     .foregroundStyle(palette.warning)
@@ -276,6 +350,33 @@ struct QuestionCard: View {
             .foregroundStyle(palette.dimmed)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
+
+    @ViewBuilder
+    private func explanationBlock() -> some View {
+        if let explanation = question.explanation, !explanation.isEmpty {
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(spacing: 6) {
+                    Image(systemName: "book.closed")     // distinct study-aid icon; avoid translate/globe/checkmark/sparkles
+                        .font(CivicText.labelSM.font)
+                        .foregroundStyle(palette.dimmed)
+                        .accessibilityHidden(true)
+                    Text("studyFlashcardExplanation")
+                        .font(CivicText.labelSM.font.weight(.semibold))
+                        .foregroundStyle(palette.dimmed)
+                    Spacer()
+                    SpeakerButton(textToSpeak: explanation, idleLabelKey: "studyFlashcardSpeakExplanation", speechManager: speechManager)
+                }
+                Text(explanation)
+                    .font(.footnote)
+                    .foregroundStyle(palette.dimmed)
+                    .textSelection(.enabled)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.sm)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(String(localized: "studyFlashcardExplanationAid"))
+        }
+    }
 }
 
 struct SourceBadge: View {
@@ -362,12 +463,16 @@ struct FlashcardSessionView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Environment(ThemeManager.self) private var themeManager
+    @Environment(SessionActivityCoordinator.self) private var sessionCoordinator
     private var palette: AppPalette { themeManager.palette }
+    @Query private var bookmarks: [Bookmark]
 
     @State private var state: FlashcardState
     @State private var session: StudySession?
     @State private var confirmsExit = false
     @State private var draftAnswer: String = ""
+
+    @StateObject private var speechManager = SpeechManager()
 
     init(
         configuration: OnboardingConfiguration,
@@ -420,13 +525,16 @@ struct FlashcardSessionView: View {
                         progressText: state.progressText,
                         fraction: progressFraction,
                         currentBox: state.currentBox,
+                        bookmarkStableID: state.currentQuestion?.stableID,
+                        isBookmarked: isCurrentQuestionBookmarked,
+                        onToggleBookmark: { toggleCurrentBookmark() },
                         onClose: { confirmsExit = true }
                     )
 
                     ScrollView {
                         VStack(spacing: 16) {
-                            if let question = state.currentQuestion {
-                                 QuestionCard(question: question)
+                                 if let question = state.currentQuestion {
+                                  QuestionCard(question: question, speechManager: speechManager)
 
                                  if !state.isRevealed {
                                      answerInput
@@ -435,11 +543,12 @@ struct FlashcardSessionView: View {
                                  if state.isRevealed {
                                      let answerForQuestion = userAnswers[question.stableID] ?? state.currentAnswer
                                      AnswerCard(
-                                         question: question,
-                                         notice: nil,
-                                         userAnswer: answerForQuestion,
-                                         grading: userAnswers[question.stableID] != nil
-                                     )
+                                          question: question,
+                                          notice: nil,
+                                          userAnswer: answerForQuestion,
+                                          grading: userAnswers[question.stableID] != nil,
+                                          speechManager: speechManager
+                                      )
                                  }
                              }
                         }
@@ -450,22 +559,38 @@ struct FlashcardSessionView: View {
                 }
             }
         }
-        .navigationBarBackButtonHidden(true)
+       .navigationBarBackButtonHidden(true)
         .navigationTitle(mode.displayName)
         .navigationBarTitleDisplayMode(.inline)
         .background(palette.canvas.ignoresSafeArea())
-        .onAppear(perform: beginOrResumeSession)
-        .confirmationDialog(
-             "studyFlashcardEndSessionConfirm",
-             isPresented: $confirmsExit,
-             titleVisibility: .visible
-         ) {
-             Button("studyFlashcardEndSession", role: .destructive) {
-                 endSession()
-                 dismiss()
-             }
-             Button("studyFlashcardKeepStudying", role: .cancel) {}
-         }
+        .onAppear {
+            beginOrResumeSession()
+            sessionCoordinator.setActive(true)
+        }
+        // F4: when the tab-switch guard ends this session, dismiss it here.
+        .onChange(of: sessionCoordinator.isActive) { _, active in
+            if !active {
+                endSession()
+                dismiss()
+            }
+        }
+        .onDisappear {
+            if let session, session.endedAt == nil {
+                endSession()
+            }
+            sessionCoordinator.setActive(false)
+        }
+        .alert(
+              "studyFlashcardEndSessionConfirm",
+              isPresented: $confirmsExit,
+              actions: {
+                  Button("studyFlashcardEndSession", role: .destructive) {
+                      endSession()
+                      dismiss()
+                  }
+                  Button("studyFlashcardKeepStudying", role: .cancel) {}
+              }
+          )
     }
 
     @ViewBuilder
@@ -489,6 +614,35 @@ struct FlashcardSessionView: View {
         let total = state.questions.count
         guard total > 0 else { return 0 }
         return Double(min(state.currentIndex + 1, total)) / Double(total)
+    }
+
+    private var activeVersionRawValue: String? {
+        configuration.selectedTestVersion?.rawValue
+    }
+
+    /// Stable IDs of bookmarked questions for the active test version. Version scoping
+    /// lives here (SwiftData query); the pure builder never touches SwiftData.
+    private var bookmarkedStableIDs: Set<String> {
+        guard let raw = activeVersionRawValue else { return [] }
+        return Set(bookmarks.filter { $0.testVersionRawValue == raw }.map(\.questionStableID))
+    }
+
+    private var isCurrentQuestionBookmarked: Bool {
+        guard let id = state.currentQuestion?.stableID else { return false }
+        return bookmarkedStableIDs.contains(id)
+    }
+
+    /// Adds or removes the bookmark for the question currently on screen.
+    private func toggleCurrentBookmark() {
+        guard let version = configuration.selectedTestVersion,
+              let stableID = state.currentQuestion?.stableID else { return }
+        let raw = version.rawValue
+        if let existing = bookmarks.first(where: { $0.questionStableID == stableID && $0.testVersionRawValue == raw }) {
+            modelContext.delete(existing)
+        } else {
+            modelContext.insert(Bookmark(questionStableID: stableID, testVersion: version))
+        }
+        try? modelContext.save()
     }
 
     private var answerInput: some View {
@@ -593,5 +747,6 @@ struct FlashcardSessionView: View {
         ))
     }
     .environment(ThemeManager())
-    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
+    .environment(SessionActivityCoordinator())
+    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self, Bookmark.self], inMemory: true)
 }

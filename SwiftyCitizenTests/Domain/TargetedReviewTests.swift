@@ -69,7 +69,8 @@ struct TargetedReviewTests {
     }
 
     @Test
-    func dueScopeIsUnionOfUnansweredAndNeedsWork() {
+    func dueSurfacesUnseenFirstThenMostOverdue() {
+        // a=.gotIt advances to box 2 (1-day interval, not yet due); b=.again resets to box 1 (due now).
         let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]
         let attempts = [
             snapshot(id: "a", assessment: .gotIt),
@@ -77,11 +78,9 @@ struct TargetedReviewTests {
         ]
 
         let due = ReviewDeckBuilder.build(questions: questions, attempts: attempts, scope: .due)
-        let unanswered = ReviewDeckBuilder.build(questions: questions, attempts: attempts, scope: .unanswered)
-        let needsWork = ReviewDeckBuilder.build(questions: questions, attempts: attempts, scope: .needsWork)
 
-        #expect(Set(due.map(\.stableID)) == Set(unanswered.map(\.stableID)).union(Set(needsWork.map(\.stableID))))
-        #expect(due.map(\.stableID) == ["b", "c"])
+        // Unseen (c) surfaces first; then the overdue card (b). Recently-mastered (a) is excluded.
+        #expect(due.map(\.stableID) == ["c", "b"])
     }
 
     @Test
@@ -336,6 +335,97 @@ struct TargetedReviewTests {
         state.assess(.hard)
         #expect(state.isComplete)
         #expect(state.answeredCount == 2)
+    }
+
+    @Test
+    func bookmarkedScopeIncludesOnlyBookmarkedIDs() {
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .bookmarked,
+            bookmarkedIDs: ["a", "c"]
+        )
+
+        #expect(deck.map(\.stableID) == ["a", "c"])
+    }
+
+    @Test
+    func bookmarkedScopePreservesBankOrder() {
+        let questions = [makeQuestion(id: "z"), makeQuestion(id: "y"), makeQuestion(id: "x")]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .bookmarked,
+            bookmarkedIDs: ["x", "z"]
+        )
+
+        #expect(deck.map(\.stableID) == ["z", "x"])
+    }
+
+    @Test
+    func bookmarkedScopeEmptyWhenNoBookmarks() {
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b")]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .bookmarked,
+            bookmarkedIDs: []
+        )
+
+        #expect(deck.isEmpty)
+    }
+
+    @Test
+    func bookmarkedCountMatchesDeckSize() {
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]
+
+        #expect(
+            ReviewDeckBuilder.questionCount(
+                questions: questions,
+                attempts: [],
+                scope: .bookmarked,
+                bookmarkedIDs: ["a", "b"]
+            ) == 2
+        )
+    }
+
+    @Test
+    func bookmarkedScopeIsVersionScopedByCaller() {
+        // The builder filters by stable-ID membership only; the view scopes IDs to the
+        // active version. A bookmark ID from another version must not surface here.
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b")]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .bookmarked,
+            bookmarkedIDs: ["a"]
+        )
+
+        #expect(deck.map(\.stableID) == ["a"])
+    }
+
+    @Test
+    func bookmarkPersistsIndependentlyOfSessions() throws {
+        let modelContainer = try ModelContainer(
+            for: Bookmark.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let context = ModelContext(modelContainer)
+
+        let bookmark = Bookmark(questionStableID: "a", testVersion: .twoThousandTwentyFive)
+        context.insert(bookmark)
+        try context.save()
+
+        let fetched = try context.fetch(FetchDescriptor<Bookmark>())
+        #expect(fetched.count == 1)
+        #expect(fetched.first?.questionStableID == "a")
+        #expect(fetched.first?.testVersionRawValue == USCISTestVersion.twoThousandTwentyFive.rawValue)
+        #expect(fetched.first?.createdAt != nil)
     }
 
     private func snapshot(

@@ -22,6 +22,9 @@ build/
 # Local editor config with secrets
 opencode.json
 
+# OpenCode peer developer runtime (node_modules + local state)
+.opencode/
+
 # Temporary files
 *.tmp
 *.swp

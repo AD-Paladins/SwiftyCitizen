@@ -20,6 +20,8 @@ The flashcard flow is the base study loop: one official question at a time, the 
 | State machine | `FlashcardState` — pure struct: `currentIndex`, `isRevealed`, `currentAnswer`, `attempts`, `boxes` (stableID → Leitner box) |
 | Persistence | `StudySession(mode:)` + `QuestionAttempt(assessment:, answerText:, boxLevel:)` per answer |
 | Version source | `configuration.selectedTestVersion` → `QuestionBankLoader` |
+| Bookmark toggle | `FlashcardSessionHeader` shows a bookmark button (right of the box/flame) only while a question is on screen; toggling adds/removes a `Bookmark` scoped to the active test version. The query lives in `FlashcardSessionView` (`@Query` + version filter); the pure builder never touches SwiftData |
+| Close UX | Ending the session uses an `.alert` (not a confirmation dialog) |
 
 ## State machine
 
@@ -63,6 +65,8 @@ flowchart TD
 - `Again` re-presents without recording an attempt, so repeated retries do not pollute `gotItRate` and a card that was never confirmed stays `Due` (see `ReviewDeckBuilder`) until the learner confirms `Hard`/`Got it`.
 - `QuestionAttempt` uses a `rawValue` string for `SelfAssessment`; unknown values decode to nil and are skipped by metrics.
 - Exiting without answers deletes the session; exiting after answers marks it ended (`endedAt`).
+- The session marks itself active in `SessionActivityCoordinator` on appear and inactive on disappear (and self-dismisses if the coordinator flips off), so switching tabs mid-session prompts to end first.
+- A bookmark is scoped to the active test version: the same question bookmarked under 2025 and 2008 are two rows, so the Bookmarked scope reflects the version in `configuration.selectedTestVersion`.
 - When rendering a missed-questions deck (`.targetedReview` from `MockTestResultView`), the official answer is shown and the learner's own answer is compared against it via `AnswerEvaluator.presentation(for:against:)`, which color-codes the verdict (green correct, amber partial, red wrong) and shows wrong answers side-by-side with the official answer (see `flow-targeted-review.md`).
 - In a live flashcard session the learner writes their answer before reveal; `AnswerCard(grading:false)` shows "Your answer" and the "Official answer" side by side with no verdict color, preserving the self-assessment-only principle (no automated grading in flashcards). The view picks the source per question: a seeded `userAnswers` entry (missed-question review) wins, otherwise `state.currentAnswer`.
 

@@ -3,7 +3,9 @@ import XCTest
 @MainActor
 final class AccessibilityAuditTests: XCTestCase {
 
-    private func completeOnboardingIfNeeded(_ app: XCUIApplication) throws {
+    /// Completes onboarding once so UI tests can reach the main tab bar. Public so other test
+    /// classes in this bundle (e.g. screenshot capture) can reuse the exact flow.
+    public func completeOnboardingIfNeeded(_ app: XCUIApplication) throws {
         let welcome = app.staticTexts["Welcome to SwiftyCitizen"]
         guard welcome.waitForExistence(timeout: 5) else { return }
 

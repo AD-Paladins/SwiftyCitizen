@@ -200,7 +200,7 @@ struct QuestionContentTests {
         }
     }
 
-    // MARK: optional study-aid fields (spanishExplanation, insight)
+    // MARK: optional study-aid fields (explanation, insight)
 
     @Test
     func optionalFieldsRoundTripThroughJSON() throws {
@@ -216,12 +216,12 @@ struct QuestionContentTests {
             verificationDate: Date(timeIntervalSince1970: 0),
             isJurisdictionDependent: false,
             isSixtyFiveTwentyQuestion: false,
-            spanishExplanation: "El Congreso hace las leyes.",
+            explanation: "Congress writes the laws.",
             insight: "Congress writes the laws."
         )
         let data = try JSONEncoder().encode(question)
         let decoded = try JSONDecoder().decode(QuestionContent.self, from: data)
-        #expect(decoded.spanishExplanation == "El Congreso hace las leyes.")
+        #expect(decoded.explanation == "Congress writes the laws.")
         #expect(decoded.insight == "Congress writes the laws.")
     }
 
@@ -249,7 +249,7 @@ struct QuestionContentTests {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         let decoded = try decoder.decode(QuestionContent.self, from: data)
-        #expect(decoded.spanishExplanation == nil)
+        #expect(decoded.explanation == nil)
         #expect(decoded.insight == nil)
     }
 
@@ -266,12 +266,39 @@ struct QuestionContentTests {
             verificationDate: Date(timeIntervalSince1970: 0),
             isJurisdictionDependent: false,
             isSixtyFiveTwentyQuestion: false,
-            spanishExplanation: "El Congreso hace las leyes.",
+            explanation: "Congress writes the laws.",
             insight: "Congress writes the laws."
         )
         let content = record.question(for: .twoThousandTwentyFive)
-        #expect(content.spanishExplanation == "El Congreso hace las leyes.")
+        #expect(content.explanation == "Congress writes the laws.")
         #expect(content.insight == "Congress writes the laws.")
+    }
+
+    // MARK: AnswerCard explanation decision point
+
+    @Test
+    func showsExplanationWhenFieldPresent() {
+        let question = QuestionContent(
+            stableID: "2025-001",
+            testVersion: .twoThousandTwentyFive,
+            officialQuestion: "What is Congress?",
+            acceptedAnswerVariants: ["The legislature"],
+            answerCardinality: .exactly(1),
+            topic: "Government",
+            sourceURL: URL(string: "https://www.uscis.gov")!,
+            sourceRevision: "2025-09-10",
+            verificationDate: Date(timeIntervalSince1970: 0),
+            isJurisdictionDependent: false,
+            isSixtyFiveTwentyQuestion: false,
+            explanation: "Congress writes the laws."
+        )
+        #expect(AnswerCard.hasExplanation(question))
+    }
+
+    @Test
+    func hidesExplanationWhenFieldAbsent() {
+        let question = sampleQuestion(id: "one", variants: ["The Constitution"], topic: "Government")
+        #expect(!AnswerCard.hasExplanation(question))
     }
 
     private func matchingConfig(count: Int) -> TestConfiguration {

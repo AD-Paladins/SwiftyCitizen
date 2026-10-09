@@ -10,10 +10,12 @@ struct StudyView: View {
     let configuration: OnboardingConfiguration
 
     @Environment(ThemeManager.self) private var themeManager
+    @Environment(PendingNavigation.self) private var pendingNavigation
     private var palette: AppPalette { themeManager.palette }
+    @State private var path: [StudyRoute] = []
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             Group {
                 if !bankAvailable {
                     contentUnavailable
@@ -30,6 +32,23 @@ struct StudyView: View {
                 }
             }
             .navigationTitle("studyTitle")
+        }
+        // Home/Progress record the scope (or topic) they want to land on; turn that into a push here.
+        // onAppear covers a freshly loaded Study tab; onChange covers a cached one.
+        .onAppear {
+            if (pendingNavigation.reviewScope != nil || pendingNavigation.scopedTopic != nil), !path.contains(.targetedReview) {
+                path.append(.targetedReview)
+            }
+        }
+        .onChange(of: pendingNavigation.reviewScope) { _, scope in
+            if scope != nil, !path.contains(.targetedReview) {
+                path.append(.targetedReview)
+            }
+        }
+        .onChange(of: pendingNavigation.scopedTopic) { _, topic in
+            if topic != nil, !path.contains(.targetedReview) {
+                path.append(.targetedReview)
+            }
         }
     }
 
@@ -105,5 +124,6 @@ struct StudyView: View {
         shuffleQuestions: false
     ))
     .environment(ThemeManager())
-    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
+    .environment(SessionActivityCoordinator())
+    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self, Bookmark.self], inMemory: true)
 }

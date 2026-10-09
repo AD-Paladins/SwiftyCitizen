@@ -63,7 +63,7 @@ New `.swift` files under `SwiftyCitizen/` and `SwiftyCitizenTests/` are picked u
 
 ```
 SwiftyCitizen/            App shell, views, theme, and pure domain types
-SwiftyCitizen/Resources/QuestionBanks/   Bundled official question banks
+SwiftyCitizen/Core/Content/QuestionBanks/   Bundled official question banks
 SwiftyCitizenTests/      Pure-logic unit tests (exam, study, targeted review, content)
 docs/plan/               Product plan, design spec, screen inventory, USCIS rules
 docs/architecture/       Implementation docs: flows, persistence, content, dependencies

@@ -6,8 +6,10 @@ struct TargetedReviewView: View {
 
     @Environment(\.modelContext) private var modelContext
     @Environment(ThemeManager.self) private var themeManager
+    @Environment(PendingNavigation.self) private var pendingNavigation
     private var palette: AppPalette { themeManager.palette }
     @Query private var sessions: [StudySession]
+    @Query private var bookmarks: [Bookmark]
     @State private var selectedScope: ReviewScope = .due
     @State private var byCategory = false
     @State private var selectedCategories: Set<String> = []
@@ -21,6 +23,20 @@ struct TargetedReviewView: View {
         sessions.flatMap(\.attempts).compactMap(\.snapshot)
     }
 
+    /// Stable IDs of bookmarked questions for the active test version. The view owns
+    /// version scoping (SwiftData query); the pure builder only filters by membership.
+    private var bookmarkedStableIDs: Set<String> {
+        guard let raw = configuration.selectedTestVersion?.rawValue else { return [] }
+        return Set(bookmarks.filter { $0.testVersionRawValue == raw }.map(\.questionStableID))
+    }
+
+    /// Categories the deck is filtered by. A scoped topic (from Progress's coverage map) wins
+    /// over the manual category selection; otherwise it follows the on-screen toggle.
+    private var activeCategories: Set<String> {
+        if let scopedTopic = pendingNavigation.scopedTopic { return [scopedTopic] }
+        return byCategory ? selectedCategories : []
+    }
+
     private var resumeSession: StudySession? {
         sessions.first {
             $0.mode == .targetedReview && !$0.isComplete && $0.answeredCount > 0
@@ -32,7 +48,8 @@ struct TargetedReviewView: View {
             questions: bankQuestions,
             attempts: snapshots,
             scope: scope,
-            categories: byCategory ? selectedCategories : []
+            categories: activeCategories,
+            bookmarkedIDs: bookmarkedStableIDs
         )
     }
 
@@ -41,7 +58,8 @@ struct TargetedReviewView: View {
             questions: bankQuestions,
             attempts: snapshots,
             scope: scope,
-            categories: byCategory ? selectedCategories : []
+            categories: activeCategories,
+            bookmarkedIDs: bookmarkedStableIDs
         )
     }
 
@@ -49,7 +67,8 @@ struct TargetedReviewView: View {
         ReviewDeckBuilder.categorySummary(
             questions: bankQuestions,
             attempts: snapshots,
-            scope: selectedScope
+            scope: selectedScope,
+            bookmarkedIDs: bookmarkedStableIDs
         )
     }
 
@@ -60,6 +79,8 @@ struct TargetedReviewView: View {
             selectedCategories.insert(topic)
         }
     }
+
+  
 
     var body: some View {
         List {
@@ -108,6 +129,18 @@ struct TargetedReviewView: View {
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .background(palette.canvas.ignoresSafeArea())
+        // Home/Progress may request a specific scope (Bookmarked) or topic; open it and clear.
+        .onAppear {
+            if let scope = pendingNavigation.reviewScope {
+                selectedScope = scope
+            }
+            if let scopedTopic = pendingNavigation.scopedTopic {
+                byCategory = true
+                selectedCategories = [scopedTopic]
+                selectedScope = .due
+            }
+            pendingNavigation.clear()
+        }
         .safeAreaInset(edge: .bottom) {
             if count(for: selectedScope) > 0 {
                 NavigationLink {
@@ -150,24 +183,20 @@ struct TargetedReviewView: View {
 
     private func scopeRow(_ scope: ReviewScope) -> some View {
         let isSelected = selectedScope == scope
-        return Button {
-            selectedScope = scope
-        } label: {
-            HStack {
-                Label(scope.displayName, systemImage: scope.systemImage)
-                Spacer()
-                if isSelected {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(palette.primary)
-                        .accessibilityHidden(true)
-                }
-                Text("\(count(for: scope))")
-                    .font(.headline.monospacedDigit())
-                    .foregroundStyle(palette.dimmed)
+        return HStack(spacing: 12) {
+            Label(scope.displayName, systemImage: scope.systemImage)
+            Spacer()
+            if isSelected {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundStyle(palette.primary)
+                    .accessibilityHidden(true)
             }
-            .contentShape(Rectangle())
+            Text("\(count(for: scope))")
+                .font(.headline.monospacedDigit())
+                .foregroundStyle(palette.dimmed)
         }
-        .buttonStyle(.plain)
+        .contentShape(Rectangle())
+        .onTapGesture { selectedScope = scope }
         .listRowBackground(isSelected ? palette.surface : Color.clear)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
@@ -185,5 +214,5 @@ struct TargetedReviewView: View {
         ))
     }
     .environment(ThemeManager())
-    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self], inMemory: true)
+    .modelContainer(for: [SavedOnboardingConfiguration.self, StudySession.self, QuestionAttempt.self, Bookmark.self], inMemory: true)
 }

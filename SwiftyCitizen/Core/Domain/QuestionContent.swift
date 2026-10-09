@@ -18,11 +18,13 @@ struct QuestionContent: Codable, Hashable, Identifiable {
     let isSixtyFiveTwentyQuestion: Bool
     // Optional study aids (Phase 3). Optional + backward-compatible: banks without these
     // keys decode to nil. Curated human content only — never AI-generated.
+    // `explanation` is a single English-canonical study aid; TTS hardcodes en-US and every
+    // call site relies on that default.
     // No `= nil` default on the stored property: a defaulted `let` in a Codable type is never
     // populated from JSON, so decoding would always yield nil. The nil default lives on the
     // initializer parameter below instead, which keeps existing 11-arg call sites compiling
     // while still decoding present keys.
-    let spanishExplanation: String?
+    let explanation: String?
     let insight: String?
 
     init(
@@ -37,7 +39,7 @@ struct QuestionContent: Codable, Hashable, Identifiable {
         verificationDate: Date?,
         isJurisdictionDependent: Bool,
         isSixtyFiveTwentyQuestion: Bool,
-        spanishExplanation: String? = nil,
+        explanation: String? = nil,
         insight: String? = nil
     ) {
         self.stableID = stableID
@@ -51,7 +53,7 @@ struct QuestionContent: Codable, Hashable, Identifiable {
         self.verificationDate = verificationDate
         self.isJurisdictionDependent = isJurisdictionDependent
         self.isSixtyFiveTwentyQuestion = isSixtyFiveTwentyQuestion
-        self.spanishExplanation = spanishExplanation
+        self.explanation = explanation
         self.insight = insight
     }
 
@@ -156,6 +158,25 @@ struct QuestionContentValidator {
 }
 
 extension QuestionContent {
+    /// Returns a copy of this question with `explanation` replaced, leaving every other
+    /// field unchanged. Used to populate explanations from an external dataset after load.
+    func withExplanation(_ explanation: String?) -> QuestionContent {
+        QuestionContent(
+            stableID: stableID,
+            testVersion: testVersion,
+            officialQuestion: officialQuestion,
+            acceptedAnswerVariants: acceptedAnswerVariants,
+            answerCardinality: answerCardinality,
+            topic: topic,
+            sourceURL: sourceURL,
+            sourceRevision: sourceRevision,
+            verificationDate: verificationDate,
+            isJurisdictionDependent: isJurisdictionDependent,
+            isSixtyFiveTwentyQuestion: isSixtyFiveTwentyQuestion,
+            explanation: explanation
+        )
+    }
+
     enum AnswerInputMode {
         case selection
         case text

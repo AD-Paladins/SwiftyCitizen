@@ -409,6 +409,128 @@ struct StudyLogicTests {
         #expect(breakdown == MasteryBreakdown(mastered: 2, due: 1, unseen: 125))
     }
 
+    private let coverageTopicIndex = [
+        "2025-001": "Government",
+        "2025-002": "Government",
+        "2025-003": "Government",
+        "2025-004": "Economy",
+        "2025-005": "Economy",
+    ]
+
+    private func coverageSnapshot(
+        id: String,
+        wasCorrect: Bool? = nil,
+        assessment: SelfAssessment? = nil,
+        at date: Date = Date(timeIntervalSince1970: 100)
+    ) -> StudyAttemptSnapshot {
+        StudyAttemptSnapshot(
+            stableID: id,
+            testVersion: .twoThousandTwentyFive,
+            assessment: assessment,
+            wasCorrect: wasCorrect,
+            answeredAt: date
+        )
+    }
+
+    @Test
+    func coverageByTopicCountsMasteredDueUnseenPerTopic() {
+        let byTopic = StudyProgressMetrics.coverageByTopic(
+            attempts: [
+                coverageSnapshot(id: "2025-001", assessment: .gotIt, at: Date(timeIntervalSince1970: 100)),
+                coverageSnapshot(id: "2025-002", assessment: .hard, at: Date(timeIntervalSince1970: 200)),
+                coverageSnapshot(id: "2025-004", wasCorrect: true, at: Date(timeIntervalSince1970: 300)),
+            ],
+            for: .twoThousandTwentyFive,
+            topicIndex: coverageTopicIndex
+        )
+
+        let government = byTopic.first { $0.topic == "Government" }
+        #expect(government?.mastered == 1)   // 2025-001 gotIt
+        #expect(government?.due == 1)        // 2025-002 hard
+        #expect(government?.unseen == 1)     // 3 questions - 2 attempted
+
+        let economy = byTopic.first { $0.topic == "Economy" }
+        #expect(economy?.mastered == 1)      // 2025-004 wasCorrect
+        #expect(economy?.due == 0)
+        #expect(economy?.unseen == 1)        // 2 questions - 1 attempted
+    }
+
+    @Test
+    func coverageByTopicAccuracyIsCorrectFraction() {
+        let byTopic = StudyProgressMetrics.coverageByTopic(
+            attempts: [
+                coverageSnapshot(id: "2025-001", assessment: .gotIt, at: Date(timeIntervalSince1970: 100)),
+                coverageSnapshot(id: "2025-002", assessment: .hard, at: Date(timeIntervalSince1970: 200)),
+                coverageSnapshot(id: "2025-003", assessment: .gotIt, at: Date(timeIntervalSince1970: 300)),
+            ],
+            for: .twoThousandTwentyFive,
+            topicIndex: coverageTopicIndex
+        )
+
+        let government = byTopic.first { $0.topic == "Government" }
+        #expect(government?.accuracy == 2.0 / 3.0)
+    }
+
+    @Test
+    func coverageByTopicTreatsMockWasCorrectAsCorrect() {
+        let byTopic = StudyProgressMetrics.coverageByTopic(
+            attempts: [
+                coverageSnapshot(id: "2025-001", wasCorrect: true, at: Date(timeIntervalSince1970: 100)),
+                coverageSnapshot(id: "2025-002", wasCorrect: false, at: Date(timeIntervalSince1970: 200)),
+            ],
+            for: .twoThousandTwentyFive,
+            topicIndex: coverageTopicIndex
+        )
+
+        let government = byTopic.first { $0.topic == "Government" }
+        #expect(government?.mastered == 1)   // wasCorrect true -> correct
+        #expect(government?.due == 1)        // wasCorrect false, no assessment -> not correct
+        #expect(government?.accuracy == 0.5)
+    }
+
+    @Test
+    func coverageByTopicIsEmptyWhenNoAttempts() {
+        let byTopic = StudyProgressMetrics.coverageByTopic(
+            attempts: [],
+            for: .twoThousandTwentyFive,
+            topicIndex: coverageTopicIndex
+        )
+
+        #expect(byTopic.count == 2)
+        let government = byTopic.first { $0.topic == "Government" }
+        #expect(government?.mastered == 0)
+        #expect(government?.due == 0)
+        #expect(government?.unseen == 3)
+        #expect(government?.accuracy == nil)
+    }
+
+    @Test
+    func coverageByTopicFiltersByVersion() {
+        let byTopic = StudyProgressMetrics.coverageByTopic(
+            attempts: [
+                coverageSnapshot(id: "2025-001", assessment: .gotIt, at: Date(timeIntervalSince1970: 100)),
+                // Different version -> ignored for this version.
+                StudyAttemptSnapshot(
+                    stableID: "2008-001",
+                    testVersion: .twoThousandEight,
+                    assessment: .gotIt,
+                    wasCorrect: nil,
+                    answeredAt: Date(timeIntervalSince1970: 200)
+                ),
+            ],
+            for: .twoThousandTwentyFive,
+            topicIndex: coverageTopicIndex
+        )
+
+        let government = byTopic.first { $0.topic == "Government" }
+        #expect(government?.mastered == 1)
+        #expect(government?.unseen == 2)     // 3 questions - 1 attempted (the 2008 one ignored)
+
+        let economy = byTopic.first { $0.topic == "Economy" }
+        #expect(economy?.mastered == 0)
+        #expect(economy?.unseen == 2)
+    }
+
     private func utcCalendar() -> Calendar {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(abbreviation: "UTC")!

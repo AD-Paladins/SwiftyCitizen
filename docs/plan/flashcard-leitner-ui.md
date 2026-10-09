@@ -49,12 +49,12 @@ All domain files are `import Foundation` only (SwiftData-free, SwiftUI-free) so 
 | — | Build + tests + final verification | **DONE** (2026-09-30) | 172 tests pass; app compiles |
 
 Notes:
-- Slice 4's "audio" item is **out of scope** (audio is Phase 4, deferred). Do not implement audio here.
+- Slice 4's "audio" item is complete — audio playback is implemented via `SpeechManager` (AVSpeechSynthesizer) in the flashcard session.
 - The domain slices (1–3) are complete and tested. The UI restyle (slices 4–6) matches the Stitch designs
   using the existing design tokens (`CivicText`, `Space`, `CardStyle`, `AppPalette`) — no domain behavior changed.
-- **Follow-ups still open** (deliberately not implemented): audio (`volume_up`), "Traducir (ES)" / Spanish
-  per-question content, bookmark (`bookmark_border`), and the "Civics Insight" explanation card — all need
-  data or a later phase. See §10.
+- **Follow-ups resolved**: audio completed; Spanish explanations and the "Civics Insight" card are
+   cancelled (no longer planned/recalled). Bookmark (`bookmark_border`) is no longer deferred — it is being
+   implemented now as the next simple feature. Truly-deferred items remain in §10.
 
 ## 4. Domain model facts (preserve these — do not regress)
 
@@ -153,7 +153,7 @@ New `.swift` files under `SwiftyCitizen/` and `SwiftyCitizenTests/` are auto-pic
 
 ## 8. Non-goals (do not add)
 
-- No audio (Phase 4).
+- Audio is complete (SpeechManager).
 - No AI-generated content; official answers stay authoritative.
 - No schema changes for the box level (it lives in `FlashcardState.boxes` / `FlashcardAttemptRecord.boxLevel`).
 - No presenting self-assessment as an exam score.
@@ -168,12 +168,13 @@ Both were answered by reading the Stitch designs and implemented:
 
 ## 10. Deliberately deferred (follow-ups, not bugs)
 
-These appear in the Stitch designs but need curated content or a later phase — do NOT implement without their prerequisites. The data-model backbone (`spanishExplanation` + `insight` optional fields on `QuestionContent`, carried through the loader) landed in Phase 3; what remains is **content curation** and **UI**:
+These appear in the Stitch designs but need curated content or a later phase — do NOT implement without their prerequisites. The data-model backbone (`explanation` + `insight` optional fields on `QuestionContent`, carried through the loader) is in place; the content follow-ups for those fields are **cancelled**: Spanish explanations will not be built and the "Civics Insight" card is dropped (no longer recalled). Bookmark (`bookmark_border`) is NOT here anymore — it is being implemented now as the next simple feature.
 
-- **Audio** (`volume_up` on question/answer) — Phase 4. No audio infra yet.
-- **"Traducir (ES)" / Spanish per-question explanations** — field exists on `QuestionContent`; needs curated Spanish content (human-reviewed, never AI-generated) populated into it (Phase 3).
-- **Bookmark** (`bookmark_border`) — no model/support yet.
-- **"Civics Insight" card** (lightbulb explanation) — field exists on `QuestionContent`; needs curated insight content (never fabricated; if generated later, clearly labeled as such) (Phase 3/5).
+Remaining resolved/cancelled items:
+
+- **Audio** (`volume_up`) — completed via `SpeechManager` (AVSpeechSynthesizer).
+- **"Traducir (ES)" / Spanish per-question explanations** — cancelled (user decision; will not be built). The `explanation` field stays for future curated content.
+- **"Civics Insight" card** — cancelled (no longer recalled). The `insight` field stays for future curated content.
 
 ## 11. Session log
 

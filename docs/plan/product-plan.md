@@ -11,7 +11,7 @@ SwiftyCitizen is an offline-first iOS study app for the USCIS naturalization civ
 | Storage | Local-only persistence for questions, attempts, sessions, and preferences |
 | Primary study modes | Flashcards, targeted review, and oral practice |
 | Exam simulation | Uses the selected USCIS test version and its official scoring rules |
-| Languages | English for official answers; Spanish may be provided as a study aid |
+| Languages | English for official answers. Spanish study aids are cancelled (user decision). |
 | AI | Deferred until deterministic learning and scoring behavior are proven |
 | Backend | Out of scope for the first release |
 
@@ -174,7 +174,7 @@ Three bank entries (2008-088, 2025-028, 2025-037) declared `answerCardinality` 2
 - Add a transparent spaced-repetition scheduler based on learner self-assessment and answer history.
 - Keep scheduling logic independent of SwiftUI and SwiftData so it can be tested in isolation.
 - Add Dynamic Type, VoiceOver labels, color-independent feedback, reduced motion support, and clear audio controls.
-- Add optional Spanish explanations without changing the official English answer used for practice.
+- Spanish explanations are cancelled (user decision); the official English answer stays authoritative.
 
 - **Leitner flashcard UI** (slices 1–6) is implemented at the domain level (5-box `LeitnerScheduler`, box
   tracking in `FlashcardState`, persistence/resume) and is pending only the Stitch restyle of the session UI
@@ -232,7 +232,7 @@ Each question should support:
 - Accepted answer variants and answer cardinality, such as "name one" or "name two."
 - Answer format: typed free-text (current), single-select, and multi-select. Choice options must trace to official content or the selected candidate's context; AI-generated or fabricated distractors are an explicit non-goal.
 - Topic and difficulty metadata maintained by the app, not inferred by AI.
-- Optional Spanish translation or explanation for study support.
+- Spanish translation/explanation for study support — CANCELLED (user decision; will not be built). The `explanation` field stays for future curated content.
 - A flag for answers that depend on current officials, state, district, or territory.
 - Source URL, source revision, and verification date.
 
