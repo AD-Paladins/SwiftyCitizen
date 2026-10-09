@@ -3827,6 +3827,26 @@
           }
         }
       }
+    },
+    "studyDueLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "due"
+          }
+        }
+      }
+    },
+    "studyContinueDue" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study now ·"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
