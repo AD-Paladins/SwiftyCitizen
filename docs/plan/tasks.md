@@ -25,7 +25,9 @@ High-level phase intent lives in `roadmap.md`; this file breaks it into trackabl
 - **T2.2** Progress content (readiness hero + coverage map + momentum strip) — `✅` (`46781d0`)
 - **T2.3** Per-topic metrics domain slice (`coverageByTopic`, `wasCorrect`) — `✅` (`84eedbd`)
 
-## Phase 3 — Spaced repetition  🚀 in progress
+## Phase 3 — Spaced repetition  ✅ complete
+
+Domain first, then UI. T3.1/T3.2/T3.3 all done and verified (205 tests pass at `0e2466f`).
 
 Domain first, then UI. Do not touch UI before T3.2 is green.
 
@@ -59,3 +61,32 @@ Domain first, then UI. Do not touch UI before T3.2 is green.
 
 **Phase 3 is complete.** T3.1 (domain), T3.2 (wiring) and T3.3 (Study spaced-repetition UI, commit `0e2466f`) are done and verified (205 tests pass). Sequence: Phase 4/5 and backlog per priority.
 The developer owns implementation end-to-end; the orchestrator owns docs + architecture/quality review.
+
+---
+
+## Progress Tab — "Diagnostic Mirror" redesign  🚀 in progress
+
+Scope: rebuild **only** `ProgressTabView` to match the Stitch screen `Progress - Diagnostic Mirror`
+(project `13329010267888174190`, screen `ad7f4e8caa8344c592099b90af4a38a1`). All other Stitch
+screens are out of scope. Design spec: `docs/plan/progress-diagnostic-mirror-design.md`.
+
+**Phases:** P1 domain analytics → P2 UI rebuild → P3 localization + integration → P4 verify.
+
+- **P1.T1** Domain — new pure type `ProgressAnalytics` (`Core/Domain/ProgressAnalytics.swift`,
+  `import Foundation` only): `passRate`, `passRateWeeklyDelta`, `buckets`, `standardMet`,
+  `accuracyByDomain`, `weakSpots(limit:)`, `accuracyByWeek(weeks:)`, `retentionStability(horizonDays:)`,
+  `recommendation()`. Buckets: graduated = `.gotIt` + boxLevel>=4; inReview = scheduler-due − graduated;
+  needsCare = unseen + low-accuracy. Tests: `ProgressAnalyticsTests`.
+- **P2.T1** UI — rebuild `ProgressTabView` sections vs Diagnostic Mirror (hero/predicted rate + trend +
+  Interview Ready badge, mastery buckets row, standard-met line, topic coverage "X of Y Qs", accuracy
+  breakdown per domain, critical weak spots + queue CTA, momentum + trajectory, retention, recommendation,
+  diagnostic-drill CTA). Reuse `SummaryMetricView`/`.cardStyle()`/`CivicText`/`palette`.
+- **P2.T2** Gated elements — oral speed + "under-speed recall" need per-answer timing (not persisted;
+  only `answeredAt` exists). Render honest placeholders / omit; document the required data addition.
+- **P3.T1** Localization — new English `progress*` keys in `Localizable.xcstrings` (interpolate counts
+  around localized fragments; raw-Int `String(localized:count:)` does not compile in this Xcode).
+- **P3.T2** Integration — empty state, Dynamic-Type safety (AX sizes), navigation to `.needsWork`/`.due`
+  drill deck. No charting dependency (native primitives for trajectory).
+
+**Constraints:** domain stays `import Foundation` only; view resolves `topicIndex` from the bank; no
+`project.pbxproj` edits; "predicted pass rate" is a heuristic, never an official claim.
