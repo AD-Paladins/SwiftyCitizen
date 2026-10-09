@@ -72,9 +72,10 @@ struct TargetedReviewTests {
     func dueSurfacesUnseenFirstThenMostOverdue() {
         // a=.gotIt advances to box 2 (1-day interval, not yet due); b=.again resets to box 1 (due now).
         let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]
+        // a=.gotIt left the card in box 2 (not yet due); b=.again left it in box 1 (due now).
         let attempts = [
-            snapshot(id: "a", assessment: .gotIt),
-            snapshot(id: "b", assessment: .again),
+            snapshot(id: "a", assessment: .gotIt, boxLevel: 2),
+            snapshot(id: "b", assessment: .again, boxLevel: 1),
         ]
 
         let due = ReviewDeckBuilder.build(questions: questions, attempts: attempts, scope: .due)
@@ -96,7 +97,8 @@ struct TargetedReviewTests {
     @Test
     func scopeCountsMatchDeckSize() {
         let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]
-        let attempts = [snapshot(id: "a", assessment: .gotIt)]
+        // a=.gotIt left the card in box 2 → not due yet; b, c are unseen.
+        let attempts = [snapshot(id: "a", assessment: .gotIt, boxLevel: 2)]
 
         #expect(ReviewDeckBuilder.questionCount(questions: questions, attempts: attempts, scope: .due) == 2)
         #expect(ReviewDeckBuilder.questionCount(questions: questions, attempts: attempts, scope: .unanswered) == 2)
@@ -225,7 +227,8 @@ struct TargetedReviewTests {
             makeQuestion(id: "two", topic: "Government"),
             makeQuestion(id: "three", topic: "History"),
         ]
-        let attempts = [snapshot(id: "three", assessment: .gotIt)]
+        // three=.gotIt left the card in box 2 → not due; one, two are unseen (Government).
+        let attempts = [snapshot(id: "three", assessment: .gotIt, boxLevel: 2)]
 
         let summary = ReviewDeckBuilder.categorySummary(
             questions: questions,
@@ -431,13 +434,15 @@ struct TargetedReviewTests {
     private func snapshot(
         id: String,
         assessment: SelfAssessment,
-        at date: Date = Date()
+        at date: Date = Date(),
+        boxLevel: Int? = nil
     ) -> StudyAttemptSnapshot {
         StudyAttemptSnapshot(
             stableID: id,
             testVersion: .twoThousandTwentyFive,
             assessment: assessment,
-            answeredAt: date
+            answeredAt: date,
+            boxLevel: boxLevel
         )
     }
 

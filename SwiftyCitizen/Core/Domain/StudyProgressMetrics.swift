@@ -6,19 +6,25 @@ struct StudyAttemptSnapshot: Equatable {
     let assessment: SelfAssessment?
     let wasCorrect: Bool?
     let answeredAt: Date
+    /// Leitner box this result left the card in (1...`LeitnerScheduler.maxBox`). nil when the
+    /// card has no self-assessment history (unanswered). Kept optional so callers that build a
+    /// snapshot without box context still compile.
+    let boxLevel: Int?
 
     /// Backward-compatible initializer for study attempts (correctness lives in `assessment`).
     init(
         stableID: String,
         testVersion: USCISTestVersion,
         assessment: SelfAssessment?,
-        answeredAt: Date
+        answeredAt: Date,
+        boxLevel: Int? = nil
     ) {
         self.stableID = stableID
         self.testVersion = testVersion
         self.assessment = assessment
         self.wasCorrect = nil
         self.answeredAt = answeredAt
+        self.boxLevel = boxLevel
     }
 
     /// Full initializer carrying the mock-test correctness flag.
@@ -27,13 +33,15 @@ struct StudyAttemptSnapshot: Equatable {
         testVersion: USCISTestVersion,
         assessment: SelfAssessment?,
         wasCorrect: Bool?,
-        answeredAt: Date
+        answeredAt: Date,
+        boxLevel: Int? = nil
     ) {
         self.stableID = stableID
         self.testVersion = testVersion
         self.assessment = assessment
         self.wasCorrect = wasCorrect
         self.answeredAt = answeredAt
+        self.boxLevel = boxLevel
     }
 }
 
@@ -218,7 +226,8 @@ extension QuestionAttempt {
             testVersion: version,
             assessment: assessment,
             wasCorrect: wasCorrect,
-            answeredAt: answeredAt
+            answeredAt: answeredAt,
+            boxLevel: boxLevel
         )
     }
 }
