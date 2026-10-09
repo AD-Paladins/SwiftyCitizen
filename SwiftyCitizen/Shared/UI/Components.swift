@@ -194,6 +194,9 @@ struct StudyEntryCard<Route: Hashable>: View {
     let iconForeground: Color
     let actionTint: Color
     let value: Route
+    /// Optional trailing value/badge (e.g. a spaced-repetition "N due" count). Rendered as a
+    /// compact pill; callers pass an unstyled `Text` so the card owns the palette styling.
+    var badge: Text? = nil
 
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
@@ -221,6 +224,15 @@ struct StudyEntryCard<Route: Hashable>: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
                 HStack(spacing: Space.xs.value) {
+                    if let badge {
+                        badge
+                            .font(CivicText.labelSM.font.weight(.semibold))
+                            .monospacedDigit()
+                            .foregroundStyle(palette.primary)
+                            .padding(.horizontal, Space.sm.value)
+                            .padding(.vertical, 4)
+                            .background(palette.primary.opacity(0.12), in: RoundedRectangle(cornerRadius: 8))
+                    }
                     Text(actionLabel)
                         .font(CivicText.labelSM.font)
                         .fontWeight(.bold)

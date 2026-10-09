@@ -2222,6 +2222,326 @@
         }
       }
     },
+    "progressReadinessLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Readiness"
+          }
+        }
+      }
+    },
+    "progressWeeklyTrendUp" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "up this week"
+          }
+        }
+      }
+    },
+    "progressWeeklyTrendDown" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "down this week"
+          }
+        }
+      }
+    },
+    "progressInterviewReady" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interview Ready"
+          }
+        }
+      }
+    },
+    "progressPassingReq" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passing req"
+          }
+        }
+      }
+    },
+    "progressBucketGraduated" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graduated"
+          }
+        }
+      }
+    },
+    "progressBucketInReview" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Review"
+          }
+        }
+      }
+    },
+    "progressBucketNeedsCare" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Needs Care"
+          }
+        }
+      }
+    },
+    "progressBucketGraduatedMeaning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready for oral pace"
+          }
+        }
+      }
+    },
+    "progressBucketInReviewMeaning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active drill"
+          }
+        }
+      }
+    },
+    "progressBucketNeedsCareMeaning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unseen or low accuracy"
+          }
+        }
+      }
+    },
+    "progressStandardMet" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard met for"
+          }
+        }
+      }
+    },
+    "progressTopicCoverageTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you hitting all areas?"
+          }
+        }
+      }
+    },
+    "progressTopicSeenOf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "seen"
+          }
+        }
+      }
+    },
+    "progressTopicQsOf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "of"
+          }
+        }
+      }
+    },
+    "progressAccuracyBreakdownTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accuracy Breakdown"
+          }
+        }
+      }
+    },
+    "progressAccuracyOverall" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overall accuracy"
+          }
+        }
+      }
+    },
+    "progressAccuracyMastered" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mastered"
+          }
+        }
+      }
+    },
+    "progressAccuracyHighConfidence" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "High confidence"
+          }
+        }
+      }
+    },
+    "progressAccuracyNeedsReview" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Needs review"
+          }
+        }
+      }
+    },
+    "progressWeakSpotsHeader" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Critical Weak Spots"
+          }
+        }
+      }
+    },
+    "progressWeakItems" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "weak items"
+          }
+        }
+      }
+    },
+    "progressWeakSpotsNone" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No weak spots to drill yet — keep answering."
+          }
+        }
+      }
+    },
+    "progressQueueWeakItems" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "targeted weak items to review"
+          }
+        }
+      }
+    },
+    "progressMomentumTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study Momentum"
+          }
+        }
+      }
+    },
+    "progressMomentumStreak" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Day streak"
+          }
+        }
+      }
+    },
+    "progressTrajectoryTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accuracy Trajectory"
+          }
+        }
+      }
+    },
+    "progressRetentionLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remembered > 5 days"
+          }
+        }
+      }
+    },
+    "progressRetentionMeaning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "of cards still mastered"
+          }
+        }
+      }
+    },
+    "progressRecommendationTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your recommendation"
+          }
+        }
+      }
+    },
+    "progressDrillCTA" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practice Diagnostic Drill"
+          }
+        }
+      }
+    },
+    "progressDrillNeedsCareLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Targets cards marked Needs Care"
+          }
+        }
+      }
+    },
     "selectionSelected" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3824,6 +4144,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bienvenido a SwiftyCitizen"
+          }
+        }
+      }
+    },
+    "studyDueLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "due"
+          }
+        }
+      }
+    },
+    "studyContinueDue" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study now ·"
           }
         }
       }

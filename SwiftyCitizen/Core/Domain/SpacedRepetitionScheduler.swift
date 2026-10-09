@@ -2,18 +2,17 @@ import Foundation
 
 /// Scheduling layer over persisted self-assessment + answer history.
 ///
-/// Derives each card's Leitner box by replaying its self-assessments oldest→newest from box 1
-/// (new cards start in box 1), reusing `LeitnerScheduler.nextBox`. The resulting box plus the
-/// latest attempt time yield the next due date via `LeitnerScheduler.interval` and
-/// `Date.addingTimeInterval(_:)` — the same local-date pattern `LeitnerScheduler` uses.
-/// Pure, SwiftData-free, unit-testable.
+/// Reads each card's Leitner box from its latest attempt (`StudyAttemptSnapshot.boxLevel`,
+/// populated from `QuestionAttempt.boxLevel`) and computes the next due date via
+/// `LeitnerScheduler.interval` and `Date.addingTimeInterval(_:)` — the same local-date
+/// pattern `LeitnerScheduler` uses. Pure, SwiftData-free, unit-testable.
 enum SpacedRepetitionScheduler {
 
     /// Due cards for `version`, ordered by urgency.
     ///
-    /// Ordering is explicit: unseen cards first (max urgency — they must be learned), then due
-    /// cards most-overdue-first (smallest `dueDate`). A card surfaces once its Leitner interval
-    /// has elapsed; unseen cards have no attempt and are surfaced immediately.
+    /// Unseen cards first (max urgency — they must be learned), then due cards
+    /// most-overdue-first (smallest `dueDate`). A card surfaces once its Leitner interval
+    /// has elapsed; an unanswered card (`boxLevel` nil) is surfaced immediately.
     static func dueCards(
         questions: [QuestionContent],
         attempts: [StudyAttemptSnapshot],
@@ -21,21 +20,19 @@ enum SpacedRepetitionScheduler {
         now: Date = .now
     ) -> [QuestionContent] {
         let versionAttempts = attempts.filter { $0.testVersion == version }
-        let byCard = Dictionary(grouping: versionAttempts, by: \.stableID)
 
         var due: [(dueDate: Date, card: QuestionContent)] = []
         var unseen: [QuestionContent] = []
 
         for card in questions {
-            guard let cardAttempts = byCard[card.stableID], !cardAttempts.isEmpty else {
-                // No history → unseen, max urgency.
+            guard let attempt = latestAttempt(versionAttempts, for: card.stableID),
+                  let boxLevel = attempt.boxLevel else {
+                // No attempt, or unanswered (boxLevel nil) → max urgency.
                 unseen.append(card)
                 continue
             }
-            let ordered = cardAttempts.sorted { $0.answeredAt < $1.answeredAt }
-            let box = box(from: ordered)
-            let interval = LeitnerScheduler.interval(forBox: box)
-            let dueDate = ordered[ordered.count - 1].answeredAt.addingTimeInterval(interval)
+            let interval = LeitnerScheduler.interval(forBox: boxLevel)
+            let dueDate = attempt.answeredAt.addingTimeInterval(interval)
             if LeitnerScheduler.isDue(dueDate: dueDate, now: now) {
                 due.append((dueDate, card))
             }
@@ -45,15 +42,13 @@ enum SpacedRepetitionScheduler {
         return unseen + due.map(\.card)
     }
 
-    /// Leitner box a card is in after replaying its self-assessments from box 1.
-    ///
-    /// Mock-test attempts (assessment nil) are skipped — they measure, they do not schedule.
-    private static func box(from orderedAttempts: [StudyAttemptSnapshot]) -> Int {
-        var box = 1
-        for attempt in orderedAttempts {
-            guard let assessment = attempt.assessment else { continue }
-            box = LeitnerScheduler.nextBox(after: assessment, currentBox: box)
-        }
-        return box
+    /// Latest attempt for a card (max `answeredAt`), or nil when the card has none.
+    private static func latestAttempt(
+        _ attempts: [StudyAttemptSnapshot],
+        for stableID: String
+    ) -> StudyAttemptSnapshot? {
+        attempts
+            .filter { $0.stableID == stableID }
+            .max { $0.answeredAt < $1.answeredAt }
     }
 }
