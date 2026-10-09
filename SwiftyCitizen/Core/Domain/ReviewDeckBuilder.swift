@@ -96,11 +96,13 @@ enum ReviewDeckBuilder {
             }
 
         case .due:
-            let latestAssessment = latestAssessmentByQuestion(from: versionAttempts)
-            return questions.filter { question in
-                guard let latest = latestAssessment[question.stableID] else { return true }
-                return latest != .gotIt
-            }
+            // Spaced-repetition scheduling over self-assessment + answer history.
+            // Unseen cards surface first (max urgency), then due cards most-overdue-first.
+            return SpacedRepetitionScheduler.dueCards(
+                questions: questions,
+                attempts: versionAttempts,
+                version: version
+            )
 
         case .bookmarked:
             // `bookmarkedIDs` is already scoped to the active version by the view layer;

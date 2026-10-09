@@ -69,7 +69,8 @@ struct TargetedReviewTests {
     }
 
     @Test
-    func dueScopeIsUnionOfUnansweredAndNeedsWork() {
+    func dueSurfacesUnseenFirstThenMostOverdue() {
+        // a=.gotIt advances to box 2 (1-day interval, not yet due); b=.again resets to box 1 (due now).
         let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]
         let attempts = [
             snapshot(id: "a", assessment: .gotIt),
@@ -77,11 +78,9 @@ struct TargetedReviewTests {
         ]
 
         let due = ReviewDeckBuilder.build(questions: questions, attempts: attempts, scope: .due)
-        let unanswered = ReviewDeckBuilder.build(questions: questions, attempts: attempts, scope: .unanswered)
-        let needsWork = ReviewDeckBuilder.build(questions: questions, attempts: attempts, scope: .needsWork)
 
-        #expect(Set(due.map(\.stableID)) == Set(unanswered.map(\.stableID)).union(Set(needsWork.map(\.stableID))))
-        #expect(due.map(\.stableID) == ["b", "c"])
+        // Unseen (c) surfaces first; then the overdue card (b). Recently-mastered (a) is excluded.
+        #expect(due.map(\.stableID) == ["c", "b"])
     }
 
     @Test
