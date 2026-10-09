@@ -31,7 +31,7 @@ The audit file is deleted once all four items are complete.
 
 ## Next steps
 
-No product slice is prioritized next except the next simple feature: **bookmark** (flag a question to review later), which is being implemented now. The flashcard follow-ups' data-model backbone (optional `explanation` + `insight` fields on `QuestionContent`, carried through the loader) remains in place, but its content follow-ups are cancelled: Spanish explanations will not be built and the "Civics Insight" card is dropped (no longer recalled). Audio (`volume_up`) is complete — implemented via `SpeechManager` (AVSpeechSynthesizer) in the flashcard session. Bookmark has no model yet.
+No product slice is prioritized next except the next simple feature: **bookmark** (flag a question to review later) — `✅` done (`4078be7`). The flashcard follow-ups' data-model backbone (optional `explanation` + `insight` fields on `QuestionContent`, carried through the loader) remains in place, but its content follow-ups are cancelled: Spanish explanations will not be built and the "Civics Insight" card is dropped (no longer recalled). Audio (`volume_up`) is complete — implemented via `SpeechManager` (AVSpeechSynthesizer) in the flashcard session. Bookmark has no model yet.
 
 ### Deferred: accessibility review on a real device — LAST, lowest priority
 
