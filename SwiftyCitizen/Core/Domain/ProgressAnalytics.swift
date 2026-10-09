@@ -156,10 +156,14 @@ enum ProgressAnalytics {
     ) -> [(topic: String, accuracy: Double?, count: Int)] {
         let versionAttempts = attempts.filter { $0.testVersion == version }
 
-        // Unique topics in first-appearance order (a topic can map from several stableIDs).
+        // Unique topics in first-appearance order across the version's attempts — deterministic.
+        // `Dictionary.values` iteration order is unspecified in Swift, so deriving order from the
+        // (deterministic) attempts sequence keeps output stable regardless of topicIndex layout.
+        // A topic can map from several stableIDs.
         var order: [String] = []
         var seen = Set<String>()
-        for topic in topicIndex.values where seen.insert(topic).inserted {
+        for attempt in versionAttempts {
+            guard let topic = topicIndex[attempt.stableID], seen.insert(topic).inserted else { continue }
             order.append(topic)
         }
 
