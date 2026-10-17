@@ -1886,49 +1886,6 @@
         }
       }
     },
-    "practiceOralPracticeEntryAction" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start"
-          }
-        }
-      }
-    },
-    "practiceOralPracticeMessage" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Practice answering aloud without exam pressure. Planned for a later phase."
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Practica responder en voz alta sin presión de examen. Planeado para una fase posterior."
-          }
-        }
-      }
-    },
-    "practiceOralPracticeTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oral practice"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Práctica oral"
-          }
-        }
-      }
-    },
     "practiceTitle" : {
       "localizations" : {
         "en" : {
@@ -2512,38 +2469,6 @@
         }
       }
     },
-    "settingsCardTextSizing" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Card Text Sizing"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tamaño de texto de las tarjetas"
-          }
-        }
-      }
-    },
-    "settingsCardTextSizingValue" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dignified Large"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grande digno"
-          }
-        }
-      }
-    },
     "contentInfoTitle" : {
       "localizations" : {
         "en" : {
@@ -2881,38 +2806,6 @@
         }
       }
     },
-    "settingsStreakShield" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Streak Shield"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escudo de racha"
-          }
-        }
-      }
-    },
-    "settingsStreakShieldValue" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "1 active"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "1 activo"
-          }
-        }
-      }
-    },
     "settingsStudyExamPreferences" : {
       "localizations" : {
         "en" : {
@@ -3023,22 +2916,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Paleta del tema"
-          }
-        }
-      }
-    },
-    "settingsThemePaletteSwatch" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Theme palette swatch"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Muestra de la paleta del tema"
           }
         }
       }
