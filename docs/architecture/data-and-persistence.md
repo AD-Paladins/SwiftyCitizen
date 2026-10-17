@@ -35,7 +35,7 @@ erDiagram
 | `modeRawValue` / `testVersionRawValue` | String | Enum raw values |
 | `startedAt` / `endedAt?` | Date | `endedAt == nil` → session in progress |
 | `attempts` | [QuestionAttempt] | Unordered relationship; never assume order |
-| `deckStableIDsRaw` | String? | JSON-encoded `[String]` of question IDs, for resume |
+| `deckStableIDs` | [String] | Question IDs in deck order, for resume. Optional/defaulted (`[]`) so existing stores migrate cleanly. |
 | `currentIndex` | Int | Defaulted to `0` |
 
 - `mode`/`testVersion` decode to enums; nil-safe.
@@ -81,7 +81,7 @@ erDiagram
 
 - `reviewedToday` — answered today.
 - `coverage` — distinct question IDs per version.
-- `dueCount` — bank count minus covered.
+- `dueCount` — scheduler-based (unseen cards first, then most-overdue) via `SpacedRepetitionScheduler.dueCards`; the single app-wide "due".
 - `gotItRate` — *self-assessed* attempts only; mock-test attempts (nil assessment) excluded.
 
 ## Migration policy
