@@ -126,21 +126,34 @@ Scoping read-only (worker could NOT run `git`/`.i18n-tooling/verify.py` this ses
 
 **Safe-to-now (low risk):**
 - **5.1 Session Summary** (weak topics + one next action) — ✅ COMPLETE (2026-10-17), `5680d66`. Honest per-topic weakness from session attempts; recommended action reuses the `.lowAccuracy` queue via a direct `TargetedReviewView` entry that works from both flashcard origins.
-- **5.2 About this content** (new ContentInformationView + Settings entry) — M-size, trust win.
+- **5.2 About this content** (new ContentInformationView + Settings entry) — ✅ COMPLETE (2026-10-17), `da7aa94`.
 - **5.4 Flashcard resume wiring** — small feature; only matters if interrupted sessions occur (current entry doesn't allow).
 - **5.5 Bank cache** — `ProgressTabView` loads bank twice per render (perf-only, S-size).
 - **6.2 Docs sync** — several stale docs (`current-status.md`, `product-plan.md`, `data-and-persistence.md`, `flow-flashcards.md`, `screen-inventory.md`). Mechanical, M-sized.
 
+### Phase 5.5 — Bank cache (verified)  ✅ COMPLETE (2026-10-17)
+
+Commit `cef4677` (+11/−6, ProgressTabView only).
+- Introduced a single `loadedBank` load site; `topicIndex` + `bankQuestions` now derive from it (was two independent `QuestionBankLoader().load(version:)` calls per render). Behavior unchanged — view renders identically, just without the redundant file read + JSON decode.
+Verify: git clean ✔, confirmed one load site (`loadedBank` :29) ✔, build OK, suite 253/253.
+
+### Phase 6.2 — Docs sync (verified)  ✅ COMPLETE (2026-10-17)
+
+Commit `0bae01f` (docs-only, 6 files).
+- Corrected against current code: `current-status.md` (Bookmark is a live @Model; insight→explanation), `product-plan.md` (checked off own-answer M8; left oral-style deferred), `data-and-persistence.md` (deckStableIDs [String]; scheduler-based dueCount), `flow-flashcards.md` (.again persists as box-1 miss), `content-pipeline.md` (insight removed), `screen-inventory.md` (4 tabs shipped + deferred-scope note).
+- "Merge Progress specs" reported, not merged — Phase 2 superseded the coverage-based hero/buckets these specs describe; left for a follow-up design decision.
+Verify: git clean ✔, spot-checked deckStableIDs + Bookmark against code ✔, build OK.
+
 - [x] **5.1** Session Summary: weak topics + one next recommended action. Ref M6. `5680d66` — `SessionWeakTopics` computes per-topic weakness from session attempts + loaded questions (.again miss or per-card .gotIt rate ≤ 0.5); `SessionSummaryView` shows a "Weak topics" section + one "Review your weak topics" action (NavigationLink to `TargetedReviewView` opened at the session's `.lowAccuracy` set). Works from both flashcard origins without cross-stack PendingNavigation.
 - [x] **5.2** Settings "About this content": version, source URL, last-verified date. Ref M2. `da7aa94` — new `ContentProvenance` (pure domain) extracts shared `(sourceURL, sourceRevision, verificationDate)` from the active version's bank and reports the true distinct-reference count; `ContentInformationView` shows version + source URL/revision + last-verified ("Sourced from N references" if mixed); Settings section inserted between Appearance and DangerZone. Provenance verified consistent across uscis-2008/2025 (one ref) and 65-20 (derived, copies source).
 - [ ] **5.3** Remove `studyLanguage` (Decision 3) — confirm product decision. Ref D13.
-- [ ] **5.4** Flashcard session resume wiring for `.flashcards` mode. Ref M7.
-- [ ] **5.5** Cache question-bank load. Ref D14.
+- [~] **5.4** Flashcard session resume wiring — DEFERRED (2026-10-17): not applicable to current entry point. All exits call `endSession()` (sets `endedAt` ⇒ complete, or deletes the session), so no incomplete session exists to resume from; backgrounding doesn't interrupt (SwiftUI keeps the view). Wiring = speculative crash-only recovery (YAGNI). Resume path already built/tested (`resumeFlashcardState` + `FlashcardSessionView.init`) — small additive wiring only if a future entry point deliberately suspends a session. Zero changes.
+- [x] **5.5** Cache question-bank load. Ref D14. `cef4677` — ProgressTabView loads the active version's bank once (`loadedBank`); topicIndex + bankQuestions derived from it (one load site, was two). Behavior unchanged, perf-only (+11/−6).
 
 ### Phase 6 — Hygiene + docs sync (last)
 
 - [ ] **6.1** Root font → Dynamic-Type-scaling. Ref ponytail scan.
-- [ ] **6.2** Docs sync: current-status, product-plan checkboxes, screen-inventory, data-and-persistence; merge Progress specs. Ref §8, D16.
+- [x] **6.2** Docs sync: current-status, product-plan checkboxes, screen-inventory, data-and-persistence; merge Progress specs (reported, not merged — design decision). `0bae01f` — 6 docs corrected against current code (Bookmark @Model, deckStableIDs [String], scheduler-based dueCount, .again persists, insight→explanation, screen-inventory scope note); Progress-spec merge left for follow-up.
 
 ## Running delivery count
 
