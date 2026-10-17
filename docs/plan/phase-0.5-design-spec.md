@@ -297,9 +297,9 @@ The mock test shows a minimal, non-blocking feedback indicator for **every** ans
 - **All verdicts** (correct-exact, rejected, lenient-accepted): show their concise indicator inline ("Correct" / "Incorrect" / "Accepted: ...") and wait for a "Next" tap to advance — uniform manual advance for every verdict.
 - All indicators are inline on the question card, never as an alert or sheet. Copy frames feedback as study guidance, not official grading.
 - VoiceOver announces each notice after the question content, without truncating it (accessibility baseline).
-- **Toggle flag:** a single `sessionFeedbackEnabled` setting (persisted, default `true`) controls whether any per-answer indicator renders. When disabled, the card shows only the question and the deck advances normally. This flag is a runtime/UX switch that can be turned off without code changes.
+- **Always-on feedback:** every verdict shows its concise indicator inline ("Correct" / "Incorrect" / "Accepted: ..."); there is no runtime toggle — the `sessionFeedbackEnabled` flag was removed in the Phase 4 cleanup (value-rebuild 4.3), so feedback is always rendered.
 
-**Flow rule (uniform manual advance):** every verdict shows its indicator inline and waits for a "Next" tap to advance; when `sessionFeedbackEnabled` is off, the deck advances immediately with no indicator.
+**Flow rule (uniform manual advance):** every verdict shows its indicator inline and waits for a "Next" tap to advance.
 
 **Future refinement (next slice, gated on more work) — Rejected-but-close warning:**
 
@@ -321,7 +321,7 @@ The evaluator must stay **offline-first** (the spec's core rule is that every st
 - [x] Whether Progress is a tab or a Home destination in the first release — permanent tab.
 - [ ] Exact wording for the 65/20 eligibility explanation after product review (draft in "Decision Drafts" above).
 - [x] Whether audio playback belongs in Phase 1 or Phase 4 — Phase 4.
-- [x] Current-answer warning scope — slice implements per-answer feedback for **all** verdicts (correct-exact, rejected, lenient-accepted) so nothing is hidden; only the lenient-accepted case pauses for a "Next" tap (non-advance rule). A `sessionFeedbackEnabled` flag toggles all indicators off. The rejected-but-close warning remains a future refinement.
+- [x] Current-answer warning scope — slice implements per-answer feedback for **all** verdicts (correct-exact, rejected, lenient-accepted) so nothing is hidden; only the lenient-accepted case pauses for a "Next" tap (non-advance rule). Feedback is always rendered (the `sessionFeedbackEnabled` flag was removed in the Phase 4 cleanup, value-rebuild 4.3); the rejected-but-close warning remains a future refinement.
 - [x] Answer evaluation approach — baseline is a deterministic offline token-set matcher; Apple Intelligence semantic evaluation is an optional enhancement with mandatory offline fallback. Content always traces to official sources.
 - [x] Missed questions should be reviewed showing the learner's own answer next to the official answer.
 - [x] Question sets support Answer format variety (typed text, single-select, multi-select) beyond plain text.
