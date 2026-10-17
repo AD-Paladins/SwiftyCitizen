@@ -59,6 +59,40 @@ struct FlashcardLeitnerPersistenceTests {
         #expect(attempt.boxLevel == 1)
     }
 
+    @Test func persistedAgainRecordKeepsBoxOneAndRestoresOnResume() throws {
+        let container = try ModelContainer(
+            for: StudySession.self, QuestionAttempt.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let context = ModelContext(container)
+
+        // A persisted `.again` attempt carries box 1 (the miss resets the card).
+        let attempt = QuestionAttempt(
+            questionStableID: "2025-001",
+            testVersion: .twoThousandTwentyFive,
+            assessment: .again,
+            answerText: nil,
+            boxLevel: 1
+        )
+        context.insert(attempt)
+        try context.save()
+
+        let fetched = try context.fetch(FetchDescriptor<QuestionAttempt>())
+        #expect(fetched.count == 1)
+        #expect(fetched.first?.assessment == .again)
+        #expect(fetched.first?.boxLevel == 1)
+
+        // Resume reconstructs box 1 from the persisted record.
+        let questions = [makeQuestion(id: "2025-001")]
+        let resumed = resumeFlashcardState(
+            deckStableIDs: ["2025-001"],
+            currentIndex: 0,
+            attempts: fetched.compactMap(\.flashcardAttemptRecord),
+            deckQuestions: questions
+        )
+        #expect(resumed?.boxes["2025-001"] == 1)
+    }
+
     @Test func resumeReconstructsBoxesFromStoredBoxLevel() {
         let questions = [makeQuestion(id: "a"), makeQuestion(id: "b")]
         let attempts = [

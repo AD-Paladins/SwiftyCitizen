@@ -86,6 +86,33 @@ struct SpacedRepetitionSchedulerTests {
         #expect(deck.map(\.stableID) == ["a", "b"])
     }
 
+    // --- a persisted `.again` (box 1) is seen-due, not unseen -------------------
+
+    @Test
+    func boxOneAgainAttemptIsDueNotUnseen() {
+        // a: left in box 1 by an `.again` miss (interval 0) answered 3 days ago → overdue.
+        // b: never attempted → truly unseen.
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b")]
+        let againAttempt = StudyAttemptSnapshot(
+            stableID: "a",
+            testVersion: .twoThousandTwentyFive,
+            assessment: .again,
+            wasCorrect: nil,
+            answeredAt: now - 3 * day,
+            boxLevel: 1
+        )
+
+        let deck = SpacedRepetitionScheduler.dueCards(
+            questions: questions,
+            attempts: [againAttempt],
+            version: .twoThousandTwentyFive,
+            now: now
+        )
+
+        // Unseen (b) surfaces first; the seen box-1 miss (a) is ordered as due, not unseen.
+        #expect(deck.map(\.stableID) == ["b", "a"])
+    }
+
     // --- version scoping --------------------------------------------------------
 
     @Test

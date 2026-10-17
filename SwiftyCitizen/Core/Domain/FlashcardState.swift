@@ -98,10 +98,21 @@ struct FlashcardState {
         guard !isComplete, let question = currentQuestion else { return nil }
         switch assessment {
         case .again:
+            // A miss is a real signal: persist it (box 1) so the Leitner scheduler, the review
+            // decks, and the Progress buckets see it. The card stays in view to be re-answered,
+            // so currentIndex does not advance here.
+            let attempt = FlashcardAttemptRecord(
+                stableID: question.stableID,
+                testVersion: question.testVersion,
+                assessment: .again,
+                answerText: currentAnswer,
+                boxLevel: 1
+            )
+            attempts.append(attempt)
             isRevealed = false
             currentAnswer = nil
-            boxes[question.stableID] = 1   // ponytail: a miss drops the card to box 1
-            return nil
+            boxes[question.stableID] = 1   // a miss drops the card to box 1
+            return attempt
         case .hard, .gotIt:
             let box = LeitnerScheduler.nextBox(after: assessment, currentBox: currentBox)
             boxes[question.stableID] = box
