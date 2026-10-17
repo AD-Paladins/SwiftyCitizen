@@ -1,6 +1,6 @@
 # SwiftyCitizen Current Status
 
-Last verified: September 29, 2026
+Last verified: October 17, 2026
 
 ## Current state
 
@@ -29,9 +29,27 @@ Phase 0.5 closed on September 21, 2026. The cross-cutting audit items below are 
 
 The audit file is deleted once all four items are complete.
 
+## Value rebuild — COMPLETE (2026-10-17)
+
+The value-rebuild plan (`docs/plan/value-rebuild-plan.md`, derived from `docs/audit/product-value-audit.md`) is **fully executed**: every number the app shows is now true, every dead/fake surface is cut, and the two trust gaps (content provenance, session feedback) are closed. No new features beyond what the product plan already promises. Retained as historical record; outcomes above are reflected in each phase's completion.
+
+- **Phase 1 — Data integrity** (domain + persistence, no UI): `.again` persists as box-1 miss, mock-test skips persist on the session, version-scoped metrics, single `covered`/`due`/`accuracy` definitions, buckets match labels.
+- **Phase 2 — Progress tab**: hero rebuilt on last mock result scoped to the active version (true "N of M seen"); removed heuristic %, "Interview Ready / Standard met" badge, inverted retention, weekly trend, recommendation card; honest version-scoped empty states.
+- **Phase 3 — Home cleanup**: cut Daily Milestone card, rotating tip banner, readiness hero + mastery buckets; one app-wide "due".
+- **Phase 4 — Cut dead/fake surfaces** (complete): orphaned catalog keys swept, `sessionFeedbackEnabled`/`studyLanguage`/`QuestionContent.insight` removed, dead model fields migrated via lightweight SwiftData, 67 localization keys + literal `—` swept (`f7711f4`, 291→224 keys), `DemoSeeder` documented in AGENTS.md.
+- **Phase 5 — Trust + loop closure**: Session Summary gains weak topics + one next action; "About this content" provenance section; bank-load cache.
+- **Phase 6 — Hygiene + docs**: root font Dynamic-Type scaling (6.1), CivicText brand SF Pro Rounded fonts now scale via `UIFontMetrics` (6.3/B3, `94683b2`), docs sync against current code.
+
+Suite 253/253 ✔ throughout. Per-phase detail lives in `odd/tasks/value-rebuild.md`.
+
 ## Next steps
 
-No product slice is prioritized next except the next simple feature: **bookmark** (flag a question to review later) — `✅` done (`4078be7`). The flashcard follow-ups' data-model backbone (optional `explanation` field on `QuestionContent`, carried through the loader) remains in place, but its content follow-ups are cancelled: Spanish explanations will not be built and the "Civics Insight" card is dropped (no longer recalled). Audio (`volume_up`) is complete — implemented via `SpeechManager` (AVSpeechSynthesizer) in the flashcard session. **Bookmark** is a live `@Model` (`Bookmark.swift`): one "review later" marker per (question, test version) pair, independent of sessions and restored on resume.
+The value-rebuild plan is complete. No product slice is prioritized next; the remaining items are deferred to hardware or left as optional design decisions:
+
+- **Bookmark** (flag a question to review later) — `✅` done (`4078be7`). Live `@Model`: one "review later" marker per (question, test version) pair, independent of sessions and restored on resume.
+- **Audio** (`volume_up`) — complete via `SpeechManager` (AVSpeechSynthesizer) in the flashcard session.
+- **On-device accessibility review** (VoiceOver + Dynamic Type at max text sizes) — needs a real iPhone; lowest priority, last on the roadmap (see engineering-hygiene item 4).
+- **Merge the three overlapping Progress specs** into one — a design decision, reported not merged.
 
 ### Deferred: accessibility review on a real device — LAST, lowest priority
 

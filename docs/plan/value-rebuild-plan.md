@@ -4,6 +4,8 @@ Source of intent: `docs/audit/product-value-audit.md` (2026-10-16). Defect IDs (
 
 **Goal:** make every number the app shows true, remove every surface that exists to exist, and close the two trust gaps (content provenance, session feedback). No new features beyond what the product plan already promises.
 
+> **STATUS: COMPLETE (2026-10-17).** All 6 phases executed; suite 253/253 ✔ throughout. Retained as a historical record — the plan's intent is fulfilled and its outcomes are documented in `current-status.md` ("Value rebuild — COMPLETE") and `odd/tasks/value-rebuild.md`.
+
 ## Rules
 
 - Domain first, then UI (repo convention from `tasks.md`).
