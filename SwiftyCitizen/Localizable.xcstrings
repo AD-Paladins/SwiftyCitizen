@@ -1208,73 +1208,6 @@
         }
       }
     },
-    "homeMasteryDue" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Due"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pendiente"
-          }
-        }
-      }
-    },
-    "homeMasteryMastered" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mastered"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dominada"
-          }
-        }
-      }
-    },
-    "homeMasteryTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mastery"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dominio"
-          }
-        }
-      }
-    },
-    "homeMasteryUnseen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unseen"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sin ver"
-          }
-        }
-      }
-    },
     "homeMetricGotit" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1305,71 +1238,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Revisadas"
-          }
-        }
-      }
-    },
-    "homeMilestoneCta" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continue Daily Review"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continuar el estudio diario"
-          }
-        }
-      }
-    },
-    "homeMilestoneTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Daily Milestone"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hito diario"
-          }
-        }
-      }
-    },
-    "homeReadinessFallback" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start a review session to build coverage"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Empezá una sesión de revisión para ir cubriendo las preguntas."
-          }
-        }
-      }
-    },
-    "homeReadinessLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Exam Readiness"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preparación para el examen"
           }
         }
       }
@@ -4160,38 +4028,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "preguntas"
-          }
-        }
-      }
-    },
-    "unitQuestionsCoveredPlural" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "questions covered"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "preguntas cubiertas"
-          }
-        }
-      }
-    },
-    "unitQuestionsCoveredSingular" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "question covered"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "pregunta cubierta"
           }
         }
       }
