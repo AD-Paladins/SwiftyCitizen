@@ -2504,7 +2504,14 @@
       }
     },
     "progressTopicReviewHint" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens review questions for this topic"
+          }
+        }
+      }
     },
     "progressTopicSeenOf" : {
       "localizations" : {
