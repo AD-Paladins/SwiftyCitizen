@@ -100,13 +100,14 @@ enum ProgressAnalytics {
     /// Mastery buckets for the three-head row.
     ///
     /// - `graduated`: distinct cards whose latest assessment is `.gotIt` and `boxLevel >= 4`.
-    /// - `inReview`: scheduler-due distinct cards that are NOT graduated (`due − graduated`, min 0).
-    /// - `needsCare`: unseen cards (`boxLevel == nil`) plus attempted cards whose latest state is
-    ///   `.again` or low accuracy.
+    /// - `inReview`: scheduler-due distinct cards that are seen (already attempted) and NOT
+    ///   graduated (`seen-due − graduated`, min 0). Truly-unseen cards are never absorbed here.
+    /// - `needsCare`: distinct bank questions that are unseen (never attempted) OR whose latest
+    ///   state is `.again` / low accuracy — so the "unseen or low accuracy" label is true.
     ///
     /// The scheduler needs the question bank to compute due cards, so `questions` is optional and
-    /// defaults to `[]`. Without it, `inReview` cannot run the scheduler and defaults to 0; pass the
-    /// version's bank in to get the scheduler-based count.
+    /// defaults to `[]`. Without it, `inReview` cannot run the scheduler (0) and `needsCare` cannot
+    /// detect unseen cards; pass the version's bank in for both.
     static func buckets(
         attempts: [StudyAttemptSnapshot],
         for configuration: TestConfiguration,
@@ -115,19 +116,22 @@ enum ProgressAnalytics {
         let versionAttempts = attempts.filter { $0.testVersion == configuration.version }
         let graduated = graduatedCount(attempts: versionAttempts, for: configuration.version)
 
-        let dueCount = questions.isEmpty
-            ? 0
+        let attemptedIDs = Set(versionAttempts.map(\.stableID))
+        let dueIDs: Set<String> = questions.isEmpty
+            ? []
             : Set(SpacedRepetitionScheduler.dueCards(
                 questions: questions,
                 attempts: versionAttempts,
                 version: configuration.version
-            ).map(\.stableID)).count
-        let inReview = max(0, dueCount - graduated)
+            ).map(\.stableID))
+        // In Review is actually-due AND seen; unseen cards never get absorbed into it.
+        let unseenIDs = Set(questions.map(\.stableID)).subtracting(attemptedIDs)
+        let inReview = max(0, dueIDs.subtracting(unseenIDs).count - graduated)
 
         return Buckets(
             graduated: graduated,
             inReview: inReview,
-            needsCare: needsCareCount(versionAttempts: versionAttempts)
+            needsCare: needsCareCount(questions: questions, versionAttempts: versionAttempts)
         )
     }
 
@@ -171,7 +175,9 @@ enum ProgressAnalytics {
             let attemptsInTopic = versionAttempts.filter { topicIndex[$0.stableID] == topic }
             let correct = attemptsInTopic.filter { StudyProgressMetrics.isCorrect($0) }.count
             let accuracy = attemptsInTopic.isEmpty ? nil : Double(correct) / Double(attemptsInTopic.count)
-            return (topic, accuracy, attemptsInTopic.count)
+            // "N of M" counts distinct questions seen, never attempt count, so it can never exceed M.
+            let distinctSeen = Set(attemptsInTopic.map(\.stableID)).count
+            return (topic, accuracy, distinctSeen)
         }
     }
 
@@ -319,15 +325,28 @@ enum ProgressAnalytics {
         return Double(correct) / Double(ordered.count)
     }
 
-    /// Distinct cards that are unseen (`boxLevel == nil`) or whose latest state is `.again` / low
-    /// accuracy (below `lowAccuracyThreshold`, not mastered).
-    private static func needsCareCount(versionAttempts: [StudyAttemptSnapshot]) -> Int {
+    /// Distinct bank questions that are unseen (never attempted) or whose latest state is `.again` /
+   /// low accuracy (below `lowAccuracyThreshold`, not mastered). `questions` supplies the bank so
+   /// truly-unseen cards are counted, matching the bucket label.
+    private static func needsCareCount(
+        questions: [QuestionContent],
+        versionAttempts: [StudyAttemptSnapshot]
+    ) -> Int {
+        let attemptedIDs = Set(versionAttempts.map(\.stableID))
         var needsCare = Set<String>()
-        for stableID in Set(versionAttempts.map(\.stableID)) {
+
+        // Unseen: in the bank but never attempted.
+        for card in questions {
+            if !attemptedIDs.contains(card.stableID) {
+                needsCare.insert(card.stableID)     // truly unseen — the label promises this
+            }
+        }
+
+        for stableID in attemptedIDs {
             guard let latest = latestAttempt(versionAttempts, for: stableID) else { continue }
 
             if latest.boxLevel == nil {
-                needsCare.insert(stableID)          // unseen — never graded into a box
+                needsCare.insert(stableID)          // attempted but never graded into a box
                 continue
             }
             if latest.assessment == .again {

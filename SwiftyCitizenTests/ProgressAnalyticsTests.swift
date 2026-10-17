@@ -127,6 +127,22 @@ struct ProgressAnalyticsTests {
         #expect(buckets.needsCare == 3)
     }
 
+    @Test
+    func bucketsNeedsCareIncludesUnseenAndInReviewExcludesIt() {
+        // Bank of four: a graduated, b re-failed (seen-due), c and d never attempted (unseen).
+        let questions = [q(id: "a"), q(id: "b"), q(id: "c"), q(id: "d")]
+        let attempts = [
+            snapshot(id: "a", assessment: .gotIt, wasCorrect: true, boxLevel: 4, at: now - 20 * day), // graduated
+            snapshot(id: "b", assessment: .again, wasCorrect: false, boxLevel: 1, at: now - day)       // seen-due
+            // c, d unseen
+        ]
+
+        let buckets = ProgressAnalytics.buckets(attempts: attempts, for: config(bank: 4), questions: questions)
+        #expect(buckets.graduated == 1)
+        #expect(buckets.needsCare == 3)   // b (re-failed) + c, d (unseen) — label is true
+        #expect(buckets.inReview == 1)    // seen-due {b} only; unseen {c, d} never absorbed
+    }
+
     // MARK: standardMet
 
     @Test
@@ -170,12 +186,29 @@ struct ProgressAnalyticsTests {
         #expect(result[0].topic == "Government")
 
         let government = result.first { $0.topic == "Government" }!
-        #expect(government.count == 3)
+        #expect(government.count == 2)          // distinct questions seen (a, b), not 3 attempts
         #expect(isClose(government.accuracy, 1.0 / 3.0))
 
         let history = result.first { $0.topic == "History" }!
         #expect(history.count == 1)
         #expect(history.accuracy == 1.0)
+    }
+
+    @Test
+    func accuracyByDomainCountsDistinctQuestionsNotAttempts() {
+        // Question "a" attempted three times, "b" once → 2 distinct questions, never 4 attempts.
+        let topicIndex = ["a": "Government", "b": "Government"]
+        let attempts = [
+            snapshot(id: "a", assessment: .gotIt, wasCorrect: true, boxLevel: 3, at: now),
+            snapshot(id: "a", assessment: .again, wasCorrect: false, boxLevel: 1, at: now - day),
+            snapshot(id: "a", assessment: .hard, wasCorrect: false, boxLevel: 1, at: now - 2 * day),
+            snapshot(id: "b", assessment: nil, wasCorrect: true, boxLevel: 2, at: now)
+        ]
+
+        let government = ProgressAnalytics.accuracyByDomain(
+            attempts: attempts, topicIndex: topicIndex, for: .twoThousandTwentyFive
+        ).first { $0.topic == "Government" }!
+        #expect(government.count == 2)   // distinct questions seen, never attempt count (can't exceed M)
     }
 
     @Test
