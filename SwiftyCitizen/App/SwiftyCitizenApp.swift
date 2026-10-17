@@ -43,8 +43,8 @@ struct SwiftyCitizenApp: App {
                   .environment(pendingNavigation)
                   .environment(sessionCoordinator)
                   // Scaling semantic base font so inherited-font Text/Label/Button reflow with Dynamic Type.
-                   // (Was pinned to an absolute 16pt rounded size, which froze Dynamic Type for the whole subtree.)
-                   .environment(\.font, .body)
+                  // (Was pinned to an absolute 16pt rounded size, which froze Dynamic Type for the whole subtree.)
+                  .environment(\.font, .body)
                   .tint(themeManager.palette.primary)
         }
         .modelContainer(sharedModelContainer)
