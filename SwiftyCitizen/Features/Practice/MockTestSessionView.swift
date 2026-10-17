@@ -44,13 +44,14 @@ struct MockTestSessionView: View {
                     .padding(24)
                 }
             } else if state.isComplete {
-                   MockTestResultView(
-                        configuration: configuration,
-                        state: state,
-                        missedQuestions: missedQuestions,
-                        userAnswers: missedAnswers,
-                        onFinish: { finishTest() }
-                    )
+                  MockTestResultView(
+                         configuration: configuration,
+                         state: state,
+                         session: session,
+                         missedQuestions: missedQuestions,
+                         userAnswers: missedAnswers,
+                         onFinish: { finishTest() }
+                     )
             } else {
                 ProgressView(value: progressFraction)
                     .progressViewStyle(.linear)
@@ -292,7 +293,13 @@ struct MockTestSessionView: View {
     }
 
     private func skipQuestion() {
-        state.skip()
+        let skipped = state.skip()
+        // Mirror the skip into the persisted session so "defer to review" survives relaunch.
+        if skipped, let question = state.currentQuestion, let session {
+            if !session.skippedStableIDs.contains(question.stableID) {
+                session.skippedStableIDs.append(question.stableID)
+            }
+        }
         review = nil
         session?.currentIndex = state.currentIndex
         answer = ""

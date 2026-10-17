@@ -59,6 +59,28 @@ struct FlashcardLeitnerPersistenceTests {
         #expect(attempt.boxLevel == 1)
     }
 
+    @Test func skippedStableIDsSurviveAFreshFetch() throws {
+        let container = try ModelContainer(
+            for: StudySession.self, QuestionAttempt.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let context = ModelContext(container)
+
+        let session = StudySession(
+            mode: .mockTest,
+            testVersion: .twoThousandTwentyFive,
+            deckStableIDs: ["2025-001", "2025-002"]
+        )
+        session.skippedStableIDs.append("2025-002")
+        context.insert(session)
+        try context.save()
+
+        // Reading a fresh session returns the persisted skip, so "defer to review" survives relaunch.
+        let fetched = try context.fetch(FetchDescriptor<StudySession>())
+        #expect(fetched.count == 1)
+        #expect(fetched.first?.skippedStableIDs == ["2025-002"])
+    }
+
     @Test func persistedAgainRecordKeepsBoxOneAndRestoresOnResume() throws {
         let container = try ModelContainer(
             for: StudySession.self, QuestionAttempt.self,

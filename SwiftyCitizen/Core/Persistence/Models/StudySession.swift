@@ -9,6 +9,7 @@ final class StudySession {
     var endedAt: Date?
     var attempts: [QuestionAttempt]
     var deckStableIDs: [String] = []
+    var skippedStableIDs: [String] = []
     var currentIndex: Int = 0
 
     init(
@@ -23,6 +24,7 @@ final class StudySession {
         self.endedAt = nil
         self.attempts = []
         self.deckStableIDs = deckStableIDs
+        self.skippedStableIDs = []
         self.currentIndex = 0
     }
 
