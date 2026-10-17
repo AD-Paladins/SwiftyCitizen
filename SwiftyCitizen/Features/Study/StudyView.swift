@@ -43,8 +43,8 @@ struct StudyView: View {
         )
     }
 
-    /// Scheduler-driven due count for the active test version. Mirrors TargetedReviewView's `.due`
-    /// scope; this is NOT the coverage-based `StudyProgressMetrics.dueCount` Home shows as "Due next".
+    /// Scheduler-driven due count for the active test version. This is the single app-wide "due"
+    /// definition, shared with Home's "Due next" via `StudyProgressMetrics.dueCount`.
     private var dueCount: Int {
         Self.dueCount(questions: bankQuestions, attempts: snapshots, bookmarkedIDs: bookmarkedStableIDs)
     }
