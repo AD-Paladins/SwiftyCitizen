@@ -15,38 +15,8 @@ struct AppearanceSection: View {
                         Text(theme.displayName).tag(theme)
                     }
                 }
-
-                ThemePaletteRow(palette: palette)
             }
         }
-    }
-}
-
-struct ThemePaletteRow: View {
-    let palette: AppPalette
-
-    var body: some View {
-        HStack(alignment: .center, spacing: Space.md.value) {
-            Text("settingsThemePalette")
-                .font(CivicText.bodyMD.font)
-                .foregroundStyle(.primary)
-
-            Spacer(minLength: Space.sm.value)
-
-            Circle()
-                .fill(palette.primary)
-                .frame(width: 24, height: 24)
-                .accessibilityLabel(String(localized: "settingsThemePaletteSwatch"))
-
-            Text("settingsArchiveTag")
-                .font(CivicText.labelSM.font)
-                .fontWeight(.bold)
-                .foregroundStyle(palette.primary)
-                .padding(.horizontal, Space.md.value)
-                .padding(.vertical, Space.xs.value)
-                .background(palette.primary.opacity(0.12), in: Capsule())
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
