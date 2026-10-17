@@ -122,7 +122,7 @@ Scoping read-only (worker could NOT run `git`/`.i18n-tooling/verify.py` this ses
 
 **DEFER (high risk, needs deliberate care):**
 - **4.6 dead model fields + migration**: ✅ **DONE 2026-10-17** (`9d137f1`). Removed `StudySession.startedAt`, `Bookmark.createdAt`, `QuestionAttempt.session` inverse (all confirmed dead; `FlashcardAttemptRecord.answerText` LIVE, kept). Automatic SwiftData lightweight migration (no plan). SDD cycle complete + archived. Real upgrade path covered by 5.3 precedent + Path C round-trip guard (user-accepted).
-- **6.1 root font**: `.environment(\.font, .system(size: 16, ...))` at `SwiftyCitizenApp.swift:45` pins fixed size → no Dynamic Type scaling (systemic cause of known audit failures). App-wide reflow = high risk. **SDD first** (user, 2026-10-17): run sdd-explore→propose→spec/design/tasks before touching code.
+- **6.1 root font**: ✅ **DONE 2026-10-17** (`bbb916e` + `06aceb6`, SDD cycle complete + archived). Replaced the frozen `.environment(\.font, .system(size: 16, ...))` pin at `SwiftyCitizenApp.swift:45` with scaling `.body` → inherited-font Text/Label/Button now reflow with Dynamic Type. Suite 253/253 ✔. Probe test omitted (XCTest infeasible); on-device reflow check (task 1.7) pending manual verification. CivicText + 12 direct `.system(size:)` calls deferred to B3 (brand-locked SF Pro Rounded, accepted known limitation).
 
 **Safe-to-now (low risk):**
 - **5.1 Session Summary** (weak topics + one next action) — ✅ COMPLETE (2026-10-17), `5680d66`. Honest per-topic weakness from session attempts; recommended action reuses the `.lowAccuracy` queue via a direct `TargetedReviewView` entry that works from both flashcard origins.
@@ -152,7 +152,7 @@ Verify: git clean ✔, spot-checked deckStableIDs + Bookmark against code ✔, b
 
 ### Phase 6 — Hygiene + docs sync (last)
 
-- [ ] **6.1** Root font → Dynamic-Type-scaling. Ref ponytail scan. **SDD first** (user, 2026-10-17): sdd-explore→propose→spec/design/tasks before touching code (app-wide reflow is high risk).
+- [x] **6.1** Root font → Dynamic-Type-scaling. Ref ponytail scan. **DONE 2026-10-17** via SDD cycle (explore→propose→spec→tasks→apply→archive, archived to `openspec/changes/archive/2026-10-17-6.1-inherited-font-dynamic-type/`). Commits `bbb916e` (feat(accessibility): replace frozen `.environment(\.font, .system(size: 16, weight: .regular, design: .rounded))` at `SwiftyCitizenApp.swift:45` with scaling `.body`) + `06aceb6` (test(accessibility): add `DynamicTypeReflowTests.swift` preview rendering inherited-font Text/Label/Button at `.medium` vs `.accessibility3`). Spec synced to `openspec/specs/inherited-font-dynamic-type/spec.md`. Suite 253/253 ✔. Probe test OMITTED (XCTest has no public API to introspect the resolved SwiftUI environment font; spec scenario "Probe infeasibility falls back to preview + suite green" honored). Pending manual: task 1.7 on-device reflow check (requires physical device, cannot run headlessly). Deferred to B3 (accepted known limitation, NOT a regression): CivicText SF Pro Rounded tokens + 12 direct `.system(size:)` calls remain fixed.
 - [x] **6.2** Docs sync: current-status, product-plan checkboxes, screen-inventory, data-and-persistence; merge Progress specs (reported, not merged — design decision). `0bae01f` — 6 docs corrected against current code (Bookmark @Model, deckStableIDs [String], scheduler-based dueCount, .again persists, insight→explanation, screen-inventory scope note); Progress-spec merge left for follow-up.
 
 ## Running delivery count
