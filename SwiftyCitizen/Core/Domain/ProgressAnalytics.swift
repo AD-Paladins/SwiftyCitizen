@@ -212,21 +212,24 @@ enum ProgressAnalytics {
     }
 
     /// Weekly accuracy over the last `weeks` ISO weeks (oldest first). Accuracy is correct / total
-    /// per week and nil when the week has no attempts.
+    /// per week and nil when the week has no attempts. Scoped to `version` — other-version attempts
+    /// do not bleed into the trajectory after a config change.
     static func accuracyByWeek(
         attempts: [StudyAttemptSnapshot],
+        for version: USCISTestVersion,
         weeks: Int = 4,
         now: Date = .now,
         calendar: Calendar = .current
     ) -> [WeekPoint] {
         let iso = isoCalendar()
         let isoStart = weekStart(for: now)
+        let versionAttempts = attempts.filter { $0.testVersion == version }
 
         var points: [WeekPoint] = []
         for offset in (0..<weeks).reversed() {
             let weekStart = iso.date(byAdding: .day, value: -7 * offset, to: isoStart)!
             let weekEnd = iso.date(byAdding: .day, value: 7, to: weekStart)!
-            let inWeek = attempts.filter { $0.answeredAt >= weekStart && $0.answeredAt < weekEnd }
+            let inWeek = versionAttempts.filter { $0.answeredAt >= weekStart && $0.answeredAt < weekEnd }
             let correct = inWeek.filter { StudyProgressMetrics.isCorrect($0) }.count
             let accuracy = inWeek.isEmpty ? nil : Double(correct) / Double(inWeek.count)
             points.append(WeekPoint(weekStart: weekStart, accuracy: accuracy, attempts: inWeek.count))
@@ -236,14 +239,16 @@ enum ProgressAnalytics {
 
     /// Fraction of distinct attempted cards that are mastered (latest `.gotIt`) **and** whose latest
     /// attempt is more than `horizonDays` before `now`. nil when there are no attempted cards.
+    /// Scoped to `version` — other-version attempts are excluded.
     static func retentionStability(
         attempts: [StudyAttemptSnapshot],
+        for version: USCISTestVersion,
         horizonDays: Int = 5,
         now: Date = .now,
         calendar: Calendar = .current
     ) -> Double? {
         let cutoff = calendar.date(byAdding: .day, value: -horizonDays, to: now)!
-        let versionAttempts = attempts
+        let versionAttempts = attempts.filter { $0.testVersion == version }
         var attemptedIDs = Set<String>()
         var masteredOld = 0
 
@@ -264,7 +269,7 @@ enum ProgressAnalytics {
         for configuration: TestConfiguration
     ) -> String {
         let pass = passRate(attempts: attempts, for: configuration)
-        let retention = retentionStability(attempts: attempts)
+        let retention = retentionStability(attempts: attempts, for: configuration.version)
         let trend = passRateWeeklyDelta(attempts: attempts, for: configuration)
 
         if pass == nil {

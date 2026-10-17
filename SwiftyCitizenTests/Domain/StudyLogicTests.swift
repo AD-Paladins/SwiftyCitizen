@@ -84,10 +84,12 @@ struct StudyLogicTests {
         #expect(state.isRevealed)
 
         let again = state.assess(.again)
-        #expect(again == nil)
-        #expect(state.currentQuestion?.stableID == "one")
+        #expect(again != nil)                       // .again is now persisted as a miss
+        #expect(again?.assessment == .again)
+        #expect(again?.boxLevel == 1)
+        #expect(state.currentQuestion?.stableID == "one")   // stays on same card to re-answer
         #expect(state.isRevealed == false)
-        #expect(state.answeredCount == 0)
+        #expect(state.answeredCount == 1)           // again recorded as an attempt
 
         state.recordAnswer("The Constitution")
         state.reveal()
@@ -95,11 +97,11 @@ struct StudyLogicTests {
         #expect(gotIt?.stableID == "one")
         #expect(gotIt?.answerText == "The Constitution")
         #expect(state.currentQuestion?.stableID == "two")
-        #expect(state.answeredCount == 1)
+        #expect(state.answeredCount == 2)           // again + gotIt
     }
 
     @Test
-    func flashcardStateRecordsOnlyFinalConfirmation() {
+    func flashcardStateRecordsAgainThenFinalConfirmation() {
         var state = FlashcardState(questions: [makeQuestion(id: "one")])
 
         state.recordAnswer("a")
@@ -109,9 +111,11 @@ struct StudyLogicTests {
         state.reveal()
         state.assess(.hard)
 
-        #expect(state.attempts.count == 1)
-        #expect(state.attempts.first?.assessment == .hard)
-        #expect(state.attempts.first?.answerText == "b")
+        #expect(state.attempts.count == 2)          // both the miss and the confirmation persist
+        #expect(state.attempts.first?.assessment == .again)
+        #expect(state.attempts.first?.boxLevel == 1)
+        #expect(state.attempts.last?.assessment == .hard)
+        #expect(state.attempts.last?.answerText == "b")
     }
 
     @Test
@@ -284,51 +288,45 @@ struct StudyLogicTests {
     }
 
     @Test
-    func dueCountComputesRemainingQuestions() {
-        let snapshots = [
-            StudyAttemptSnapshot(
-                stableID: "a",
-                testVersion: .twoThousandTwentyFive,
-                assessment: .gotIt,
-                answeredAt: Date()
-            ),
-            StudyAttemptSnapshot(
-                stableID: "b",
-                testVersion: .twoThousandTwentyFive,
-                assessment: .hard,
-                answeredAt: Date()
-            ),
+    func dueCountUsesSchedulerSemantics() {
+        let now = Date()
+        // Bank of four: a seen-but-not-due (box 5, just reviewed), b seen-and-due (box 1 miss),
+        // c and d never attempted (unseen).
+        let questions = [
+            makeQuestion(id: "a"), makeQuestion(id: "b"),
+            makeQuestion(id: "c"), makeQuestion(id: "d")
+        ]
+        let attempts = [
+            StudyAttemptSnapshot(stableID: "a", testVersion: .twoThousandTwentyFive, assessment: .gotIt, wasCorrect: nil, answeredAt: now, boxLevel: 5),
+            StudyAttemptSnapshot(stableID: "b", testVersion: .twoThousandTwentyFive, assessment: .again, wasCorrect: nil, answeredAt: now, boxLevel: 1)
         ]
 
         let due = StudyProgressMetrics.dueCount(
-            attempts: snapshots,
-            configuration: .twoThousandTwentyFive
+            attempts: attempts,
+            configuration: .twoThousandTwentyFive,
+            questions: questions
         )
-        #expect(due == 126)
+        // Unseen {c, d} first, then seen-due {b}; a is not due. => 3
+        #expect(due == 3)
     }
 
     @Test
-    func dueCountCountsUniqueQuestionsOnly() {
-        let snapshots = [
-            StudyAttemptSnapshot(
-                stableID: "a",
-                testVersion: .twoThousandTwentyFive,
-                assessment: .again,
-                answeredAt: Date()
-            ),
-            StudyAttemptSnapshot(
-                stableID: "a",
-                testVersion: .twoThousandTwentyFive,
-                assessment: .gotIt,
-                answeredAt: Date()
-            ),
+    func dueCountMatchesSchedulerOutput() {
+        let now = Date()
+        let questions = (0..<20).map { makeQuestion(id: "q\($0)") }
+        let attempts = [
+            StudyAttemptSnapshot(stableID: "q0", testVersion: .twoThousandTwentyFive, assessment: .gotIt, wasCorrect: nil, answeredAt: now, boxLevel: 3)
         ]
 
         let due = StudyProgressMetrics.dueCount(
-            attempts: snapshots,
-            configuration: .twoThousandTwentyFive
+            attempts: attempts,
+            configuration: .twoThousandTwentyFive,
+            questions: questions
         )
-        #expect(due == 127)
+        let schedulerDue = SpacedRepetitionScheduler.dueCards(
+            questions: questions, attempts: attempts, version: .twoThousandTwentyFive, now: now
+        ).count
+        #expect(due == schedulerDue)
     }
 
     @Test
@@ -445,30 +443,30 @@ struct StudyLogicTests {
         )
 
         let government = byTopic.first { $0.topic == "Government" }
-        #expect(government?.mastered == 1)   // 2025-001 gotIt
-        #expect(government?.due == 1)        // 2025-002 hard
+        #expect(government?.mastered == 0)   // gotIt/hard are self-assessment, not mock-correct
+        #expect(government?.due == 2)        // both attempted, neither mock-correct
         #expect(government?.unseen == 1)     // 3 questions - 2 attempted
 
         let economy = byTopic.first { $0.topic == "Economy" }
-        #expect(economy?.mastered == 1)      // 2025-004 wasCorrect
+        #expect(economy?.mastered == 1)      // 2025-004 wasCorrect true
         #expect(economy?.due == 0)
         #expect(economy?.unseen == 1)        // 2 questions - 1 attempted
     }
 
     @Test
-    func coverageByTopicAccuracyIsCorrectFraction() {
+    func coverageByTopicAccuracyUsesMockWasCorrect() {
         let byTopic = StudyProgressMetrics.coverageByTopic(
             attempts: [
-                coverageSnapshot(id: "2025-001", assessment: .gotIt, at: Date(timeIntervalSince1970: 100)),
-                coverageSnapshot(id: "2025-002", assessment: .hard, at: Date(timeIntervalSince1970: 200)),
-                coverageSnapshot(id: "2025-003", assessment: .gotIt, at: Date(timeIntervalSince1970: 300)),
+                coverageSnapshot(id: "2025-001", wasCorrect: true, at: Date(timeIntervalSince1970: 100)),
+                coverageSnapshot(id: "2025-002", wasCorrect: false, at: Date(timeIntervalSince1970: 200)),
+                coverageSnapshot(id: "2025-003", wasCorrect: true, at: Date(timeIntervalSince1970: 300)),
             ],
             for: .twoThousandTwentyFive,
             topicIndex: coverageTopicIndex
         )
 
         let government = byTopic.first { $0.topic == "Government" }
-        #expect(government?.accuracy == 2.0 / 3.0)
+        #expect(government?.accuracy == 2.0 / 3.0)   // 2 of 3 mock-correct
     }
 
     @Test
@@ -523,7 +521,7 @@ struct StudyLogicTests {
         )
 
         let government = byTopic.first { $0.topic == "Government" }
-        #expect(government?.mastered == 1)
+        #expect(government?.mastered == 0)   // gotIt is self-assessment, not mock-correct
         #expect(government?.unseen == 2)     // 3 questions - 1 attempted (the 2008 one ignored)
 
         let economy = byTopic.first { $0.topic == "Economy" }

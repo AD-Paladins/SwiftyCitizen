@@ -29,11 +29,19 @@ struct HomeDashboardView: View {
         StudyProgressMetrics.streak(attempts: snapshots)
     }
 
+    /// The active version's question bank, fed to the scheduler-based due count so Home's "Due
+    /// next" matches the Study tab's due number (single app-wide "due" definition).
+    private var bankQuestions: [QuestionContent] {
+        guard let version = configuration.selectedTestVersion else { return [] }
+        return (try? QuestionBankLoader().load(version: version)) ?? []
+    }
+
     private var dueCount: Int {
         guard let testConfiguration = configuration.testConfiguration else { return 0 }
         return StudyProgressMetrics.dueCount(
             attempts: snapshots,
-            configuration: testConfiguration
+            configuration: testConfiguration,
+            questions: bankQuestions
         )
     }
 

@@ -102,11 +102,13 @@ struct ProgressTabView: View {
     }
 
     private var trajectoryPoints: [ProgressAnalytics.WeekPoint] {
-        ProgressAnalytics.accuracyByWeek(attempts: snapshots)
+        guard let version = bankVersion else { return [] }
+        return ProgressAnalytics.accuracyByWeek(attempts: snapshots, for: version)
     }
 
     private var retentionRate: Double? {
-        ProgressAnalytics.retentionStability(attempts: snapshots)
+        guard let version = bankVersion else { return nil }
+        return ProgressAnalytics.retentionStability(attempts: snapshots, for: version)
     }
 
     private var streakCount: Int {

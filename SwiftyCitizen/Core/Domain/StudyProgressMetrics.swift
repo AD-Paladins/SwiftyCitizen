@@ -77,12 +77,22 @@ enum StudyProgressMetrics {
         Set(attempts.filter { $0.testVersion == version }.map(\.stableID))
     }
 
+    /// Scheduler-based DUE count for the active version: unseen cards first (max urgency), then
+    /// seen cards most-overdue-first. This is the single app-wide "due" definition, so Home's
+    /// "Due next" matches the Study tab's due number. `questions` (the version's bank) is required
+    /// to run the scheduler; pass it from the view layer.
     static func dueCount(
         attempts: [StudyAttemptSnapshot],
-        configuration: TestConfiguration
+        configuration: TestConfiguration,
+        questions: [QuestionContent] = []
     ) -> Int {
-        let covered = coverage(attempts: attempts, for: configuration.version).count
-        return max(0, configuration.questionBankCount - covered)
+        guard !questions.isEmpty else { return 0 }
+        let versionAttempts = attempts.filter { $0.testVersion == configuration.version }
+        return Set(SpacedRepetitionScheduler.dueCards(
+            questions: questions,
+            attempts: versionAttempts,
+            version: configuration.version
+        ).map(\.stableID)).count
     }
 
     static func coveredCount(
@@ -122,11 +132,11 @@ enum StudyProgressMetrics {
         return MasteryBreakdown(mastered: mastered, due: due, unseen: unseen)
     }
 
-    /// Whether an attempt counts as correct. Study attempts resolve through self-assessment;
-    /// mock-test attempts through the persisted answer flag. An attempt is correct when either
-    /// holds.
+    /// Whether an attempt counts as correct for every accuracy surface. Only a mock-test result
+    /// (`wasCorrect == true`) is accuracy; a self-assessment `.gotIt` never is. Self-assessment
+    /// stays labeled as such elsewhere (e.g. the "Got it" rate), never presented as accuracy.
     static func isCorrect(_ attempt: StudyAttemptSnapshot) -> Bool {
-        attempt.assessment == .gotIt || attempt.wasCorrect == true
+        attempt.wasCorrect == true
     }
 
     /// Per-topic coverage + accuracy for a single test version.

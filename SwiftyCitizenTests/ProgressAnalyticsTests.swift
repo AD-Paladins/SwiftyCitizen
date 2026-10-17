@@ -179,6 +179,22 @@ struct ProgressAnalyticsTests {
     }
 
     @Test
+    func accuracyByDomainIgnoresGotItOnlyAttempts() {
+        // A learner who only ever tapped "Got it" (never a mock test) has no accuracy signal —
+        // self-assessment must not be presented as accuracy.
+        let topicIndex = ["a": "Government", "b": "History"]
+        let attempts = [
+            snapshot(id: "a", assessment: .gotIt, wasCorrect: nil, boxLevel: 3, at: now),
+            snapshot(id: "b", assessment: .gotIt, wasCorrect: nil, boxLevel: 4, at: now)
+        ]
+
+        let government = ProgressAnalytics.accuracyByDomain(
+            attempts: attempts, topicIndex: topicIndex, for: .twoThousandTwentyFive
+        ).first { $0.topic == "Government" }!
+        #expect(government.accuracy == 0.0)
+    }
+
+    @Test
     func weakSpotsAreAscendingCappedAndTopicMapped() {
         let questions = [q(id: "a", topic: "Government"), q(id: "b", topic: "History"), q(id: "c", topic: "Government"), q(id: "d", topic: "History")]
         let attempts = [
@@ -213,7 +229,7 @@ struct ProgressAnalyticsTests {
             snapshot(id: "c", assessment: .gotIt, wasCorrect: true, boxLevel: 3, at: (weekStart - 7 * day) + day), // prior week, correct
         ]
 
-        let points = ProgressAnalytics.accuracyByWeek(attempts: attempts, weeks: 2, now: now, calendar: iso)
+        let points = ProgressAnalytics.accuracyByWeek(attempts: attempts, for: .twoThousandTwentyFive, weeks: 2, now: now, calendar: iso)
         #expect(points.count == 2)
 
         // Oldest first: prior week (1 attempt, 100%), then current week (2 attempts, 50%).
@@ -238,14 +254,45 @@ struct ProgressAnalyticsTests {
             snapshot(id: "c", assessment: .again, wasCorrect: false, boxLevel: 1, at: now - 10 * day),
         ]
 
-        let retention = ProgressAnalytics.retentionStability(attempts: attempts, horizonDays: 5, now: now, calendar: iso)
+        let retention = ProgressAnalytics.retentionStability(attempts: attempts, for: .twoThousandTwentyFive, horizonDays: 5, now: now, calendar: iso)
         // 1 mastered-old / 3 attempted ≈ 0.333
         #expect(isClose(retention, 1.0 / 3.0))
     }
 
     @Test
     func retentionStabilityIsNilWithoutAttemptedCards() {
-        #expect(ProgressAnalytics.retentionStability(attempts: []) == nil)
+        #expect(ProgressAnalytics.retentionStability(attempts: [], for: .twoThousandTwentyFive) == nil)
+    }
+
+    @Test
+    func accuracyByWeekExcludesOtherVersionAttempts() {
+        let iso = Calendar(identifier: .iso8601)
+        let weekStart = isoWeekStart(now, iso)
+        // Two 2025 attempts this week (one correct) and a 2008 attempt that must be ignored.
+        let attempts = [
+            snapshot(id: "a", assessment: .gotIt, wasCorrect: true, boxLevel: 3, at: weekStart + day, version: .twoThousandTwentyFive),
+            snapshot(id: "b", assessment: .again, wasCorrect: false, boxLevel: 1, at: weekStart + day, version: .twoThousandTwentyFive),
+            snapshot(id: "c", assessment: .gotIt, wasCorrect: true, boxLevel: 3, at: weekStart + day, version: .twoThousandEight)
+        ]
+
+        let points = ProgressAnalytics.accuracyByWeek(attempts: attempts, for: .twoThousandTwentyFive, weeks: 1, now: now, calendar: iso)
+        let current = points.last!
+        #expect(current.attempts == 2)          // the 2008 attempt excluded
+        #expect(isClose(current.accuracy, 0.5))
+    }
+
+    @Test
+    func retentionStabilityExcludesOtherVersionAttempts() {
+        let iso = Calendar(identifier: .iso8601)
+
+        // A 2025 mastered-old card and a 2008 mastered-old card that must be ignored.
+        let attempts = [
+            snapshot(id: "a", assessment: .gotIt, wasCorrect: true, boxLevel: 5, at: now - 10 * day, version: .twoThousandTwentyFive),
+            snapshot(id: "b", assessment: .gotIt, wasCorrect: true, boxLevel: 5, at: now - 10 * day, version: .twoThousandEight)
+        ]
+
+        let retention = ProgressAnalytics.retentionStability(attempts: attempts, for: .twoThousandTwentyFive, horizonDays: 5, now: now, calendar: iso)
+        #expect(isClose(retention, 1.0))         // only the 2025 card counts
     }
 
     // MARK: recommendation
