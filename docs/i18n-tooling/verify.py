@@ -9,8 +9,10 @@ ser el valor de un `case`/retorno que NO esté ya en el catálogo — las claves
 localización siempre están en el catálogo, los nombres de icono nunca lo."""
 import json, re, pathlib
 
-CATALOG = "SwiftyCitizen/Localizable.xcstrings"
-SRC = "SwiftyCitizen"
+# Paths resolve relative to the repo root, so the tool works from anywhere it lives.
+_REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent.parent  # docs/i18n-tooling/ -> repo root
+CATALOG = str(_REPO_ROOT / "SwiftyCitizen/Localizable.xcstrings")
+SRC = str(_REPO_ROOT / "SwiftyCitizen")
 
 # Parameters that hold SF Symbol icon names (never localization keys).
 ICON_PARAMS = ("systemName", "systemImage", "yourImage", "image")
