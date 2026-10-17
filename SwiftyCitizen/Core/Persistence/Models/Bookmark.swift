@@ -9,11 +9,9 @@ import SwiftData
 final class Bookmark {
     var questionStableID: String
     var testVersionRawValue: String
-    var createdAt: Date
 
-    init(questionStableID: String, testVersion: USCISTestVersion, createdAt: Date = .now) {
+    init(questionStableID: String, testVersion: USCISTestVersion) {
         self.questionStableID = questionStableID
         self.testVersionRawValue = testVersion.rawValue
-        self.createdAt = createdAt
     }
 }

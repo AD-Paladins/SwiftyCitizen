@@ -33,7 +33,7 @@ erDiagram
 | Property | Type | Notes |
 | --- | --- | --- |
 | `modeRawValue` / `testVersionRawValue` | String | Enum raw values |
-| `startedAt` / `endedAt?` | Date | `endedAt == nil` → session in progress |
+| `endedAt?` | Date | `nil` → session in progress |
 | `attempts` | [QuestionAttempt] | Unordered relationship; never assume order |
 | `deckStableIDs` | [String] | Question IDs in deck order, for resume. Optional/defaulted (`[]`) so existing stores migrate cleanly. |
 | `currentIndex` | Int | Defaulted to `0` |
@@ -52,7 +52,6 @@ erDiagram
 | `answerText` / `wasCorrect` | String? / Bool? | `wasCorrect` is mock-test only; `answerText` is set by mock-test correctness and, since the flashcard own-answer slice, by flashcards too (nil when the learner did not type a reply) |
 | `boxLevel` | Int | Leitner box this result left the card in (1...`LeitnerScheduler.maxBox`); defaults to `1`. Restored into `FlashcardAttemptRecord.boxLevel` on resume so the retention scheduler survives across sessions. Optional/defaulted per migration policy. |
 | `answeredAt` | Date | Drives "Today" buckets and latest-assessment picks |
-| `session` | StudySession? | Inverse relationship |
 
 ### Bookmark
 
@@ -60,12 +59,10 @@ erDiagram
 | --- | --- | --- |
 | `questionStableID` | String | References bank content (a `QuestionContent.stableID`) |
 | `testVersionRawValue` | String | Version scope; the active-version filter lives in the view, not here |
-| `createdAt` | Date | Defaulted to `.now` at init |
 
 - Independent of `StudySession` — a global learner preference for which questions to revisit. No relationship back to a session.
 - One row per (question, version) pair; toggling reuses the existing row or inserts a new one.
 - Registered in `SwiftyCitizenApp.swift`'s shared `Schema`; every preview that lists `StudySession`/`QuestionAttempt` also lists `Bookmark`.
-- Follows the migration policy: `createdAt` is defaulted, so stores created before it existed migrate in place.
 
 ## Session lifecycle
 
@@ -89,6 +86,7 @@ erDiagram
 - New attributes on `@Model` types must be **optional or defaulted** so existing on-disk stores migrate in place.
 - Storing a new enabled non-defaulted predicate like `currentIndex` previously (= default 0) is the required pattern; a mandatory non-defaulted attribute on an existing store fails with `NSCocoaErrorDomain (134110)`.
 - Enum columns stay raw strings; unknown raw values decode to nil rather than crashing.
+- Property and relationship **drops** (e.g. the removed `StudySession.startedAt`, `Bookmark.createdAt`, and `QuestionAttempt.session`) also migrate automatically via lightweight migration. The migration policy is unchanged: automatic lightweight migration only, no `VersionedSchema`/`MigrationPlan`, matching the inferred-schema-versioning design and the 5.3 `studyLanguageRawValue` removal.
 
 ## Checklist
 

@@ -473,7 +473,6 @@ struct TargetedReviewTests {
         #expect(fetched.count == 1)
         #expect(fetched.first?.questionStableID == "a")
         #expect(fetched.first?.testVersionRawValue == USCISTestVersion.twoThousandTwentyFive.rawValue)
-        #expect(fetched.first?.createdAt != nil)
     }
 
     private func snapshot(
