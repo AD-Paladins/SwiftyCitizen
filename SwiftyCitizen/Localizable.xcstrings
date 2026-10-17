@@ -3776,7 +3776,40 @@
         }
       }
     },
-    "studyTargetedByCategorySection" : {
+     "studySummaryReviewAction" : {
+       "extractionState" : "manual",
+       "localizations" : {
+         "en" : {
+           "stringUnit" : {
+             "state" : "translated",
+             "value" : "Review your weak topics"
+           }
+         }
+       }
+     },
+     "studySummaryWeakCardsLabel" : {
+       "extractionState" : "manual",
+       "localizations" : {
+         "en" : {
+           "stringUnit" : {
+             "state" : "translated",
+             "value" : "weak cards"
+           }
+         }
+       }
+     },
+     "studySummaryWeakTopicsTitle" : {
+       "extractionState" : "manual",
+       "localizations" : {
+         "en" : {
+           "stringUnit" : {
+             "state" : "translated",
+             "value" : "Weak topics"
+           }
+         }
+       }
+     },
+     "studyTargetedByCategorySection" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {

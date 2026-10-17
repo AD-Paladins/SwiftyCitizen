@@ -10,7 +10,7 @@ The flashcard flow is the base study loop: one official question at a time, the 
 4. Self-assess:
    - `Again` → re-presents the same question for a fresh attempt (does not advance, records no attempt).
    - `Hard` / `Got it` → marks the card and advances.
-5. Last question → `SessionSummaryView` → done.
+5. Last question → `SessionSummaryView` (per-assessment counts, weak topics + one next action) → done.
 
 ## Details
 
@@ -22,6 +22,7 @@ The flashcard flow is the base study loop: one official question at a time, the 
 | Version source | `configuration.selectedTestVersion` → `QuestionBankLoader` |
 | Bookmark toggle | `FlashcardSessionHeader` shows a bookmark button (right of the box/flame) only while a question is on screen; toggling adds/removes a `Bookmark` scoped to the active test version. The query lives in `FlashcardSessionView` (`@Query` + version filter); the pure builder never touches SwiftData |
 | Close UX | Ending the session uses an `.alert` (not a confirmation dialog) |
+| Session summary | `SessionSummaryView` renders per-assessment counts plus, only when the session produced weak cards, a "Weak topics" section and one next action. Weakness is computed by `SessionWeakTopics` from `state.attempts` + `state.questions` (map stableID → topic; a card is weak on a `.again` miss or a per-card `.gotIt` success rate ≤ 0.5, the same threshold Progress uses). The action is a `NavigationLink` to `TargetedReviewView(configuration:weakCards:)` opened straight at the `.lowAccuracy` set — reused across both flashcard origins (Study + mock-test) without the cross-stack `PendingNavigation` dance |
 
 ## State machine
 
@@ -78,6 +79,6 @@ flowchart TD
 - [x] The learner can type their own answer before reveal; it is captured in `FlashcardState.currentAnswer`, stored in `QuestionAttempt.answerText`, and shown side by side with the official answer (no verdict).
 - [x] `Again` re-presents the same question for a fresh attempt without advancing or recording; only `Hard`/`Got it` mark the card and advance.
 - [ ] Interrupted sessions resume to the saved position.
-- [ ] Summary shows per-assessment counts.
+- [x] Summary shows per-assessment counts, plus a "Weak topics" section and one next action (the low-accuracy queue) only when the session produced weak cards.
 - [ ] Dashboard Today/Due figures change after assessment.
 - [x] Missed-question review renders the learner's own wrong answer next to the official answer, color-coded by verdict.

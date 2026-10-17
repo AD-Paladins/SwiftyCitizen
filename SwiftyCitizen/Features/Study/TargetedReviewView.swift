@@ -14,6 +14,13 @@ struct TargetedReviewView: View {
     @State private var byCategory = false
     @State private var selectedCategories: Set<String> = []
 
+    /// Direct review entry (session summary): open straight at the low-accuracy set of `weakCards`.
+    /// Default (`[]`) keeps the existing PendingNavigation deep-link behavior untouched.
+    init(configuration: OnboardingConfiguration, weakCards: Set<String> = []) {
+        self.configuration = configuration
+        self._weakCards = State(initialValue: weakCards)
+    }
+
     private var bankQuestions: [QuestionContent] {
         guard let version = configuration.selectedTestVersion else { return [] }
         return (try? QuestionBankLoader().load(version: version)) ?? []
@@ -37,9 +44,13 @@ struct TargetedReviewView: View {
         return byCategory ? selectedCategories : []
     }
 
-    /// The exact low-accuracy stable IDs Progress requested (nil unless the weak-spots queue was used).
+    /// Exact weak-card stable IDs passed in for a direct review entry (the session summary),
+    /// overriding the pending-navigation scope when non-empty; otherwise the Progress-requested set.
+    @State private var weakCards: Set<String> = []
+
+    /// The low-accuracy stable IDs to review: an explicit entry set wins, else the pending scope.
     private var pendingWeakStableIDs: Set<String> {
-        pendingNavigation.weakStableIDs ?? []
+        weakCards.isEmpty ? (pendingNavigation.weakStableIDs ?? []) : weakCards
     }
 
     private var resumeSession: StudySession? {
@@ -139,7 +150,11 @@ struct TargetedReviewView: View {
         .background(palette.canvas.ignoresSafeArea())
         // Home/Progress may request a specific scope (Bookmarked) or topic; open it and clear.
         .onAppear {
-            if let scope = pendingNavigation.reviewScope {
+            // A direct review entry (session summary) opens straight at the low-accuracy set; the
+            // Progress deep link still selects its scope via pendingNavigation.
+            if !weakCards.isEmpty {
+                selectedScope = .lowAccuracy
+            } else if let scope = pendingNavigation.reviewScope {
                 selectedScope = scope
             }
             if let scopedTopic = pendingNavigation.scopedTopic {
