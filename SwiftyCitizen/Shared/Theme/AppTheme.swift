@@ -8,19 +8,13 @@ final class ThemeManager {
         didSet { UserDefaults.standard.set(themeName.rawValue, forKey: Self.storageKey) }
     }
 
-    var sessionFeedbackEnabled: Bool {
-        didSet { UserDefaults.standard.set(sessionFeedbackEnabled, forKey: Self.sessionFeedbackStorageKey) }
-    }
-
     var palette: AppPalette { themeName.palette }
 
     private static let storageKey = "appThemeName"
-    private static let sessionFeedbackStorageKey = "sessionFeedbackEnabled"
 
     init() {
         let rawValue = UserDefaults.standard.string(forKey: Self.storageKey) ?? AppThemeName.civicNavy.rawValue
         self.themeName = AppThemeName(rawValue: rawValue) ?? .civicNavy
-        self.sessionFeedbackEnabled = UserDefaults.standard.object(forKey: Self.sessionFeedbackStorageKey) as? Bool ?? true
     }
 }
 

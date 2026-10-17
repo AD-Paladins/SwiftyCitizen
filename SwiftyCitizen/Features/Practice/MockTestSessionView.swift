@@ -262,11 +262,7 @@ struct MockTestSessionView: View {
         selectedOptionIndexes = []
         answer = ""
 
-        if themeManager.sessionFeedbackEnabled {
-            review = recorded
-        } else {
-            advance()
-        }
+        review = recorded
     }
 
     private func recordAttempt(for answerRecorded: MockTestAnswer) {
