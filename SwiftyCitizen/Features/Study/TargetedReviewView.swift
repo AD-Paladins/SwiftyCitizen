@@ -37,6 +37,11 @@ struct TargetedReviewView: View {
         return byCategory ? selectedCategories : []
     }
 
+    /// The exact low-accuracy stable IDs Progress requested (nil unless the weak-spots queue was used).
+    private var pendingWeakStableIDs: Set<String> {
+        pendingNavigation.weakStableIDs ?? []
+    }
+
     private var resumeSession: StudySession? {
         sessions.first {
             $0.mode == .targetedReview && !$0.isComplete && $0.answeredCount > 0
@@ -49,7 +54,8 @@ struct TargetedReviewView: View {
             attempts: snapshots,
             scope: scope,
             categories: activeCategories,
-            bookmarkedIDs: bookmarkedStableIDs
+            bookmarkedIDs: bookmarkedStableIDs,
+            weakStableIDs: pendingWeakStableIDs
         )
     }
 
@@ -59,7 +65,8 @@ struct TargetedReviewView: View {
             attempts: snapshots,
             scope: scope,
             categories: activeCategories,
-            bookmarkedIDs: bookmarkedStableIDs
+            bookmarkedIDs: bookmarkedStableIDs,
+            weakStableIDs: pendingWeakStableIDs
         )
     }
 
@@ -68,7 +75,8 @@ struct TargetedReviewView: View {
             questions: bankQuestions,
             attempts: snapshots,
             scope: selectedScope,
-            bookmarkedIDs: bookmarkedStableIDs
+            bookmarkedIDs: bookmarkedStableIDs,
+            weakStableIDs: pendingWeakStableIDs
         )
     }
 

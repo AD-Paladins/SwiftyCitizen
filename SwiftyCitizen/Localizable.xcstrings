@@ -2158,6 +2158,16 @@
         }
       }
     },
+    "progressAccuracyEmptyState" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No mock-test results for this test version yet. Take a mock test to see your accuracy by area."
+          }
+        }
+      }
+    },
     "progressAccuracyHighConfidence" : {
       "localizations" : {
         "en" : {
@@ -2285,6 +2295,66 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Due"
+          }
+        }
+      }
+    },
+    "progressEmptyVersionMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No study data for this test version yet. Take a mock test or answer some questions to get started."
+          }
+        }
+      }
+    },
+    "progressEmptyVersionTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No data for this test version"
+          }
+        }
+      }
+    },
+    "progressHeroFailed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not passed"
+          }
+        }
+      }
+    },
+    "progressHeroLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latest mock test"
+          }
+        }
+      }
+    },
+    "progressHeroNoMock" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No mock test taken yet"
+          }
+        }
+      }
+    },
+    "progressHeroPassed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passed"
           }
         }
       }

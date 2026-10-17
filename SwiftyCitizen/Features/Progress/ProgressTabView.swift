@@ -29,6 +29,11 @@ struct ProgressTabView: View {
         return Dictionary(uniqueKeysWithValues: questions.map { ($0.stableID, $0.topic) })
     }
 
+    /// stableID -> question, so weak-spot rows can show the question text instead of the raw ID.
+    private var questionIndex: [String: QuestionContent] {
+        Dictionary(uniqueKeysWithValues: bankQuestions.map { ($0.stableID, $0) })
+    }
+
     // MARK: - Version-scoped helpers
 
     private var testConfiguration: TestConfiguration? { configuration.testConfiguration }
@@ -52,10 +57,22 @@ struct ProgressTabView: View {
         configuration.selectedTestVersion?.displayName ?? ""
     }
 
-    /// Distinct cards reviewed for the active version (drives "X of Y seen").
+    /// Distinct cards reviewed for the active version (drives "X of M seen").
     private var versionReviewedCount: Int {
         guard let version = bankVersion else { return 0 }
         return Set(snapshots.filter { $0.testVersion == version }.map(\.stableID)).count
+    }
+
+    /// Whether there is any attempt data for the active version (drives the version-scoped empty state).
+    private var hasVersionData: Bool {
+        guard let version = bankVersion else { return false }
+        return snapshots.contains { $0.testVersion == version }
+    }
+
+    /// Mock-test attempts for the active version (`wasCorrect` is only ever set by a mock test).
+    private var mockAttemptsForVersion: [StudyAttemptSnapshot] {
+        guard let version = bankVersion else { return [] }
+        return snapshots.filter { $0.testVersion == version && $0.wasCorrect != nil }
     }
 
     // MARK: - Domain analytics (ProgressAnalytics)
@@ -68,32 +85,9 @@ struct ProgressTabView: View {
         return ProgressAnalytics.buckets(attempts: snapshots, for: config, questions: bankQuestions)
     }
 
-    private var predictedPassRate: Double? {
-        guard let config = testConfiguration else { return nil }
-        return ProgressAnalytics.passRate(attempts: snapshots, for: config)
-    }
-
-    private var weeklyTrend: Double? {
-        guard let config = testConfiguration else { return nil }
-        return ProgressAnalytics.passRateWeeklyDelta(attempts: snapshots, for: config)
-    }
-
-    private var standardMetToday: Bool {
-        guard let config = testConfiguration else { return false }
-        return ProgressAnalytics.standardMet(attempts: snapshots, for: config)
-    }
-
     private var accuracyByDomainData: [(topic: String, accuracy: Double?, count: Int)] {
         guard let version = bankVersion else { return [] }
         return ProgressAnalytics.accuracyByDomain(attempts: snapshots, topicIndex: topicIndex, for: version)
-    }
-
-    private var overallAccuracy: Double? {
-        guard let version = bankVersion else { return nil }
-        let versionAttempts = snapshots.filter { $0.testVersion == version }
-        guard !versionAttempts.isEmpty else { return nil }
-        let correct = versionAttempts.filter { StudyProgressMetrics.isCorrect($0) }.count
-        return Double(correct) / Double(versionAttempts.count)
     }
 
     private var weakSpotsData: [ProgressAnalytics.WeakSpot] {
@@ -101,29 +95,45 @@ struct ProgressTabView: View {
         return ProgressAnalytics.weakSpots(attempts: snapshots, questions: bankQuestions, version: version)
     }
 
-    private var trajectoryPoints: [ProgressAnalytics.WeekPoint] {
-        guard let version = bankVersion else { return [] }
-        return ProgressAnalytics.accuracyByWeek(attempts: snapshots, for: version)
-    }
-
-    private var retentionRate: Double? {
-        guard let version = bankVersion else { return nil }
-        return ProgressAnalytics.retentionStability(attempts: snapshots, for: version)
-    }
-
     private var streakCount: Int {
         StudyProgressMetrics.streak(attempts: snapshots)
     }
 
-    private var recommendationText: String {
-        guard let config = testConfiguration else { return "" }
-        return ProgressAnalytics.recommendation(attempts: snapshots, for: config)
+    // MARK: - Honest mock-test summary (last result for the active version)
+
+    /// The most recent completed mock test for the active version, or nil when none exists.
+    private var lastMockTest: StudySession? {
+        guard let version = bankVersion else { return nil }
+        return sessions
+            .filter { $0.mode == .mockTest && $0.endedAt != nil && $0.testVersion == version }
+            .max { lhs, rhs in
+                (lhs.endedAt ?? .distantPast) < (rhs.endedAt ?? .distantPast)
+            }
+    }
+
+    /// Score + pass/fail for that mock test. The view selects the session; `MockTestResult` owns
+    /// only the arithmetic so it stays unit-testable without SwiftData.
+    private var lastMockTestResult: MockTestResult? {
+        guard let session = lastMockTest, let config = testConfiguration else { return nil }
+        let correct = session.attempts.filter { $0.wasCorrect == true }.count
+        return MockTestResult(
+            asked: session.deckStableIDs.count,
+            correct: correct,
+            passingScore: config.passingScore
+        )
+    }
+
+    private var overallMockAccuracy: Double? {
+        let versionAttempts = mockAttemptsForVersion
+        guard !versionAttempts.isEmpty else { return nil }
+        let correct = versionAttempts.filter { StudyProgressMetrics.isCorrect($0) }.count
+        return Double(correct) / Double(versionAttempts.count)
     }
 
     // MARK: - Body
 
     var body: some View {
-        if snapshots.isEmpty {
+        if !hasVersionData {
             emptyState
         } else {
             NavigationStack {
@@ -133,25 +143,15 @@ struct ProgressTabView: View {
 
                         masteryBuckets
 
-                        if standardMetToday {
-                            standardMetLine
-                        }
-
                         topicCoverageSection
 
-                        accuracyBreakdownSection
+                        if hasMockTestData {
+                            accuracyBreakdownSection
+                        }
 
                         weakSpotsSection
 
                         momentumSection
-
-                        retentionCard
-
-                        if !recommendationText.isEmpty {
-                            recommendationCard(recommendationText)
-                        }
-
-                        drillCTA
                     }
                     .padding(Space.lg.value)
                 }
@@ -162,66 +162,60 @@ struct ProgressTabView: View {
         }
     }
 
-    // MARK: - 1. Hero / readiness banner
+    private var hasMockTestData: Bool {
+        !mockAttemptsForVersion.isEmpty
+    }
+
+    // MARK: - 1. Hero / honest readiness
 
     private var readinessHero: some View {
-        let percentage = predictedPassRate ?? 0
-        let covered = Int((percentage * Double(bankCount)).rounded())
-        let passingRequired = testConfiguration?.passingScore ?? 0
-        let passingTotal = testConfiguration?.maximumQuestionsAsked ?? 0
+        let coverage = "\(versionReviewedCount) \(String(localized: "commonOf")) \(bankCount) \(String(localized: "progressTopicSeenOf"))"
 
         return VStack(alignment: .leading, spacing: Space.lg.value) {
-            Text("progressReadinessLabel")
+            Text("progressHeroLabel")
                 .font(CivicText.labelLG.font.weight(.semibold))
                 .foregroundStyle(palette.onPrimary)
 
-            HStack(alignment: .firstTextBaseline, spacing: Space.sm.value) {
-                Text("\(Int((percentage * 100).rounded()))%")
+            if let result = lastMockTestResult {
+                Text("\(result.correct) \(String(localized: "commonOf")) \(result.asked)")
                     .font(CivicText.metricDisplay.font)
                     .foregroundStyle(palette.onPrimary)
-                Text("\(covered) \(String(localized: "commonOf")) \(bankCount) \(String(localized: "unitQuestionsCoveredPlural"))")
-                    .font(CivicText.labelMD.font)
-                    .foregroundStyle(palette.onPrimary.opacity(0.85))
-            }
 
-            if let delta = weeklyTrend {
                 HStack(spacing: Space.sm.value) {
-                    let up = delta > 0
-                    Image(systemName: up ? "arrow.up.forward" : "arrow.down.forward")
+                    passIcon(result.passed)
+                    Text(passLabel(result.passed))
                         .font(CivicText.labelMD.font.weight(.semibold))
-                        .foregroundStyle(palette.onPrimary)
-                    Text("\(Int((abs(delta) * 100).rounded()))% \(String(localized: up ? "progressWeeklyTrendUp" : "progressWeeklyTrendDown"))")
-                        .font(CivicText.labelMD.font)
                         .foregroundStyle(palette.onPrimary.opacity(0.9))
                 }
+                if let endedAt = lastMockTest?.endedAt {
+                    Text(endedAt.formatted(.dateTime.day().month().year()))
+                        .font(CivicText.labelMD.font)
+                        .foregroundStyle(palette.onPrimary.opacity(0.8))
+                }
+            } else {
+                Text("progressHeroNoMock")
+                    .font(CivicText.labelMD.font.weight(.semibold))
+                    .foregroundStyle(palette.onPrimary.opacity(0.9))
             }
 
-            VStack(alignment: .leading, spacing: Space.sm.value) {
-                if standardMetToday {
-                    HStack(spacing: Space.sm.value) {
-                        Image(systemName: "checkmark.seal.fill")
-                            .font(CivicText.labelMD.font.weight(.semibold))
-                            .foregroundStyle(palette.onPrimary)
-                        Text("progressInterviewReady")
-                            .font(CivicText.labelMD.font.weight(.semibold))
-                            .foregroundStyle(palette.onPrimary)
-                    }
-                }
-                if passingTotal > 0 {
-                    HStack(spacing: Space.sm.value) {
-                        Text("\(String(localized: "progressPassingReq")):")
-                            .font(CivicText.labelMD.font)
-                            .foregroundStyle(palette.onPrimary.opacity(0.9))
-                        Text("\(passingRequired) \(String(localized: "commonOf")) \(passingTotal)")
-                            .font(CivicText.labelMD.font.weight(.semibold))
-                            .foregroundStyle(palette.onPrimary)
-                    }
-                }
-            }
+            Text(coverage)
+                .font(CivicText.labelMD.font)
+                .foregroundStyle(palette.onPrimary.opacity(0.75))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(Space.lg.value)
         .background(palette.primary, in: RoundedRectangle(cornerRadius: Space.xl.value))
+    }
+
+    private func passIcon(_ passed: Bool) -> some View {
+        Image(systemName: passed ? "checkmark.seal.fill" : "xmark.octagon.circle")
+            .font(CivicText.labelMD.font.weight(.semibold))
+            .foregroundStyle(palette.onPrimary)
+            .accessibilityHidden(true)
+    }
+
+    private func passLabel(_ passed: Bool) -> LocalizedStringKey {
+        passed ? "progressHeroPassed" : "progressHeroFailed"
     }
 
     // MARK: - 2. Mastery buckets row
@@ -268,21 +262,7 @@ struct ProgressTabView: View {
         .cardStyle()
     }
 
-    // MARK: - 3. Standard met line
-
-    private var standardMetLine: some View {
-        HStack(spacing: Space.sm.value) {
-            Image(systemName: "checkmark.shield.fill")
-                .font(CivicText.labelMD.font)
-                .foregroundStyle(palette.success)
-            Text("\(String(localized: "progressStandardMet")) \(versionName)")
-                .font(CivicText.bodyMD.font)
-                .foregroundStyle(palette.ink)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    // MARK: - 4. Topic coverage
+    // MARK: - 3. Topic coverage
 
     private var topicCoverageSection: some View {
         VStack(alignment: .leading, spacing: Space.lg.value) {
@@ -335,7 +315,7 @@ struct ProgressTabView: View {
             .background(palette.primary, in: RoundedRectangle(cornerRadius: 8))
     }
 
-    // MARK: - 5. Accuracy breakdown
+    // MARK: - 4. Accuracy breakdown (mock-test only)
 
     private var accuracyBreakdownSection: some View {
         VStack(alignment: .leading, spacing: Space.lg.value) {
@@ -344,7 +324,7 @@ struct ProgressTabView: View {
                 .foregroundStyle(palette.ink)
 
             SummaryMetricView(
-                value: accuracyText(overallAccuracy),
+                value: accuracyText(overallMockAccuracy),
                 label: "progressAccuracyOverall",
                 tint: palette.primary
             )
@@ -390,7 +370,7 @@ struct ProgressTabView: View {
         return "progressAccuracyNeedsReview"
     }
 
-    // MARK: - 6. Critical weak spots
+    // MARK: - 5. Critical weak spots
 
     private var weakSpotsSection: some View {
         VStack(alignment: .leading, spacing: Space.lg.value) {
@@ -419,16 +399,18 @@ struct ProgressTabView: View {
     }
 
     private func weakSpotRow(_ spot: ProgressAnalytics.WeakSpot) -> some View {
+        let question = questionIndex[spot.stableID]?.officialQuestion ?? spot.stableID
         return HStack(spacing: Space.sm.value) {
-            Text(spot.stableID)
-                .font(CivicText.labelMD.font.weight(.semibold))
-                .foregroundStyle(palette.ink)
-                .monospacedDigit()
+            VStack(alignment: .leading, spacing: Space.xs.value) {
+                Text(question)
+                    .font(CivicText.labelMD.font.weight(.semibold))
+                    .foregroundStyle(palette.ink)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(spot.topic)
+                    .font(CivicText.labelSM.font)
+                    .foregroundStyle(palette.dimmed)
+            }
             Spacer()
-            Text(spot.topic)
-                .font(CivicText.labelMD.font)
-                .foregroundStyle(palette.dimmed)
-                .multilineTextAlignment(.leading)
             Text(accuracyText(spot.accuracy))
                 .font(CivicText.labelMD.font.weight(.semibold))
                 .foregroundStyle(palette.ink)
@@ -442,7 +424,7 @@ struct ProgressTabView: View {
     }
 
     private func queueButton(count: Int) -> some View {
-        return Button(action: queueNeedsWork) {
+        return Button(action: queueWeakSpots) {
             Text("\(count) \(String(localized: "progressQueueWeakItems"))")
                 .font(CivicText.labelMD.font.weight(.semibold))
                 .frame(maxWidth: .infinity)
@@ -453,134 +435,24 @@ struct ProgressTabView: View {
         .foregroundStyle(palette.primary)
     }
 
-    // MARK: - 7. Study momentum
+    // MARK: - 6. Study momentum (streak only)
 
     private var momentumSection: some View {
-        VStack(alignment: .leading, spacing: Space.lg.value) {
-            Text("progressMomentumTitle")
-                .font(CivicText.headlineSM.font)
-                .foregroundStyle(palette.ink)
-
-            HStack(spacing: Space.md.value) {
-                VStack(alignment: .leading, spacing: Space.xs.value) {
-                    Text("progressMomentumStreak")
-                        .font(CivicText.labelMD.font)
-                        .foregroundStyle(palette.dimmed)
-                    Text("\(streakCount)")
-                        .font(CivicText.headlineLG.font)
-                        .foregroundStyle(palette.ink)
-                        .monospacedDigit()
-                }
-                Spacer()
-                VStack(alignment: .leading, spacing: Space.xs.value) {
-                    Text("progressAccuracyOverall")
-                        .font(CivicText.labelMD.font)
-                        .foregroundStyle(palette.dimmed)
-                    Text(accuracyText(overallAccuracy))
-                        .font(CivicText.headlineLG.font)
-                        .foregroundStyle(palette.ink)
-                        .monospacedDigit()
-                }
-            }
-
-            VStack(alignment: .leading, spacing: Space.md.value) {
-                Text("progressTrajectoryTitle")
-                    .font(CivicText.labelLG.font.weight(.semibold))
-                    .foregroundStyle(palette.ink)
-                trajectoryBars
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(Space.lg.value)
-        .cardStyle()
-    }
-
-    private var trajectoryBars: some View {
-        HStack(alignment: .bottom, spacing: Space.md.value) {
-            ForEach(trajectoryPoints, id: \.weekStart) { point in
-                VStack(spacing: Space.xs.value) {
-                    accuracyBar(point.accuracy)
-                    Text(weekLabel(point.weekStart))
-                        .font(CivicText.labelSM.font)
-                        .foregroundStyle(palette.dimmed)
-                        .monospacedDigit()
-                }
-            }
-        }
-    }
-
-    private func accuracyBar(_ accuracy: Double?) -> some View {
-        let height = accuracy.map { max(8, $0 * 64) } ?? 8
-        return Rectangle()
-            .fill((accuracy ?? 0) >= 0 ? palette.primary.opacity(0.85) : palette.surface)
-            .frame(width: 28, height: height)
-            .clipShape(RoundedRectangle(cornerRadius: 6))
-    }
-
-    private func weekLabel(_ date: Date) -> String {
-        date.formatted(.dateTime.month().day())
-    }
-
-    // MARK: - 8. Retention stability (+ gated oral speed)
-
-    private var retentionCard: some View {
-        // GATED: the design also shows "Avg Oral Speed" and "recall under speed". The codebase has
-        // no per-answer timing field (only `answeredAt`), so these cannot be computed. Omit until a
-        // timing field is added to QuestionAttempt. See progress-diagnostic-mirror-design.md §1/#14.
-        return VStack(alignment: .leading, spacing: Space.sm.value) {
-            Text("progressRetentionLabel")
-                .font(CivicText.headlineSM.font)
-                .foregroundStyle(palette.ink)
-            SummaryMetricView(
-                value: accuracyText(retentionRate),
-                label: "progressRetentionMeaning",
-                tint: palette.success
-            )
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(Space.lg.value)
-        .cardStyle()
-    }
-
-    // MARK: - 9. Recommendation
-
-    private func recommendationCard(_ text: String) -> some View {
-        return VStack(alignment: .leading, spacing: Space.sm.value) {
-            HStack(spacing: Space.sm.value) {
-                Image(systemName: "lightbulb.fill")
+        HStack(spacing: Space.md.value) {
+            VStack(alignment: .leading, spacing: Space.xs.value) {
+                Text("progressMomentumStreak")
                     .font(CivicText.labelMD.font)
-                    .foregroundStyle(palette.warning)
-                Text("progressRecommendationTitle")
-                    .font(CivicText.headlineSM.font)
+                    .foregroundStyle(palette.dimmed)
+                Text("\(streakCount)")
+                    .font(CivicText.headlineLG.font)
                     .foregroundStyle(palette.ink)
+                    .monospacedDigit()
             }
-            Text(text)
-                .font(CivicText.bodyMD.font)
-                .foregroundStyle(palette.ink)
-                .multilineTextAlignment(.leading)
+            Spacer()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(Space.lg.value)
         .cardStyle()
-    }
-
-    // MARK: - 10. Diagnostic drill CTA
-
-    private var drillCTA: some View {
-        VStack(spacing: Space.sm.value) {
-            Button(action: queueNeedsWork) {
-                Label("progressDrillCTA", systemImage: "target")
-                    .font(CivicText.headlineSM.font)
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.borderedProminent)
-            .controlSize(.large)
-            .tint(palette.primary)
-
-            Text("progressDrillNeedsCareLabel")
-                .font(CivicText.labelSM.font)
-                .foregroundStyle(palette.dimmed)
-        }
     }
 
     // MARK: - Shared helpers
@@ -604,10 +476,11 @@ struct ProgressTabView: View {
         return "\(Int((accuracy * 100).rounded()))%"
     }
 
-    /// Queues a targeted review on the Needs-Care deck. `TargetedReviewView` consumes `reviewScope`
-    /// on appear and opens scoped to `.needsWork`.
-    private func queueNeedsWork() {
-        pendingNavigation.reviewScope = .needsWork
+    /// Queues a targeted review on the exact low-accuracy set this tab counts. `TargetedReviewView`
+    /// consumes `reviewScope` on appear and opens scoped to `.lowAccuracy`, filtered by `weakStableIDs`.
+    private func queueWeakSpots() {
+        pendingNavigation.setWeakStableIDs(Set(weakSpotsData.map(\.stableID)))
+        pendingNavigation.reviewScope = .lowAccuracy
         selectedTab = .study
     }
 
@@ -616,8 +489,8 @@ struct ProgressTabView: View {
     private var emptyState: some View {
         EmptyStateView(
             systemImage: "chart.bar",
-            title: "progressNoProgressTitle",
-            message: "progressNoProgressMessage"
+            title: "progressEmptyVersionTitle",
+            message: "progressEmptyVersionMessage"
         )
     }
 

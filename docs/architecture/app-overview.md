@@ -28,7 +28,7 @@ SwiftyCitizen is a SwiftUI + SwiftData app. The root decides between onboarding 
 
 Two `@MainActor @Observable` coordinators live in `App/AppCoordination.swift` and are injected once at the app root; screens read them via `@Environment`. They mirror the `ThemeManager` pattern.
 
-- `PendingNavigation` — carries a one-shot deep link (`reviewScope: ReviewScope?`). Home sets it and switches to Study; `StudyView` pushes `.targetedReview` onto its `NavigationStack(path:)` (fresh tab via `.onAppear`, cached tab via `.onChange`), and `TargetedReviewView` consumes it on appear and clears it.
+- `PendingNavigation` — carries one-shot deep links (`reviewScope: ReviewScope?`, `scopedTopic: String?`, `weakStableIDs: Set<String>?`). Home sets `reviewScope = .bookmarked` and switches to Study; the Progress weak-spots queue sets `weakStableIDs` + `reviewScope = .lowAccuracy` and switches to Study. `StudyView` pushes `.targetedReview` onto its `NavigationStack(path:)` (fresh tab via `.onAppear`, cached tab via `.onChange`), and `TargetedReviewView` consumes them on appear and clears them.
 - `SessionActivityCoordinator` — `private(set) isActive`. Every session view (`FlashcardSessionView` for flashcards + targeted review, `MockTestSessionView`) marks itself active on appear and inactive on disappear, and dismisses itself when the coordinator flips to inactive. `MainTabView` observes `isActive` in an `.onChange(of: selectedTab)` guard: while a session is active it reverts the selection (keeping the session visible) and shows a confirm alert; on confirm it deactivates the session (which self-dismisses) and navigates to the target tab.
 
 ## Navigation map

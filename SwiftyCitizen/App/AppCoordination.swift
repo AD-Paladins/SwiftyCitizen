@@ -19,6 +19,10 @@ final class PendingNavigation {
     /// the view maps this onto a single selected category.
     var scopedTopic: String?
 
+    /// When non-nil, the "Low accuracy" scope should open exactly these weak-card stable IDs (from
+    /// Progress's weak-spots count), so the deck matches the number the tab reported.
+    var weakStableIDs: Set<String>?
+
     func setBookmarked() {
         reviewScope = .bookmarked
     }
@@ -27,9 +31,14 @@ final class PendingNavigation {
         scopedTopic = topic
     }
 
+    func setWeakStableIDs(_ ids: Set<String>) {
+        weakStableIDs = ids
+    }
+
     func clear() {
         reviewScope = nil
         scopedTopic = nil
+        weakStableIDs = nil
     }
 }
 

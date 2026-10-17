@@ -413,6 +413,51 @@ struct TargetedReviewTests {
     }
 
     @Test
+    func lowAccuracyWithExplicitIdsReturnsExactlyThoseCards() {
+        // The Progress tab counts three weak cards and must open exactly those — not a differently
+        // defined deck (this is the D8 count/CTA mismatch fix).
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c"), makeQuestion(id: "d")]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .lowAccuracy,
+            weakStableIDs: ["b", "d", "a"]
+        )
+
+        #expect(deck.map(\.stableID) == ["a", "b", "d"])   // bank order, exactly the weak set
+    }
+
+    @Test
+    func lowAccuracyCountMatchesExplicitIdDeck() {
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]
+
+        #expect(
+            ReviewDeckBuilder.questionCount(
+                questions: questions,
+                attempts: [],
+                scope: .lowAccuracy,
+                weakStableIDs: ["c"]
+            ) == 1
+        )
+    }
+
+    @Test
+    func lowAccuracyFallbackUsesLowPerCardAccuracy() {
+        // Without explicit IDs the manual scope falls back to attempted cards whose per-card
+        // accuracy is at or below the low-accuracy threshold.
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b")]
+        let attempts = [
+            StudyAttemptSnapshot(stableID: "a", testVersion: .twoThousandTwentyFive, assessment: nil, wasCorrect: false, answeredAt: Date()),
+            StudyAttemptSnapshot(stableID: "b", testVersion: .twoThousandTwentyFive, assessment: nil, wasCorrect: true, answeredAt: Date()),
+        ]
+
+        let deck = ReviewDeckBuilder.build(questions: questions, attempts: attempts, scope: .lowAccuracy)
+
+        #expect(deck.map(\.stableID) == ["a"])   // 0/1 included; 1/1 excluded
+    }
+
+    @Test
     func bookmarkPersistsIndependentlyOfSessions() throws {
         let modelContainer = try ModelContainer(
             for: Bookmark.self,
