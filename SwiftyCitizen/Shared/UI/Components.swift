@@ -249,25 +249,6 @@ struct StudyEntryCard<Route: Hashable>: View {
     }
 }
 
-struct StudyEntryPointView: View {
-    let title: String
-    let message: String
-    let systemImage: String
-
-    var body: some View {
-        ScrollView {
-            EmptyStateView(
-                systemImage: systemImage,
-                title: LocalizedStringKey(title),
-                message: LocalizedStringKey(message)
-            )
-            .padding(24)
-        }
-        .navigationTitle(title)
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
 struct SelectionTile: View {
     let text: String
     let isSelected: Bool
