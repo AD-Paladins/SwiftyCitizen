@@ -97,6 +97,25 @@ Commits `5a38b05` (feat(home): remove fabricated Home widgets), `e271b77` (fix(s
 - Localization: removed 10 tied keys (valid JSON, 289 en keys remain); `commonOf` untouched.
 Verify (independently re-run): xcstrings valid JSON + 10 keys gone ✔, `ProgressAnalyticsTests` ✔, worker reported full suite 240/240 + build OK.
 
+### Phase 5.1 — Session Summary: weak topics + one next action (M6)  ✅ COMPLETE (2026-10-17)
+
+Commits `5680d66` (feat(study): weak topics + one next action), `1162b0e` (docs).
+- **New pure domain** `SessionWeakTopics.swift` (`import Foundation` only): maps each attempt's stableID → question.topic, aggregates weak cards per topic. Weak = `.again` miss OR per-card `.gotIt` success ≤ 0.5 (same threshold as Progress "Low accuracy" queue). Honest: no invented %.
+- **SessionSummaryView**: renders "Weak topics" section + one "Review your weak topics" action, ONLY when the session produced weak cards (no invented busywork). Existing output (counts, assessment rows, Done) untouched.
+- **FlashcardSessionView**: computes weak topics + weak stable IDs from `state.attempts` + `state.questions`, threads them in.
+- **TargetedReviewView**: additive `weakCards:` param (defaults `[]`, existing callers unchanged); opens straight at `.lowAccuracy` for the explicit set.
+- **Judgment call**: recommended action uses a direct `NavigationLink` to `TargetedReviewView` (not Phase 2's `PendingNavigation`), because flashcards launch from two stacks (Study tab + Practice mock-test result) and `PendingNavigation` only fires when `StudyView` is alive. Direct link works from both; reuses the same `.lowAccuracy` deck.
+Verify (independently re-run): `SessionWeakTopicsTests` ✔, worker reported full suite 248/248 + build OK.
+
+### Phase 5.2 — About this content provenance (M2)  ✅ COMPLETE (2026-10-17)
+
+Commit `da7aa94` (+359 lines, purely additive).
+- **New pure domain** `ContentProvenance.swift` (`import Foundation` only): extracts shared `(sourceURL, sourceRevision, verificationDate)` from a version's questions; reports the true distinct-reference count (honest — "Sourced from N references" if a bank ever mixes sources).
+- **ContentInformationView**: shows active test version + content source URL/revision + last-verified date. Empty/failed load degrades to "Not available," never crashes.
+- **SettingsView**: new "About this content" section inserted between Appearance and DangerZone (existing sections untouched).
+- Loads the active version's bank via the existing `QuestionBankLoader().load(version:)` pattern — no new/heavy loader.
+Verify (independently re-run): `ContentProvenanceTests` ✔, worker reported full suite 253/253 + build OK. Pre-existing unrelated warning: SpeechManager.swift:40 AVSpeechSynthesizerDelegate isolation.
+
 ### Deferred-work scoping (2026-10-17) — risk picture for the next decision
 
 Scoping read-only (worker could NOT run `git`/`.i18n-tooling/verify.py` this session — tool-routing fault; findings are from direct source reads, item 6 count unverified live).
@@ -112,10 +131,8 @@ Scoping read-only (worker could NOT run `git`/`.i18n-tooling/verify.py` this ses
 - **5.5 Bank cache** — `ProgressTabView` loads bank twice per render (perf-only, S-size).
 - **6.2 Docs sync** — several stale docs (`current-status.md`, `product-plan.md`, `data-and-persistence.md`, `flow-flashcards.md`, `screen-inventory.md`). Mechanical, M-sized.
 
-## Running delivery count
-
 - [x] **5.1** Session Summary: weak topics + one next recommended action. Ref M6. `5680d66` — `SessionWeakTopics` computes per-topic weakness from session attempts + loaded questions (.again miss or per-card .gotIt rate ≤ 0.5); `SessionSummaryView` shows a "Weak topics" section + one "Review your weak topics" action (NavigationLink to `TargetedReviewView` opened at the session's `.lowAccuracy` set). Works from both flashcard origins without cross-stack PendingNavigation.
-- [ ] **5.2** Settings "About this content": version, source URL, last-verified date. Ref M2.
+- [x] **5.2** Settings "About this content": version, source URL, last-verified date. Ref M2. `da7aa94` — new `ContentProvenance` (pure domain) extracts shared `(sourceURL, sourceRevision, verificationDate)` from the active version's bank and reports the true distinct-reference count; `ContentInformationView` shows version + source URL/revision + last-verified ("Sourced from N references" if mixed); Settings section inserted between Appearance and DangerZone. Provenance verified consistent across uscis-2008/2025 (one ref) and 65-20 (derived, copies source).
 - [ ] **5.3** Remove `studyLanguage` (Decision 3) — confirm product decision. Ref D13.
 - [ ] **5.4** Flashcard session resume wiring for `.flashcards` mode. Ref M7.
 - [ ] **5.5** Cache question-bank load. Ref D14.
