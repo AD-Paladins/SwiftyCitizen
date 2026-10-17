@@ -21,12 +21,18 @@ struct ProgressTabView: View {
         sessions.flatMap(\.attempts).compactMap(\.snapshot)
     }
 
-    /// stableID -> topic, resolved once from the bundled bank. The domain stays pure; the view
+    /// The version's question bank, loaded once and reused everywhere: the topic index, the
+    /// scheduler buckets, and the weak-spot analytics. A single load site keeps the file read +
+    /// JSON decode from happening once per derived value.
+    private var loadedBank: [QuestionContent] {
+        guard let version = bankVersion else { return [] }
+        return (try? QuestionBankLoader().load(version: version)) ?? []
+    }
+
+    /// stableID -> topic, derived from the single loaded bank. The domain stays pure; the view
     /// only presents what `accuracyByDomain` returns.
     private var topicIndex: [String: String] {
-        guard let version = configuration.selectedTestVersion else { return [:] }
-        let questions = (try? QuestionBankLoader().load(version: version)) ?? []
-        return Dictionary(uniqueKeysWithValues: questions.map { ($0.stableID, $0.topic) })
+        Dictionary(uniqueKeysWithValues: loadedBank.map { ($0.stableID, $0.topic) })
     }
 
     /// stableID -> question, so weak-spot rows can show the question text instead of the raw ID.
@@ -42,8 +48,7 @@ struct ProgressTabView: View {
 
     /// The version's question bank, loaded once and reused for scheduler + weak-spot analytics.
     private var bankQuestions: [QuestionContent] {
-        guard let version = bankVersion else { return [] }
-        return (try? QuestionBankLoader().load(version: version)) ?? []
+        loadedBank
     }
 
     private var bankCount: Int { testConfiguration?.questionBankCount ?? 0 }
