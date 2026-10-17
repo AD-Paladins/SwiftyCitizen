@@ -59,7 +59,8 @@ Domain first, then UI. Do not touch UI before T3.2 is green.
 
 ## Current focus
 
-**Phase 3 is complete.** T3.1 (domain), T3.2 (wiring) and T3.3 (Study spaced-repetition UI, commit `0e2466f`) are done and verified (205 tests pass). Sequence: Phase 4/5 and backlog per priority.
+**Value rebuild** — `docs/plan/value-rebuild-plan.md` (from `docs/audit/product-value-audit.md`, 2026-10-16). Six phases: data integrity → Progress rebuild → Home cleanup → dead-surface cuts → trust gaps → hygiene/docs. Starts at Phase 1, task 1.1 (persist `.again` attempts, D1). Four decision forks are registered in the plan (⚠️) and need user sign-off before their tasks start.
+Phase 3 (spaced repetition) is complete (205 tests pass at `0e2466f`). Old Phase 4/5 (speech/intelligence) remain deferred behind the rebuild.
 The developer owns implementation end-to-end; the orchestrator owns docs + architecture/quality review.
 
 ---

@@ -7,6 +7,16 @@
     "—" : {
 
     },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
     "%@ %@%lld%@" : {
       "localizations" : {
         "en" : {
@@ -27,6 +37,16 @@
         }
       }
     },
+    "%@ %lld %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$lld %3$@"
+          }
+        }
+      }
+    },
     "%@, %@" : {
       "localizations" : {
         "en" : {
@@ -36,6 +56,9 @@
           }
         }
       }
+    },
+    "%@:" : {
+
     },
     "%@%@" : {
       "localizations" : {
@@ -116,6 +139,19 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld %2$@ %3$lld %4$@"
+          }
+        }
+      }
+    },
+    "%lld%%" : {
+
+    },
+    "%lld%% %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld%% %2$@"
           }
         }
       }
@@ -2017,6 +2053,22 @@
         }
       }
     },
+    "practiceMockTest" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mock test"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Examen de práctica"
+          }
+        }
+      }
+    },
     "practiceMockTestEntryAction" : {
       "localizations" : {
         "en" : {
@@ -2043,22 +2095,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Start"
-          }
-        }
-      }
-    },
-    "practiceMockTest" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mock test"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Examen de práctica"
           }
         }
       }
@@ -2112,6 +2148,188 @@
         }
       }
     },
+    "progressAccuracyBreakdownTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accuracy Breakdown"
+          }
+        }
+      }
+    },
+    "progressAccuracyHighConfidence" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "High confidence"
+          }
+        }
+      }
+    },
+    "progressAccuracyMastered" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mastered"
+          }
+        }
+      }
+    },
+    "progressAccuracyNeedsReview" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Needs review"
+          }
+        }
+      }
+    },
+    "progressAccuracyOverall" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overall accuracy"
+          }
+        }
+      }
+    },
+    "progressBucketGraduated" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graduated"
+          }
+        }
+      }
+    },
+    "progressBucketGraduatedMeaning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready for oral pace"
+          }
+        }
+      }
+    },
+    "progressBucketInReview" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Review"
+          }
+        }
+      }
+    },
+    "progressBucketInReviewMeaning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active drill"
+          }
+        }
+      }
+    },
+    "progressBucketNeedsCare" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Needs Care"
+          }
+        }
+      }
+    },
+    "progressBucketNeedsCareMeaning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unseen or low accuracy"
+          }
+        }
+      }
+    },
+    "progressDrillCTA" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practice Diagnostic Drill"
+          }
+        }
+      }
+    },
+    "progressDrillNeedsCareLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Targets cards marked Needs Care"
+          }
+        }
+      }
+    },
+    "progressDue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due"
+          }
+        }
+      }
+    },
+    "progressInterviewReady" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interview Ready"
+          }
+        }
+      }
+    },
+    "progressMastered" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mastered"
+          }
+        }
+      }
+    },
+    "progressMomentumStreak" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Day streak"
+          }
+        }
+      }
+    },
+    "progressMomentumTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study Momentum"
+          }
+        }
+      }
+    },
     "progressNoProgressMessage" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2146,308 +2364,12 @@
         }
       }
     },
-    "progressMastered" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mastered"
-          }
-        }
-      }
-    },
-    "progressDue" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Due"
-          }
-        }
-      }
-    },
-    "progressUnseen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unseen"
-          }
-        }
-      }
-    },
-    "progressStreak" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Streak"
-          }
-        }
-      }
-    },
-    "progressReviewed" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reviewed"
-          }
-        }
-      }
-    },
-    "progressSessions" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This week"
-          }
-        }
-      }
-    },
-    "progressTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progress"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progreso"
-          }
-        }
-      }
-    },
-    "progressReadinessLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Readiness"
-          }
-        }
-      }
-    },
-    "progressWeeklyTrendUp" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "up this week"
-          }
-        }
-      }
-    },
-    "progressWeeklyTrendDown" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "down this week"
-          }
-        }
-      }
-    },
-    "progressInterviewReady" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Interview Ready"
-          }
-        }
-      }
-    },
     "progressPassingReq" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passing req"
-          }
-        }
-      }
-    },
-    "progressBucketGraduated" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Graduated"
-          }
-        }
-      }
-    },
-    "progressBucketInReview" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In Review"
-          }
-        }
-      }
-    },
-    "progressBucketNeedsCare" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Needs Care"
-          }
-        }
-      }
-    },
-    "progressBucketGraduatedMeaning" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ready for oral pace"
-          }
-        }
-      }
-    },
-    "progressBucketInReviewMeaning" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Active drill"
-          }
-        }
-      }
-    },
-    "progressBucketNeedsCareMeaning" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unseen or low accuracy"
-          }
-        }
-      }
-    },
-    "progressStandardMet" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Standard met for"
-          }
-        }
-      }
-    },
-    "progressTopicCoverageTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Are you hitting all areas?"
-          }
-        }
-      }
-    },
-    "progressTopicSeenOf" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "seen"
-          }
-        }
-      }
-    },
-    "progressTopicQsOf" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "of"
-          }
-        }
-      }
-    },
-    "progressAccuracyBreakdownTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accuracy Breakdown"
-          }
-        }
-      }
-    },
-    "progressAccuracyOverall" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Overall accuracy"
-          }
-        }
-      }
-    },
-    "progressAccuracyMastered" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mastered"
-          }
-        }
-      }
-    },
-    "progressAccuracyHighConfidence" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "High confidence"
-          }
-        }
-      }
-    },
-    "progressAccuracyNeedsReview" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Needs review"
-          }
-        }
-      }
-    },
-    "progressWeakSpotsHeader" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Critical Weak Spots"
-          }
-        }
-      }
-    },
-    "progressWeakItems" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "weak items"
-          }
-        }
-      }
-    },
-    "progressWeakSpotsNone" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No weak spots to drill yet — keep answering."
           }
         }
       }
@@ -2462,32 +2384,22 @@
         }
       }
     },
-    "progressMomentumTitle" : {
+    "progressReadinessLabel" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Study Momentum"
+            "value" : "Readiness"
           }
         }
       }
     },
-    "progressMomentumStreak" : {
+    "progressRecommendationTitle" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Day streak"
-          }
-        }
-      }
-    },
-    "progressTrajectoryTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accuracy Trajectory"
+            "value" : "Your recommendation"
           }
         }
       }
@@ -2512,32 +2424,167 @@
         }
       }
     },
-    "progressRecommendationTitle" : {
+    "progressReviewed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your recommendation"
+            "value" : "Reviewed"
           }
         }
       }
     },
-    "progressDrillCTA" : {
+    "progressSessions" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Practice Diagnostic Drill"
+            "value" : "This week"
           }
         }
       }
     },
-    "progressDrillNeedsCareLabel" : {
+    "progressStandardMet" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Targets cards marked Needs Care"
+            "value" : "Standard met for"
+          }
+        }
+      }
+    },
+    "progressStreak" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streak"
+          }
+        }
+      }
+    },
+    "progressTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progress"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progreso"
+          }
+        }
+      }
+    },
+    "progressTopicCoverageTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you hitting all areas?"
+          }
+        }
+      }
+    },
+    "progressTopicQsOf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "of"
+          }
+        }
+      }
+    },
+    "progressTopicReviewHint" : {
+
+    },
+    "progressTopicSeenOf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "seen"
+          }
+        }
+      }
+    },
+    "progressTrajectoryTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accuracy Trajectory"
+          }
+        }
+      }
+    },
+    "progressUnseen" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unseen"
+          }
+        }
+      }
+    },
+    "progressWeakItems" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "weak items"
+          }
+        }
+      }
+    },
+    "progressWeakSpotsHeader" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Critical Weak Spots"
+          }
+        }
+      }
+    },
+    "progressWeakSpotsNone" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No weak spots to drill yet — keep answering."
+          }
+        }
+      }
+    },
+    "progressWeeklyTrendDown" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "down this week"
+          }
+        }
+      }
+    },
+    "progressWeeklyTrendUp" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "up this week"
           }
         }
       }
@@ -3104,6 +3151,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "El banco de preguntas de tu versión seleccionada no se pudo cargar. Actualizá la app o elegí otra versión de la prueba en Ajustes."
+          }
+        }
+      }
+    },
+    "studyContinueDue" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study now ·"
+          }
+        }
+      }
+    },
+    "studyDueLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "due"
           }
         }
       }
@@ -4144,26 +4211,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bienvenido a SwiftyCitizen"
-          }
-        }
-      }
-    },
-    "studyDueLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "due"
-          }
-        }
-      }
-    },
-    "studyContinueDue" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Study now ·"
           }
         }
       }
