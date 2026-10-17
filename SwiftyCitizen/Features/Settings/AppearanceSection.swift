@@ -17,10 +17,6 @@ struct AppearanceSection: View {
                 }
 
                 ThemePaletteRow(palette: palette)
-
-                SettingsKeyValueRow(label: "settingsCardTextSizing", value: "settingsCardTextSizingValue")
-
-                SettingsKeyValueRow(label: "settingsStreakShield", value: "settingsStreakShieldValue")
             }
         }
     }
