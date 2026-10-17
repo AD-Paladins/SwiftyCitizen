@@ -65,6 +65,10 @@ Never let a pure domain file (which must stay `import Foundation` only) import S
 - Place tests in the project’s established test target and run the narrowest relevant test command before broader validation.
 - Preserve user changes and do not remove generated or local configuration without confirming its purpose.
 
+### DemoSeeder (UI-test data path)
+
+`App/DemoSeeder.swift` (`DemoSeeder.seedIfNeeded(in:)`) seeds a demo 2008 configuration that bypasses onboarding. It is wired at `SwiftyCitizenApp.swift` behind the `#if FILL_USER_DATA` compile flag, so it is inert in release builds and only activates when that flag is defined — the dev backdoor for reaching post-onboarding screens in UI tests. Do not remove it or change its compile-gating.
+
 ### Phase Transition Review
 
 - At the end of every phase, review the next planned phase before starting it.
