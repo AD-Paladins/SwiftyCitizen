@@ -35,7 +35,7 @@ Verify (independently re-run this session): `ProgressAnalyticsTests` 22/22 ✔, 
 
 ⚠️ **Audit-staleness note for later phases:** the product-value-audit (§7) predates Phase 1. `FlashcardAttemptRecord.answerText` is now **LIVE** (used by the `.again` record) — do NOT remove it under 4.6. Re-verify every "dead field" against current code before deleting.
 
-### Phase 4 — Cut dead/fake surfaces (independent; safe warm-up)  🚀 in progress
+### Phase 4 — Cut dead/fake surfaces (independent; safe warm-up)  ✅ COMPLETE (2026-10-17)
 
 - [x] **4.1** Oral-practice entry + placeholder — **DONE 2026-10-17**. Swift surface already gone (prior phases; `PracticeView` has only `.mockTest`). Removed 3 orphaned catalog keys with no `.swift` reader: `practiceOralPracticeEntryAction`, `practiceOralPracticeMessage`, `practiceOralPracticeTitle`. `648a154`.
 - [x] **4.2** Fake Settings rows — **DONE 2026-10-17**. Rows already gone (`AppearanceSection` renders only the theme `Picker`). Removed 4 orphaned keys: `settingsStreakShield`, `settingsStreakShieldValue`, `settingsCardTextSizing`, `settingsCardTextSizingValue`. `648a154`.
@@ -43,10 +43,10 @@ Verify (independently re-run this session): `ProgressAnalyticsTests` 22/22 ✔, 
 - [x] **4.4** `QuestionContent.insight` — **DONE 2026-10-17**. Nothing to delete: `insight` already removed; keep live `explanation` (flashcard explanations + TTS). No domain file touched.
 - [x] **4.5** Theme swatch + Archive capsule — **DONE 2026-10-17**. Swift surface already gone (`AppearanceSection` renders only the theme `Picker`). Removed 1 orphaned key: `settingsThemePaletteSwatch`. `648a154`.
 - [x] **4.6** Remove dead model fields/accessors — **DONE 2026-10-17**. `9d137f1` — removed `StudySession.startedAt`, `Bookmark.createdAt`, `QuestionAttempt.session` (all confirmed dead via full-reader grep; `FlashcardAttemptRecord.answerText` is LIVE, kept). Automatic SwiftData **lightweight** migration only (no `VersionedSchema`/`MigrationPlan`). Added `SwiftyCitizenTests/Domain/MigrationTests.swift` persistent round-trip guard (Path C — both opens use new schema; real upgrade path rests on 5.3 precedent + documented in-memory caveat, user-accepted). Updated `data-and-persistence.md`, fixed stale `TargetedReviewTests` ref. Suite 253/253 ✔. SDD cycle (explore→propose→spec→tasks→apply→archive) complete; archived to `openspec/changes/archive/2026-10-17-4.6-remove-dead-model-fields/`.
-- [ ] **4.7** ✅ Fixed empty `progressTopicReviewHint` → "Opens review questions for this topic" (xcstrings stays valid). Ref D15. `b641e37`
-- [ ] **4.8** ✅ Documented `DemoSeeder` in AGENTS.md as UI-test data path. Ref Decision 4. `c13e42c`
+- [x] **4.7** Localization key sweep — **DONE 2026-10-17** (`f7711f4`). Removed **67 dead keys + the literal `—` key** (verified: unreferenced in all Swift via exact quoted-literal search, zero overlap with live keys, zero value changes). Composition: 22 Progress widget keys from the Phase 2 Diagnostic-Mirror cut (`progressInterviewReady`, `progressStandardMet`, `progressRetention*`, `progressWeeklyTrend*`, `progressRecommendationTitle`, `progressTrajectoryTitle`, `progressMomentumTitle`, `progressMastered`, `progressUnseen`, `progressDue`, …), 9 Settings rows, 6 flashcard interval/header keys (`studyFlashcardAgainInterval`, `studyFlashcardHeaderStyle`, `studyFlashcardIntervalFormat`, …), 11 config-summary keys, 17 printf format templates (`%@`/`%lld` — zero format literals exist in the codebase), and `—` (used only as an inline `"—"` string literal in HomeDashboardView/ProgressTabView, never as a catalog reference). Also fixes empty `progressTopicReviewHint` → "Opens review questions for this topic" (`b641e37`, carried). xcstrings stays valid JSON: 291 → 224 keys. Sweep tooling: `.i18n-tooling/verify.py` detects missing/empty referenced keys; dead-key detection done via exact quoted-literal search across all Swift (app + tests).
+- [x] **4.8** ✅ Documented `DemoSeeder` in AGENTS.md as UI-test data path. Ref Decision 4. `c13e42c`
 
-Phase 4a verify: BUILD SUCCEEDED, full suite 231/231 ✔. Net −109/+24 lines (deletion-focused). Phase 4 surface keys swept (8 orphaned catalog keys, `648a154`); broader 4.7 key sweep + 4.6 model fields deferred.
+Phase 4 verify: BUILD SUCCEEDED, full suite 253/253 ✔. Net −109/+24 lines (deletion-focused). Phase 4 surface keys swept (8 orphaned catalog keys, `648a154`); broader 4.7 key sweep complete (`f7711f4`, 67 dead keys + `—`, 291→224) and 4.6 model fields already done (`9d137f1`). All Phase 4 items (4.1–4.8) complete.
 ⚠️ Git hygiene note: Phase 1 worker's reset/amend surgery left commit `959faf9` dangling (content folded into current commits; D10 verified present+tested in HEAD). Branch history is linear & clean; left the dangling commit as-is (recoverable via reflog, harmless).
 
 ### Phase 2 — Progress tab rebuild (depends on P1)  ✅ COMPLETE (2026-10-17)
@@ -68,8 +68,8 @@ Verify (independently re-run): `MockTestResultTests` 6/6 ✔, `TargetedReviewTes
 - [x] **4.4** `QuestionContent.insight` — **DONE 2026-10-17**. Already removed; keep live `explanation`. Nothing to delete.
 - [x] **4.5** Theme swatch + Archive capsule — **DONE 2026-10-17**. Swift gone; removed 1 orphaned key (`settingsThemePaletteSwatch`). `648a154`.
 - [x] **4.6** Remove dead model fields/accessors. Ref D12. `9d137f1` — `StudySession.startedAt`, `Bookmark.createdAt`, `QuestionAttempt.session` removed (automatic lightweight migration; Path C round-trip guard + 5.3 precedent). Suite 253/253 ✔.
-- [ ] **4.7** Remove 32 dead keys + literal `—`; fix empty `progressTopicReviewHint`. Ref D15.
-- [ ] **4.8** Document `DemoSeeder` in AGENTS.md as UI-test data path. Ref Decision 4.
+- [x] **4.7** Remove 67 dead keys + literal `—`; fix empty `progressTopicReviewHint`. Ref D15. `f7711f4` — 291→224 keys, verified unreferenced via quoted-literal search.
+- [x] **4.8** Document `DemoSeeder` in AGENTS.md as UI-test data path. Ref Decision 4. `c13e42c`
 
 ### Phase 2 — Progress tab rebuild (depends on Phase 1)
 
