@@ -280,22 +280,7 @@
         }
       }
     },
-    "configChooseALanguage" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose a language"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elegir un idioma"
-          }
-        }
-      }
-    },
+ 
     "configDisclaimerNotAccepted" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -395,17 +380,7 @@
         }
       }
     },
-    "configLanguageSettings" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Language settings"
-          }
-        }
-      }
-    },
+  
     "configMetricAsked" : {
       "localizations" : {
         "en" : {
@@ -471,23 +446,7 @@
         }
       }
     },
-    "configMissingStudyLanguage" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose a study support language."
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elegí un idioma de material de estudio."
-          }
-        }
-      }
-    },
+  
     "configMissingTestVersion" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -747,22 +706,7 @@
         }
       }
     },
-    "configStudyLanguageSection" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Study language"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Idioma de material"
-          }
-        }
-      }
-    },
+   
     "configStudyOptionsSection" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -780,22 +724,7 @@
         }
       }
     },
-    "configStudySupportLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Study support"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Material de apoyo"
-          }
-        }
-      }
-    },
+    
     "configTestConfigurationFallback" : {
       "localizations" : {
         "en" : {
@@ -3000,23 +2929,7 @@
         }
       }
     },
-    "settingsStudyLanguage" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Study language"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Idioma de material"
-          }
-        }
-      }
-    },
+    
     "settingsStudySetHeader" : {
       "localizations" : {
         "en" : {

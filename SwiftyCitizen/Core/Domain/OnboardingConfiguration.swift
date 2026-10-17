@@ -1,26 +1,9 @@
 import Foundation
 
-enum StudyLanguage: String, Codable, CaseIterable, Identifiable {
-    case english
-    case spanish
-
-    var id: Self { self }
-
-    var displayName: String {
-        switch self {
-        case .english:
-            "English"
-        case .spanish:
-            "Spanish study support"
-        }
-    }
-}
-
 enum OnboardingConfigurationError: Error, Equatable {
     case missingFilingDate
     case filingDateInFuture
     case missingTestVersion
-    case missingStudyLanguage
     case disclaimerNotAccepted
     case selectedVersionDoesNotMatchFilingDate(expected: USCISTestVersion, actual: USCISTestVersion)
 }
@@ -31,7 +14,6 @@ struct OnboardingConfiguration: Codable, Hashable {
     var filingDate: Date?
     var selectedTestVersion: USCISTestVersion?
     var isSixtyFiveTwentyEligible: Bool
-    var studyLanguage: StudyLanguage?
     var disclaimerAccepted: Bool
     var shuffleQuestions: Bool
 
@@ -53,7 +35,6 @@ struct OnboardingConfiguration: Codable, Hashable {
         guard let filingDate else { return .missingFilingDate }
         guard filingDate <= currentDate else { return .filingDateInFuture }
         guard let selectedTestVersion else { return .missingTestVersion }
-        guard studyLanguage != nil else { return .missingStudyLanguage }
         guard disclaimerAccepted else { return .disclaimerNotAccepted }
 
         if let expectedVersion = derivedTestVersion, expectedVersion != selectedTestVersion {

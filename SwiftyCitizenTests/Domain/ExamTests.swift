@@ -235,7 +235,6 @@ struct ExamTests {
             filingDate: Date(),
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: true
         )

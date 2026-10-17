@@ -97,7 +97,7 @@ flowchart LR
 | `MockTestSessionView.swift` | SwiftUI, SwiftData | `MockTestState`, `ExamEngine`, `QuestionBankLoader`, `StudySession`, `QuestionAttempt` |
 | `MockTestSetupView.swift` | SwiftUI | `ConfigurationSummaryView`, `MockTestSessionView`, `QuestionBankLoader` |
 | `MockTestState.swift` | Foundation | `QuestionContent`, `AnswerEvaluator` |
-| `OnboardingConfiguration.swift` | Foundation | `TestConfiguration`, `StudyLanguage` |
+| `OnboardingConfiguration.swift` | Foundation | `TestConfiguration` |
 | `OnboardingConfigurationStore.swift` | Foundation, SwiftData | `OnboardingConfiguration` |
 | `PracticeView.swift` | SwiftUI, SwiftData | `MockTestSetupView`, `StudyEntryPointView` |
 | `ProgressTabView.swift` | SwiftUI | `EmptyStateView` |

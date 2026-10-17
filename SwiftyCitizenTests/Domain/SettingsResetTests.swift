@@ -26,7 +26,6 @@ struct SettingsResetTests {
             filingDate: filingDate,
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )

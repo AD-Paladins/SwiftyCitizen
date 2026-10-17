@@ -10,14 +10,12 @@ struct TestConfigurationView: View {
 
     @State private var filingDate: Date
     @State private var isSixtyFiveTwentyEligible: Bool
-    @State private var studyLanguage: StudyLanguage?
     @State private var disclaimerAccepted: Bool
     @State private var shuffleQuestions: Bool
 
     init(configuration: OnboardingConfiguration? = nil) {
         _filingDate = State(initialValue: configuration?.filingDate ?? Date())
         _isSixtyFiveTwentyEligible = State(initialValue: configuration?.isSixtyFiveTwentyEligible ?? false)
-        _studyLanguage = State(initialValue: configuration?.studyLanguage)
         _disclaimerAccepted = State(initialValue: configuration?.disclaimerAccepted ?? false)
         _shuffleQuestions = State(initialValue: configuration?.shuffleQuestions ?? false)
     }
@@ -27,7 +25,6 @@ struct TestConfigurationView: View {
             filingDate: filingDate,
             selectedTestVersion: derivedVersion,
             isSixtyFiveTwentyEligible: isSixtyFiveTwentyEligible,
-            studyLanguage: studyLanguage,
             disclaimerAccepted: disclaimerAccepted,
             shuffleQuestions: shuffleQuestions
         )
@@ -47,8 +44,6 @@ struct TestConfigurationView: View {
             "configFilingDateInFuture"
         case .missingTestVersion:
             "configMissingTestVersion"
-        case .missingStudyLanguage:
-            "configMissingStudyLanguage"
         case .disclaimerNotAccepted:
             "configDisclaimerNotAccepted"
         case .selectedVersionDoesNotMatchFilingDate(let expected, let actual):
@@ -173,34 +168,6 @@ struct TestConfigurationView: View {
                     }
                 }
                 
-                HStack(alignment: .center, spacing: Space.sm.value) {
-                    Image(systemName: "character.book.closed")
-                        .foregroundStyle(palette.primary)
-                        .font(.system(size: 18, weight: .semibold, design: .rounded))
-                    Text("configLanguageSettings")
-                        .font(CivicText.bodyMD.font)
-                        .foregroundStyle(palette.dimmed)
-                }
-
-                ConfigCard(topPadding: Space.xs.value) {
-                    HStack(alignment: .center, spacing: Space.md.value) {
-                        Image(systemName: "globe")
-                            .foregroundStyle(palette.primary)
-                            .font(.system(size: 18, weight: .semibold, design: .rounded))
-                        VStack(alignment: .leading, spacing: Space.sm.value) {
-                            Text("configStudyLanguageSection")
-                                .font(CivicText.labelMD.font)
-                                .foregroundStyle(palette.dimmed)
-                            Picker("configStudySupportLabel", selection: $studyLanguage) {
-                                Text(String(localized: "configChooseALanguage")).tag(nil as StudyLanguage?)
-                                ForEach(StudyLanguage.allCases) { language in
-                                    Text(language.displayName).tag(language as StudyLanguage?)
-                                }
-                            }
-                        }
-                    }
-                }
-
                 ConfigCard {
                     Toggle("configDisclaimerToggle", isOn: $disclaimerAccepted)
                         .tint(palette.primary)
@@ -288,13 +255,12 @@ struct SaveSection: View {
 #Preview {
     NavigationStack {
         TestConfigurationView(configuration: OnboardingConfiguration(
-            filingDate: Date(),
-            selectedTestVersion: .twoThousandTwentyFive,
-            isSixtyFiveTwentyEligible: false,
-            studyLanguage: .spanish,
-            disclaimerAccepted: true,
-            shuffleQuestions: false
-        ))
+             filingDate: Date(),
+             selectedTestVersion: .twoThousandTwentyFive,
+             isSixtyFiveTwentyEligible: false,
+             disclaimerAccepted: true,
+             shuffleQuestions: false
+         ))
     }
     .environment(ThemeManager())
 }

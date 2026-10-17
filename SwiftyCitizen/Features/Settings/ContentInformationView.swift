@@ -110,7 +110,6 @@ struct ContentInformationView: View {
             filingDate: Date(timeIntervalSince1970: 1_700_000_000),
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         ))

@@ -7,11 +7,10 @@ struct ConfigPreferencesSection: View {
     private var palette: AppPalette { themeManager.palette }
 
     private var summaryValue: String {
-        let version = configuration.selectedTestVersion?.displayName ?? String(localized: "commonNotSet")
-        let filing = configuration.filingDate?.formatted(date: .abbreviated, time: .omitted) ?? String(localized: "commonNotSet")
-        let language = configuration.studyLanguage?.displayName ?? String(localized: "commonNotSet")
-        return "\(version) · \(filing) · \(language)"
-    }
+         let version = configuration.selectedTestVersion?.displayName ?? String(localized: "commonNotSet")
+         let filing = configuration.filingDate?.formatted(date: .abbreviated, time: .omitted) ?? String(localized: "commonNotSet")
+         return "\(version) · \(filing)"
+     }
 
     var body: some View {
         SettingsCard {
@@ -36,12 +35,11 @@ struct ConfigPreferencesSection: View {
     NavigationStack {
         ConfigPreferencesSection(
             configuration: OnboardingConfiguration(
-                filingDate: Date(timeIntervalSince1970: 1_700_000_000),
-                selectedTestVersion: .twoThousandTwentyFive,
-                isSixtyFiveTwentyEligible: false,
-                studyLanguage: .english,
-                disclaimerAccepted: true,
-                shuffleQuestions: false
+            filingDate: Date(timeIntervalSince1970: 1_700_000_000),
+                 selectedTestVersion: .twoThousandTwentyFive,
+                 isSixtyFiveTwentyEligible: false,
+                 disclaimerAccepted: true,
+                 shuffleQuestions: false
             )
         )
     }

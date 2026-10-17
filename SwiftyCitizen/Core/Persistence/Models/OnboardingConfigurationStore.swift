@@ -6,7 +6,6 @@ final class SavedOnboardingConfiguration {
     var filingDate: Date
     var selectedTestVersionRawValue: String
     var isSixtyFiveTwentyEligible: Bool
-    var studyLanguageRawValue: String
     var disclaimerAccepted: Bool
     var shuffleQuestions: Bool?
 
@@ -15,7 +14,6 @@ final class SavedOnboardingConfiguration {
         self.filingDate = configuration.filingDate!
         self.selectedTestVersionRawValue = configuration.selectedTestVersion!.rawValue
         self.isSixtyFiveTwentyEligible = configuration.isSixtyFiveTwentyEligible
-        self.studyLanguageRawValue = configuration.studyLanguage!.rawValue
         self.disclaimerAccepted = configuration.disclaimerAccepted
         self.shuffleQuestions = configuration.shuffleQuestions
     }
@@ -25,14 +23,12 @@ final class SavedOnboardingConfiguration {
         self.filingDate = configuration.filingDate!
         self.selectedTestVersionRawValue = configuration.selectedTestVersion!.rawValue
         self.isSixtyFiveTwentyEligible = configuration.isSixtyFiveTwentyEligible
-        self.studyLanguageRawValue = configuration.studyLanguage!.rawValue
         self.disclaimerAccepted = configuration.disclaimerAccepted
         self.shuffleQuestions = configuration.shuffleQuestions
     }
 
     var configuration: OnboardingConfiguration? {
-        guard let selectedTestVersion = USCISTestVersion(rawValue: selectedTestVersionRawValue),
-              let studyLanguage = StudyLanguage(rawValue: studyLanguageRawValue) else {
+        guard let selectedTestVersion = USCISTestVersion(rawValue: selectedTestVersionRawValue) else {
             return nil
         }
 
@@ -40,7 +36,6 @@ final class SavedOnboardingConfiguration {
             filingDate: filingDate,
             selectedTestVersion: selectedTestVersion,
             isSixtyFiveTwentyEligible: isSixtyFiveTwentyEligible,
-            studyLanguage: studyLanguage,
             disclaimerAccepted: disclaimerAccepted,
             shuffleQuestions: shuffleQuestions ?? false
         )

@@ -18,7 +18,6 @@ struct SwiftyCitizenTests {
             filingDate: date(year: 2025, month: 10, day: 19),
             selectedTestVersion: .twoThousandEight,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )
@@ -26,7 +25,6 @@ struct SwiftyCitizenTests {
             filingDate: date(year: 2025, month: 10, day: 20),
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )
@@ -43,7 +41,6 @@ struct SwiftyCitizenTests {
             filingDate: date(year: 2026, month: 1, day: 1),
             selectedTestVersion: .sixtyFiveTwenty,
             isSixtyFiveTwentyEligible: true,
-            studyLanguage: .spanish,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )
@@ -58,7 +55,6 @@ struct SwiftyCitizenTests {
             filingDate: nil,
             selectedTestVersion: nil,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: nil,
             disclaimerAccepted: false,
             shuffleQuestions: false
         )
@@ -66,7 +62,6 @@ struct SwiftyCitizenTests {
             filingDate: date(year: 2025, month: 11, day: 1),
             selectedTestVersion: .twoThousandEight,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )
@@ -86,7 +81,6 @@ struct SwiftyCitizenTests {
             filingDate: date(year: 2024, month: 4, day: 3),
             selectedTestVersion: .twoThousandEight,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .spanish,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )

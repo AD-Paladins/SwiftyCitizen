@@ -18,12 +18,11 @@ enum DemoSeeder {
         guard let filingDate = components.date else { return nil }
 
         return OnboardingConfiguration(
-            filingDate: filingDate,
-            selectedTestVersion: .twoThousandEight,
-            isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
-            disclaimerAccepted: true,
-            shuffleQuestions: false
-        )
+             filingDate: filingDate,
+             selectedTestVersion: .twoThousandEight,
+             isSixtyFiveTwentyEligible: false,
+             disclaimerAccepted: true,
+             shuffleQuestions: false
+         )
     }
 }

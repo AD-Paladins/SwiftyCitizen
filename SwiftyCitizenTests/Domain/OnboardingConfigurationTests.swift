@@ -29,7 +29,6 @@ struct OnboardingConfigurationTests {
             filingDate: recentFiling,
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: true,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )
@@ -42,7 +41,6 @@ struct OnboardingConfigurationTests {
             filingDate: nil,
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )
@@ -62,7 +60,6 @@ struct OnboardingConfigurationTests {
             filingDate: recentFiling,
             selectedTestVersion: nil,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )
@@ -82,7 +79,6 @@ struct OnboardingConfigurationTests {
             filingDate: nil,
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )
@@ -96,7 +92,6 @@ struct OnboardingConfigurationTests {
             filingDate: futureFiling,
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )
@@ -109,24 +104,10 @@ struct OnboardingConfigurationTests {
             filingDate: recentFiling,
             selectedTestVersion: nil,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )
         #expect(config.validationError() == .missingTestVersion)
-    }
-
-    @Test
-    func validationFailsOnMissingLanguage() {
-        let config = OnboardingConfiguration(
-            filingDate: recentFiling,
-            selectedTestVersion: .twoThousandTwentyFive,
-            isSixtyFiveTwentyEligible: false,
-            studyLanguage: nil,
-            disclaimerAccepted: true,
-            shuffleQuestions: false
-        )
-        #expect(config.validationError() == .missingStudyLanguage)
     }
 
     @Test
@@ -135,7 +116,6 @@ struct OnboardingConfigurationTests {
             filingDate: recentFiling,
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: false,
             shuffleQuestions: false
         )
@@ -149,7 +129,6 @@ struct OnboardingConfigurationTests {
             filingDate: recentFiling,
             selectedTestVersion: .twoThousandEight,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )
@@ -176,7 +155,6 @@ struct OnboardingConfigurationTests {
             filingDate: filingDate,
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         )
