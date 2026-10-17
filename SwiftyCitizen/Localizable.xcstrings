@@ -2615,6 +2615,86 @@
         }
       }
     },
+    "contentInfoTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About this content"
+          }
+        }
+      }
+    },
+    "contentInfoEntryTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Content information"
+          }
+        }
+      }
+    },
+    "contentInfoVersionLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test version"
+          }
+        }
+      }
+    },
+    "contentInfoSourceLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Content source"
+          }
+        }
+      }
+    },
+    "contentInfoRevisionLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revision"
+          }
+        }
+      }
+    },
+    "contentInfoVerifiedLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last verified"
+          }
+        }
+      }
+    },
+    "contentInfoReferencesNote" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sourced from %d references"
+          }
+        }
+      }
+    },
+    "contentInfoUnavailable" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not available"
+          }
+        }
+      }
+    },
     "settingsDangerZone" : {
       "extractionState" : "manual",
       "localizations" : {

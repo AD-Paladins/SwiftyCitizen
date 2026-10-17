@@ -23,6 +23,24 @@ struct SettingsView: View {
                 SettingsSectionTitle(icon: "paintpalette", title: "settingsAppearance")
                 AppearanceSection()
                     .padding(.bottom, Space.lg.value)
+                SettingsSectionTitle(icon: "info.circle", title: "contentInfoTitle")
+                SettingsCard {
+                    NavigationLink {
+                        ContentInformationView(configuration: configuration)
+                    } label: {
+                        HStack(spacing: Space.md.value) {
+                            Text("contentInfoEntryTitle")
+                                .font(CivicText.bodyMD.font)
+                                .foregroundStyle(palette.ink)
+                            Spacer(minLength: Space.sm.value)
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 13, weight: .bold, design: .rounded))
+                                .foregroundStyle(palette.dimmed)
+                                .accessibilityHidden(true)
+                        }
+                    }
+                }
+                .padding(.bottom, Space.lg.value)
                 SettingsSectionTitle(icon: "exclamationmark.triangle", title: "settingsDangerZone")
                 SettingsResetCard(onReset: { showResetConfirmation = true })
             }
