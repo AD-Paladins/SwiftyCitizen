@@ -42,7 +42,7 @@ Verify (independently re-run this session): `ProgressAnalyticsTests` 22/22 ✔, 
 - [ ] **4.3** Remove `sessionFeedbackEnabled` flag + persistence key; feedback always on. Ref §7 / Decision 2.
 - [ ] **4.4** Remove `QuestionContent.insight` field + loader plumbing (verify nothing reads it). Ref D12.
 - [ ] **4.5** Remove theme swatch + Archive capsule. Ref §7.
-- [ ] **4.6** Remove dead model fields/accessors — **DEFERRED**: SwiftData lightweight-migration risk + some fields now live post-Phase-1. Re-evaluate against current code before touching. Ref D12.
+- [x] **4.6** Remove dead model fields/accessors — **DONE 2026-10-17**. `9d137f1` — removed `StudySession.startedAt`, `Bookmark.createdAt`, `QuestionAttempt.session` (all confirmed dead via full-reader grep; `FlashcardAttemptRecord.answerText` is LIVE, kept). Automatic SwiftData **lightweight** migration only (no `VersionedSchema`/`MigrationPlan`). Added `SwiftyCitizenTests/Domain/MigrationTests.swift` persistent round-trip guard (Path C — both opens use new schema; real upgrade path rests on 5.3 precedent + documented in-memory caveat, user-accepted). Updated `data-and-persistence.md`, fixed stale `TargetedReviewTests` ref. Suite 253/253 ✔. SDD cycle (explore→propose→spec→tasks→apply→archive) complete; archived to `openspec/changes/archive/2026-10-17-4.6-remove-dead-model-fields/`.
 - [ ] **4.7** ✅ Fixed empty `progressTopicReviewHint` → "Opens review questions for this topic" (xcstrings stays valid). Ref D15. `b641e37`
 - [ ] **4.8** ✅ Documented `DemoSeeder` in AGENTS.md as UI-test data path. Ref Decision 4. `c13e42c`
 
@@ -67,7 +67,7 @@ Verify (independently re-run): `MockTestResultTests` 6/6 ✔, `TargetedReviewTes
 - [ ] **4.3** Remove `sessionFeedbackEnabled` flag (no UI writer). Ref §7 / Decision 2.
 - [ ] **4.4** Remove `QuestionContent.insight` field + loader plumbing. Ref D12.
 - [ ] **4.5** Remove theme swatch + Archive capsule. Ref §7.
-- [ ] **4.6** Remove dead model fields/accessors (SwiftData lightweight-migration check). Ref D12.
+- [x] **4.6** Remove dead model fields/accessors. Ref D12. `9d137f1` — `StudySession.startedAt`, `Bookmark.createdAt`, `QuestionAttempt.session` removed (automatic lightweight migration; Path C round-trip guard + 5.3 precedent). Suite 253/253 ✔.
 - [ ] **4.7** Remove 32 dead keys + literal `—`; fix empty `progressTopicReviewHint`. Ref D15.
 - [ ] **4.8** Document `DemoSeeder` in AGENTS.md as UI-test data path. Ref Decision 4.
 
@@ -121,7 +121,7 @@ Verify (independently re-run): `ContentProvenanceTests` ✔, worker reported ful
 Scoping read-only (worker could NOT run `git`/`.i18n-tooling/verify.py` this session — tool-routing fault; findings are from direct source reads, item 6 count unverified live).
 
 **DEFER (high risk, needs deliberate care):**
-- **4.6 dead model fields + migration**: `StudySession.startedAt` (dead), `Bookmark.createdAt` (dead), `QuestionAttempt.session` inverse (dead) — but `FlashcardAttemptRecord.answerText` is LIVE (Phase 1.1 uses it) and `QuestionContent.insight`→now `explanation` (live). Removing dead fields on an existing store fails with `NSCocoaErrorDomain 134110` (no `VersionedSchema`/migration plan exists). **SDD first** (user, 2026-10-17): run sdd-explore→propose→spec/design/tasks before touching code; the migration strategy is the thing to validate.
+- **4.6 dead model fields + migration**: ✅ **DONE 2026-10-17** (`9d137f1`). Removed `StudySession.startedAt`, `Bookmark.createdAt`, `QuestionAttempt.session` inverse (all confirmed dead; `FlashcardAttemptRecord.answerText` LIVE, kept). Automatic SwiftData lightweight migration (no plan). SDD cycle complete + archived. Real upgrade path covered by 5.3 precedent + Path C round-trip guard (user-accepted).
 - **6.1 root font**: `.environment(\.font, .system(size: 16, ...))` at `SwiftyCitizenApp.swift:45` pins fixed size → no Dynamic Type scaling (systemic cause of known audit failures). App-wide reflow = high risk. **SDD first** (user, 2026-10-17): run sdd-explore→propose→spec/design/tasks before touching code.
 
 **Safe-to-now (low risk):**
