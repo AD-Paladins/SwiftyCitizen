@@ -242,39 +242,17 @@ struct ProgressTabView: View {
                     .foregroundStyle(palette.onPrimary.opacity(0.75))
                 }
 
-                Button {
-                    selectedTab = .practice
-                } label: {
-                    HStack(spacing: Space.sm.value) {
-                        Image(systemName: "restart_alt")
-                        Text("progressRetakeMockExam")
+                GeometryReader { geo in
+                    let spacing = Space.sm.value
+                    let third = (geo.size.width + spacing) / 3
+                    HStack(spacing: spacing) {
+                        retakeButton
+                            .frame(width: third * 2)
+                        mistakesButton
+                            .frame(width: third)
                     }
-                    .font(CivicText.labelMD.font.weight(.semibold))
-                    .foregroundStyle(palette.onPrimary)
-                    .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.plain)
-                .padding(.vertical, 10)
-                .padding(.horizontal, 12)
-                .background(Capsule().fill(palette.onPrimary.opacity(0.10)))
-                .overlay(Capsule().stroke(palette.onPrimary.opacity(0.15), lineWidth: 1))
-
-                Button {
-                    mistakesRoute = .mistakes
-                } label: {
-                    HStack(spacing: Space.sm.value) {
-                        Image(systemName: "book.fill")
-                        Text("progressHeroMistakes")
-                    }
-                    .font(CivicText.labelMD.font.weight(.semibold))
-                    .foregroundStyle(palette.onPrimary.opacity(0.9))
-                    .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.plain)
-                .padding(.vertical, 10)
-                .padding(.horizontal, 12)
-                .background(Capsule().fill(palette.onPrimary.opacity(0.06)))
-                .overlay(Capsule().stroke(palette.onPrimary.opacity(0.30), lineWidth: 1))
+                .frame(height: 44)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -337,6 +315,42 @@ struct ProgressTabView: View {
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
+    }
+
+    private var retakeButton: some View {
+        Button {
+            selectedTab = .practice
+        } label: {
+            HStack(spacing: Space.sm.value) {
+                Image(systemName: "restart_alt")
+                Text("progressRetakeMockExam")
+            }
+            .font(CivicText.labelMD.font.weight(.semibold))
+            .foregroundStyle(palette.onPrimary)
+        }
+        .buttonStyle(.plain)
+        .padding(.vertical, 10)
+        .padding(.horizontal, 12)
+        .background(Capsule().fill(palette.onPrimary.opacity(0.10)))
+        .overlay(Capsule().stroke(palette.onPrimary.opacity(0.15), lineWidth: 1))
+    }
+
+    private var mistakesButton: some View {
+        Button {
+            mistakesRoute = .mistakes
+        } label: {
+            HStack(spacing: Space.sm.value) {
+                Image(systemName: "book.fill")
+                Text("progressHeroMistakes")
+            }
+            .font(CivicText.labelMD.font.weight(.semibold))
+            .foregroundStyle(palette.onPrimary.opacity(0.9))
+        }
+        .buttonStyle(.plain)
+        .padding(.vertical, 10)
+        .padding(.horizontal, 12)
+        .background(Capsule().fill(palette.onPrimary.opacity(0.06)))
+        .overlay(Capsule().stroke(palette.onPrimary.opacity(0.30), lineWidth: 1))
     }
 
     /// Placeholder for the mistakes screen — the real window doesn't exist yet (see task tracker).
