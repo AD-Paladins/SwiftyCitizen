@@ -53,6 +53,14 @@ design docs are stale vs Stitch and are updated **after** code (user choice: cod
 Buttons sit in one `HStack`: Retake fills (`frame(maxWidth: .infinity)`) and Mistakes takes its
 natural content width — no rigid fractions, so the proportion and alignment come out naturally.
 
+## Reusability (2026-10-17)
+
+Extracted the hero into a standalone `LatestMockTestHero` view (`Features/Progress/LatestMockTestHero.swift`).
+Contract: data in (`result`, `coverage`, `date`), callbacks out (`onRetake`, `onMistakes`). It does
+NOT own navigation — `ProgressTabView` still wires Mistakes to its own `mistakesRoute` + placeholder.
+No SwiftData/SwiftUI-navigation coupling, so it can be reused elsewhere. Added 3 previews (Passed /
+Failed / Empty). ProgressTabView now only derives the data and instantiates the view.
+
 Mistakes button: secondary outlined capsule below Retake, wired via `@State mistakesRoute` +
 `.navigationDestination(item:)` to `mistakesComingSoon` (placeholder). The real mistakes window is
 not built yet — the button exists and is functional/testable now.
