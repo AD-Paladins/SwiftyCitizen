@@ -35,11 +35,17 @@ design docs are stale vs Stitch and are updated **after** code (user choice: cod
 
 ## Progress
 
-🚀 in progress
+- [x] H1. Rebuilt `readinessHero` → dark-gradient "Latest mock test" card (score, status pill, progress
+        bar, passing-mark + coverage metadata, Retake → Practice tab).
+- [x] H2. Added localization keys: `progressHeroMockLabel`, `progressMockNotPassed`, `progressMockPassed`,
+        `progressPassingMarkPrefix`, `progressMockSeen`, `progressRetakeMockExam`.
+- [x] H3. Build + run SwiftyCitizenTests.
 
 ## Verification
 
-(pending)
+- Build: `xcodebuild build ... SwiftyCitizen` → **BUILD SUCCEEDED**.
+- Tests: 253 tests in 23 suites — **all passed** (0.254s).
+- Commit: `ef23784 feat(progress): faithful Latest mock test hero in Progress screen` on `feat/design-aligned-redesign`.
 
 ## Next
 
