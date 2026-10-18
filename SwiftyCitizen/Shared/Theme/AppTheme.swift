@@ -51,6 +51,7 @@ enum AppThemeName: String, CaseIterable, Identifiable {
 struct AppPalette {
     let ink: Color
     let primary: Color
+    let heroBottom: Color
     let canvas: Color
     let surface: Color
     let success: Color
@@ -75,6 +76,7 @@ extension AppPalette {
     static let civicNavy = AppPalette(
         ink: dynamic(light: 0.10, green: 0.14, blue: 0.20, dark: 0.91, darkGreen: 0.93, darkBlue: 0.95),
         primary: dynamic(light: 0.17, green: 0.30, blue: 0.49, dark: 0.42, darkGreen: 0.58, darkBlue: 0.75),
+        heroBottom: dynamic(light: 0.07, green: 0.14, blue: 0.22, dark: 0.22, darkGreen: 0.36, darkBlue: 0.54),
         canvas: dynamic(light: 0.93, green: 0.94, blue: 0.96, dark: 0.07, darkGreen: 0.09, darkBlue: 0.12),
         surface: dynamic(light: 1.00, green: 1.00, blue: 1.00, dark: 0.13, darkGreen: 0.15, darkBlue: 0.19),
         success: dynamic(light: 0.18, green: 0.49, blue: 0.36, dark: 0.31, darkGreen: 0.69, darkBlue: 0.51),
@@ -87,6 +89,7 @@ extension AppPalette {
     static let paperEmerald = AppPalette(
         ink: dynamic(light: 0.10, green: 0.11, blue: 0.10, dark: 0.93, darkGreen: 0.91, darkBlue: 0.89),
         primary: dynamic(light: 0.04, green: 0.43, blue: 0.31, dark: 0.30, darkGreen: 0.73, darkBlue: 0.60),
+        heroBottom: dynamic(light: 0.02, green: 0.16, blue: 0.12, dark: 0.16, darkGreen: 0.42, darkBlue: 0.31),
         canvas: dynamic(light: 0.99, green: 0.98, blue: 0.94, dark: 0.09, darkGreen: 0.08, darkBlue: 0.07),
         surface: dynamic(light: 1.00, green: 1.00, blue: 1.00, dark: 0.15, darkGreen: 0.14, darkBlue: 0.13),
         success: dynamic(light: 0.13, green: 0.77, blue: 0.37, dark: 0.30, darkGreen: 0.73, darkBlue: 0.60),
@@ -99,6 +102,7 @@ extension AppPalette {
     static let studyCalm = AppPalette(
         ink: dynamic(light: 0.18, green: 0.20, blue: 0.27, dark: 0.89, darkGreen: 0.90, darkBlue: 0.93),
         primary: dynamic(light: 0.18, green: 0.20, blue: 0.27, dark: 0.60, darkGreen: 0.63, darkBlue: 0.75),
+        heroBottom: dynamic(light: 0.08, green: 0.10, blue: 0.15, dark: 0.23, darkGreen: 0.26, darkBlue: 0.33),
         canvas: dynamic(light: 0.93, green: 0.93, blue: 0.94, dark: 0.08, darkGreen: 0.09, darkBlue: 0.11),
         surface: dynamic(light: 1.00, green: 1.00, blue: 1.00, dark: 0.14, darkGreen: 0.15, darkBlue: 0.17),
         success: dynamic(light: 0.18, green: 0.49, blue: 0.36, dark: 0.31, darkGreen: 0.69, darkBlue: 0.51),

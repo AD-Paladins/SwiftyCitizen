@@ -1,11 +1,12 @@
 import SwiftUI
 
-/// The dark-emerald "Latest mock test" card from the Stitch design.
+/// The "Latest mock test" card from the Stitch design.
 ///
 /// Self-contained and reusable: it only receives the derived data and fires callbacks for its two
 /// actions (Retake / Mistakes). It does not own navigation — the consumer wires those to wherever
 /// they belong (see `ProgressTabView`). Typography maps to the locked `CivicText` (SF Pro Rounded);
-/// the gradient / shadow / shapes are reproduced faithfully from the design hex.
+/// the card background is a themed gradient (`primary` -> `heroBottom`) so it re-tints with the app;
+/// shapes are reproduced from the design.
 struct LatestMockTestHero: View {
     /// The most recent completed mock test result, or nil for the empty state.
     let result: MockTestResult?
@@ -83,7 +84,7 @@ struct LatestMockTestHero: View {
         .padding(Space.lg.value)
         .background(heroGradient)
         .clipShape(RoundedRectangle(cornerRadius: Space.xl.value))
-        .shadow(color: Color(red: 11 / 255.0, green: 77 / 255.0, blue: 60 / 255.0).opacity(0.28), radius: 24, y: 8)
+        .shadow(color: palette.primary.opacity(0.28), radius: 24, y: 8)
     }
 
     private var emptyCard: some View {
@@ -130,14 +131,10 @@ struct LatestMockTestHero: View {
         .clipShape(Capsule())
     }
 
-    /// The dark-emerald card background from the Stitch design (design hex).
+    /// The themed dark card background: a gradient from the theme's `primary` down to `heroBottom`.
     private var heroGradient: LinearGradient {
         LinearGradient(
-            colors: [
-                Color(red: 11 / 255.0, green: 77 / 255.0, blue: 60 / 255.0),
-                Color(red: 9 / 255.0, green: 66 / 255.0, blue: 51 / 255.0),
-                Color(red: 4 / 255.0, green: 40 / 255.0, blue: 30 / 255.0)
-            ],
+            colors: [palette.primary, palette.heroBottom],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
