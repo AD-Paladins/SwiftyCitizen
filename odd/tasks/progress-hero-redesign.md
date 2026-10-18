@@ -36,7 +36,7 @@ design docs are stale vs Stitch and are updated **after** code (user choice: cod
 ## Progress
 
 - [x] H1. Rebuilt `readinessHero` → dark-gradient "Latest mock test" card (score, status pill, progress
-        bar, passing-mark + coverage metadata, Retake → Practice tab).
+        bar, passing-mark + coverage metadata, Retake → Practice tab, Mistakes → placeholder).
 - [x] H2. Added localization keys: `progressHeroMockLabel`, `progressMockNotPassed`, `progressMockPassed`,
         `progressPassingMarkPrefix`, `progressMockSeen`, `progressRetakeMockExam`.
 - [x] H3. Build + run SwiftyCitizenTests.
@@ -44,8 +44,14 @@ design docs are stale vs Stitch and are updated **after** code (user choice: cod
 ## Verification
 
 - Build: `xcodebuild build ... SwiftyCitizen` → **BUILD SUCCEEDED**.
-- Tests: 253 tests in 23 suites — **all passed** (0.254s).
-- Commit: `ef23784 feat(progress): faithful Latest mock test hero in Progress screen` on `feat/design-aligned-redesign`.
+- Tests: 253 tests in 23 suites — **all passed** (0.250s).
+- Commits on `feat/design-aligned-redesign`:
+  - `ef23784 feat(progress): faithful Latest mock test hero in Progress screen`
+  - `4d111c0 feat(progress): add Mistakes action to hero (placeholder destination)`
+
+Mistakes button: secondary outlined capsule below Retake, wired via `@State mistakesRoute` +
+`.navigationDestination(item:)` to `mistakesComingSoon` (placeholder). The real mistakes window is
+not built yet — the button exists and is functional/testable now.
 
 ## Next
 
