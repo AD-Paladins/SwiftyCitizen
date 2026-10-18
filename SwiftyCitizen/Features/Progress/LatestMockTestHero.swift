@@ -46,13 +46,6 @@ struct LatestMockTestHero: View {
         let barTint = result.passed ? palette.success : palette.warning
 
         return ZStack(alignment: .topTrailing) {
-            Circle() // decorative glow, top-right
-                .fill(palette.primary.opacity(0.25))
-                .frame(width: 176, height: 176)
-                .blur(radius: 32)
-                .padding(48)
-                .allowsHitTesting(false)
-
             VStack(alignment: .leading, spacing: Space.lg.value) {
                 HStack(alignment: .top, spacing: Space.sm.value) {
                     VStack(alignment: .leading, spacing: Space.xs.value) {
@@ -71,21 +64,19 @@ struct LatestMockTestHero: View {
 
                 VStack(alignment: .leading, spacing: Space.sm.value) {
                     progressBar(fraction: scoreFraction, tint: barTint)
-                    HStack {
+                    VStack(alignment: .leading, spacing: Space.sm.value) {
                         Text(String(localized: "progressPassingMarkPrefix") + " \(result.passingScore) \(of) \(result.asked) (\(passingPct)%)")
-                        Spacer()
-                        Text("\(date) • \(coverage)")
+                        Text(dateCoverage)
                     }
                     .font(CivicText.bodySM.font)
                     .foregroundStyle(palette.onPrimary.opacity(0.75))
                 }
 
-                HStack(spacing: Space.sm.value) {
+                HStack(spacing: Space.md.value) {
                     retakeButton
-                        .frame(maxWidth: .infinity)
                     mistakesButton
                 }
-                .frame(height: 44)
+                .frame(width: .infinity, height: 44, alignment: .trailing)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -157,7 +148,7 @@ struct LatestMockTestHero: View {
             onRetake()
         } label: {
             HStack(spacing: Space.sm.value) {
-                Image(systemName: "restart_alt")
+                Image(systemName: "repeat")
                 Text("progressRetakeMockExam")
             }
             .font(CivicText.labelMD.font.weight(.semibold))
@@ -186,6 +177,14 @@ struct LatestMockTestHero: View {
         .padding(.horizontal, 12)
         .background(Capsule().fill(palette.onPrimary.opacity(0.06)))
         .overlay(Capsule().stroke(palette.onPrimary.opacity(0.30), lineWidth: 1))
+    }
+    
+    // MARK: - Computed vars
+    var dateCoverage: String {
+        guard let safeDate = date else {
+            return "No Date confirmed • \(coverage)"
+        }
+        return "\(safeDate) • \(coverage)"
     }
 }
 
