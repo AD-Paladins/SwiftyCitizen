@@ -65,6 +65,10 @@ Mistakes button: secondary outlined capsule below Retake, wired via `@State mist
 `.navigationDestination(item:)` to `mistakesComingSoon` (placeholder). The real mistakes window is
 not built yet — the button exists and is functional/testable now.
 
+Button row aligned to `.trailing` (right): `.frame(width: .infinity, height: 44, alignment: .trailing)`
+on the `HStack`. SwiftUI's `.frame` has no `maxWidth:`+`height:` combo — use `width:` for a filling
+width with a fixed height. Commit `9768949`.
+
 ## Next
 
 Update `docs/plan/progress-ui-spec.md`, `progress-spec.md`, and
