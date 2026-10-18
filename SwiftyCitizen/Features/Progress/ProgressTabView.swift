@@ -171,56 +171,144 @@ struct ProgressTabView: View {
         !mockAttemptsForVersion.isEmpty
     }
 
-    // MARK: - 1. Hero / honest readiness
+    // MARK: - 1. Hero / latest mock test (faithful to the Stitch design)
 
     private var readinessHero: some View {
-        let coverage = "\(versionReviewedCount) \(String(localized: "commonOf")) \(bankCount) \(String(localized: "progressTopicSeenOf"))"
-
-        return VStack(alignment: .leading, spacing: Space.lg.value) {
-            Text("progressHeroLabel")
-                .font(CivicText.labelLG.font.weight(.semibold))
-                .foregroundStyle(palette.onPrimary)
-
+        VStack(alignment: .leading, spacing: 0) {
             if let result = lastMockTestResult {
-                Text("\(result.correct) \(String(localized: "commonOf")) \(result.asked)")
-                    .font(CivicText.metricDisplay.font)
-                    .foregroundStyle(palette.onPrimary)
-
-                HStack(spacing: Space.sm.value) {
-                    passIcon(result.passed)
-                    Text(passLabel(result.passed))
-                        .font(CivicText.labelMD.font.weight(.semibold))
-                        .foregroundStyle(palette.onPrimary.opacity(0.9))
-                }
-                if let endedAt = lastMockTest?.endedAt {
-                    Text(endedAt.formatted(.dateTime.day().month().year()))
-                        .font(CivicText.labelMD.font)
-                        .foregroundStyle(palette.onPrimary.opacity(0.8))
-                }
+                mockTestHero(result)
             } else {
-                Text("progressHeroNoMock")
-                    .font(CivicText.labelMD.font.weight(.semibold))
-                    .foregroundStyle(palette.onPrimary.opacity(0.9))
+                mockTestHeroEmpty
             }
+        }
+    }
 
-            Text(coverage)
-                .font(CivicText.labelMD.font)
-                .foregroundStyle(palette.onPrimary.opacity(0.75))
+    /// The dark-emerald "Latest mock test" card from the Stitch design: big score, a status pill
+    /// (amber when failed, green when passed), a progress bar filled to the score with the passing
+    /// mark shown as text, and a Retake action that returns to the Practice tab. Typography maps to
+    /// the locked `CivicText` (SF Pro Rounded); gradient / shadow / shapes are reproduced faithfully.
+    private func mockTestHero(_ result: MockTestResult) -> some View {
+        let palette = self.palette
+        let of = String(localized: "commonOf")
+        let scoreFraction = Double(result.correct) / Double(result.asked)
+        let passingPct = Int((Double(result.passingScore) / Double(result.asked) * 100).rounded())
+        let date = lastMockTest?.endedAt.map { $0.formatted(.dateTime.day().month().year()) } ?? ""
+        let coverage = "\(versionReviewedCount) \(of) \(bankCount) \(String(localized: "progressMockSeen"))"
+        let barTint = result.passed ? palette.success : palette.warning
+
+        return ZStack(alignment: .topTrailing) {
+            Circle() // decorative glow, top-right
+                .fill(palette.primary.opacity(0.25))
+                .frame(width: 176, height: 176)
+                .blur(radius: 32)
+                .padding(48)
+                .allowsHitTesting(false)
+
+            VStack(alignment: .leading, spacing: Space.lg.value) {
+                HStack(alignment: .top, spacing: Space.sm.value) {
+                    VStack(alignment: .leading, spacing: Space.xs.value) {
+                        Text("progressHeroMockLabel")
+                            .font(CivicText.labelMD.font.weight(.medium))
+                            .tracking(0.5)
+                            .foregroundStyle(palette.onPrimary.opacity(0.9))
+                        Text("\(result.correct) \(of) \(result.asked)")
+                            .font(CivicText.displayLG.font)
+                            .tracking(-0.5)
+                            .foregroundStyle(palette.onPrimary)
+                    }
+                    Spacer()
+                    statusPill(passed: result.passed, tint: barTint)
+                }
+
+                VStack(alignment: .leading, spacing: Space.sm.value) {
+                    progressBar(fraction: scoreFraction, tint: barTint)
+                    HStack {
+                        Text(String(localized: "progressPassingMarkPrefix") + " \(result.passingScore) \(of) \(result.asked) (\(passingPct)%)")
+                        Spacer()
+                        Text("\(date) • \(coverage)")
+                    }
+                    .font(CivicText.bodySM.font)
+                    .foregroundStyle(palette.onPrimary.opacity(0.75))
+                }
+
+                Button {
+                    selectedTab = .practice
+                } label: {
+                    HStack(spacing: Space.sm.value) {
+                        Image(systemName: "restart_alt")
+                        Text("progressRetakeMockExam")
+                    }
+                    .font(CivicText.labelMD.font.weight(.semibold))
+                    .foregroundStyle(palette.onPrimary)
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.plain)
+                .padding(.vertical, 10)
+                .padding(.horizontal, 12)
+                .background(Capsule().fill(palette.onPrimary.opacity(0.10)))
+                .overlay(Capsule().stroke(palette.onPrimary.opacity(0.15), lineWidth: 1))
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(Space.lg.value)
-        .background(palette.primary, in: RoundedRectangle(cornerRadius: Space.xl.value))
+        .background(heroGradient)
+        .clipShape(RoundedRectangle(cornerRadius: Space.xl.value))
+        .shadow(color: Color(red: 11 / 255.0, green: 77 / 255.0, blue: 60 / 255.0).opacity(0.28), radius: 24, y: 8)
     }
 
-    private func passIcon(_ passed: Bool) -> some View {
-        Image(systemName: passed ? "checkmark.seal.fill" : "xmark.octagon.circle")
-            .font(CivicText.labelMD.font.weight(.semibold))
-            .foregroundStyle(palette.onPrimary)
-            .accessibilityHidden(true)
+    private var mockTestHeroEmpty: some View {
+        VStack(alignment: .leading, spacing: Space.lg.value) {
+            Text("progressHeroMockLabel")
+                .font(CivicText.labelMD.font.weight(.medium))
+                .tracking(0.5)
+                .foregroundStyle(palette.onPrimary.opacity(0.9))
+            Text("progressHeroNoMock")
+                .font(CivicText.labelMD.font.weight(.semibold))
+                .foregroundStyle(palette.onPrimary.opacity(0.85))
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(Space.lg.value)
+        .background(heroGradient)
+        .clipShape(RoundedRectangle(cornerRadius: Space.xl.value))
     }
 
-    private func passLabel(_ passed: Bool) -> LocalizedStringKey {
-        passed ? "progressHeroPassed" : "progressHeroFailed"
+    private func statusPill(passed: Bool, tint: Color) -> some View {
+        HStack(spacing: Space.xs.value) {
+            Circle().fill(tint).frame(width: 6, height: 6)
+            Text(passed ? "progressMockPassed" : "progressMockNotPassed")
+                .font(CivicText.labelMD.font.weight(.bold))
+                .foregroundStyle(tint)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 4)
+        .background(Capsule().fill(tint.opacity(0.20)))
+        .overlay(Capsule().stroke(tint.opacity(0.30), lineWidth: 1))
+    }
+
+    private func progressBar(fraction: Double, tint: Color) -> some View {
+        let clamped = max(0, min(1, fraction))
+        return GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Capsule().fill(Color.black.opacity(0.25))
+                Capsule().fill(tint).frame(width: geo.size.width * clamped)
+            }
+            .overlay(Capsule().stroke(Color.white.opacity(0.10), lineWidth: 1))
+        }
+        .frame(height: 8)
+        .clipShape(Capsule())
+    }
+
+    /// The dark-emerald card background from the Stitch design (design hex; see task tracker).
+    private var heroGradient: LinearGradient {
+        LinearGradient(
+            colors: [
+                Color(red: 11 / 255.0, green: 77 / 255.0, blue: 60 / 255.0),
+                Color(red: 9 / 255.0, green: 66 / 255.0, blue: 51 / 255.0),
+                Color(red: 4 / 255.0, green: 40 / 255.0, blue: 30 / 255.0)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
     }
 
     // MARK: - 2. Mastery buckets row

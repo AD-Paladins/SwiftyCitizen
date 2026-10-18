@@ -1727,6 +1727,66 @@
         }
       }
     },
+    "progressHeroMockLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latest mock test"
+          }
+        }
+      }
+    },
+    "progressMockNotPassed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not passed"
+          }
+        }
+      }
+    },
+    "progressMockPassed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passed"
+          }
+        }
+      }
+    },
+    "progressPassingMarkPrefix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passing mark:"
+          }
+        }
+      }
+    },
+    "progressMockSeen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "seen"
+          }
+        }
+      }
+    },
+    "progressRetakeMockExam" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retake Mock Exam"
+          }
+        }
+      }
+    },
     "progressHeroPassed" : {
       "localizations" : {
         "en" : {
