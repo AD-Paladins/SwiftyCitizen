@@ -1,9 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
+    "" : {},
     "65/20" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -117,7 +115,6 @@
         }
       }
     },
- 
     "configDisclaimerNotAccepted" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -265,7 +262,6 @@
         }
       }
     },
-  
     "configMissingTestVersion" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -423,7 +419,6 @@
         }
       }
     },
-   
     "configTestConfigurationFallback" : {
       "localizations" : {
         "en" : {
@@ -2207,7 +2202,6 @@
         }
       }
     },
-    
     "settingsStudySetHeader" : {
       "localizations" : {
         "en" : {
@@ -2920,40 +2914,40 @@
         }
       }
     },
-     "studySummaryReviewAction" : {
-       "extractionState" : "manual",
-       "localizations" : {
-         "en" : {
-           "stringUnit" : {
-             "state" : "translated",
-             "value" : "Review your weak topics"
-           }
-         }
-       }
-     },
-     "studySummaryWeakCardsLabel" : {
-       "extractionState" : "manual",
-       "localizations" : {
-         "en" : {
-           "stringUnit" : {
-             "state" : "translated",
-             "value" : "weak cards"
-           }
-         }
-       }
-     },
-     "studySummaryWeakTopicsTitle" : {
-       "extractionState" : "manual",
-       "localizations" : {
-         "en" : {
-           "stringUnit" : {
-             "state" : "translated",
-             "value" : "Weak topics"
-           }
-         }
-       }
-     },
-     "studyTargetedByCategorySection" : {
+    "studySummaryReviewAction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review your weak topics"
+          }
+        }
+      }
+    },
+    "studySummaryWeakCardsLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "weak cards"
+          }
+        }
+      }
+    },
+    "studySummaryWeakTopicsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weak topics"
+          }
+        }
+      }
+    },
+    "studyTargetedByCategorySection" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3290,6 +3284,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bienvenido a SwiftyCitizen"
+          }
+        }
+      }
+    },
+    "progressTopicCoverageSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coverage & category mastery"
+          }
+        }
+      }
+    },
+    "progressTopicAreasOf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Areas"
+          }
+        }
+      }
+    },
+    "progressTopicNotStarted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not started"
+          }
+        }
+      }
+    },
+    "progressTopicAccuracy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accuracy"
           }
         }
       }

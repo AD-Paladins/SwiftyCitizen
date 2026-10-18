@@ -250,54 +250,41 @@ struct ProgressTabView: View {
     // MARK: - 3. Topic coverage
 
     private var topicCoverageSection: some View {
-        VStack(alignment: .leading, spacing: Space.lg.value) {
-            sectionHeader(
-                title: "progressTopicCoverageTitle",
-                subtitle: "\(versionReviewedCount) \(String(localized: "commonOf")) \(bankCount) \(String(localized: "progressTopicSeenOf"))"
+        TopicCoverageSection(rows: coverageRows) { topic in
+            openTopic(topic)
+        }
+    }
+
+    /// Every topic in the active version's bank (first-appearance order), each paired with its
+    /// attempted accuracy/count. Topics with no attempts report `accuracy == nil` / `seen == 0` so
+    /// the carousel can render their "Not started" cards — `accuracyByDomain` alone omits them.
+    private var coverageRows: [TopicCoverageRow] {
+        var order: [String] = []
+        var seenTopics = Set<String>()
+        for question in bankQuestions {
+            if seenTopics.insert(question.topic).inserted {
+                order.append(question.topic)
+            }
+        }
+        let attempted = Dictionary(uniqueKeysWithValues: accuracyByDomainData.map { ($0.topic, $0) })
+        return order.enumerated().map { index, topic in
+            if let row = attempted[topic] {
+                return TopicCoverageRow(
+                    topic: topic,
+                    accuracy: row.accuracy,
+                    seen: row.count,
+                    total: topicTotals[topic] ?? bankCount,
+                    orderIndex: index
+                )
+            }
+            return TopicCoverageRow(
+                topic: topic,
+                accuracy: nil,
+                seen: 0,
+                total: topicTotals[topic] ?? bankCount,
+                orderIndex: index
             )
-            ForEach(accuracyByDomainData, id: \.topic) { row in
-                topicCard(row)
-            }
         }
-    }
-
-    private func topicCard(_ row: (topic: String, accuracy: Double?, count: Int)) -> some View {
-        return VStack(alignment: .leading, spacing: Space.lg.value) {
-            HStack(spacing: Space.sm.value) {
-                topicBadge(row.topic)
-                VStack(alignment: .leading, spacing: Space.xs.value) {
-                    Text(row.topic)
-                        .font(CivicText.headlineSM.font)
-                        .foregroundStyle(palette.ink)
-                    let topicTotal = topicTotals[row.topic] ?? bankCount
-                    Text("\(row.count) \(String(localized: "progressTopicQsOf")) \(topicTotal)")
-                        .font(CivicText.labelMD.font)
-                        .foregroundStyle(palette.dimmed)
-                        .monospacedDigit()
-                }
-                Spacer()
-                Text(accuracyText(row.accuracy))
-                    .font(CivicText.labelMD.font.weight(.semibold))
-                    .foregroundStyle(palette.ink)
-                    .monospacedDigit()
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(Space.lg.value)
-        .cardStyle()
-        .contentShape(Rectangle())
-        .onTapGesture { openTopic(row.topic) }
-        .accessibilityElement(children: .combine)
-        .accessibilityHint("progressTopicReviewHint")
-    }
-
-    private func topicBadge(_ topic: String) -> some View {
-        let initial = topic.first.map { String($0.uppercased()) } ?? "?"
-        return Text(initial)
-            .font(CivicText.labelSM.font.weight(.semibold))
-            .foregroundStyle(palette.onPrimary)
-            .frame(width: 28, height: 28)
-            .background(palette.primary, in: RoundedRectangle(cornerRadius: 8))
     }
 
     // MARK: - 4. Accuracy breakdown (mock-test only)
@@ -324,7 +311,11 @@ struct ProgressTabView: View {
 
     private func accuracyRow(_ row: (topic: String, accuracy: Double?, count: Int)) -> some View {
         return HStack(spacing: Space.sm.value) {
-            topicBadge(row.topic)
+            TopicInitialBadge(
+                initial: String(row.topic.first { $0.isLetter } ?? "#"),
+                background: palette.primary,
+                foreground: palette.onPrimary
+            )
             VStack(alignment: .leading, spacing: Space.xs.value) {
                 Text(row.topic)
                     .font(CivicText.bodyMD.font)
