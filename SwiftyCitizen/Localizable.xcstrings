@@ -1787,6 +1787,26 @@
         }
       }
     },
+    "progressHeroMistakes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mistakes"
+          }
+        }
+      }
+    },
+    "progressMistakesComingSoon" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mistakes screen coming soon"
+          }
+        }
+      }
+    },
     "progressHeroPassed" : {
       "localizations" : {
         "en" : {

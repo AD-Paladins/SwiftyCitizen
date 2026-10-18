@@ -15,6 +15,14 @@ struct ProgressTabView: View {
     @Query private var sessions: [StudySession]
     private var palette: AppPalette { themeManager.palette }
 
+    /// Drives the hero's secondary actions. The mistakes screen doesn't exist yet, so this routes
+    /// to a placeholder until the real window is built (see task tracker).
+    @State private var mistakesRoute: HeroRoute? = nil
+
+    private enum HeroRoute: Hashable {
+        case mistakes
+    }
+
     // MARK: - Data layer (unchanged)
 
     private var snapshots: [StudyAttemptSnapshot] {
@@ -163,6 +171,9 @@ struct ProgressTabView: View {
                 .scrollContentBackground(.hidden)
                 .background(palette.canvas.ignoresSafeArea())
                 .navigationTitle("progressTitle")
+                .navigationDestination(item: $mistakesRoute) { _ in
+                    mistakesComingSoon
+                }
             }
         }
     }
@@ -247,6 +258,23 @@ struct ProgressTabView: View {
                 .padding(.horizontal, 12)
                 .background(Capsule().fill(palette.onPrimary.opacity(0.10)))
                 .overlay(Capsule().stroke(palette.onPrimary.opacity(0.15), lineWidth: 1))
+
+                Button {
+                    mistakesRoute = .mistakes
+                } label: {
+                    HStack(spacing: Space.sm.value) {
+                        Image(systemName: "book.fill")
+                        Text("progressHeroMistakes")
+                    }
+                    .font(CivicText.labelMD.font.weight(.semibold))
+                    .foregroundStyle(palette.onPrimary.opacity(0.9))
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.plain)
+                .padding(.vertical, 10)
+                .padding(.horizontal, 12)
+                .background(Capsule().fill(palette.onPrimary.opacity(0.06)))
+                .overlay(Capsule().stroke(palette.onPrimary.opacity(0.30), lineWidth: 1))
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -309,6 +337,21 @@ struct ProgressTabView: View {
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
+    }
+
+    /// Placeholder for the mistakes screen — the real window doesn't exist yet (see task tracker).
+    /// The hero's Mistakes button is wired to this so it is functional and testable now.
+    private var mistakesComingSoon: some View {
+        VStack(spacing: Space.lg.value) {
+            Image(systemName: "book.fill")
+                .font(CivicText.headlineLG.font)
+                .foregroundStyle(palette.dimmed)
+            Text("progressMistakesComingSoon")
+                .font(CivicText.headlineSM.font)
+                .foregroundStyle(palette.ink)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(Space.lg.value)
     }
 
     // MARK: - 2. Mastery buckets row
