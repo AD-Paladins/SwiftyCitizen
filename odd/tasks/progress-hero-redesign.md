@@ -67,6 +67,17 @@ Button row: both buttons keep their natural width inside one `HStack` that fills
 `VStack`, so it reads left/center rather than trailing. The earlier `.trailing` attempt was dropped
 in favor of this look.
 
+## Theming (2026-10-17)
+
+Card background is themed, not hardcoded. Concordance audit: the hero used tokens for all
+text/pills/bars/buttons but a fixed design-hex gradient + shadow (`#0B4D3C`), so it would not
+re-tint when switching themes. Fixed in `AppTheme.swift` by adding one token per palette,
+`heroBottom` (darker shade of each theme's `primary`, light + dark variants via `dynamic()`). The
+hero now renders `LinearGradient([palette.primary, palette.heroBottom])` and a shadow of
+`palette.primary.opacity(0.28)`. `primary` is reused as the top stop (already exists), so only
+`heroBottom` was added. All three themes (`paperEmerald`, `civicNavy`, `studyCalm`) are themed;
+`onPrimary` (white) text stays legible on each. Build SUCCEEDED, 253 tests pass.
+
 ## Next
 
 Update `docs/plan/progress-ui-spec.md`, `progress-spec.md`, and
