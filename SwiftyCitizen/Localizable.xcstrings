@@ -3377,6 +3377,306 @@
           }
         }
       }
+    },
+    "homeLaunchpadLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Launchpad"
+          }
+        }
+      }
+    },
+    "homeTrackBadgePrefix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Track:"
+          }
+        }
+      }
+    },
+    "homeTrackBadgeBank" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bank"
+          }
+        }
+      }
+    },
+    "homeStreakDaySuffix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "d"
+          }
+        }
+      }
+    },
+    "homeInterviewTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estimated USCIS Interview"
+          }
+        }
+      }
+    },
+    "homeInterviewTargetLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target"
+          }
+        }
+      }
+    },
+    "homeInterviewFiledLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filed"
+          }
+        }
+      }
+    },
+    "homeInterviewUnavailableTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set your filing date"
+          }
+        }
+      }
+    },
+    "homeInterviewUnavailableMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your N-400 filing date in Settings to estimate your USCIS interview."
+          }
+        }
+      }
+    },
+    "heroDrillTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready for today's drill?"
+          }
+        }
+      }
+    },
+    "heroHabitChip" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Habit"
+          }
+        }
+      }
+    },
+    "heroSessionPrefix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Session"
+          }
+        }
+      }
+    },
+    "heroDueToday" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "due today"
+          }
+        }
+      }
+    },
+    "heroMinEstimated" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min estimated"
+          }
+        }
+      }
+    },
+    "heroDailyProgressLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Target Progress"
+          }
+        }
+      }
+    },
+    "heroCompleteLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "complete"
+          }
+        }
+      }
+    },
+    "homeHeroStart" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Daily Review"
+          }
+        }
+      }
+    },
+    "quickModesTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick Modes"
+          }
+        }
+      }
+    },
+    "quickModesSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-free & Speech"
+          }
+        }
+      }
+    },
+    "oralSimTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oral Simulator"
+          }
+        }
+      }
+    },
+    "oralSimSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speak answers out loud like the real officer interview."
+          }
+        }
+      }
+    },
+    "oralSimFooter" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 min quick drill"
+          }
+        }
+      }
+    },
+    "listeningTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listening Mode"
+          }
+        }
+      }
+    },
+    "listeningSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-free audio player for car drives & daily chores."
+          }
+        }
+      }
+    },
+    "listeningQueueLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queue"
+          }
+        }
+      }
+    },
+    "archivalTipLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archival Memory Tip"
+          }
+        }
+      }
+    },
+    "civicsFactTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Civics Fact of the Day"
+          }
+        }
+      }
+    },
+    "civicsReadBrief" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read brief"
+          }
+        }
+      }
+    },
+    "homeComingSoonTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coming soon"
+          }
+        }
+      }
+    },
+    "homeComingSoonMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This mode is being set up."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
