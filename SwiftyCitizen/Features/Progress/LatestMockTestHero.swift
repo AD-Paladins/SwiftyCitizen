@@ -76,7 +76,7 @@ struct LatestMockTestHero: View {
                     retakeButton
                     mistakesButton
                 }
-                .frame(width: .infinity, height: 44, alignment: .trailing)
+                .frame(width: .infinity, height: 44)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
