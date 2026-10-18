@@ -60,6 +60,35 @@ struct AppPalette {
     let onPrimary: Color
     let dimmed: Color
 
+    // MARK: - Derived container family (added by the theme audit)
+
+    /// Precomputed light/dark RGB for every derived role. Kept as raw RGB (not `Color`) so the
+    /// derivation lives in exactly one place (`ThemeTones`) and the SwiftUI conversion happens here.
+    let derived: DerivedPalette
+
+    /// Material-3-style emphasized fills and their readable labels, derived from seed hues. These
+    /// back chips/badges/pills (e.g. the topic-coverage carousel). See `ThemeTones` for the model.
+    // Flat saturated accents — back the topic badges (white initials).
+    var secondary: Color { color(derived.secondary) }
+    var onSecondary: Color { color(derived.onSecondary) }
+    var tertiary: Color { color(derived.tertiary) }
+    var onTertiary: Color { color(derived.onTertiary) }
+
+    var primaryContainer: Color { color(derived.primaryContainer) }
+    var onPrimaryContainer: Color { color(derived.onPrimaryContainer) }
+    var secondaryContainer: Color { color(derived.secondaryContainer) }
+    var onSecondaryContainer: Color { color(derived.onSecondaryContainer) }
+    var tertiaryContainer: Color { color(derived.tertiaryContainer) }
+    var onTertiaryContainer: Color { color(derived.onTertiaryContainer) }
+    var errorContainer: Color { color(derived.errorContainer) }
+    var onErrorContainer: Color { color(derived.onErrorContainer) }
+
+    /// Extra neutral + border roles. `surfaceVariant` sits just above `surface`; `outline` /
+    /// `outlineVariant` are the two border weights the app uses for cards and selections.
+    var surfaceVariant: Color { color(derived.surfaceVariant) }
+    var outline: Color { color(derived.outline) }
+    var outlineVariant: Color { color(derived.outlineVariant) }
+
     func tint(for assessment: SelfAssessment) -> Color {
         switch assessment {
         case .again:
@@ -83,7 +112,23 @@ extension AppPalette {
         warning: dynamic(light: 0.73, green: 0.48, blue: 0.16, dark: 0.91, darkGreen: 0.63, darkBlue: 0.31),
         danger: dynamic(light: 0.66, green: 0.29, blue: 0.23, dark: 0.85, darkGreen: 0.48, darkBlue: 0.42),
         onPrimary: Color.white,
-        dimmed: dynamic(light: 0.30, green: 0.30, blue: 0.30, dark: 0.70, darkGreen: 0.70, darkBlue: 0.70)
+        dimmed: dynamic(light: 0.30, green: 0.30, blue: 0.30, dark: 0.70, darkGreen: 0.70, darkBlue: 0.70),
+        derived: PaletteDerivation(
+            seeds: .init(
+                primary: rgb(0.17, 0.30, 0.49),   // navy
+                secondary: rgb(0.34, 0.44, 0.56),  // muted slate-blue
+                tertiary: rgb(0.10, 0.48, 0.52),   // teal
+                error: rgb(0.66, 0.29, 0.23)       // shares the legacy `danger` seed
+            ),
+            neutrals: .init(
+                backgroundLight: rgb(0.93, 0.94, 0.96),
+                backgroundDark: rgb(0.07, 0.09, 0.12),
+                surfaceLight: rgb(1.00, 1.00, 1.00),
+                surfaceDark: rgb(0.13, 0.15, 0.19),
+                textDark: rgb(0.10, 0.14, 0.20),
+                textLight: rgb(0.91, 0.93, 0.95)
+            )
+        ).roles
     )
 
     static let paperEmerald = AppPalette(
@@ -96,7 +141,23 @@ extension AppPalette {
         warning: dynamic(light: 0.88, green: 0.53, blue: 0.08, dark: 0.91, darkGreen: 0.63, darkBlue: 0.31),
         danger: dynamic(light: 0.94, green: 0.27, blue: 0.27, dark: 0.85, darkGreen: 0.48, darkBlue: 0.42),
         onPrimary: Color.white,
-        dimmed: dynamic(light: 0.22, green: 0.24, blue: 0.22, dark: 0.70, darkGreen: 0.70, darkBlue: 0.70)
+        dimmed: dynamic(light: 0.22, green: 0.24, blue: 0.22, dark: 0.70, darkGreen: 0.70, darkBlue: 0.70),
+        derived: PaletteDerivation(
+            seeds: .init(
+                primary: rgb(0.04, 0.43, 0.31),   // emerald
+                secondary: rgb(0.90, 0.60, 0.15),  // amber
+                tertiary: rgb(0.02, 0.42, 0.18),   // deep green
+                error: rgb(0.94, 0.27, 0.27)       // shares the legacy `danger` seed
+            ),
+            neutrals: .init(
+                backgroundLight: rgb(0.99, 0.98, 0.94),
+                backgroundDark: rgb(0.09, 0.08, 0.07),
+                surfaceLight: rgb(1.00, 1.00, 1.00),
+                surfaceDark: rgb(0.15, 0.14, 0.13),
+                textDark: rgb(0.10, 0.11, 0.10),
+                textLight: rgb(0.93, 0.91, 0.89)
+            )
+        ).roles
     )
 
     static let studyCalm = AppPalette(
@@ -109,7 +170,23 @@ extension AppPalette {
         warning: dynamic(light: 0.73, green: 0.48, blue: 0.16, dark: 0.91, darkGreen: 0.63, darkBlue: 0.31),
         danger: dynamic(light: 0.66, green: 0.29, blue: 0.23, dark: 0.85, darkGreen: 0.48, darkBlue: 0.42),
         onPrimary: Color.white,
-        dimmed: dynamic(light: 0.30, green: 0.30, blue: 0.30, dark: 0.70, darkGreen: 0.70, darkBlue: 0.70)
+        dimmed: dynamic(light: 0.30, green: 0.30, blue: 0.30, dark: 0.70, darkGreen: 0.70, darkBlue: 0.70),
+        derived: PaletteDerivation(
+            seeds: .init(
+                primary: rgb(0.18, 0.20, 0.27),   // slate
+                secondary: rgb(0.74, 0.63, 0.44),  // warm amber-gray
+                tertiary: rgb(0.30, 0.44, 0.38),   // muted sage
+                error: rgb(0.66, 0.29, 0.23)       // shares the legacy `danger` seed
+            ),
+            neutrals: .init(
+                backgroundLight: rgb(0.93, 0.93, 0.94),
+                backgroundDark: rgb(0.08, 0.09, 0.11),
+                surfaceLight: rgb(1.00, 1.00, 1.00),
+                surfaceDark: rgb(0.14, 0.15, 0.17),
+                textDark: rgb(0.18, 0.20, 0.27),
+                textLight: rgb(0.89, 0.90, 0.93)
+            )
+        ).roles
     )
 
     private static func dynamic(
@@ -125,5 +202,25 @@ extension AppPalette {
                 ? UIColor(red: darkRed, green: darkGreen, blue: darkBlue, alpha: 1)
                 : UIColor(red: red, green: green, blue: blue, alpha: 1)
         })
+    }
+
+    /// Builds a light-mode `RGBColor` seed/anchor. Lives here (not in `ThemeTones`) so that file
+    /// stays free of UIKit and the derivation math stays pure + unit-testable.
+    private static func rgb(_ r: Double, _ g: Double, _ b: Double) -> RGBColor {
+        RGBColor(r: r, g: g, b: b)
+    }
+
+    /// Converts a derived light/dark `RGBColor` pair into the same style-switching `Color` the rest
+    /// of the palette uses, so derived tokens behave identically to the hand-tuned ones.
+    private func color(_ role: RoleColors) -> Color {
+        Color(uiColor: UIColor { traits in
+            traits.userInterfaceStyle == .dark
+                ? rgbColorToUIColor(role.dark)
+                : rgbColorToUIColor(role.light)
+        })
+    }
+
+    private func rgbColorToUIColor(_ c: RGBColor) -> UIColor {
+        UIColor(red: CGFloat(c.r), green: CGFloat(c.g), blue: CGFloat(c.b), alpha: 1)
     }
 }
