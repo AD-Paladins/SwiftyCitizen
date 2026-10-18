@@ -68,10 +68,25 @@ enum ProgressAnalytics {
         let graduated = graduatedCount(attempts: versionAttempts, for: configuration.version)
         let coverageMastered = Double(graduated) / Double(bank)
 
-        let correct = versionAttempts.filter { StudyProgressMetrics.isCorrect($0) }.count
-        let overallAccuracy = versionAttempts.isEmpty ? 0 : Double(correct) / Double(versionAttempts.count)
+        let overallAccuracy = ProgressAnalytics.overallAccuracy(attempts: versionAttempts, for: configuration.version) ?? 0
 
         return clamp(0.6 * coverageMastered + 0.4 * overallAccuracy)
+    }
+
+    /// Overall accuracy (`correct` / `total` attempts) for a version — the learner's true accuracy
+    /// across every attempt (mock + practice), not a heuristic. nil when there are no attempts.
+    ///
+    /// Mirrors `accuracyByDomain`'s definition (a mock-test result is the only "correct" signal; a
+    /// self-assessment `.gotIt` never is) so the headline number stays consistent with each topic's
+    /// row. Extracted from `passRate` so both share one definition.
+    static func overallAccuracy(
+        attempts: [StudyAttemptSnapshot],
+        for version: USCISTestVersion
+    ) -> Double? {
+        let versionAttempts = attempts.filter { $0.testVersion == version }
+        guard !versionAttempts.isEmpty else { return nil }
+        let correct = versionAttempts.filter { StudyProgressMetrics.isCorrect($0) }.count
+        return Double(correct) / Double(versionAttempts.count)
     }
 
     /// Change in predicted pass rate between the previous ISO week and the current one (`now`'s
@@ -241,6 +256,36 @@ enum ProgressAnalytics {
             points.append(WeekPoint(weekStart: weekStart, accuracy: accuracy, attempts: inWeek.count))
         }
         return points
+    }
+
+    /// Direction of overall accuracy between two consecutive windows — prior (`windowDays` before
+    /// `recentStart`) versus recent (`recentStart`..`now`). Used by the Accuracy Breakdown header to
+    /// say whether the learner is improving.
+    enum AccuracyTrend: Equatable {
+        case rising, flat, falling, unknown
+    }
+
+    /// Overall accuracy trend between two consecutive windows (prior vs recent). `.unknown` when
+    /// either window has no attempts (can't form a delta). A small deadband keeps sub-3% swings
+    /// reading as flat rather than chattering — revisit if accuracy bands become a shared constant.
+    static func accuracyTrend(
+        attempts: [StudyAttemptSnapshot],
+        for version: USCISTestVersion,
+        windowDays: Int = 14,
+        now: Date = .now
+    ) -> AccuracyTrend {
+        let versionAttempts = attempts.filter { $0.testVersion == version }
+        let day = 86_400
+        let recentStart = now.addingTimeInterval(-Double(windowDays) * Double(day))
+        let priorStart = now.addingTimeInterval(-Double(2 * windowDays) * Double(day))
+        let recent = versionAttempts.filter { $0.answeredAt >= recentStart && $0.answeredAt <= now }
+        let prior = versionAttempts.filter { $0.answeredAt >= priorStart && $0.answeredAt < recentStart }
+        guard !recent.isEmpty, !prior.isEmpty else { return .unknown }
+        let delta = (overallAccuracy(attempts: recent, for: version) ?? 0)
+            - (overallAccuracy(attempts: prior, for: version) ?? 0)
+        if delta > 0.03 { return .rising }
+        if delta < -0.03 { return .falling }
+        return .flat
     }
 
     /// Fraction of distinct attempted cards that are mastered (latest `.gotIt`) **and** whose latest

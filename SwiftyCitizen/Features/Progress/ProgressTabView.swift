@@ -97,6 +97,24 @@ struct ProgressTabView: View {
         return ProgressAnalytics.accuracyByDomain(attempts: snapshots, topicIndex: topicIndex, for: version)
     }
 
+    /// Overall accuracy for the active version (correct / total attempts), for the breakdown header.
+    private var overallAccuracyValue: Double? {
+        guard let version = bankVersion else { return nil }
+        return ProgressAnalytics.overallAccuracy(attempts: snapshots, for: version)
+    }
+
+    /// Accuracy trend over the last two 14-day windows, for the breakdown header pill.
+    private var accuracyTrendValue: ProgressAnalytics.AccuracyTrend {
+        guard let version = bankVersion else { return .unknown }
+        return ProgressAnalytics.accuracyTrend(attempts: snapshots, for: version)
+    }
+
+    /// Attempted topics (determinate accuracy only) for the breakdown rows. Topics with no
+    /// determinate accuracy are excluded — they still surface in the carousel as "Needs review".
+    private var breakdownRows: [TopicCoverageRow] {
+        coverageRows.filter { $0.accuracy != nil }
+    }
+
     private var weakSpotsData: [ProgressAnalytics.WeakSpot] {
         guard let version = bankVersion else { return [] }
         return ProgressAnalytics.weakSpots(attempts: snapshots, questions: bankQuestions, version: version)
@@ -150,6 +168,8 @@ struct ProgressTabView: View {
                         masteryBuckets
 
                         topicCoverageSection
+
+                        accuracyBreakdownSection
 
                         weakSpotsSection
 
@@ -232,6 +252,15 @@ struct ProgressTabView: View {
         TopicCoverageSection(rows: coverageRows) { topic in
             openTopic(topic)
         }
+    }
+
+    private var accuracyBreakdownSection: some View {
+        AccuracyBreakdownSection(
+            rows: breakdownRows,
+            overallAccuracy: overallAccuracyValue,
+            trend: accuracyTrendValue,
+            onTopicTap: openTopic
+        )
     }
 
     /// Every topic in the active version's bank (first-appearance order), each paired with its

@@ -1612,6 +1612,56 @@
         }
       }
     },
+    "progressAccuracyBreakdownEmpty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take a mock test to see accuracy by topic."
+          }
+        }
+      }
+    },
+    "progressAccuracyBreakdownSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All test sessions"
+          }
+        }
+      }
+    },
+    "progressAccuracyTrendFalling" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falling"
+          }
+        }
+      }
+    },
+    "progressAccuracyTrendFlat" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Steady"
+          }
+        }
+      }
+    },
+    "progressAccuracyTrendRising" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rising"
+          }
+        }
+      }
+    },
     "progressBucketGraduated" : {
       "localizations" : {
         "en" : {

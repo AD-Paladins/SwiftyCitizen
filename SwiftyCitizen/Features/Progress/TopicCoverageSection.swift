@@ -103,6 +103,16 @@ struct TopicCoverageSection: View {
         .padding(.bottom, Space.md.value)
     }
 
+    /// Accent for a topic, cycled by its stable order index so each topic keeps one color across the
+    /// carousel badge and the accuracy-breakdown dot. Shared so the two surfaces never drift apart.
+    static func accentColor(for orderIndex: Int, palette: AppPalette) -> Color {
+        switch orderIndex % 3 {
+        case 1: return palette.secondary
+        case 2: return palette.tertiary
+        default: return palette.primary
+        }
+    }
+
     /// Splits the topic rows into fixed-size pages (2×2 grids). Empty input yields no pages.
     static func pages(from rows: [TopicCoverageRow], perPage: Int) -> [[TopicCoverageRow]] {
         guard perPage > 0 else { return [] }
@@ -128,6 +138,8 @@ private struct CarouselPages: View {
         }
         .tabViewStyle(.page(indexDisplayMode: .always))
         .tint(themeManager.palette.primaryContainer)
+        // Gap between the cards and the native dots so they sit clear of the card edge.
+        .padding(.bottom, Space.md.value)
         .frame(maxHeight: .infinity)
     }
 }
@@ -165,11 +177,7 @@ struct TopicCard: View {
 
     /// Accent for a topic's badge, cycled by its stable order index so each topic keeps one color.
     private func accentColor(for orderIndex: Int) -> Color {
-        switch orderIndex % 3 {
-        case 1: return palette.secondary
-        case 2: return palette.tertiary
-        default: return palette.primary
-        }
+        TopicCoverageSection.accentColor(for: orderIndex, palette: palette)
     }
 
     var body: some View {

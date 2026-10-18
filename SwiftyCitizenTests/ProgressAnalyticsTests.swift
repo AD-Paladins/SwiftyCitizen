@@ -57,6 +57,34 @@ struct ProgressAnalyticsTests {
         #expect(ProgressAnalytics.passRate(attempts: over, for: cfg) == 1)
     }
 
+    // MARK: overallAccuracy
+
+    @Test
+    func overallAccuracyIsNilWithoutAttempts() {
+        #expect(ProgressAnalytics.overallAccuracy(attempts: [], for: .twoThousandTwentyFive) == nil)
+    }
+
+    @Test
+    func overallAccuracyIsCorrectOverAllAttempts() {
+        // Two correct of five attempts → 0.4. A self-assessment `.gotIt` counts in the denominator
+        // but never as correct, matching accuracyByDomain's definition (only a mock result is "correct").
+        let attempts = [
+            snapshot(id: "a", assessment: .gotIt, wasCorrect: true, boxLevel: 3, at: now),
+            snapshot(id: "b", assessment: nil, wasCorrect: true, boxLevel: 2, at: now),
+            snapshot(id: "c", assessment: nil, wasCorrect: false, boxLevel: 1, at: now),
+            snapshot(id: "d", assessment: .gotIt, wasCorrect: nil, boxLevel: 3, at: now), // self-assessment only
+            snapshot(id: "e", assessment: nil, wasCorrect: false, boxLevel: 1, at: now),
+        ]
+        #expect(ProgressAnalytics.overallAccuracy(attempts: attempts, for: .twoThousandTwentyFive) == 0.4)
+    }
+
+    @Test
+    func overallAccuracyIsScopedToTheVersion() {
+        let other = snapshot(id: "x", assessment: nil, wasCorrect: true, boxLevel: 3, at: now, version: .twoThousandEight)
+        let version = snapshot(id: "y", assessment: nil, wasCorrect: false, boxLevel: 1, at: now, version: .twoThousandTwentyFive)
+        #expect(ProgressAnalytics.overallAccuracy(attempts: [other, version], for: .twoThousandTwentyFive) == 0.0)
+    }
+
     // MARK: passRateWeeklyDelta
 
     @Test
@@ -273,6 +301,60 @@ struct ProgressAnalyticsTests {
         #expect(points[1].weekStart == weekStart)
         #expect(points[1].attempts == 2)
         #expect(points[1].accuracy == 0.5)
+    }
+
+    // MARK: accuracyTrend
+
+    @Test
+    func accuracyTrendIsUnknownWhenEitherWindowIsEmpty() {
+        // Only recent attempts; no prior-window data → can't form a delta.
+        let attempts = [
+            snapshot(id: "a", assessment: nil, wasCorrect: true, boxLevel: 3, at: now),
+            snapshot(id: "b", assessment: nil, wasCorrect: false, boxLevel: 1, at: now - day),
+        ]
+        #expect(ProgressAnalytics.accuracyTrend(attempts: attempts, for: .twoThousandTwentyFive, windowDays: 14, now: now) == .unknown)
+    }
+
+    @Test
+    func accuracyTrendRisesWhenRecentWindowOutperformsPrior() {
+        let prior = [   // prior window: 1 of 2 = 0.5
+            snapshot(id: "a", assessment: nil, wasCorrect: true, boxLevel: 3, at: now - 20 * day),
+            snapshot(id: "b", assessment: nil, wasCorrect: false, boxLevel: 1, at: now - 20 * day),
+        ]
+        let recent = [   // recent window: 2 of 2 = 1.0
+            snapshot(id: "c", assessment: nil, wasCorrect: true, boxLevel: 3, at: now - 2 * day),
+            snapshot(id: "d", assessment: nil, wasCorrect: true, boxLevel: 3, at: now - 1 * day),
+        ]
+        let trend = ProgressAnalytics.accuracyTrend(attempts: prior + recent, for: .twoThousandTwentyFive, windowDays: 14, now: now)
+        #expect(trend == .rising)
+    }
+
+    @Test
+    func accuracyTrendFallsWhenRecentWindowUnderperformsPrior() {
+        let prior = [   // prior window: 2 of 2 = 1.0
+            snapshot(id: "a", assessment: nil, wasCorrect: true, boxLevel: 3, at: now - 20 * day),
+            snapshot(id: "b", assessment: nil, wasCorrect: true, boxLevel: 3, at: now - 19 * day),
+        ]
+        let recent = [   // recent window: 0 of 2 = 0.0
+            snapshot(id: "c", assessment: nil, wasCorrect: false, boxLevel: 1, at: now - 2 * day),
+            snapshot(id: "d", assessment: nil, wasCorrect: false, boxLevel: 1, at: now - 1 * day),
+        ]
+        let trend = ProgressAnalytics.accuracyTrend(attempts: prior + recent, for: .twoThousandTwentyFive, windowDays: 14, now: now)
+        #expect(trend == .falling)
+    }
+
+    @Test
+    func accuracyTrendIsFlatWithinTheDeadband() {
+        let prior = [   // prior window: 1 of 2 = 0.5
+            snapshot(id: "a", assessment: nil, wasCorrect: true, boxLevel: 3, at: now - 20 * day),
+            snapshot(id: "b", assessment: nil, wasCorrect: false, boxLevel: 1, at: now - 19 * day),
+        ]
+        let recent = [   // recent window: 1 of 2 = 0.5 (delta 0 → flat)
+            snapshot(id: "c", assessment: nil, wasCorrect: true, boxLevel: 3, at: now - 2 * day),
+            snapshot(id: "d", assessment: nil, wasCorrect: false, boxLevel: 1, at: now - 1 * day),
+        ]
+        let trend = ProgressAnalytics.accuracyTrend(attempts: prior + recent, for: .twoThousandTwentyFive, windowDays: 14, now: now)
+        #expect(trend == .flat)
     }
 
     // MARK: retentionStability
