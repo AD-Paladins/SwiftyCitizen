@@ -242,15 +242,10 @@ struct ProgressTabView: View {
                     .foregroundStyle(palette.onPrimary.opacity(0.75))
                 }
 
-                GeometryReader { geo in
-                    let spacing = Space.sm.value
-                    let third = (geo.size.width + spacing) / 3
-                    HStack(spacing: spacing) {
-                        retakeButton
-                            .frame(width: third * 2)
-                        mistakesButton
-                            .frame(width: third)
-                    }
+                HStack(spacing: Space.sm.value) {
+                    retakeButton
+                        .frame(maxWidth: .infinity)
+                    mistakesButton
                 }
                 .frame(height: 44)
             }
