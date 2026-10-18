@@ -240,9 +240,9 @@ struct ProgressTabView: View {
             Text(meaning)
                 .font(CivicText.bodySM.font)
                 .foregroundStyle(palette.dimmed)
-                .multilineTextAlignment(.leading)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
+           .multilineTextAlignment(.leading)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .padding(Space.md.value)
         .cardStyle()
     }
