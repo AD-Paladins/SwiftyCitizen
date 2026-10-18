@@ -51,6 +51,10 @@ struct TopicCoverageSection: View {
 
     private let cardsPerPage = 4
 
+    /// Fixed page height so every card across every page is the same size; the native paging dots
+    /// sit in the bottom padding below this frame.
+    private let carouselHeight: CGFloat = 360
+
     var body: some View {
         VStack(alignment: .leading, spacing: Space.sm.value) {
             header
@@ -85,13 +89,18 @@ struct TopicCoverageSection: View {
     @ViewBuilder
     private var carousel: some View {
         let pages = TopicCoverageSection.pages(from: rows, perPage: cardsPerPage)
-        if pages.count == 1 {
-            TopicPage(cards: pages[0], onTopicTap: onTopicTap)
-        } else if !pages.isEmpty {
-            CarouselPages(pages: pages, onTopicTap: onTopicTap)
-        } else {
-            Color.clear.frame(height: 0)
+        Group {
+            if pages.count == 1 {
+                TopicPage(cards: pages[0], onTopicTap: onTopicTap)
+            } else if !pages.isEmpty {
+                CarouselPages(pages: pages, onTopicTap: onTopicTap)
+            } else {
+                Color.clear.frame(height: 0)
+            }
         }
+        .frame(height: carouselHeight)
+        // Bottom band so the native pagination dots sit clear of the cards and stay visible.
+        .padding(.bottom, Space.md.value)
     }
 
     /// Splits the topic rows into fixed-size pages (2×2 grids). Empty input yields no pages.
@@ -104,26 +113,22 @@ struct TopicCoverageSection: View {
 }
 
 /// Paginated carousel. Uses a native paging `TabView` so snapping and the pagination dots are handled
-/// by the platform; the page height is measured from content so it never clips under Dynamic Type.
+/// by the platform; the height is fixed so every page (and its cards) is the same size.
 private struct CarouselPages: View {
     let pages: [[TopicCoverageRow]]
     var onTopicTap: (String) -> Void
 
     @Environment(ThemeManager.self) private var themeManager
-    @State private var pageHeight: CGFloat = 300
 
     var body: some View {
         TabView {
             ForEach(pages.indices, id: \.self) { index in
                 TopicPage(cards: pages[index], onTopicTap: onTopicTap)
-                    .onGeometryChange(for: CGFloat.self, of: { $0.size.height }) { _, height in
-                        pageHeight = max(pageHeight, height)
-                    }
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .always))
         .tint(themeManager.palette.primaryContainer)
-        .frame(height: pageHeight)
+        .frame(maxHeight: .infinity)
     }
 }
 
@@ -144,7 +149,7 @@ private struct TopicPage: View {
                 TopicCard(row: card, onTopicTap: onTopicTap)
             }
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -193,7 +198,8 @@ struct TopicCard: View {
             }
             TopicProgressBar(accuracy: row.accuracy, status: status)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        // Fill its grid cell so every card is the same size regardless of content length.
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .padding(Space.sm.value)
         .cardStyle()
         .overlay(RoundedRectangle(cornerRadius: 18, style: .circular).stroke(palette.outlineVariant.opacity(0.3)))

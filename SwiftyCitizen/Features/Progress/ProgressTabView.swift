@@ -82,12 +82,6 @@ struct ProgressTabView: View {
         return snapshots.contains { $0.testVersion == version }
     }
 
-    /// Mock-test attempts for the active version (`wasCorrect` is only ever set by a mock test).
-    private var mockAttemptsForVersion: [StudyAttemptSnapshot] {
-        guard let version = bankVersion else { return [] }
-        return snapshots.filter { $0.testVersion == version && $0.wasCorrect != nil }
-    }
-
     // MARK: - Domain analytics (ProgressAnalytics)
 
     private var buckets: ProgressAnalytics.Buckets {
@@ -136,13 +130,6 @@ struct ProgressTabView: View {
         )
     }
 
-    private var overallMockAccuracy: Double? {
-        let versionAttempts = mockAttemptsForVersion
-        guard !versionAttempts.isEmpty else { return nil }
-        let correct = versionAttempts.filter { StudyProgressMetrics.isCorrect($0) }.count
-        return Double(correct) / Double(versionAttempts.count)
-    }
-
     // MARK: - Body
 
     var body: some View {
@@ -164,10 +151,6 @@ struct ProgressTabView: View {
 
                         topicCoverageSection
 
-                        if hasMockTestData {
-                            accuracyBreakdownSection
-                        }
-
                         weakSpotsSection
 
                         momentumSection
@@ -182,10 +165,6 @@ struct ProgressTabView: View {
                 }
             }
         }
-    }
-
-    private var hasMockTestData: Bool {
-        !mockAttemptsForVersion.isEmpty
     }
 
     /// Placeholder for the mistakes screen — the real window doesn't exist yet (see task tracker).
@@ -287,66 +266,7 @@ struct ProgressTabView: View {
         }
     }
 
-    // MARK: - 4. Accuracy breakdown (mock-test only)
-
-    private var accuracyBreakdownSection: some View {
-        VStack(alignment: .leading, spacing: Space.lg.value) {
-            Text("progressAccuracyBreakdownTitle")
-                .font(CivicText.headlineSM.font)
-                .foregroundStyle(palette.ink)
-
-            SummaryMetricView(
-                value: accuracyText(overallMockAccuracy),
-                label: "progressAccuracyOverall",
-                tint: palette.primary
-            )
-
-            VStack(spacing: Space.sm.value) {
-                ForEach(accuracyByDomainData, id: \.topic) { row in
-                    accuracyRow(row)
-                }
-            }
-        }
-    }
-
-    private func accuracyRow(_ row: (topic: String, accuracy: Double?, count: Int)) -> some View {
-        return HStack(spacing: Space.sm.value) {
-            TopicInitialBadge(
-                initial: String(row.topic.first { $0.isLetter } ?? "#"),
-                background: palette.primary,
-                foreground: palette.onPrimary
-            )
-            VStack(alignment: .leading, spacing: Space.xs.value) {
-                Text(row.topic)
-                    .font(CivicText.bodyMD.font)
-                    .foregroundStyle(palette.ink)
-            }
-            Spacer()
-            VStack(alignment: .trailing, spacing: Space.xs.value) {
-                Text(accuracyText(row.accuracy))
-                    .font(CivicText.labelMD.font.weight(.semibold))
-                    .foregroundStyle(palette.ink)
-                    .monospacedDigit()
-                if let status = accuracyStatus(row.accuracy) {
-                    Text(status)
-                        .font(CivicText.labelSM.font)
-                        .foregroundStyle(palette.dimmed)
-                }
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(Space.md.value)
-        .cardStyle()
-    }
-
-    private func accuracyStatus(_ accuracy: Double?) -> LocalizedStringKey? {
-        guard let accuracy else { return nil }
-        if accuracy >= 0.95 { return "progressAccuracyMastered" }
-        if accuracy >= 0.75 { return "progressAccuracyHighConfidence" }
-        return "progressAccuracyNeedsReview"
-    }
-
-    // MARK: - 5. Critical weak spots
+    // MARK: - 4. Critical weak spots
 
     private var weakSpotsSection: some View {
         VStack(alignment: .leading, spacing: Space.lg.value) {
@@ -411,7 +331,7 @@ struct ProgressTabView: View {
         .foregroundStyle(palette.primary)
     }
 
-    // MARK: - 6. Study momentum (streak only)
+    // MARK: - 5. Study momentum (streak only)
 
     private var momentumSection: some View {
         HStack(spacing: Space.md.value) {
