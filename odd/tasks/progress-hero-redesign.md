@@ -48,6 +48,9 @@ design docs are stale vs Stitch and are updated **after** code (user choice: cod
 - Commits on `feat/design-aligned-redesign`:
   - `ef23784 feat(progress): faithful Latest mock test hero in Progress screen`
   - `4d111c0 feat(progress): add Mistakes action to hero (placeholder destination)`
+  - `696daff feat(progress): stack Retake and Mistakes buttons in a 2:1 row`
+
+Buttons sit in one `GeometryReader`-driven `HStack`: Retake = 2/3 width, Mistakes = 1/3.
 
 Mistakes button: secondary outlined capsule below Retake, wired via `@State mistakesRoute` +
 `.navigationDestination(item:)` to `mistakesComingSoon` (placeholder). The real mistakes window is
