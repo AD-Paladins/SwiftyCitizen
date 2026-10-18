@@ -9,7 +9,6 @@ struct HomeDashboardView: View {
     @Environment(PendingNavigation.self) private var pendingNavigation
     private var palette: AppPalette { themeManager.palette }
     @Query private var attempts: [QuestionAttempt]
-    @Query private var bookmarks: [Bookmark]
 
     // Default daily review goal. Kept hardcoded for now — surface this as a user-configurable
     // setting once the habit loop has real data to back a sensible default.
@@ -135,7 +134,7 @@ struct HomeDashboardView: View {
                 .font(.system(size: 13, weight: .bold, design: .rounded))
                 .foregroundStyle(palette.onSecondary)
                 .accessibilityHidden(true)
-            Text("homeTrackBadgePrefix") + Text(" ") + Text(versionRaw) + Text(" ") + Text("homeTrackBadgeBank")
+            Text("\(String(localized: "homeTrackBadgePrefix")) \(versionRaw) \(String(localized: "homeTrackBadgeBank"))")
         }
     }
 
@@ -145,7 +144,7 @@ struct HomeDashboardView: View {
                 .font(.system(size: 13, weight: .bold, design: .rounded))
                 .foregroundStyle(palette.warning)
                 .accessibilityHidden(true)
-            Text("\(streak)") + Text(" ") + Text("homeStreakDaySuffix")
+            Text("\(streak) \(String(localized: "homeStreakDaySuffix"))")
         }
     }
 
@@ -193,7 +192,7 @@ struct HomeDashboardView: View {
                         .font(CivicText.headlineSM.font)
                         .foregroundStyle(palette.ink)
                     Spacer()
-                    (Text("homeInterviewTargetLabel") + Text(": ") + Text(monthYearFormatter.string(from: interview)))
+                    Text("\(String(localized: "homeInterviewTargetLabel")): \(monthYearFormatter.string(from: interview))")
                         .font(CivicText.labelSM.font.weight(.semibold))
                         .foregroundStyle(palette.primary)
                         .monospacedDigit()
@@ -201,7 +200,7 @@ struct HomeDashboardView: View {
                         .padding(.vertical, 4)
                         .background(palette.primaryContainer.opacity(0.2), in: RoundedRectangle(cornerRadius: 12))
                 }
-                Text("homeInterviewFiledLabel") + Text(" ") + Text(monthDayYearFormatter.string(from: filingDate))
+                Text("\(String(localized: "homeInterviewFiledLabel")) \(monthDayYearFormatter.string(from: filingDate))")
                     .font(CivicText.bodySM.font)
                     .foregroundStyle(palette.dimmed)
             }
@@ -287,7 +286,7 @@ struct HomeDashboardView: View {
                 .font(CivicText.labelSM.font)
                 .foregroundStyle(palette.onPrimary)
             Spacer()
-            (Text("\(Int((progressFraction * 100).rounded()))%") + Text(" ") + Text("heroCompleteLabel"))
+            Text("\(Int((progressFraction * 100).rounded()))% \(String(localized: "heroCompleteLabel"))")
                 .font(CivicText.labelSM.font.weight(.bold))
                 .foregroundStyle(palette.onPrimary)
                 .monospacedDigit()
@@ -303,7 +302,7 @@ struct HomeDashboardView: View {
             HStack(spacing: Space.sm.value) {
                 Image(systemName: "play_arrow.fill")
                     .font(.system(size: 14, weight: .bold, design: .rounded))
-                (Text("homeHeroStart") + Text(" (\(dueCount))"))
+                Text("\(String(localized: "homeHeroStart")) (\(dueCount))")
                     .monospacedDigit()
             }
             .font(CivicText.headlineSM.font)
@@ -324,20 +323,18 @@ struct HomeDashboardView: View {
             .allowsHitTesting(false)
     }
 
-    /// "<dueCount> questions due today • ~<minutes> min estimated". Composed from a `Text` chain so
-    /// the localized pieces and the dynamic numbers coexist without xcstrings format placeholders.
+    /// "<dueCount> questions due today • ~<minutes> min estimated". Localized suffixes are
+    /// interpolated into one `Text` (the deprecated `Text + Text` concatenation is avoided).
     private var statLine: Text {
         let unit = dueCount == 1
             ? String(localized: "unitQuestionSingular")
             : String(localized: "unitQuestionPlural")
         let minutes = max(2, dueCount * 2)
-        return Text("\(dueCount)") + Text(" ") + Text(unit) + Text(" ") + Text("heroDueToday")
-            + Text(" • ~") + Text("\(minutes)") + Text(" ") + Text("heroMinEstimated")
+        return Text("\(dueCount) \(unit) \(String(localized: "heroDueToday")) • ~\(minutes) \(String(localized: "heroMinEstimated"))")
     }
 
     private var sessionLine: Text {
-        Text("heroSessionPrefix") + Text(" ") + Text("\(reviewedToday)") + Text(" ")
-            + Text(String(localized: "commonOf")) + Text(" ") + Text("\(dailyGoal)")
+        Text("\(String(localized: "heroSessionPrefix")) \(reviewedToday) \(String(localized: "commonOf")) \(dailyGoal)")
     }
 
     // MARK: - H3: Quick Modes
@@ -368,7 +365,7 @@ struct HomeDashboardView: View {
                     systemImage: "headphones",
                     title: "listeningTitle",
                     subtitle: "listeningSubtitle",
-                    footer: (Text("listeningQueueLabel") + Text(": ") + Text("\(mockedQueueCount)"))
+                    footer: Text("\(String(localized: "listeningQueueLabel")): \(mockedQueueCount)")
                         .font(CivicText.labelSM.font.weight(.semibold))
                         .foregroundStyle(palette.primary)
                         .monospacedDigit(),
