@@ -50,9 +50,6 @@ design docs are stale vs Stitch and are updated **after** code (user choice: cod
   - `4d111c0 feat(progress): add Mistakes action to hero (placeholder destination)`
   - `696daff feat(progress): stack Retake and Mistakes buttons in a 2:1 row`
 
-Buttons sit in one `HStack`: Retake fills (`frame(maxWidth: .infinity)`) and Mistakes takes its
-natural content width — no rigid fractions, so the proportion and alignment come out naturally.
-
 ## Reusability (2026-10-17)
 
 Extracted the hero into a standalone `LatestMockTestHero` view (`Features/Progress/LatestMockTestHero.swift`).
@@ -65,9 +62,10 @@ Mistakes button: secondary outlined capsule below Retake, wired via `@State mist
 `.navigationDestination(item:)` to `mistakesComingSoon` (placeholder). The real mistakes window is
 not built yet — the button exists and is functional/testable now.
 
-Button row aligned to `.trailing` (right): `.frame(width: .infinity, height: 44, alignment: .trailing)`
-on the `HStack`. SwiftUI's `.frame` has no `maxWidth:`+`height:` combo — use `width:` for a filling
-width with a fixed height. Commit `9768949`.
+Button row: both buttons keep their natural width inside one `HStack` that fills the card width
+(`.frame(width: .infinity, height: 44)`) without a pinned edge alignment — it sits per the parent
+`VStack`, so it reads left/center rather than trailing. The earlier `.trailing` attempt was dropped
+in favor of this look.
 
 ## Next
 
