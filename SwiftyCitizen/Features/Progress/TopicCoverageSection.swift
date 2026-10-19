@@ -199,10 +199,14 @@ struct TopicCard: View {
                     .foregroundStyle(palette.ink)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
-                Text("\(row.seen) \(String(localized: "progressTopicQsOf")) \(row.total)")
-                    .font(CivicText.bodySM.font)
-                    .foregroundStyle(palette.dimmed)
-                    .monospacedDigit()
+                // "X of Y Qs" only carries signal while the topic is partially covered; once
+                // every question has been attempted it is redundant with the full progress bar.
+                if row.seen != row.total {
+                    Text("\(row.seen) \(String(localized: "progressTopicQsOf")) \(row.total)")
+                        .font(CivicText.bodySM.font)
+                        .foregroundStyle(palette.dimmed)
+                        .monospacedDigit()
+                }
             }
             TopicProgressBar(accuracy: row.accuracy, status: status)
         }
