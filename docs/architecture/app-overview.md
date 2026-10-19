@@ -30,7 +30,7 @@ SwiftyCitizen is a SwiftUI + SwiftData app. The root decides between onboarding 
 4. **Archival Memory Tip** — a gradient tip card.
 5. **Civics Fact of the Day** — a daily civics fact.
 
-The hero "Start review" CTA and the Civics brief both set `selectedTab = .study`; Quick Modes stay on the Home. (The older Bookmarked deep-link via `PendingNavigation.setBookmarked()` still exists in the coordinator and is consumed by `TargetedReviewView`, but the Daily Launchpad no longer exposes a Bookmarked card.)
+The hero "Start review" CTA and the Civics brief both set `selectedTab = .study`; Quick Modes stay on the Home. (The Daily Launchpad no longer exposes a Bookmarked card, and the deep-link trigger `PendingNavigation.setBookmarked()` was removed as dead code; the `.bookmarked` scope remains a live option selectable directly inside Targeted Review.)
 
 ## Global state (coordinators)
 

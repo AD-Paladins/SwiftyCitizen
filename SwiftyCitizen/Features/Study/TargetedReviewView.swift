@@ -148,7 +148,7 @@ struct TargetedReviewView: View {
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .background(palette.canvas.ignoresSafeArea())
-        // Home/Progress may request a specific scope (Bookmarked) or topic; open it and clear.
+        // Home/Progress may request a specific scope or topic; open it and clear.
         .onAppear {
             // A direct review entry (session summary) opens straight at the low-accuracy set; the
             // Progress deep link still selects its scope via pendingNavigation.

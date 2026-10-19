@@ -23,10 +23,6 @@ final class PendingNavigation {
     /// Progress's weak-spots count), so the deck matches the number the tab reported.
     var weakStableIDs: Set<String>?
 
-    func setBookmarked() {
-        reviewScope = .bookmarked
-    }
-
     func setScopedTopic(_ topic: String) {
         scopedTopic = topic
     }
