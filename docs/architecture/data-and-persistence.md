@@ -27,6 +27,7 @@ erDiagram
 - `init` and `update(from:)` use `precondition(configuration.isValid)` — invalid configs cannot persist.
 - `ContentView` reads `savedConfigurations.first` to pick Welcome vs MainTab.
 - `shuffleQuestions` is stored as a nullable column so stores created before it existed migrate cleanly; `.configuration` defaults a missing value to `false`. The shuffle flag flows from here into the `shuffleEnabled:` argument of `selectQuestions(...)` / `makeState(...)` for flashcards and mock tests.
+- `dailyReviewGoal` is the user-configurable daily review target (distinct questions reviewed today), default `15`. It drives the hero ring's goal via `HomeDashboardView.goal` and is edited in `TestConfigurationView` with per-version preset pills; a value outside the active version's presets falls back to `15` through the view's `effectiveDailyGoal`. Optional/defaulted so stores created before it migrate cleanly.
 
 ### StudySession
 
@@ -77,6 +78,7 @@ erDiagram
 `StudyProgressMetrics` (pure, SwiftData-free) consumes `QuestionAttempt.snapshot`:
 
 - `reviewedToday` — answered today.
+- `distinctReviewedToday` — distinct question IDs answered today (re-review does not inflate); drives the hero ring's daily goal.
 - `coverage` — distinct question IDs per version.
 - `dueCount` — scheduler-based (unseen cards first, then most-overdue) via `SpacedRepetitionScheduler.dueCards`; the single app-wide "due".
 - `gotItRate` — *self-assessed* attempts only; mock-test attempts (nil assessment) excluded.

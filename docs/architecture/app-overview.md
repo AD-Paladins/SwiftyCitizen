@@ -22,7 +22,15 @@ SwiftyCitizen is a SwiftUI + SwiftData app. The root decides between onboarding 
 | practice | Practice | mic | `PracticeView` |
 | progress | Progress | chart.bar | `ProgressTabView` (placeholder empty state) |
 
-`HomeDashboardView` receives a `@Binding selectedTab` so its cards (`Start review`, due-next) can switch the user to the Study tab programmatically. It also opens the Bookmarked scope: on tap it sets `PendingNavigation.reviewScope = .bookmarked` and selects the Study tab.
+`HomeDashboardView` renders the **Daily Launchpad** — a greeting header (a track badge with the active version + bank size, plus a fire streak pill) followed by five sections:
+
+1. **Estimated USCIS Interview** — a date estimate derived from the filing date via `USCISDateEstimates.estimatedInterviewDate(filingDate:)`, or an unavailable state when no filing date is set.
+2. **Ready for today's drill** (hero) — a `RingGauge` driven by `StudyProgressMetrics.distinctReviewedToday` against the user-configurable daily goal (`configuration.dailyReviewGoal`), with a secondary excess arc when the goal is exceeded; a clamped progress strip and a "Start review" CTA that switches to the Study tab.
+3. **Quick Modes** — entry points for Oral Simulator and Listening Mode, both of which render `HomeComingSoonView` (not yet implemented).
+4. **Archival Memory Tip** — a gradient tip card.
+5. **Civics Fact of the Day** — a daily civics fact.
+
+The hero "Start review" CTA and the Civics brief both set `selectedTab = .study`; Quick Modes stay on the Home. (The older Bookmarked deep-link via `PendingNavigation.setBookmarked()` still exists in the coordinator and is consumed by `TargetedReviewView`, but the Daily Launchpad no longer exposes a Bookmarked card.)
 
 ## Global state (coordinators)
 
