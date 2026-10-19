@@ -16,6 +16,7 @@ struct OnboardingConfiguration: Codable, Hashable {
     var isSixtyFiveTwentyEligible: Bool
     var disclaimerAccepted: Bool
     var shuffleQuestions: Bool
+    var dailyReviewGoal: Int = 15
 
     var derivedTestVersion: USCISTestVersion? {
         if isSixtyFiveTwentyEligible {

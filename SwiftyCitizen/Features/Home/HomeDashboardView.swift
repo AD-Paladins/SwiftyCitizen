@@ -10,10 +10,9 @@ struct HomeDashboardView: View {
     private var palette: AppPalette { themeManager.palette }
     @Query private var attempts: [QuestionAttempt]
 
-    // Default daily review goal. Kept hardcoded for now — surface this as a user-configurable
-    // setting once the habit loop has real data to back a sensible default.
-    // ponytail: hardcoded 15; make it configurable (e.g. Settings) when the daily-goal feature lands.
-    private let dailyGoal = 15
+    /// User-configurable daily review goal (distinct questions reviewed today). Read from the
+    /// persisted OnboardingConfiguration; clamped to at least 1 so the ring math never divides by zero.
+    private var goal: Int { max(1, configuration.dailyReviewGoal) }
 
     /// Mocked listening-mode queue size. No listening logic exists yet; this is placeholder metadata.
     private let mockedQueueCount = 18
@@ -23,7 +22,7 @@ struct HomeDashboardView: View {
     }
 
     private var reviewedToday: Int {
-        StudyProgressMetrics.reviewedToday(attempts: snapshots)
+        StudyProgressMetrics.distinctReviewedToday(attempts: snapshots)
     }
 
     private var streak: Int {
@@ -52,7 +51,13 @@ struct HomeDashboardView: View {
 
     /// Fraction of the daily goal reviewed today, clamped to 1.0 so the ring never overflows.
     private var progressFraction: Double {
-        min(1.0, Double(reviewedToday) / Double(dailyGoal))
+        min(1.0, Double(reviewedToday) / Double(goal))
+    }
+
+    /// How far past the daily goal today is, as a fraction of the goal (0 when at or below). Drives
+    /// the secondary "excess" arc on the hero ring so overshooting is visible without inflating progress.
+    private var excessRatio: Double {
+        max(0.0, Double(reviewedToday) - Double(goal)) / Double(goal)
     }
 
     private var greeting: String {
@@ -243,7 +248,7 @@ struct HomeDashboardView: View {
                         .foregroundStyle(palette.onPrimary)
                 }
                 Spacer()
-                RingGauge(fraction: progressFraction, text: "\(reviewedToday) of \(dailyGoal)")
+                RingGauge(fraction: progressFraction, excessFraction: excessRatio, text: "\(reviewedToday) of \(goal)")
             }
 
             heroProgressStrip
@@ -334,7 +339,7 @@ struct HomeDashboardView: View {
     }
 
     private var sessionLine: Text {
-        Text("\(String(localized: "heroSessionPrefix")) \(reviewedToday) \(String(localized: "commonOf")) \(dailyGoal)")
+        Text("\(String(localized: "heroSessionPrefix")) \(reviewedToday) \(String(localized: "commonOf")) \(goal)")
     }
 
     // MARK: - H3: Quick Modes
@@ -517,9 +522,9 @@ enum HomeArchivalTips {
 }
 
 struct RingGauge: View {
-    let fraction: Double
+    let fraction: Double      // main progress, 0...1 (caller clamps)
+    let excessFraction: Double // how far past goal as a fraction of goal; 0 when at/below goal
     let text: String
-
     @Environment(ThemeManager.self) private var themeManager
     private var palette: AppPalette { themeManager.palette }
 
@@ -532,6 +537,12 @@ struct RingGauge: View {
                 .trim(from: 0, to: max(0.0, min(1.0, fraction)))
                 .stroke(palette.tertiary, style: StrokeStyle(lineWidth: 6.5, lineCap: .round))
                 .rotationEffect(.degrees(-90))
+            if excessFraction > 0 {
+                Circle()
+                    .trim(from: 1.0, to: min(2.0, 1.0 + excessFraction))
+                    .stroke(palette.warning, style: StrokeStyle(lineWidth: 6.5, lineCap: .round))
+                    .rotationEffect(.degrees(-90))
+            }
             Text(text)
                 .font(CivicText.headlineSM.font.weight(.bold))
                 .foregroundStyle(palette.onPrimary)

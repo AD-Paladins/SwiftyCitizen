@@ -132,6 +132,26 @@
         }
       }
     },
+    "configDailyGoalNote" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How many questions you aim to review each day. The ring fills as you progress; going past shows a second arc."
+          }
+        }
+      }
+    },
+    "configDailyGoalTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily review goal"
+          }
+        }
+      }
+    },
     "configDisclaimerToggle" : {
       "localizations" : {
         "en" : {

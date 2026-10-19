@@ -70,6 +70,16 @@ enum StudyProgressMetrics {
         attempts.filter { calendar.isDate($0.answeredAt, inSameDayAs: now) }.count
     }
 
+    /// Distinct questions reviewed today (one count per `stableID`), so re-reviewing the same
+    /// question does not inflate the daily-progress ring.
+    static func distinctReviewedToday(
+        attempts: [StudyAttemptSnapshot],
+        now: Date = .now,
+        calendar: Calendar = .current
+    ) -> Int {
+        Set(attempts.filter { calendar.isDate($0.answeredAt, inSameDayAs: now) }.map(\.stableID)).count
+    }
+
     static func coverage(
         attempts: [StudyAttemptSnapshot],
         for version: USCISTestVersion
