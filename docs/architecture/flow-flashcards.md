@@ -8,9 +8,9 @@ The flashcard flow is the base study loop: one official question at a time, the 
 2. Question shows + `Your answer` input; the learner types a reply.
 3. `Reveal answer` → official answers appear next to the learner's own answer (side by side, no automated verdict).
 4. Self-assess:
-   - `Again` → re-presents the same question for a fresh attempt (does not advance, records no attempt).
+   - `Again` → re-presents the same question for a fresh attempt (does not advance; records a box-1 miss so the Leitner scheduler, review decks, and Progress buckets see it).
    - `Hard` / `Got it` → marks the card and advances.
-5. Last question → `SessionSummaryView` → done.
+5. Last question → `SessionSummaryView` (per-assessment counts, weak topics + one next action) → done.
 
 ## Details
 
@@ -22,6 +22,7 @@ The flashcard flow is the base study loop: one official question at a time, the 
 | Version source | `configuration.selectedTestVersion` → `QuestionBankLoader` |
 | Bookmark toggle | `FlashcardSessionHeader` shows a bookmark button (right of the box/flame) only while a question is on screen; toggling adds/removes a `Bookmark` scoped to the active test version. The query lives in `FlashcardSessionView` (`@Query` + version filter); the pure builder never touches SwiftData |
 | Close UX | Ending the session uses an `.alert` (not a confirmation dialog) |
+| Session summary | `SessionSummaryView` renders per-assessment counts plus, only when the session produced weak cards, a "Weak topics" section and one next action. Weakness is computed by `SessionWeakTopics` from `state.attempts` + `state.questions` (map stableID → topic; a card is weak on a `.again` miss or a per-card `.gotIt` success rate ≤ 0.5, the same threshold Progress uses). The action is a `NavigationLink` to `TargetedReviewView(configuration:weakCards:)` opened straight at the `.lowAccuracy` set — reused across both flashcard origins (Study + mock-test) without the cross-stack `PendingNavigation` dance |
 
 ## State machine
 
@@ -39,7 +40,7 @@ flowchart LR
 
 - `reveal()` sets `isRevealed`; no auto-advance.
 - `recordAnswer(_:)` stores the learner's typed reply (trimmed; blank becomes nil) in `currentAnswer`. The view calls it on `Reveal`, before `reveal()`.
-- `assess(_ assessment:)` branches on the choice: `.again` re-presents (resets `isRevealed`/`currentAnswer`, advances nothing, records no attempt, and drops the card to box 1); `.hard`/`.gotIt` record the attempt with the captured `answerText`, advance `currentIndex`, reset `isRevealed`/`currentAnswer`, and move the card's Leitner box forward via `LeitnerScheduler.nextBox(after:currentBox:)`. The final confirmation is what marks the card.
+  - `assess(_ assessment:)` branches on the choice: `.again` re-presents (resets `isRevealed`/`currentAnswer`, advances nothing, records a box-1 miss — an attempt with assessment `.again` and `boxLevel 1` — and drops the card to box 1); `.hard`/`.gotIt` record the attempt with the captured `answerText`, advance `currentIndex`, reset `isRevealed`/`currentAnswer`, and move the card's Leitner box forward via `LeitnerScheduler.nextBox(after:currentBox:)`. The final confirmation is what marks the card.
 - Box progression is the Leitner retention scheduler (see `LeitnerScheduler`): each question tracks its current box in `FlashcardState.boxes`; `.again` resets it to 1, `.hard`/`.gotIt` advance it one step per the scheduler's intervals. The UI surfaces `state.currentBox` as "Leitner box N".
 - `seek(to:)` and `restore(attempts:)` support resuming an interrupted session; `seek` clears any in-progress answer. `restore` rebuilds both `attempts` and `boxes` from each record's `boxLevel` (later attempts for the same card override earlier ones, so the last box wins).
 - Questions are selected with order preserved from the bank unless `shuffleQuestions` is enabled in settings, in which case they are shuffled via `selectQuestions(from:maximum:shuffleEnabled:)`.
@@ -62,7 +63,7 @@ flowchart TD
 
 - The relationship `StudySession.attempts` is an unordered to-many; resume and metrics never assume attempt order (tests use dictionary/set lookups, not indices).
 - Self-assessment is learner-reported and never presented as a passing score; "Got it" rate is labeled as a rate, not accuracy.
-- `Again` re-presents without recording an attempt, so repeated retries do not pollute `gotItRate` and a card that was never confirmed stays `Due` (see `ReviewDeckBuilder`) until the learner confirms `Hard`/`Got it`.
+- `Again` re-presents without advancing and records a box-1 miss (an attempt with assessment `.again`, which never counts toward "Got it"), so a card that was never confirmed stays `Due` (see `ReviewDeckBuilder`) until the learner confirms `Hard`/`Got it`.
 - `QuestionAttempt` uses a `rawValue` string for `SelfAssessment`; unknown values decode to nil and are skipped by metrics.
 - Exiting without answers deletes the session; exiting after answers marks it ended (`endedAt`).
 - The session marks itself active in `SessionActivityCoordinator` on appear and inactive on disappear (and self-dismisses if the coordinator flips off), so switching tabs mid-session prompts to end first.
@@ -76,8 +77,8 @@ flowchart TD
 - [ ] Reveal does not auto-advance.
 - [ ] Each assessment persists one `QuestionAttempt` on the session.
 - [x] The learner can type their own answer before reveal; it is captured in `FlashcardState.currentAnswer`, stored in `QuestionAttempt.answerText`, and shown side by side with the official answer (no verdict).
-- [x] `Again` re-presents the same question for a fresh attempt without advancing or recording; only `Hard`/`Got it` mark the card and advance.
+- [x] `Again` re-presents the same question for a fresh attempt without advancing, and records a box-1 miss (assessment `.again`); only `Hard`/`Got it` mark the card and advance.
 - [ ] Interrupted sessions resume to the saved position.
-- [ ] Summary shows per-assessment counts.
+- [x] Summary shows per-assessment counts, plus a "Weak topics" section and one next action (the low-accuracy queue) only when the session produced weak cards.
 - [ ] Dashboard Today/Due figures change after assessment.
 - [x] Missed-question review renders the learner's own wrong answer next to the official answer, color-coded by verdict.

@@ -4,6 +4,7 @@ import SwiftData
 struct MockTestResultView: View {
     let configuration: OnboardingConfiguration
     let state: MockTestState
+    let session: StudySession?
     let missedQuestions: [QuestionContent]
     let userAnswers: [String: String]
     let onFinish: () -> Void
@@ -101,7 +102,8 @@ struct MockTestResultView: View {
         guard let version = configuration.selectedTestVersion else { return [] }
         let bank = (try? QuestionBankLoader().load(version: version)) ?? []
         let bankByID = Dictionary(uniqueKeysWithValues: bank.map { ($0.stableID, $0) })
-        return state.skippedIDs.compactMap { bankByID[$0] }
+        // Skips are read from the persisted session so they survive relaunch, not in-memory state.
+        return (session?.skippedStableIDs ?? []).compactMap { bankByID[$0] }
     }
 
     @ViewBuilder
@@ -128,16 +130,16 @@ struct MockTestResultView: View {
                 filingDate: Date(),
                 selectedTestVersion: .twoThousandTwentyFive,
                 isSixtyFiveTwentyEligible: false,
-                studyLanguage: .english,
                 disclaimerAccepted: true,
                 shuffleQuestions: false
             ),
             state: .init(
-                questions: [],
-                maximumQuestionsAsked: 10,
-                passingScore: 6
-            ),
-            missedQuestions: [],
+                 questions: [],
+                 maximumQuestionsAsked: 10,
+                 passingScore: 6
+             ),
+             session: nil,
+             missedQuestions: [],
              userAnswers: [:],
              onFinish: {}
         )

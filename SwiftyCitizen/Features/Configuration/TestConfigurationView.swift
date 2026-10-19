@@ -10,16 +10,16 @@ struct TestConfigurationView: View {
 
     @State private var filingDate: Date
     @State private var isSixtyFiveTwentyEligible: Bool
-    @State private var studyLanguage: StudyLanguage?
     @State private var disclaimerAccepted: Bool
     @State private var shuffleQuestions: Bool
+    @State private var dailyReviewGoal: Int
 
     init(configuration: OnboardingConfiguration? = nil) {
         _filingDate = State(initialValue: configuration?.filingDate ?? Date())
         _isSixtyFiveTwentyEligible = State(initialValue: configuration?.isSixtyFiveTwentyEligible ?? false)
-        _studyLanguage = State(initialValue: configuration?.studyLanguage)
         _disclaimerAccepted = State(initialValue: configuration?.disclaimerAccepted ?? false)
         _shuffleQuestions = State(initialValue: configuration?.shuffleQuestions ?? false)
+        _dailyReviewGoal = State(initialValue: configuration?.dailyReviewGoal ?? 15)
     }
 
     private var configuration: OnboardingConfiguration {
@@ -27,9 +27,9 @@ struct TestConfigurationView: View {
             filingDate: filingDate,
             selectedTestVersion: derivedVersion,
             isSixtyFiveTwentyEligible: isSixtyFiveTwentyEligible,
-            studyLanguage: studyLanguage,
             disclaimerAccepted: disclaimerAccepted,
-            shuffleQuestions: shuffleQuestions
+            shuffleQuestions: shuffleQuestions,
+            dailyReviewGoal: effectiveDailyGoal
         )
     }
 
@@ -37,6 +37,19 @@ struct TestConfigurationView: View {
         isSixtyFiveTwentyEligible
             ? .sixtyFiveTwenty
             : (filingDate < OnboardingConfiguration.testVersionChangeDate ? .twoThousandEight : .twoThousandTwentyFive)
+    }
+
+    /// Preset daily-goal options for the current bank. Linked to the version so the 20-question
+    /// 65/20 set caps at 20 while the larger banks keep the standard set.
+    private var currentPresets: [Int] {
+        TestConfiguration.dailyGoalPresets(for: derivedVersion)
+    }
+
+    /// The stored goal may not belong to the current bank's preset set (e.g. 45 on the 20-question
+    /// 65/20 set). Fall back to the universal default every set accepts, so the ring and the saved
+    /// value never use an impossible goal.
+    private var effectiveDailyGoal: Int {
+        currentPresets.contains(dailyReviewGoal) ? dailyReviewGoal : 15
     }
 
     private var validationMessage: String? {
@@ -47,8 +60,6 @@ struct TestConfigurationView: View {
             "configFilingDateInFuture"
         case .missingTestVersion:
             "configMissingTestVersion"
-        case .missingStudyLanguage:
-            "configMissingStudyLanguage"
         case .disclaimerNotAccepted:
             "configDisclaimerNotAccepted"
         case .selectedVersionDoesNotMatchFilingDate(let expected, let actual):
@@ -147,6 +158,39 @@ struct TestConfigurationView: View {
                 }
                 
                 ConfigCard {
+                    VStack(alignment: .leading, spacing: Space.sm.value) {
+                        Text("configDailyGoalTitle")
+                            .font(CivicText.headlineSM.font)
+                            .foregroundStyle(palette.primary)
+                            .tint(palette.primary)
+                        Text("configDailyGoalNote")
+                            .font(CivicText.bodySM.font)
+                            .foregroundStyle(palette.dimmed)
+                            .multilineTextAlignment(.leading)
+
+                        HStack(spacing: Space.sm.value) {
+                            ForEach(currentPresets, id: \.self) { preset in
+                                Button {
+                                    dailyReviewGoal = preset
+                                } label: {
+                                    Text("\(preset)")
+                                        .font(CivicText.labelSM.font.weight(.semibold))
+                                        .monospacedDigit()
+                                        .foregroundStyle(effectiveDailyGoal == preset ? palette.onSecondary : palette.ink)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 10)
+                                        .background(
+                                            effectiveDailyGoal == preset ? palette.primary : palette.surfaceVariant,
+                                            in: RoundedRectangle(cornerRadius: 12, style: .circular)
+                                        )
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                    }
+                }
+
+                ConfigCard {
                     HStack(alignment: .center, spacing: Space.md.value) {
                         Image(systemName: "shuffle")
                             .foregroundStyle(palette.primary)
@@ -173,34 +217,6 @@ struct TestConfigurationView: View {
                     }
                 }
                 
-                HStack(alignment: .center, spacing: Space.sm.value) {
-                    Image(systemName: "character.book.closed")
-                        .foregroundStyle(palette.primary)
-                        .font(.system(size: 18, weight: .semibold, design: .rounded))
-                    Text("configLanguageSettings")
-                        .font(CivicText.bodyMD.font)
-                        .foregroundStyle(palette.dimmed)
-                }
-
-                ConfigCard(topPadding: Space.xs.value) {
-                    HStack(alignment: .center, spacing: Space.md.value) {
-                        Image(systemName: "globe")
-                            .foregroundStyle(palette.primary)
-                            .font(.system(size: 18, weight: .semibold, design: .rounded))
-                        VStack(alignment: .leading, spacing: Space.sm.value) {
-                            Text("configStudyLanguageSection")
-                                .font(CivicText.labelMD.font)
-                                .foregroundStyle(palette.dimmed)
-                            Picker("configStudySupportLabel", selection: $studyLanguage) {
-                                Text(String(localized: "configChooseALanguage")).tag(nil as StudyLanguage?)
-                                ForEach(StudyLanguage.allCases) { language in
-                                    Text(language.displayName).tag(language as StudyLanguage?)
-                                }
-                            }
-                        }
-                    }
-                }
-
                 ConfigCard {
                     Toggle("configDisclaimerToggle", isOn: $disclaimerAccepted)
                         .tint(palette.primary)
@@ -220,6 +236,9 @@ struct TestConfigurationView: View {
         .background(palette.canvas.ignoresSafeArea())
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: derivedVersion.rawValue) { _, _ in
+            dailyReviewGoal = effectiveDailyGoal
+        }
     }
 
     private func saveConfiguration() {
@@ -288,13 +307,12 @@ struct SaveSection: View {
 #Preview {
     NavigationStack {
         TestConfigurationView(configuration: OnboardingConfiguration(
-            filingDate: Date(),
-            selectedTestVersion: .twoThousandTwentyFive,
-            isSixtyFiveTwentyEligible: false,
-            studyLanguage: .spanish,
-            disclaimerAccepted: true,
-            shuffleQuestions: false
-        ))
+             filingDate: Date(),
+             selectedTestVersion: .twoThousandTwentyFive,
+             isSixtyFiveTwentyEligible: false,
+             disclaimerAccepted: true,
+             shuffleQuestions: false
+         ))
     }
     .environment(ThemeManager())
 }

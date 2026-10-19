@@ -72,9 +72,10 @@ struct TargetedReviewTests {
     func dueSurfacesUnseenFirstThenMostOverdue() {
         // a=.gotIt advances to box 2 (1-day interval, not yet due); b=.again resets to box 1 (due now).
         let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]
+        // a=.gotIt left the card in box 2 (not yet due); b=.again left it in box 1 (due now).
         let attempts = [
-            snapshot(id: "a", assessment: .gotIt),
-            snapshot(id: "b", assessment: .again),
+            snapshot(id: "a", assessment: .gotIt, boxLevel: 2),
+            snapshot(id: "b", assessment: .again, boxLevel: 1),
         ]
 
         let due = ReviewDeckBuilder.build(questions: questions, attempts: attempts, scope: .due)
@@ -96,7 +97,8 @@ struct TargetedReviewTests {
     @Test
     func scopeCountsMatchDeckSize() {
         let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]
-        let attempts = [snapshot(id: "a", assessment: .gotIt)]
+        // a=.gotIt left the card in box 2 → not due yet; b, c are unseen.
+        let attempts = [snapshot(id: "a", assessment: .gotIt, boxLevel: 2)]
 
         #expect(ReviewDeckBuilder.questionCount(questions: questions, attempts: attempts, scope: .due) == 2)
         #expect(ReviewDeckBuilder.questionCount(questions: questions, attempts: attempts, scope: .unanswered) == 2)
@@ -225,7 +227,8 @@ struct TargetedReviewTests {
             makeQuestion(id: "two", topic: "Government"),
             makeQuestion(id: "three", topic: "History"),
         ]
-        let attempts = [snapshot(id: "three", assessment: .gotIt)]
+        // three=.gotIt left the card in box 2 → not due; one, two are unseen (Government).
+        let attempts = [snapshot(id: "three", assessment: .gotIt, boxLevel: 2)]
 
         let summary = ReviewDeckBuilder.categorySummary(
             questions: questions,
@@ -410,6 +413,51 @@ struct TargetedReviewTests {
     }
 
     @Test
+    func lowAccuracyWithExplicitIdsReturnsExactlyThoseCards() {
+        // The Progress tab counts three weak cards and must open exactly those — not a differently
+        // defined deck (this is the D8 count/CTA mismatch fix).
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c"), makeQuestion(id: "d")]
+
+        let deck = ReviewDeckBuilder.build(
+            questions: questions,
+            attempts: [],
+            scope: .lowAccuracy,
+            weakStableIDs: ["b", "d", "a"]
+        )
+
+        #expect(deck.map(\.stableID) == ["a", "b", "d"])   // bank order, exactly the weak set
+    }
+
+    @Test
+    func lowAccuracyCountMatchesExplicitIdDeck() {
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b"), makeQuestion(id: "c")]
+
+        #expect(
+            ReviewDeckBuilder.questionCount(
+                questions: questions,
+                attempts: [],
+                scope: .lowAccuracy,
+                weakStableIDs: ["c"]
+            ) == 1
+        )
+    }
+
+    @Test
+    func lowAccuracyFallbackUsesLowPerCardAccuracy() {
+        // Without explicit IDs the manual scope falls back to attempted cards whose per-card
+        // accuracy is at or below the low-accuracy threshold.
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b")]
+        let attempts = [
+            StudyAttemptSnapshot(stableID: "a", testVersion: .twoThousandTwentyFive, assessment: nil, wasCorrect: false, answeredAt: Date()),
+            StudyAttemptSnapshot(stableID: "b", testVersion: .twoThousandTwentyFive, assessment: nil, wasCorrect: true, answeredAt: Date()),
+        ]
+
+        let deck = ReviewDeckBuilder.build(questions: questions, attempts: attempts, scope: .lowAccuracy)
+
+        #expect(deck.map(\.stableID) == ["a"])   // 0/1 included; 1/1 excluded
+    }
+
+    @Test
     func bookmarkPersistsIndependentlyOfSessions() throws {
         let modelContainer = try ModelContainer(
             for: Bookmark.self,
@@ -425,19 +473,20 @@ struct TargetedReviewTests {
         #expect(fetched.count == 1)
         #expect(fetched.first?.questionStableID == "a")
         #expect(fetched.first?.testVersionRawValue == USCISTestVersion.twoThousandTwentyFive.rawValue)
-        #expect(fetched.first?.createdAt != nil)
     }
 
     private func snapshot(
         id: String,
         assessment: SelfAssessment,
-        at date: Date = Date()
+        at date: Date = Date(),
+        boxLevel: Int? = nil
     ) -> StudyAttemptSnapshot {
         StudyAttemptSnapshot(
             stableID: id,
             testVersion: .twoThousandTwentyFive,
             assessment: assessment,
-            answeredAt: date
+            answeredAt: date,
+            boxLevel: boxLevel
         )
     }
 

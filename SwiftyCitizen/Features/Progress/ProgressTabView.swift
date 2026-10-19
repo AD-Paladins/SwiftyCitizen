@@ -15,159 +15,407 @@ struct ProgressTabView: View {
     @Query private var sessions: [StudySession]
     private var palette: AppPalette { themeManager.palette }
 
+    /// Drives the hero's secondary actions. The mistakes screen doesn't exist yet, so this routes
+    /// to a placeholder until the real window is built (see task tracker).
+    @State private var mistakesRoute: HeroRoute? = nil
+
+    private enum HeroRoute: Hashable {
+        case mistakes
+    }
+
+    // MARK: - Data layer (unchanged)
+
     private var snapshots: [StudyAttemptSnapshot] {
         sessions.flatMap(\.attempts).compactMap(\.snapshot)
     }
 
-    /// stableID -> topic, resolved once from the bundled bank. The domain stays pure; the view
-    /// only presents what `coverageByTopic` returns.
-    private var topicIndex: [String: String] {
-        guard let version = configuration.selectedTestVersion else { return [:] }
-        let questions = (try? QuestionBankLoader().load(version: version)) ?? []
-        return Dictionary(uniqueKeysWithValues: questions.map { ($0.stableID, $0.topic) })
+    /// The version's question bank, loaded once and reused everywhere: the topic index, the
+    /// scheduler buckets, and the weak-spot analytics. A single load site keeps the file read +
+    /// JSON decode from happening once per derived value.
+    private var loadedBank: [QuestionContent] {
+        guard let version = bankVersion else { return [] }
+        return (try? QuestionBankLoader().load(version: version)) ?? []
     }
 
-    private var topicCoverage: [TopicCoverage] {
-        guard let version = configuration.selectedTestVersion else { return [] }
-        return StudyProgressMetrics.coverageByTopic(
-            attempts: snapshots,
-            for: version,
-            topicIndex: topicIndex
+    /// stableID -> topic, derived from the single loaded bank. The domain stays pure; the view
+    /// only presents what `accuracyByDomain` returns.
+    private var topicIndex: [String: String] {
+        Dictionary(uniqueKeysWithValues: loadedBank.map { ($0.stableID, $0.topic) })
+    }
+
+    /// stableID -> question, so weak-spot rows can show the question text instead of the raw ID.
+    private var questionIndex: [String: QuestionContent] {
+        Dictionary(uniqueKeysWithValues: bankQuestions.map { ($0.stableID, $0) })
+    }
+
+    // MARK: - Version-scoped helpers
+
+    private var testConfiguration: TestConfiguration? { configuration.testConfiguration }
+
+    private var bankVersion: USCISTestVersion? { configuration.selectedTestVersion }
+
+    /// The version's question bank, loaded once and reused for scheduler + weak-spot analytics.
+    private var bankQuestions: [QuestionContent] {
+        loadedBank
+    }
+
+    private var bankCount: Int { testConfiguration?.questionBankCount ?? 0 }
+
+    /// Total questions per topic in the active version's bank (drives "X of Y Qs" per topic).
+    private var topicTotals: [String: Int] {
+        bankQuestions.reduce(into: [:]) { $0[$1.topic, default: 0] += 1 }
+    }
+
+    private var versionName: String {
+        configuration.selectedTestVersion?.displayName ?? ""
+    }
+
+    /// Distinct cards reviewed for the active version (drives "X of M seen").
+    private var versionReviewedCount: Int {
+        guard let version = bankVersion else { return 0 }
+        return Set(snapshots.filter { $0.testVersion == version }.map(\.stableID)).count
+    }
+
+    /// Whether there is any attempt data for the active version (drives the version-scoped empty state).
+    private var hasVersionData: Bool {
+        guard let version = bankVersion else { return false }
+        return snapshots.contains { $0.testVersion == version }
+    }
+
+    // MARK: - Domain analytics (ProgressAnalytics)
+
+    private var buckets: ProgressAnalytics.Buckets {
+        guard let config = testConfiguration else {
+            return ProgressAnalytics.Buckets(graduated: 0, inReview: 0, needsCare: 0)
+        }
+        // Pass the version bank so `inReview` runs the scheduler-based due-card count.
+        return ProgressAnalytics.buckets(attempts: snapshots, for: config, questions: bankQuestions)
+    }
+
+    private var accuracyByDomainData: [(topic: String, accuracy: Double?, count: Int)] {
+        guard let version = bankVersion else { return [] }
+        return ProgressAnalytics.accuracyByDomain(attempts: snapshots, topicIndex: topicIndex, for: version)
+    }
+
+    /// Overall accuracy for the active version (correct / total attempts), for the breakdown header.
+    private var overallAccuracyValue: Double? {
+        guard let version = bankVersion else { return nil }
+        return ProgressAnalytics.overallAccuracy(attempts: snapshots, for: version)
+    }
+
+    /// Accuracy trend over the last two 14-day windows, for the breakdown header pill.
+    private var accuracyTrendValue: ProgressAnalytics.AccuracyTrend {
+        guard let version = bankVersion else { return .unknown }
+        return ProgressAnalytics.accuracyTrend(attempts: snapshots, for: version)
+    }
+
+    /// Attempted topics (determinate accuracy only) for the breakdown rows. Topics with no
+    /// determinate accuracy are excluded — they still surface in the carousel as "Needs review".
+    private var breakdownRows: [TopicCoverageRow] {
+        coverageRows.filter { $0.accuracy != nil }
+    }
+
+    private var weakSpotsData: [ProgressAnalytics.WeakSpot] {
+        guard let version = bankVersion else { return [] }
+        return ProgressAnalytics.weakSpots(attempts: snapshots, questions: bankQuestions, version: version)
+    }
+
+    private var streakCount: Int {
+        StudyProgressMetrics.streak(attempts: snapshots)
+    }
+
+    // MARK: - Honest mock-test summary (last result for the active version)
+
+    /// The most recent completed mock test for the active version, or nil when none exists.
+    private var lastMockTest: StudySession? {
+        guard let version = bankVersion else { return nil }
+        return sessions
+            .filter { $0.mode == .mockTest && $0.endedAt != nil && $0.testVersion == version }
+            .max { lhs, rhs in
+                (lhs.endedAt ?? .distantPast) < (rhs.endedAt ?? .distantPast)
+            }
+    }
+
+    /// Score + pass/fail for that mock test. The view selects the session; `MockTestResult` owns
+    /// only the arithmetic so it stays unit-testable without SwiftData.
+    private var lastMockTestResult: MockTestResult? {
+        guard let session = lastMockTest, let config = testConfiguration else { return nil }
+        let correct = session.attempts.filter { $0.wasCorrect == true }.count
+        return MockTestResult(
+            asked: session.deckStableIDs.count,
+            correct: correct,
+            passingScore: config.passingScore
         )
     }
 
-    private var reviewedCount: Int {
-        Set(snapshots.map(\.stableID)).count
-    }
-
-    private var sessionsThisWeek: Int {
-        let weekStart = Calendar.current.date(
-            from: Calendar.current.dateComponents([.year, .weekOfYear], from: Date())
-        ) ?? Date()
-        return sessions.filter { $0.startedAt >= weekStart }.count
-    }
+    // MARK: - Body
 
     var body: some View {
-        if snapshots.isEmpty {
+        if !hasVersionData {
             emptyState
         } else {
             NavigationStack {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: Space.xl.value) {
-                        readinessHero
+                    VStack(alignment: .leading, spacing: Space.lg.value) {
+                        LatestMockTestHero(
+                            result: lastMockTestResult,
+                            coverage: "\(versionReviewedCount) \(String(localized: "commonOf")) \(bankCount) \(String(localized: "progressMockSeen"))",
+                            date: lastMockTest?.endedAt.map { $0.formatted(.dateTime.day().month().year()) },
+                            onRetake: { selectedTab = .practice },
+                            onMistakes: { mistakesRoute = .mistakes }
+                        )
 
-                        coverageMap
+                        masteryBuckets
 
-                        momentumStrip
+                        topicCoverageSection
+
+                        accuracyBreakdownSection
+
+                        weakSpotsSection
+
+                        momentumSection
                     }
                     .padding(Space.lg.value)
                 }
                 .scrollContentBackground(.hidden)
                 .background(palette.canvas.ignoresSafeArea())
                 .navigationTitle("progressTitle")
+                .navigationDestination(item: $mistakesRoute) { _ in
+                    mistakesComingSoon
+                }
             }
         }
     }
 
-    /// Look-back readiness: mirrors Home's `readinessHeroCard` using the same metrics.
-    private var readinessHero: some View {
-        if let testConfiguration = configuration.testConfiguration,
-           let percentage = StudyProgressMetrics.readinessPercentage(
-               attempts: snapshots,
-               configuration: testConfiguration
-           ) {
-            heroContent(percentage: percentage, total: testConfiguration.questionBankCount)
-        } else {
-            heroContent(percentage: 0, total: 0)
+    /// Placeholder for the mistakes screen — the real window doesn't exist yet (see task tracker).
+    /// The hero's Mistakes button is wired to this so it is functional and testable now.
+    private var mistakesComingSoon: some View {
+        VStack(spacing: Space.lg.value) {
+            Image(systemName: "book.fill")
+                .font(CivicText.headlineLG.font)
+                .foregroundStyle(palette.dimmed)
+            Text("progressMistakesComingSoon")
+                .font(CivicText.headlineSM.font)
+                .foregroundStyle(palette.ink)
         }
-    }
-
-    private func heroContent(percentage: Double, total: Int) -> some View {
-        let covered = Int((percentage * Double(total)).rounded())
-        return VStack(alignment: .leading, spacing: Space.lg.value) {
-            Text("homeReadinessLabel")
-                .font(CivicText.labelLG.font.weight(.semibold))
-                .foregroundStyle(palette.onPrimary)
-            HStack(alignment: .firstTextBaseline, spacing: Space.sm.value) {
-                Text("\(Int((percentage * 100).rounded()))%")
-                    .font(CivicText.metricDisplay.font)
-                    .foregroundStyle(palette.onPrimary)
-                Text("\(covered) \(String(localized: "commonOf")) \(total) \(String(localized: "unitQuestionsCoveredPlural"))")
-                    .font(CivicText.labelMD.font)
-                    .foregroundStyle(palette.onPrimary.opacity(0.85))
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity)
         .padding(Space.lg.value)
-        .background(palette.primary, in: RoundedRectangle(cornerRadius: Space.xl.value))
     }
 
-    private var coverageMap: some View {
+    // MARK: - 2. Mastery buckets row
+
+    private var masteryBuckets: some View {
+        HStack(spacing: Space.sm.value) {
+            bucketCell(
+                count: buckets.graduated,
+                label: "progressBucketGraduated",
+                meaning: "progressBucketGraduatedMeaning",
+                tint: palette.success
+            )
+            bucketCell(
+                count: buckets.inReview,
+                label: "progressBucketInReview",
+                meaning: "progressBucketInReviewMeaning",
+                tint: palette.warning
+            )
+            bucketCell(
+                count: buckets.needsCare,
+                label: "progressBucketNeedsCare",
+                meaning: "progressBucketNeedsCareMeaning",
+                tint: palette.danger
+            )
+        }
+    }
+
+    private func bucketCell(count: Int, label: LocalizedStringKey, meaning: LocalizedStringKey, tint: Color) -> some View {
+        VStack(alignment: .leading, spacing: Space.xs.value) {
+            Text("\(count)")
+                .font(CivicText.headlineLG.font)
+                .foregroundStyle(tint)
+                .monospacedDigit()
+            Text(label)
+                .font(CivicText.labelSM.font.weight(.semibold))
+                .foregroundStyle(palette.ink)
+            Text(meaning)
+                .font(CivicText.bodySM.font)
+                .foregroundStyle(palette.dimmed)
+           .multilineTextAlignment(.leading)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .padding(Space.md.value)
+        .cardStyle()
+    }
+
+    // MARK: - 3. Topic coverage
+
+    private var topicCoverageSection: some View {
+        TopicCoverageSection(rows: coverageRows) { topic in
+            openTopic(topic)
+        }
+    }
+
+    private var accuracyBreakdownSection: some View {
+        AccuracyBreakdownSection(
+            rows: breakdownRows,
+            overallAccuracy: overallAccuracyValue,
+            trend: accuracyTrendValue,
+            onTopicTap: openTopic
+        )
+    }
+
+    /// Every topic in the active version's bank (first-appearance order), each paired with its
+    /// attempted accuracy/count. Topics with no attempts report `accuracy == nil` / `seen == 0` so
+    /// the carousel can render their "Not started" cards — `accuracyByDomain` alone omits them.
+    private var coverageRows: [TopicCoverageRow] {
+        var order: [String] = []
+        var seenTopics = Set<String>()
+        for question in bankQuestions {
+            if seenTopics.insert(question.topic).inserted {
+                order.append(question.topic)
+            }
+        }
+        let attempted = Dictionary(uniqueKeysWithValues: accuracyByDomainData.map { ($0.topic, $0) })
+        return order.enumerated().map { index, topic in
+            if let row = attempted[topic] {
+                return TopicCoverageRow(
+                    topic: topic,
+                    accuracy: row.accuracy,
+                    seen: row.count,
+                    total: topicTotals[topic] ?? bankCount,
+                    orderIndex: index
+                )
+            }
+            return TopicCoverageRow(
+                topic: topic,
+                accuracy: nil,
+                seen: 0,
+                total: topicTotals[topic] ?? bankCount,
+                orderIndex: index
+            )
+        }
+    }
+
+    // MARK: - 4. Critical weak spots
+
+    private var weakSpotsSection: some View {
         VStack(alignment: .leading, spacing: Space.lg.value) {
-            ForEach(topicCoverage, id: \.topic) { coverage in
-                topicCard(coverage)
+            sectionHeader(
+                title: "progressWeakSpotsHeader",
+                subtitle: "\(weakSpotsData.count) \(String(localized: "progressWeakItems"))"
+            )
+
+            if weakSpotsData.isEmpty {
+                Text("progressWeakSpotsNone")
+                    .font(CivicText.bodyMD.font)
+                    .foregroundStyle(palette.dimmed)
+            } else {
+                VStack(spacing: 0) {
+                    ForEach(weakSpotsData, id: \.stableID) { spot in
+                        weakSpotRow(spot)
+                    }
+                }
+                .cardStyle()
+            }
+
+            if !weakSpotsData.isEmpty {
+                queueButton(count: weakSpotsData.count)
             }
         }
     }
 
-    private var momentumStrip: some View {
-        HStack(spacing: Space.md.value) {
-            SummaryMetricView(
-                value: "\(StudyProgressMetrics.streak(attempts: snapshots))",
-                label: "progressStreak"
-            )
-            SummaryMetricView(value: "\(reviewedCount)", label: "progressReviewed")
-            SummaryMetricView(value: "\(sessionsThisWeek)", label: "progressSessions")
-        }
-    }
-
-    private func topicCard(_ coverage: TopicCoverage) -> some View {
-        let attempted = coverage.mastered + coverage.due
-        let mastery = attempted > 0 ? Double(coverage.mastered) / Double(attempted) : 0
-        return VStack(alignment: .leading, spacing: Space.lg.value) {
-            HStack {
-                Text(coverage.topic)
-                    .font(CivicText.headlineSM.font)
-                    .foregroundStyle(palette.ink)
-                Spacer()
-                Text("\(Int((mastery * 100).rounded()))%")
+    private func weakSpotRow(_ spot: ProgressAnalytics.WeakSpot) -> some View {
+        let question = questionIndex[spot.stableID]?.officialQuestion ?? spot.stableID
+        return HStack(spacing: Space.sm.value) {
+            VStack(alignment: .leading, spacing: Space.xs.value) {
+                Text(question)
                     .font(CivicText.labelMD.font.weight(.semibold))
+                    .foregroundStyle(palette.ink)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(spot.topic)
+                    .font(CivicText.labelSM.font)
                     .foregroundStyle(palette.dimmed)
             }
-            ProgressView(value: mastery)
-                .tint(palette.primary)
-            HStack(spacing: Space.md.value) {
-                SummaryMetricView(
-                    value: "\(coverage.mastered)",
-                    label: "progressMastered",
-                    tint: palette.success
-                )
-                SummaryMetricView(
-                    value: "\(coverage.due)",
-                    label: "progressDue",
-                    tint: palette.warning
-                )
-                SummaryMetricView(
-                    value: "\(coverage.unseen)",
-                    label: "progressUnseen",
-                    tint: palette.dimmed
-                )
+            Spacer()
+            Text(accuracyText(spot.accuracy))
+                .font(CivicText.labelMD.font.weight(.semibold))
+                .foregroundStyle(palette.ink)
+                .monospacedDigit()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(Space.sm.value)
+        .background(palette.canvas.opacity(0.4))
+        .contentShape(Rectangle())
+        .onTapGesture { openTopic(spot.topic) }
+    }
+
+    private func queueButton(count: Int) -> some View {
+        return Button(action: queueWeakSpots) {
+            Text("\(count) \(String(localized: "progressQueueWeakItems"))")
+                .font(CivicText.labelMD.font.weight(.semibold))
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.bordered)
+        .controlSize(ControlSize.regular)
+        .tint(palette.primary)
+        .foregroundStyle(palette.primary)
+    }
+
+    // MARK: - 5. Study momentum (streak only)
+
+    private var momentumSection: some View {
+        HStack(spacing: Space.md.value) {
+            VStack(alignment: .leading, spacing: Space.xs.value) {
+                Text("progressMomentumStreak")
+                    .font(CivicText.labelMD.font)
+                    .foregroundStyle(palette.dimmed)
+                Text("\(streakCount)")
+                    .font(CivicText.headlineLG.font)
+                    .foregroundStyle(palette.ink)
+                    .monospacedDigit()
             }
+            Spacer()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(Space.lg.value)
         .cardStyle()
-        .contentShape(Rectangle())
-        .onTapGesture { openTopic(coverage.topic) }
-        .accessibilityElement(children: .combine)
-        .accessibilityHint("progressTopicReviewHint")
     }
+
+    // MARK: - Shared helpers
+
+    private func sectionHeader(title: LocalizedStringKey, subtitle: String? = nil) -> some View {
+        VStack(alignment: .leading, spacing: Space.xs.value) {
+            Text(title)
+                .font(CivicText.headlineSM.font)
+                .foregroundStyle(palette.ink)
+            if let subtitle {
+                Text(subtitle)
+                    .font(CivicText.labelMD.font)
+                    .foregroundStyle(palette.dimmed)
+                    .monospacedDigit()
+            }
+        }
+    }
+
+    private func accuracyText(_ accuracy: Double?) -> String {
+        guard let accuracy else { return "—" }
+        return "\(Int((accuracy * 100).rounded()))%"
+    }
+
+    /// Queues a targeted review on the exact low-accuracy set this tab counts. `TargetedReviewView`
+    /// consumes `reviewScope` on appear and opens scoped to `.lowAccuracy`, filtered by `weakStableIDs`.
+    private func queueWeakSpots() {
+        pendingNavigation.setWeakStableIDs(Set(weakSpotsData.map(\.stableID)))
+        pendingNavigation.reviewScope = .lowAccuracy
+        selectedTab = .study
+    }
+
+    // MARK: - Preserved
 
     private var emptyState: some View {
         EmptyStateView(
             systemImage: "chart.bar",
-            title: "progressNoProgressTitle",
-            message: "progressNoProgressMessage"
+            title: "progressEmptyVersionTitle",
+            message: "progressEmptyVersionMessage"
         )
     }
 
@@ -186,7 +434,6 @@ struct ProgressTabView: View {
             filingDate: Date(),
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         ),

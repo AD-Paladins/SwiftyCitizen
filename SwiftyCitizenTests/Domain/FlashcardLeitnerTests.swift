@@ -63,15 +63,27 @@ struct FlashcardLeitnerTests {
         #expect(state.boxes["a"] == 1)
     }
 
-    @Test func againResetsToBoxOneAndRecordsNoAttempt() {
+    @Test func againResetsToBoxOneAndRecordsAttempt() {
         var state = FlashcardState(questions: [makeQuestion(id: "a"), makeQuestion(id: "b")])
         state.reveal(); state.assess(.gotIt)   // a -> 2, advances to b
         state.seek(to: 0)                       // back to a (box 2)
         state.reveal()
         let again = state.assess(.again)
-        #expect(again == nil)
-        #expect(state.boxes["a"] == 1)          // reset on miss
-        #expect(state.attempts.count == 1)      // no new attempt recorded
+        #expect(again != nil)
+        #expect(again?.assessment == .again)   // persisted as a miss
+        #expect(again?.boxLevel == 1)          // box 1
+        #expect(state.boxes["a"] == 1)         // reset on miss
+        #expect(state.attempts.count == 2)     // again recorded as an attempt
+        #expect(state.currentIndex == 0)       // stays on the same card to re-answer
+    }
+
+    @Test func againDoesNotAdvancePastTheEnd() {
+        var state = FlashcardState(questions: [makeQuestion(id: "a")])
+        state.reveal()
+        let again = state.assess(.again)
+        #expect(again?.boxLevel == 1)
+        #expect(state.currentIndex == 0)       // still on a, not completed
+        #expect(!state.isComplete)
     }
 
     @Test func boxIsTrackedPerCard() {

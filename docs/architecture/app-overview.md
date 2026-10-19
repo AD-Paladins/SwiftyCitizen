@@ -22,13 +22,21 @@ SwiftyCitizen is a SwiftUI + SwiftData app. The root decides between onboarding 
 | practice | Practice | mic | `PracticeView` |
 | progress | Progress | chart.bar | `ProgressTabView` (placeholder empty state) |
 
-`HomeDashboardView` receives a `@Binding selectedTab` so its cards (`Start review`, due-next) can switch the user to the Study tab programmatically. It also opens the Bookmarked scope: on tap it sets `PendingNavigation.reviewScope = .bookmarked` and selects the Study tab.
+`HomeDashboardView` renders the **Daily Launchpad** — a greeting header (a track badge with the active version + bank size, plus a fire streak pill) followed by five sections:
+
+1. **Estimated USCIS Interview** — a date estimate derived from the filing date via `USCISDateEstimates.estimatedInterviewDate(filingDate:)`, or an unavailable state when no filing date is set.
+2. **Ready for today's drill** (hero) — a `RingGauge` driven by `StudyProgressMetrics.distinctReviewedToday` against the user-configurable daily goal (`configuration.dailyReviewGoal`), with a secondary excess arc when the goal is exceeded; a clamped progress strip and a "Start review" CTA that switches to the Study tab.
+3. **Quick Modes** — entry points for Oral Simulator and Listening Mode, both of which render `HomeComingSoonView` (not yet implemented).
+4. **Archival Memory Tip** — a gradient tip card.
+5. **Civics Fact of the Day** — a daily civics fact.
+
+The hero "Start review" CTA and the Civics brief both set `selectedTab = .study`; Quick Modes stay on the Home. (The Daily Launchpad no longer exposes a Bookmarked card, and the deep-link trigger `PendingNavigation.setBookmarked()` was removed as dead code; the `.bookmarked` scope remains a live option selectable directly inside Targeted Review.)
 
 ## Global state (coordinators)
 
 Two `@MainActor @Observable` coordinators live in `App/AppCoordination.swift` and are injected once at the app root; screens read them via `@Environment`. They mirror the `ThemeManager` pattern.
 
-- `PendingNavigation` — carries a one-shot deep link (`reviewScope: ReviewScope?`). Home sets it and switches to Study; `StudyView` pushes `.targetedReview` onto its `NavigationStack(path:)` (fresh tab via `.onAppear`, cached tab via `.onChange`), and `TargetedReviewView` consumes it on appear and clears it.
+- `PendingNavigation` — carries one-shot deep links (`reviewScope: ReviewScope?`, `scopedTopic: String?`, `weakStableIDs: Set<String>?`). Home sets `reviewScope = .bookmarked` and switches to Study; the Progress weak-spots queue sets `weakStableIDs` + `reviewScope = .lowAccuracy` and switches to Study. `StudyView` pushes `.targetedReview` onto its `NavigationStack(path:)` (fresh tab via `.onAppear`, cached tab via `.onChange`), and `TargetedReviewView` consumes them on appear and clears them.
 - `SessionActivityCoordinator` — `private(set) isActive`. Every session view (`FlashcardSessionView` for flashcards + targeted review, `MockTestSessionView`) marks itself active on appear and inactive on disappear, and dismisses itself when the coordinator flips to inactive. `MainTabView` observes `isActive` in an `.onChange(of: selectedTab)` guard: while a session is active it reverts the selection (keeping the session visible) and shows a confirm alert; on confirm it deactivates the session (which self-dismisses) and navigates to the target tab.
 
 ## Navigation map

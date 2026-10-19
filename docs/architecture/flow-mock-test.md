@@ -66,11 +66,8 @@ flowchart LR
 
 - **All verdicts** (correct-exact, rejected, lenient-accepted): show their inline indicator ("Correct" / "Incorrect" / "Accepted: ...") and wait for a "Next" tap to advance.
 - **Wrong answers** (`MockTestAnswer.needsOfficialAnswerReveal`, i.e. `!isCorrect`): below the indicator, an expandable "Show official answer" disclosure reveals the accepted variants via `AcceptedAnswerCard`. The learner keeps the question open; advancing still requires a "Next" tap.
-- **Feedback off** (`themeManager.sessionFeedbackEnabled == false`): records, saves the attempt, and advances immediately with no indicator.
 
-The verdict is rendered by `SessionFeedbackIndicator` (inline on the question card) using palette tints: green `success` for "Correct", red `danger` for "Incorrect", amber `warning` for "Accepted". The feedback indicator sits **below** the question card so VoiceOver announces it after the question content. The "Record answer" button is disabled while a review is pending (`review != nil`) so a verdict can't be replaced before the learner taps "Next".
-
-The `sessionFeedbackEnabled` flag lives in `ThemeManager` (`@Observable`, persisted under `sessionFeedbackEnabled` in UserDefaults) injected via `.environment`. When off, the deck advances normally and no indicator renders.
+The verdict is rendered by `SessionFeedbackIndicator` (inline on the question card) using palette tints: green `success` for "Correct", red `danger` for "Incorrect", amber `warning` for "Accepted". The feedback indicator sits **below** the question card so VoiceOver announces it after the question content. The "Record answer" button is disabled while a review is pending (`review != nil`) so a verdict can't be replaced before the learner taps "Next". Feedback indicators always render; there is no runtime flag to suppress them.
 
 ## Data flow
 
@@ -99,7 +96,7 @@ flowchart TD
 - Answer mode is Manual only (no auto/manual toggle exists). `MockTestSetupView` no longer shows a misleading "Mode: Manual" row; the "How you answer" section explains the typed/speak model directly. The "Start mock test" action renders as a floating primary button in a bottom `.safeAreaInset`, so it reads unambiguously as a button rather than a list row.
 - Answer input mode is content-driven: `QuestionContent.answerInputMode` returns `.selection` when a question has ≥2 fixed official variants (none containing "answers will vary"/"testupdates"), otherwise `.text`. The jurisdiction flag alone does not decide the mode, so a jurisdiction-flagged question with fixed answers (e.g. `2008-036`) still uses tiles.
 - Multi-select distractors are generated at runtime by `QuestionContent.distractorOptions(for:from:)` from other official variants in the same topic (capped at four, filtered to exclude own variants and "answers will vary"/"testupdates"), shuffled deterministically per question via a seeded shuffle. Distractors trace to official content only; scoring is unchanged — a selected distractor scores wrong through `AnswerEvaluator`.
-- Advance is uniform: every verdict waits for a "Next" tap (feedback on) or advances immediately (feedback off). There is no 0.8s auto-advance and no stored `Task`, so the view can dismiss safely between answers without racing a stale advance.
+- Advance is uniform: every verdict waits for a "Next" tap. There is no 0.8s auto-advance and no stored `Task`, so the view can dismiss safely between answers without racing a stale advance.
 - `MockTestState.advance()` only stops when the phase is `.complete`; during active play it increments `currentIndex`. The view records each answer with `state.record()` (no advance) and advances on "Next", so the guard must not match `.active` — matching `.active` there traps the session on the same question.
 
 ## Checklist
@@ -114,5 +111,4 @@ flowchart TD
 - [ ] Mock-test results do not change the dashboard "Got it" rate.
 - [ ] Per-answer feedback indicator shows for all verdicts inline on the question card; every verdict waits for a "Next" tap (uniform manual advance).
 - [x] Wrong answers expose an expandable "Show official answer" disclosure that reveals the accepted variants before advancing.
-- [ ] `sessionFeedbackEnabled` flag toggles all indicators off at runtime.
 - [x] Mock test session shows a single linear progress bar at the top (no toggle); the segmented picker and nav-bar counter were removed, matching the flashcard session.

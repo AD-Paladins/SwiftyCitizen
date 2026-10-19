@@ -514,9 +514,15 @@ struct FlashcardSessionView: View {
                     .padding(24)
                 }
             } else if state.isComplete {
+                // Honest post-session summary: map each attempt's stableID -> question.topic and
+                // aggregate weak cards per topic, then offer one next action (the low-accuracy queue).
+                let weakTopics = SessionWeakTopics.compute(attempts: state.attempts, questions: state.questions)
                 SessionSummaryView(
                     answeredCount: state.answeredCount,
                     assessments: state.attempts.map(\.assessment),
+                    weakTopics: weakTopics,
+                    configuration: configuration,
+                    weakStableIDs: SessionWeakTopics.weakStableIDs(attempts: state.attempts, questions: state.questions),
                     onFinish: finishSession
                 )
             } else {
@@ -741,7 +747,6 @@ struct FlashcardSessionView: View {
             filingDate: Date(),
             selectedTestVersion: .twoThousandTwentyFive,
             isSixtyFiveTwentyEligible: false,
-            studyLanguage: .english,
             disclaimerAccepted: true,
             shuffleQuestions: false
         ))

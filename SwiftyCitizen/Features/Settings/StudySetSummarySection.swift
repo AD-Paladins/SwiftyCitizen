@@ -54,7 +54,6 @@ struct StudySetSummarySection: View {
                 filingDate: Date(timeIntervalSince1970: 1_700_000_000),
                 selectedTestVersion: .twoThousandTwentyFive,
                 isSixtyFiveTwentyEligible: false,
-                studyLanguage: .english,
                 disclaimerAccepted: true,
                 shuffleQuestions: false
             )
@@ -70,7 +69,6 @@ struct StudySetSummarySection: View {
                 filingDate: Date(timeIntervalSince1970: 1_600_000_000),
                 selectedTestVersion: .twoThousandEight,
                 isSixtyFiveTwentyEligible: false,
-                studyLanguage: .spanish,
                 disclaimerAccepted: true,
                 shuffleQuestions: false
             )

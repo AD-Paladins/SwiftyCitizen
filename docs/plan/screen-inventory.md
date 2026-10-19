@@ -8,9 +8,10 @@ The first release should use a tab-based root navigation with a small number of 
 
 - **Home**: current study state and next action.
 - **Study**: flashcards and targeted review.
-- **Practice**: oral practice and mock tests.
+- **Practice**: mock tests. (Oral practice is deferred; see the Oral Practice screen below.)
 - **Progress**: history and learning metrics.
-- **Settings**: test configuration, language, permissions, and content information.
+
+> **Scope note (verify against code):** the shipped root is a **4-tab** `TabView` — Home, Study, Practice, Progress (`MainTabView`). **Settings** is not a tab; it is reached from Home's toolbar button (`HomeDashboardView`). Question Detail, Content Information, and Permissions are first-release/deferred scope and are **not implemented yet** — they are listed below for completeness, not as current reality.
 
 ## Screens and Responsibilities
 

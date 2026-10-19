@@ -1,125 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
-    "—" : {
-
-    },
-    "%@ %@%lld%@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ %2$@%3$lld%4$@"
-          }
-        }
-      }
-    },
-    "%@ %lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ %2$lld"
-          }
-        }
-      }
-    },
-    "%@, %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@, %2$@"
-          }
-        }
-      }
-    },
-    "%@%@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@"
-          }
-        }
-      }
-    },
-    "%@%@ %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@%2$@ %3$@"
-          }
-        }
-      }
-    },
-    "%@%lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$lld"
-          }
-        }
-      }
-    },
-    "%@%lld %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$lld %3$@"
-          }
-        }
-      }
-    },
-    "%@%lld%@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$lld%3$@"
-          }
-        }
-      }
-    },
-    "%lld" : {
-
-    },
-    "%lld %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld %2$@"
-          }
-        }
-      }
-    },
-    "%lld %@ %lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld %2$@ %3$lld"
-          }
-        }
-      }
-    },
-    "%lld %@ %lld %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld %2$@ %3$lld %4$@"
-          }
-        }
-      }
-    },
+    "" : {},
     "65/20" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -201,17 +83,6 @@
         }
       }
     },
-    "commonCancel" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
-          }
-        }
-      }
-    },
     "commonNotSet" : {
       "localizations" : {
         "en" : {
@@ -244,22 +115,6 @@
         }
       }
     },
-    "configChooseALanguage" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose a language"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elegir un idioma"
-          }
-        }
-      }
-    },
     "configDisclaimerNotAccepted" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -273,6 +128,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Acepta el aviso del material de estudio para guardar tu configuración."
+          }
+        }
+      }
+    },
+    "configDailyGoalNote" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How many questions you aim to review each day. The ring fills as you progress; going past shows a second arc."
+          }
+        }
+      }
+    },
+    "configDailyGoalTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily review goal"
           }
         }
       }
@@ -342,34 +217,6 @@
         }
       }
     },
-    "configIncompleteConfigPrefix" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Incomplete configuration: "
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Configuración incompleta: "
-          }
-        }
-      }
-    },
-    "configLanguageSettings" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Language settings"
-          }
-        }
-      }
-    },
     "configMetricAsked" : {
       "localizations" : {
         "en" : {
@@ -435,23 +282,6 @@
         }
       }
     },
-    "configMissingStudyLanguage" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose a study support language."
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elegí un idioma de material de estudio."
-          }
-        }
-      }
-    },
     "configMissingTestVersion" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -485,23 +315,6 @@
         }
       }
     },
-    "configPassingScore" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Passing score"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nota para aprobar"
-          }
-        }
-      }
-    },
     "configPassingScoreValueSuffix" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -526,74 +339,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Questionaries"
-          }
-        }
-      }
-    },
-    "configQuestionBank" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Question bank"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Banco de preguntas"
-          }
-        }
-      }
-    },
-    "configQuestionBankValuePlural" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "questions"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "preguntas"
-          }
-        }
-      }
-    },
-    "configQuestionBankValueSingular" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "question"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "pregunta"
-          }
-        }
-      }
-    },
-    "configQuestionsAsked" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Questions asked"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preguntas respondidas"
           }
         }
       }
@@ -627,23 +372,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Guardar"
-          }
-        }
-      }
-    },
-    "configSelectedVersion" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Selected version"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Versión seleccionada"
           }
         }
       }
@@ -711,55 +439,6 @@
         }
       }
     },
-    "configStudyLanguageSection" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Study language"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Idioma de material"
-          }
-        }
-      }
-    },
-    "configStudyOptionsSection" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Study options"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opciones de estudio"
-          }
-        }
-      }
-    },
-    "configStudySupportLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Study support"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Material de apoyo"
-          }
-        }
-      }
-    },
     "configTestConfigurationFallback" : {
       "localizations" : {
         "en" : {
@@ -788,23 +467,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La versión seleccionada sigue la fecha de presentación del N-400: antes del 20 de octubre de 2025 es la prueba de 2008; del 20 de octubre de 2025 en adelante es la de 2025. La excepción 65/20 toma prioridad."
-          }
-        }
-      }
-    },
-    "configTestVersionSection" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Test version"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Versión de la prueba"
           }
         }
       }
@@ -894,23 +556,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "USCIS assigns your exact question bank and test criteria based on your N-400 filing date and permanent resident status."
-          }
-        }
-      }
-    },
-    "configYourStudySet" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your study set"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tu set de estudio"
           }
         }
       }
@@ -1172,73 +817,6 @@
         }
       }
     },
-    "homeMasteryDue" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Due"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pendiente"
-          }
-        }
-      }
-    },
-    "homeMasteryMastered" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mastered"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dominada"
-          }
-        }
-      }
-    },
-    "homeMasteryTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mastery"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dominio"
-          }
-        }
-      }
-    },
-    "homeMasteryUnseen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unseen"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sin ver"
-          }
-        }
-      }
-    },
     "homeMetricGotit" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1269,71 +847,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Revisadas"
-          }
-        }
-      }
-    },
-    "homeMilestoneCta" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continue Daily Review"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continuar el estudio diario"
-          }
-        }
-      }
-    },
-    "homeMilestoneTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Daily Milestone"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hito diario"
-          }
-        }
-      }
-    },
-    "homeReadinessFallback" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start a review session to build coverage"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Empezá una sesión de revisión para ir cubriendo las preguntas."
-          }
-        }
-      }
-    },
-    "homeReadinessLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Exam Readiness"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preparación para el examen"
           }
         }
       }
@@ -2017,6 +1530,22 @@
         }
       }
     },
+    "practiceMockTest" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mock test"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Examen de práctica"
+          }
+        }
+      }
+    },
     "practiceMockTestEntryAction" : {
       "localizations" : {
         "en" : {
@@ -2037,65 +1566,6 @@
         }
       }
     },
-    "practiceOralPracticeEntryAction" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start"
-          }
-        }
-      }
-    },
-    "practiceMockTest" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mock test"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Examen de práctica"
-          }
-        }
-      }
-    },
-    "practiceOralPracticeMessage" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Practice answering aloud without exam pressure. Planned for a later phase."
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Practica responder en voz alta sin presión de examen. Planeado para una fase posterior."
-          }
-        }
-      }
-    },
-    "practiceOralPracticeTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oral practice"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Práctica oral"
-          }
-        }
-      }
-    },
     "practiceTitle" : {
       "localizations" : {
         "en" : {
@@ -2112,41 +1582,27 @@
         }
       }
     },
-    "progressNoProgressMessage" : {
-      "extractionState" : "manual",
+    "progressAccuracyBreakdownTitle" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your attempts, accuracy, and coverage will appear here after your first study session."
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tu intentos, precisión y cobertura aparecerán después de tu primera sesión de estudio."
+            "value" : "Accuracy Breakdown"
           }
         }
       }
     },
-    "progressNoProgressTitle" : {
-      "extractionState" : "manual",
+    "progressAccuracyHighConfidence" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No progress yet"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aún no hay progreso"
+            "value" : "High confidence"
           }
         }
       }
     },
-    "progressMastered" : {
+    "progressAccuracyMastered" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2156,52 +1612,292 @@
         }
       }
     },
-    "progressDue" : {
+    "progressAccuracyNeedsReview" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Due"
+            "value" : "Needs review"
           }
         }
       }
     },
-    "progressUnseen" : {
+    "progressAccuracyOverall" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unseen"
+            "value" : "Overall accuracy"
           }
         }
       }
     },
-    "progressStreak" : {
+    "progressAccuracyBreakdownEmpty" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Streak"
+            "value" : "Take a mock test to see accuracy by topic."
           }
         }
       }
     },
-    "progressReviewed" : {
+    "progressAccuracyBreakdownSubtitle" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reviewed"
+            "value" : "All test sessions"
           }
         }
       }
     },
-    "progressSessions" : {
+    "progressAccuracyTrendFalling" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This week"
+            "value" : "Falling"
+          }
+        }
+      }
+    },
+    "progressAccuracyTrendFlat" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Steady"
+          }
+        }
+      }
+    },
+    "progressAccuracyTrendRising" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rising"
+          }
+        }
+      }
+    },
+    "progressBucketGraduated" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graduated"
+          }
+        }
+      }
+    },
+    "progressBucketGraduatedMeaning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready for oral pace"
+          }
+        }
+      }
+    },
+    "progressBucketInReview" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Review"
+          }
+        }
+      }
+    },
+    "progressBucketInReviewMeaning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active drill"
+          }
+        }
+      }
+    },
+    "progressBucketNeedsCare" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Needs Care"
+          }
+        }
+      }
+    },
+    "progressBucketNeedsCareMeaning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unseen or low accuracy"
+          }
+        }
+      }
+    },
+    "progressEmptyVersionMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No study data for this test version yet. Take a mock test or answer some questions to get started."
+          }
+        }
+      }
+    },
+    "progressEmptyVersionTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No data for this test version"
+          }
+        }
+      }
+    },
+    "progressHeroFailed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not passed"
+          }
+        }
+      }
+    },
+    "progressHeroLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latest mock test"
+          }
+        }
+      }
+    },
+    "progressHeroNoMock" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No mock test taken yet"
+          }
+        }
+      }
+    },
+    "progressHeroMockLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latest mock test"
+          }
+        }
+      }
+    },
+    "progressMockNotPassed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not passed"
+          }
+        }
+      }
+    },
+    "progressMockPassed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passed"
+          }
+        }
+      }
+    },
+    "progressPassingMarkPrefix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passing mark:"
+          }
+        }
+      }
+    },
+    "progressMockSeen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "seen"
+          }
+        }
+      }
+    },
+    "progressRetakeMockExam" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retake Mock Exam"
+          }
+        }
+      }
+    },
+    "progressHeroMistakes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mistakes"
+          }
+        }
+      }
+    },
+    "progressMistakesComingSoon" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mistakes screen coming soon"
+          }
+        }
+      }
+    },
+    "progressHeroPassed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passed"
+          }
+        }
+      }
+    },
+    "progressMomentumStreak" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Day streak"
+          }
+        }
+      }
+    },
+    "progressQueueWeakItems" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "targeted weak items to review"
           }
         }
       }
@@ -2218,6 +1914,76 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Progreso"
+          }
+        }
+      }
+    },
+    "progressTopicCoverageTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you hitting all areas?"
+          }
+        }
+      }
+    },
+    "progressTopicQsOf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "of"
+          }
+        }
+      }
+    },
+    "progressTopicReviewHint" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens review questions for this topic"
+          }
+        }
+      }
+    },
+    "progressTopicSeenOf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "seen"
+          }
+        }
+      }
+    },
+    "progressWeakItems" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "weak items"
+          }
+        }
+      }
+    },
+    "progressWeakSpotsHeader" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Critical Weak Spots"
+          }
+        }
+      }
+    },
+    "progressWeakSpotsNone" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No weak spots to drill yet — keep answering."
           }
         }
       }
@@ -2255,50 +2021,82 @@
         }
       }
     },
-    "settingsArchiveTag" : {
+    "contentInfoTitle" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archive"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archivado"
+            "value" : "About this content"
           }
         }
       }
     },
-    "settingsCardTextSizing" : {
+    "contentInfoEntryTitle" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Card Text Sizing"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tamaño de texto de las tarjetas"
+            "value" : "Content information"
           }
         }
       }
     },
-    "settingsCardTextSizingValue" : {
+    "contentInfoVersionLabel" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dignified Large"
+            "value" : "Test version"
           }
-        },
-        "es-419" : {
+        }
+      }
+    },
+    "contentInfoSourceLabel" : {
+      "localizations" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Grande digno"
+            "value" : "Content source"
+          }
+        }
+      }
+    },
+    "contentInfoRevisionLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revision"
+          }
+        }
+      }
+    },
+    "contentInfoVerifiedLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last verified"
+          }
+        }
+      }
+    },
+    "contentInfoReferencesNote" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sourced from %d references"
+          }
+        }
+      }
+    },
+    "contentInfoUnavailable" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not available"
           }
         }
       }
@@ -2310,57 +2108,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Danger zone"
-          }
-        }
-      }
-    },
-    "settingsDataSection" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Data"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Datos"
-          }
-        }
-      }
-    },
-    "settingsEditTestConfiguration" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edit test configuration"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Editar configuración de la prueba"
-          }
-        }
-      }
-    },
-    "settingsFilingDate" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filing date"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fecha de presentación"
           }
         }
       }
@@ -2409,23 +2156,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nota para aprobar"
-          }
-        }
-      }
-    },
-    "settingsPrivacy" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Privacy"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Privacidad"
           }
         }
       }
@@ -2526,72 +2256,6 @@
         }
       }
     },
-    "settingsSpecialConsideration" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Special consideration"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Consideración especial"
-          }
-        }
-      }
-    },
-    "settingsSpecialConsiderationValue" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Age 65+, residency 20+ years"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "65+ años, 20+ años de residencia"
-          }
-        }
-      }
-    },
-    "settingsStreakShield" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Streak Shield"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escudo de racha"
-          }
-        }
-      }
-    },
-    "settingsStreakShieldValue" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "1 active"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "1 activo"
-          }
-        }
-      }
-    },
     "settingsStudyExamPreferences" : {
       "localizations" : {
         "en" : {
@@ -2604,23 +2268,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preferencias de estudio y examen"
-          }
-        }
-      }
-    },
-    "settingsStudyLanguage" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Study language"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Idioma de material"
           }
         }
       }
@@ -2673,23 +2320,6 @@
         }
       }
     },
-    "settingsTestVersion" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Test version"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Versión de la prueba"
-          }
-        }
-      }
-    },
     "settingsTheme" : {
       "localizations" : {
         "en" : {
@@ -2702,38 +2332,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tema"
-          }
-        }
-      }
-    },
-    "settingsThemePalette" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Theme Palette"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paleta del tema"
-          }
-        }
-      }
-    },
-    "settingsThemePaletteSwatch" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Theme palette swatch"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Muestra de la paleta del tema"
           }
         }
       }
@@ -2788,6 +2386,26 @@
         }
       }
     },
+    "studyContinueDue" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study now ·"
+          }
+        }
+      }
+    },
+    "studyDueLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "due"
+          }
+        }
+      }
+    },
     "studyFlashcardAcceptedNotice" : {
       "localizations" : {
         "en" : {
@@ -2800,17 +2418,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aceptada: tu respuesta cubre una versión aceptada de la respuesta oficial."
-          }
-        }
-      }
-    },
-    "studyFlashcardAgainInterval" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "< 1 min"
           }
         }
       }
@@ -2926,51 +2533,12 @@
         }
       }
     },
-    "studyFlashcardHeaderNavBar" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nav bar"
-          }
-        }
-      }
-    },
     "studyFlashcardHeaderProgress" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Progress bar"
-          }
-        }
-      }
-    },
-    "studyFlashcardHeaderStyle" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progress display"
-          }
-        }
-      }
-    },
-    "studyFlashcardHowWellDidYouKnowIt" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "How well did you know it?"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cuánto bien la conocías?"
           }
         }
       }
@@ -2988,17 +2556,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Respondí "
-          }
-        }
-      }
-    },
-    "studyFlashcardIntervalFormat" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In %1$@ days"
           }
         }
       }
@@ -3283,23 +2840,6 @@
         }
       }
     },
-    "studyFlashcardTypeReply" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Type your reply…"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escribe tu respuesta..."
-          }
-        }
-      }
-    },
     "studyFlashcardYourAnswer" : {
       "localizations" : {
         "en" : {
@@ -3444,6 +2984,39 @@
         }
       }
     },
+    "studySummaryReviewAction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review your weak topics"
+          }
+        }
+      }
+    },
+    "studySummaryWeakCardsLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "weak cards"
+          }
+        }
+      }
+    },
+    "studySummaryWeakTopicsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weak topics"
+          }
+        }
+      }
+    },
     "studyTargetedByCategorySection" : {
       "localizations" : {
         "en" : {
@@ -3526,17 +3099,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continúa la sesión"
-          }
-        }
-      }
-    },
-    "studyTargetedReviewBookmarked" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bookmarked"
           }
         }
       }
@@ -3700,38 +3262,6 @@
         }
       }
     },
-    "unitQuestionsCoveredPlural" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "questions covered"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "preguntas cubiertas"
-          }
-        }
-      }
-    },
-    "unitQuestionsCoveredSingular" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "question covered"
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "pregunta cubierta"
-          }
-        }
-      }
-    },
     "unitQuestionSingular" : {
       "localizations" : {
         "en" : {
@@ -3824,6 +3354,346 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bienvenido a SwiftyCitizen"
+          }
+        }
+      }
+    },
+    "progressTopicCoverageSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coverage & category mastery"
+          }
+        }
+      }
+    },
+    "progressTopicAreasOf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Areas"
+          }
+        }
+      }
+    },
+    "progressTopicNotStarted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not started"
+          }
+        }
+      }
+    },
+    "progressTopicAccuracy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accuracy"
+          }
+        }
+      }
+    },
+    "homeLaunchpadLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Launchpad"
+          }
+        }
+      }
+    },
+    "homeTrackBadgePrefix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Track:"
+          }
+        }
+      }
+    },
+    "homeTrackBadgeBank" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bank"
+          }
+        }
+      }
+    },
+    "homeStreakDaySuffix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "d"
+          }
+        }
+      }
+    },
+    "homeInterviewTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estimated USCIS Interview"
+          }
+        }
+      }
+    },
+    "homeInterviewTargetLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target"
+          }
+        }
+      }
+    },
+    "homeInterviewFiledLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filed"
+          }
+        }
+      }
+    },
+    "homeInterviewUnavailableTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set your filing date"
+          }
+        }
+      }
+    },
+    "homeInterviewUnavailableMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your N-400 filing date in Settings to estimate your USCIS interview."
+          }
+        }
+      }
+    },
+    "heroDrillTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready for today's drill?"
+          }
+        }
+      }
+    },
+    "heroHabitChip" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Habit"
+          }
+        }
+      }
+    },
+    "heroSessionPrefix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Session"
+          }
+        }
+      }
+    },
+    "heroDueToday" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "due today"
+          }
+        }
+      }
+    },
+    "heroMinEstimated" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min estimated"
+          }
+        }
+      }
+    },
+    "heroDailyProgressLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Target Progress"
+          }
+        }
+      }
+    },
+    "heroCompleteLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "complete"
+          }
+        }
+      }
+    },
+    "homeHeroStart" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Daily Review"
+          }
+        }
+      }
+    },
+    "quickModesTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick Modes"
+          }
+        }
+      }
+    },
+    "quickModesSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-free & Speech"
+          }
+        }
+      }
+    },
+    "oralSimTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oral Simulator"
+          }
+        }
+      }
+    },
+    "oralSimSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speak answers out loud like the real officer interview."
+          }
+        }
+      }
+    },
+    "oralSimFooter" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 min quick drill"
+          }
+        }
+      }
+    },
+    "listeningTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listening Mode"
+          }
+        }
+      }
+    },
+    "listeningSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-free audio player for car drives & daily chores."
+          }
+        }
+      }
+    },
+    "listeningQueueLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queue"
+          }
+        }
+      }
+    },
+    "archivalTipLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archival Memory Tip"
+          }
+        }
+      }
+    },
+    "civicsFactTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Civics Fact of the Day"
+          }
+        }
+      }
+    },
+    "civicsReadBrief" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read brief"
+          }
+        }
+      }
+    },
+    "homeComingSoonTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coming soon"
+          }
+        }
+      }
+    },
+    "homeComingSoonMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This mode is being set up."
           }
         }
       }

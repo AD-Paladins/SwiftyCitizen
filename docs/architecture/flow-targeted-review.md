@@ -5,7 +5,7 @@ Review the questions that need attention, computed from persisted attempt histor
 ## Quick path
 
 1. Study tab → Targeted review (or arrive here via the Home "Bookmarked" card, which opens the Bookmarked scope directly — see [Deep link](#deep-link-from-home)).
-2. Pick a scope: Due, Unanswered, Needs work, or Bookmarked.
+  2. Pick a scope: Due, Unanswered, Needs work, Low accuracy, or Bookmarked.
 3. (Optional) Toggle "Show categories" and select one or more topic pills to further narrow the deck.
 4. Start review over the filtered deck (bank order preserved). Bookmarking happens in the flashcard session, not on this list.
 5. If a session is in progress, the list offers `Resume session`.
@@ -15,11 +15,12 @@ Review the questions that need attention, computed from persisted attempt histor
 | Topic | Decision |
 | --- | --- |
 | Deck logic | `ReviewDeckBuilder` — pure, SwiftData-free; does not depend on `StudySession`/UI |
-| Scopes | `.due` (unanswered, or latest ≠ Got it), `.unanswered` (no attempt), `.needsWork` (answered, latest ≠ Got it), `.bookmarked` (stable-ID membership) |
+| Scopes | `.due` (unanswered, or latest ≠ Got it), `.unanswered` (no attempt), `.needsWork` (answered, latest ≠ Got it), `.lowAccuracy` (the exact low-accuracy set Progress counts, or per-card accuracy ≤ 0.5 when chosen manually), `.bookmarked` (stable-ID membership) |
 | Category filter | Optional; layered on top of the scope in `ReviewDeckBuilder`. Enabled by the "Show categories" toggle; selected topics (`Set<String>`) narrow the scope-filtered deck by `QuestionContent.topic`; empty selection applies no filter. Selection is ephemeral (`@State`), multi-select. |
 | Bookmarks | `Bookmark` SwiftData model (independent of `StudySession`); `TargetedReviewView` queries bookmarks for the active version and passes their stable IDs as `bookmarkedIDs`. The bookmark toggle lives in `FlashcardSessionView`'s header (not on the scope rows): toggling during a session adds/removes the bookmark for the current question. The `.bookmarked` scope then surfaces every bookmarked question across scopes. |
 | Rendering | Reuses `FlashcardSessionView` with `mode: .targetedReview` |
 | Resume | `StudySession(mode: .targetedReview)` with persisted `deckStableIDs` + `currentIndex`; list shows `Resume session` only while `!isComplete && answeredCount > 0` |
+| Direct weak-card entry | `TargetedReviewView(configuration:weakCards:)` opens straight at `.lowAccuracy` for a specific card set (the session summary's recommended action). `weakCards` defaults to `[]`, which preserves the existing `PendingNavigation` deep-link path unchanged |
 
 ## Scope definitions
 
@@ -28,6 +29,7 @@ Review the questions that need attention, computed from persisted attempt histor
 | Due | No attempt yet, *or* latest self-assessment is not Got it |
 | Unanswered | No recorded attempt |
 | Needs work | Has an attempt, and latest self-assessment is not Got it |
+| Low accuracy | Its `stableID` is in `weakStableIDs` when supplied (the exact set the Progress tab counts); otherwise it has an attempt whose per-card mock accuracy (`wasCorrect`/last-5) is at or below 0.5 |
 | Bookmarked | Its `stableID` is in `bookmarkedIDs` (the active-version bookmark set) |
 
 ## Bookmarks
@@ -50,6 +52,7 @@ flowchart TD
     B --> C[ReviewDeckBuilder.build]
     Cat[Ephemeral category selection] --> C
     Bk[Active-version bookmark stable IDs] --> C
+    Ws[Progress weak-spot stable IDs (.lowAccuracy)] --> C
     C --> D[deck: QuestionContent list]
     D --> E[FlashcardSessionView]
     E --> F[new StudySession mode targetedReview]
@@ -61,11 +64,21 @@ flowchart TD
 
 The Home "Bookmarked" card opens the Bookmarked scope directly. `HomeDashboardView` sets `PendingNavigation.reviewScope = .bookmarked` and selects the Study tab. `StudyView` (a `NavigationStack(path:)`) pushes `.targetedReview` — via `.onAppear` on a fresh tab, or `.onChange(of: pendingNavigation.reviewScope)` on a cached tab — guarded by `!path.contains(.targetedReview)`. `TargetedReviewView` reads `PendingNavigation`, sets `selectedScope` to the requested scope on appear, and clears the pending request so a repeat open re-opens the scope.
 
+## Deep link from Progress (weak spots)
+
+The Progress tab's weak-spots queue opens the exact low-accuracy set it counts. `ProgressTabView.queueWeakSpots()` sets `PendingNavigation.weakStableIDs` to the counted stable IDs and `reviewScope = .lowAccuracy`, then selects the Study tab. `StudyView` pushes `.targetedReview`; `TargetedReviewView` reads `PendingNavigation`, sets `selectedScope = .lowAccuracy` on appear (the same path as any `reviewScope`), and clears the request. The deck is built with `weakStableIDs`, so `ReviewDeckBuilder` returns exactly those cards — the count shown in Progress always matches the deck that starts (this closes the D8 count/CTA mismatch). When the user picks "Low accuracy" manually with no pending IDs, the scope falls back to attempted cards whose per-card mock accuracy is ≤ 0.5.
+
+## Direct entry from the session summary
+
+The post-session summary (`SessionSummaryView`) offers one next action when the flashcard session produced weak topics: "Review your weak topics". It is a `NavigationLink` to `TargetedReviewView(configuration:weakCards: weakStableIDs)` — the exact weak-card stable IDs computed by `SessionWeakTopics` from that session's attempts. `TargetedReviewView` opens straight at `.lowAccuracy` (its `onAppear` selects `.lowAccuracy` when `weakCards` is non-empty) and reviews exactly those cards. This path is used from **both** flashcard origins — the Study tab and the mock-test result on the Practice tab — because a `NavigationLink(destination:)` pushes onto whichever `NavigationStack` the summary is in, avoiding the cross-stack `PendingNavigation` wiring that only the Study tab observes. The explicit `weakCards` set is read directly (see `pendingWeakStableIDs`), so it does not depend on the pending-navigation lifecycle.
+
 ## Gotchas
 
 - Deck order is the bank's order, not "most-recent" or random.
 - A session is "in progress" for the resume row when it has answers but no `endedAt`.
 - Scope counts and the start button both derive from `ReviewDeckBuilder`, so they never disagree.
+- The `.lowAccuracy` scope with pending `weakStableIDs` returns exactly those cards; without pending IDs it falls back to attempted cards whose per-card mock accuracy is ≤ 0.5. Progress always sends the exact IDs it counted, so the queue opens precisely the weak set it advertised.
+- The session-summary direct entry passes `weakCards` explicitly and bypasses `PendingNavigation`, so it works from any tab's stack (unlike the Home/Progress deep links, which rely on `StudyView` observing `reviewScope`). When `weakCards` is empty the view falls back to the pending-navigation path, so all existing callers are unaffected.
 - Mock-test missed-questions reuse this flow's deck rendering (`.targetedReview` mode) from `MockTestResultView`.
 - Missed-question review shows the learner's own (wrong) answer next to the official answer. `FlashcardSessionView` passes the recorded answer as `userAnswer`; `AnswerCard` compares it with `AnswerEvaluator.presentation(for:against:)`, which color-codes the verdict and renders wrong answers side-by-side with the official answer. The review host pairs each question with its recorded answer instead of showing a bare `QuestionContent` deck.
 - Bookmarks are scoped to the active test version. `TargetedReviewView` filters `@Query var bookmarks` by `testVersionRawValue == configuration.selectedTestVersion.rawValue` before passing IDs to the builder; the pure builder does not re-scope, so a stale version filter would leak cross-version bookmarks.

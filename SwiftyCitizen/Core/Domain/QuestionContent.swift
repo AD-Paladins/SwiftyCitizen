@@ -25,7 +25,6 @@ struct QuestionContent: Codable, Hashable, Identifiable {
     // initializer parameter below instead, which keeps existing 11-arg call sites compiling
     // while still decoding present keys.
     let explanation: String?
-    let insight: String?
 
     init(
         stableID: String,
@@ -39,8 +38,7 @@ struct QuestionContent: Codable, Hashable, Identifiable {
         verificationDate: Date?,
         isJurisdictionDependent: Bool,
         isSixtyFiveTwentyQuestion: Bool,
-        explanation: String? = nil,
-        insight: String? = nil
+        explanation: String? = nil
     ) {
         self.stableID = stableID
         self.testVersion = testVersion
@@ -54,7 +52,6 @@ struct QuestionContent: Codable, Hashable, Identifiable {
         self.isJurisdictionDependent = isJurisdictionDependent
         self.isSixtyFiveTwentyQuestion = isSixtyFiveTwentyQuestion
         self.explanation = explanation
-        self.insight = insight
     }
 
     var id: String { stableID }

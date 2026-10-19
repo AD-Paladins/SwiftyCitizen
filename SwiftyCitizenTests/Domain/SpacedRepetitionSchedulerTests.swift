@@ -16,9 +16,9 @@ struct SpacedRepetitionSchedulerTests {
 
     @Test
     func boxTwoCardAnsweredTwoDaysAgoIsDue() {
-        // One gotIt → box 2 (1-day interval); answered 2 days ago → interval elapsed.
+        // Left in box 2; answered 2 days ago → 1-day interval elapsed.
         let questions = [makeQuestion(id: "a")]
-        let attempts = [snapshot(id: "a", assessment: .gotIt, at: now - 2 * day)]
+        let attempts = [snapshot(id: "a", boxLevel: 2, at: now - 2 * day)]
 
         let deck = SpacedRepetitionScheduler.dueCards(
             questions: questions,
@@ -34,12 +34,9 @@ struct SpacedRepetitionSchedulerTests {
 
     @Test
     func boxThreeCardAnsweredOneDayAgoIsNotYetDue() {
-        // Two gotIt reach box 3 (3-day interval); latest was 1 day ago → not elapsed.
+        // Left in box 3; answered 1 day ago → 3-day interval not elapsed.
         let questions = [makeQuestion(id: "a")]
-        let attempts = [
-            snapshot(id: "a", assessment: .gotIt, at: now - 4 * day),
-            snapshot(id: "a", assessment: .gotIt, at: now - 1 * day),
-        ]
+        let attempts = [snapshot(id: "a", boxLevel: 3, at: now - 1 * day)]
 
         let deck = SpacedRepetitionScheduler.dueCards(
             questions: questions,
@@ -56,7 +53,7 @@ struct SpacedRepetitionSchedulerTests {
     @Test
     func unseenCardsSurfaceBeforeDueCards() {
         let questions = [makeQuestion(id: "new"), makeQuestion(id: "due")]
-        let attempts = [snapshot(id: "due", assessment: .again, at: now)] // box 1 → due now
+        let attempts = [snapshot(id: "due", boxLevel: 1, at: now)] // box 1 → due now
 
         let deck = SpacedRepetitionScheduler.dueCards(
             questions: questions,
@@ -75,8 +72,8 @@ struct SpacedRepetitionSchedulerTests {
         // a: box 2, answered 5 days ago → dueDate = now - 4d. b: box 2, answered 2 days ago → dueDate = now - 1d.
         let questions = [makeQuestion(id: "a"), makeQuestion(id: "b")]
         let attempts = [
-            snapshot(id: "a", assessment: .gotIt, at: now - 5 * day),
-            snapshot(id: "b", assessment: .gotIt, at: now - 2 * day),
+            snapshot(id: "a", boxLevel: 2, at: now - 5 * day),
+            snapshot(id: "b", boxLevel: 2, at: now - 2 * day),
         ]
 
         let deck = SpacedRepetitionScheduler.dueCards(
@@ -89,13 +86,40 @@ struct SpacedRepetitionSchedulerTests {
         #expect(deck.map(\.stableID) == ["a", "b"])
     }
 
+    // --- a persisted `.again` (box 1) is seen-due, not unseen -------------------
+
+    @Test
+    func boxOneAgainAttemptIsDueNotUnseen() {
+        // a: left in box 1 by an `.again` miss (interval 0) answered 3 days ago → overdue.
+        // b: never attempted → truly unseen.
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b")]
+        let againAttempt = StudyAttemptSnapshot(
+            stableID: "a",
+            testVersion: .twoThousandTwentyFive,
+            assessment: .again,
+            wasCorrect: nil,
+            answeredAt: now - 3 * day,
+            boxLevel: 1
+        )
+
+        let deck = SpacedRepetitionScheduler.dueCards(
+            questions: questions,
+            attempts: [againAttempt],
+            version: .twoThousandTwentyFive,
+            now: now
+        )
+
+        // Unseen (b) surfaces first; the seen box-1 miss (a) is ordered as due, not unseen.
+        #expect(deck.map(\.stableID) == ["b", "a"])
+    }
+
     // --- version scoping --------------------------------------------------------
 
     @Test
     func dueCardsAreScopedToTheVersion() {
         let questions = [makeQuestion(id: "a")]
         let attempts = [
-            snapshot(id: "a", assessment: .again, at: now - 2 * day, version: .twoThousandEight)
+            snapshot(id: "a", boxLevel: 1, at: now - 2 * day, version: .twoThousandEight)
         ]
 
         // No attempts for the requested version → unseen.
@@ -113,15 +137,16 @@ struct SpacedRepetitionSchedulerTests {
 
     private func snapshot(
         id: String,
-        assessment: SelfAssessment,
+        boxLevel: Int,
         at date: Date,
         version: USCISTestVersion = .twoThousandTwentyFive
     ) -> StudyAttemptSnapshot {
         StudyAttemptSnapshot(
             stableID: id,
             testVersion: version,
-            assessment: assessment,
-            answeredAt: date
+            assessment: .gotIt,
+            answeredAt: date,
+            boxLevel: boxLevel
         )
     }
 

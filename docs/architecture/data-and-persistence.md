@@ -27,15 +27,16 @@ erDiagram
 - `init` and `update(from:)` use `precondition(configuration.isValid)` — invalid configs cannot persist.
 - `ContentView` reads `savedConfigurations.first` to pick Welcome vs MainTab.
 - `shuffleQuestions` is stored as a nullable column so stores created before it existed migrate cleanly; `.configuration` defaults a missing value to `false`. The shuffle flag flows from here into the `shuffleEnabled:` argument of `selectQuestions(...)` / `makeState(...)` for flashcards and mock tests.
+- `dailyReviewGoal` is the user-configurable daily review target (distinct questions reviewed today), default `15`. It drives the hero ring's goal via `HomeDashboardView.goal` and is edited in `TestConfigurationView` with per-version preset pills; a value outside the active version's presets falls back to `15` through the view's `effectiveDailyGoal`. Optional/defaulted so stores created before it migrate cleanly.
 
 ### StudySession
 
 | Property | Type | Notes |
 | --- | --- | --- |
 | `modeRawValue` / `testVersionRawValue` | String | Enum raw values |
-| `startedAt` / `endedAt?` | Date | `endedAt == nil` → session in progress |
+| `endedAt?` | Date | `nil` → session in progress |
 | `attempts` | [QuestionAttempt] | Unordered relationship; never assume order |
-| `deckStableIDsRaw` | String? | JSON-encoded `[String]` of question IDs, for resume |
+| `deckStableIDs` | [String] | Question IDs in deck order, for resume. Optional/defaulted (`[]`) so existing stores migrate cleanly. |
 | `currentIndex` | Int | Defaulted to `0` |
 
 - `mode`/`testVersion` decode to enums; nil-safe.
@@ -52,7 +53,6 @@ erDiagram
 | `answerText` / `wasCorrect` | String? / Bool? | `wasCorrect` is mock-test only; `answerText` is set by mock-test correctness and, since the flashcard own-answer slice, by flashcards too (nil when the learner did not type a reply) |
 | `boxLevel` | Int | Leitner box this result left the card in (1...`LeitnerScheduler.maxBox`); defaults to `1`. Restored into `FlashcardAttemptRecord.boxLevel` on resume so the retention scheduler survives across sessions. Optional/defaulted per migration policy. |
 | `answeredAt` | Date | Drives "Today" buckets and latest-assessment picks |
-| `session` | StudySession? | Inverse relationship |
 
 ### Bookmark
 
@@ -60,12 +60,10 @@ erDiagram
 | --- | --- | --- |
 | `questionStableID` | String | References bank content (a `QuestionContent.stableID`) |
 | `testVersionRawValue` | String | Version scope; the active-version filter lives in the view, not here |
-| `createdAt` | Date | Defaulted to `.now` at init |
 
 - Independent of `StudySession` — a global learner preference for which questions to revisit. No relationship back to a session.
 - One row per (question, version) pair; toggling reuses the existing row or inserts a new one.
 - Registered in `SwiftyCitizenApp.swift`'s shared `Schema`; every preview that lists `StudySession`/`QuestionAttempt` also lists `Bookmark`.
-- Follows the migration policy: `createdAt` is defaulted, so stores created before it existed migrate in place.
 
 ## Session lifecycle
 
@@ -80,8 +78,9 @@ erDiagram
 `StudyProgressMetrics` (pure, SwiftData-free) consumes `QuestionAttempt.snapshot`:
 
 - `reviewedToday` — answered today.
+- `distinctReviewedToday` — distinct question IDs answered today (re-review does not inflate); drives the hero ring's daily goal.
 - `coverage` — distinct question IDs per version.
-- `dueCount` — bank count minus covered.
+- `dueCount` — scheduler-based (unseen cards first, then most-overdue) via `SpacedRepetitionScheduler.dueCards`; the single app-wide "due".
 - `gotItRate` — *self-assessed* attempts only; mock-test attempts (nil assessment) excluded.
 
 ## Migration policy
@@ -89,6 +88,7 @@ erDiagram
 - New attributes on `@Model` types must be **optional or defaulted** so existing on-disk stores migrate in place.
 - Storing a new enabled non-defaulted predicate like `currentIndex` previously (= default 0) is the required pattern; a mandatory non-defaulted attribute on an existing store fails with `NSCocoaErrorDomain (134110)`.
 - Enum columns stay raw strings; unknown raw values decode to nil rather than crashing.
+- Property and relationship **drops** (e.g. the removed `StudySession.startedAt`, `Bookmark.createdAt`, and `QuestionAttempt.session`) also migrate automatically via lightweight migration. The migration policy is unchanged: automatic lightweight migration only, no `VersionedSchema`/`MigrationPlan`, matching the inferred-schema-versioning design and the 5.3 `studyLanguageRawValue` removal.
 
 ## Checklist
 

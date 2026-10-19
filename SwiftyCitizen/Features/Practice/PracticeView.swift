@@ -3,7 +3,6 @@ import SwiftData
 
 enum PracticeRoute: Hashable {
     case mockTest
-    case oralPractice
 }
 
 struct PracticeView: View {
@@ -29,17 +28,6 @@ struct PracticeView: View {
                         actionTint: palette.primary,
                         value: PracticeRoute.mockTest
                     )
-
-                    StudyEntryCard(
-                        title: "practiceOralPracticeTitle",
-                        subtitle: "practiceOralPracticeMessage",
-                        systemImage: "mic",
-                        actionLabel: "practiceOralPracticeEntryAction",
-                        iconBackground: palette.warning.opacity(0.14),
-                        iconForeground: palette.warning,
-                        actionTint: palette.warning,
-                        value: PracticeRoute.oralPractice
-                    )
                 }
                 .padding(Space.lg.value)
             }
@@ -50,12 +38,6 @@ struct PracticeView: View {
                 switch route {
                 case .mockTest:
                     MockTestSetupView(configuration: configuration)
-                case .oralPractice:
-                    StudyEntryPointView(
-                        title: "practiceOralPracticeTitle",
-                        message: "practiceOralPracticeMessage",
-                        systemImage: "mic"
-                    )
                 }
             }
         }
@@ -78,7 +60,6 @@ struct PracticeView: View {
         filingDate: Date(),
         selectedTestVersion: .twoThousandTwentyFive,
         isSixtyFiveTwentyEligible: false,
-        studyLanguage: .english,
         disclaimerAccepted: true,
         shuffleQuestions: false
     ))

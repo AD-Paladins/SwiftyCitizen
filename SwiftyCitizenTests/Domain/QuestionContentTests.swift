@@ -200,7 +200,7 @@ struct QuestionContentTests {
         }
     }
 
-    // MARK: optional study-aid fields (explanation, insight)
+    // MARK: optional study-aid field (explanation)
 
     @Test
     func optionalFieldsRoundTripThroughJSON() throws {
@@ -216,20 +216,18 @@ struct QuestionContentTests {
             verificationDate: Date(timeIntervalSince1970: 0),
             isJurisdictionDependent: false,
             isSixtyFiveTwentyQuestion: false,
-            explanation: "Congress writes the laws.",
-            insight: "Congress writes the laws."
+            explanation: "Congress writes the laws."
         )
         let data = try JSONEncoder().encode(question)
         let decoded = try JSONDecoder().decode(QuestionContent.self, from: data)
         #expect(decoded.explanation == "Congress writes the laws.")
-        #expect(decoded.insight == "Congress writes the laws.")
     }
 
     @Test
     func absentOptionalFieldsDecodeToNil() throws {
-        // Encode a question whose study aids are nil: encodeIfPresent omits those keys, so the
-        // resulting JSON is exactly what an older bank (without these fields) contains. Decoding it
-        // must succeed and yield nil for both optional fields — that's the backward-compat guarantee.
+        // Encode a question whose study aid is nil: encodeIfPresent omits that key, so the resulting
+        // JSON matches an older bank (without this field). Decoding it must succeed and yield nil for
+        // the optional field — that's the backward-compat guarantee.
         let question = QuestionContent(
             stableID: "2025-001",
             testVersion: .twoThousandTwentyFive,
@@ -250,7 +248,6 @@ struct QuestionContentTests {
         decoder.dateDecodingStrategy = .iso8601
         let decoded = try decoder.decode(QuestionContent.self, from: data)
         #expect(decoded.explanation == nil)
-        #expect(decoded.insight == nil)
     }
 
     @Test
@@ -266,12 +263,10 @@ struct QuestionContentTests {
             verificationDate: Date(timeIntervalSince1970: 0),
             isJurisdictionDependent: false,
             isSixtyFiveTwentyQuestion: false,
-            explanation: "Congress writes the laws.",
-            insight: "Congress writes the laws."
+            explanation: "Congress writes the laws."
         )
         let content = record.question(for: .twoThousandTwentyFive)
         #expect(content.explanation == "Congress writes the laws.")
-        #expect(content.insight == "Congress writes the laws.")
     }
 
     // MARK: AnswerCard explanation decision point

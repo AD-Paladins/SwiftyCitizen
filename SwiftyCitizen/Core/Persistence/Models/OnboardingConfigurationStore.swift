@@ -6,18 +6,18 @@ final class SavedOnboardingConfiguration {
     var filingDate: Date
     var selectedTestVersionRawValue: String
     var isSixtyFiveTwentyEligible: Bool
-    var studyLanguageRawValue: String
     var disclaimerAccepted: Bool
     var shuffleQuestions: Bool?
+    var dailyReviewGoal: Int = 15
 
     init(configuration: OnboardingConfiguration) {
         precondition(configuration.isValid, "Only valid onboarding configurations can be persisted")
         self.filingDate = configuration.filingDate!
         self.selectedTestVersionRawValue = configuration.selectedTestVersion!.rawValue
         self.isSixtyFiveTwentyEligible = configuration.isSixtyFiveTwentyEligible
-        self.studyLanguageRawValue = configuration.studyLanguage!.rawValue
         self.disclaimerAccepted = configuration.disclaimerAccepted
         self.shuffleQuestions = configuration.shuffleQuestions
+        self.dailyReviewGoal = configuration.dailyReviewGoal
     }
 
     func update(from configuration: OnboardingConfiguration) {
@@ -25,14 +25,13 @@ final class SavedOnboardingConfiguration {
         self.filingDate = configuration.filingDate!
         self.selectedTestVersionRawValue = configuration.selectedTestVersion!.rawValue
         self.isSixtyFiveTwentyEligible = configuration.isSixtyFiveTwentyEligible
-        self.studyLanguageRawValue = configuration.studyLanguage!.rawValue
         self.disclaimerAccepted = configuration.disclaimerAccepted
         self.shuffleQuestions = configuration.shuffleQuestions
+        self.dailyReviewGoal = configuration.dailyReviewGoal
     }
 
     var configuration: OnboardingConfiguration? {
-        guard let selectedTestVersion = USCISTestVersion(rawValue: selectedTestVersionRawValue),
-              let studyLanguage = StudyLanguage(rawValue: studyLanguageRawValue) else {
+        guard let selectedTestVersion = USCISTestVersion(rawValue: selectedTestVersionRawValue) else {
             return nil
         }
 
@@ -40,9 +39,9 @@ final class SavedOnboardingConfiguration {
             filingDate: filingDate,
             selectedTestVersion: selectedTestVersion,
             isSixtyFiveTwentyEligible: isSixtyFiveTwentyEligible,
-            studyLanguage: studyLanguage,
             disclaimerAccepted: disclaimerAccepted,
-            shuffleQuestions: shuffleQuestions ?? false
+            shuffleQuestions: shuffleQuestions ?? false,
+            dailyReviewGoal: dailyReviewGoal
         )
     }
 }

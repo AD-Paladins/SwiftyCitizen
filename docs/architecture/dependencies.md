@@ -92,15 +92,16 @@ flowchart LR
 | `FlashcardSessionView.swift` | SwiftUI, SwiftData | `FlashcardState`, `StudySession`, `QuestionAttempt`, `QuestionBankLoader`, `SessionSummaryView` |
 | `FlashcardState.swift` | Foundation | `QuestionContent`, `SelfAssessment` |
 | `HomeDashboardView.swift` | SwiftUI, SwiftData | `StudyProgressMetrics`, `QuestionAttempt`, `ConfigurationSummaryView`, `AppTab` |
+| `LatestMockTestHero.swift` | SwiftUI | `MockTestResult`, `ThemeManager`, `AppPalette`, `CivicText`, `Space` |
 | `MainTabView.swift` | SwiftUI | `AppTab`, `HomeDashboardView`, `StudyView`, `PracticeView`, `ProgressTabView` |
 | `MockTestResultView.swift` | SwiftUI | `MockTestState`, `FlashcardSessionView`, `OnboardingConfiguration` |
 | `MockTestSessionView.swift` | SwiftUI, SwiftData | `MockTestState`, `ExamEngine`, `QuestionBankLoader`, `StudySession`, `QuestionAttempt` |
 | `MockTestSetupView.swift` | SwiftUI | `ConfigurationSummaryView`, `MockTestSessionView`, `QuestionBankLoader` |
 | `MockTestState.swift` | Foundation | `QuestionContent`, `AnswerEvaluator` |
-| `OnboardingConfiguration.swift` | Foundation | `TestConfiguration`, `StudyLanguage` |
+| `OnboardingConfiguration.swift` | Foundation | `TestConfiguration` |
 | `OnboardingConfigurationStore.swift` | Foundation, SwiftData | `OnboardingConfiguration` |
 | `PracticeView.swift` | SwiftUI, SwiftData | `MockTestSetupView`, `StudyEntryPointView` |
-| `ProgressTabView.swift` | SwiftUI | `EmptyStateView` |
+| `ProgressTabView.swift` | SwiftUI | `OnboardingConfiguration`, `AppTab`, `ThemeManager`, `AppPalette`, `PendingNavigation`, `StudySession`, `StudyAttemptSnapshot`, `MockTestResult`, `LatestMockTestHero`, `ProgressAnalytics`, `StudyProgressMetrics`, `QuestionContent`, `QuestionBankLoader`, `EmptyStateView` |
 | `QuestionBankLoader.swift` | Foundation | `QuestionContent`, `QuestionContentValidator`, `TestConfiguration` |
 | `QuestionContent.swift` | Foundation | `TestConfiguration` (via validator) |
 | `ReviewDeckBuilder.swift` | Foundation | `QuestionContent`, `StudyAttemptSnapshot`, `SelfAssessment` |

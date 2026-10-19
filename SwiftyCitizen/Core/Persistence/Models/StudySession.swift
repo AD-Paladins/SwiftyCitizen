@@ -5,24 +5,23 @@ import SwiftData
 final class StudySession {
     var modeRawValue: String
     var testVersionRawValue: String
-    var startedAt: Date
     var endedAt: Date?
     var attempts: [QuestionAttempt]
     var deckStableIDs: [String] = []
+    var skippedStableIDs: [String] = []
     var currentIndex: Int = 0
 
     init(
         mode: StudyMode,
         testVersion: USCISTestVersion,
-        startedAt: Date = .now,
         deckStableIDs: [String] = []
     ) {
         self.modeRawValue = mode.rawValue
         self.testVersionRawValue = testVersion.rawValue
-        self.startedAt = startedAt
         self.endedAt = nil
         self.attempts = []
         self.deckStableIDs = deckStableIDs
+        self.skippedStableIDs = []
         self.currentIndex = 0
     }
 
@@ -58,7 +57,6 @@ final class QuestionAttempt {
     var answeredAt: Date
     /// Leitner box this result left the card in (1...`LeitnerScheduler.maxBox`). Defaults to 1.
     var boxLevel: Int = 1
-    var session: StudySession?
 
     init(
         questionStableID: String,

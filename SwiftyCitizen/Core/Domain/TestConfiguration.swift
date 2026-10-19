@@ -66,4 +66,15 @@ struct TestConfiguration: Codable, Hashable, Identifiable {
         .twoThousandTwentyFive,
         .sixtyFiveTwenty
     ]
+
+    /// Daily-review goal presets linked to the question bank. The 65/20 set (20 questions) caps at
+    /// 20; the larger banks keep the standard set. Shared here so Settings and Home agree.
+    static func dailyGoalPresets(for version: USCISTestVersion) -> [Int] {
+        switch version {
+        case .sixtyFiveTwenty:
+            [5, 10, 15, 20]
+        default:
+            [15, 25, 30, 45, 60]
+        }
+    }
 }
