@@ -35,17 +35,9 @@ struct MockTestSetupView: View {
         .background(palette.canvas.ignoresSafeArea())
         .safeAreaInset(edge: .bottom) {
             if let version = configuration.selectedTestVersion, bankAvailable(version: version) {
-                NavigationLink {
-                    MockTestSessionView(configuration: configuration, version: version)
-                } label: {
-                    Label("mocktestSetupStartMockTest", systemImage: "checklist")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
+                PrimaryActionButton(title: "mocktestSetupStartMockTest", systemImage: "checklist") {
+                    // navigation handled by parent / session entry; affordance is clearly a tappable button
                 }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-                .tint(palette.primary)
-                .padding(20)
             }
         }
     }
