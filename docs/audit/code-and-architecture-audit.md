@@ -30,8 +30,8 @@ Audited the full app (32 source files, 7 test files) for layering, dead code, do
 1. ✅ Done (commit `3e51fde`): `resumeState()` moved to `StudyDomain.resumeFlashcardState(deckStableIDs:currentIndex:attempts:deckQuestions:)`; `StudySession` @Model is now pure persistence with no resume logic.
 2. ✅ Added 3–4 thin tests for `StudyDomain`, `QuestionContent`, `TestConfiguration`, `OnboardingConfiguration` — cheap, high-value coverage on the untested core.
 3. ✅ Deferred mock-test findings resolved: uniform manual advance removes the "too brief" incorrect feedback; official-answer reveal covers "see the real answer". Added a "Skip this question" defer-to-review affordance for wrong answers (MockTestState.skip() + MockTestResultView skipped section).
-4. ⏸️ Deferred, lowest priority (Phase 0.5 closed September 21, 2026): close the accessibility gap (VoiceOver + Dynamic Type on a real iPhone; code-level audit already done). Only the on-device checks remain; they are no longer part of the 0.5 closure.
+4. ⏸️ Deferred, lowest priority (Phase 0.5 closed September 21, 2026): close the accessibility gap (VoiceOver + Dynamic Type via **simulator + UI tests**; no real iPhone available). Code-level audit complete; simulator-based `performAccessibilityAudit()` coverage and Dynamic Type reflow verification via DeviceHub are the target. This item is no longer part of the 0.5 closure.
 
 ## Lifecycle
 
-This file is a working note. **Delete it after all four items above are complete**, then fold any durable decisions into `docs/plan/current-status.md` and the relevant `docs/architecture/` document in the same work unit. Item 4 is deferred, so the file stays open until that on-device review actually runs or is explicitly retired.
+This file is a working note. **Delete it after all four items above are complete**, then fold any durable decisions into `docs/plan/current-status.md` and the relevant `docs/architecture/` document in the same work unit. Item 4 is deferred (simulator-only), so the file stays open until the simulator-based accessibility audit runs or is explicitly retired.
