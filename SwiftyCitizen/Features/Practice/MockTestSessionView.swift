@@ -152,17 +152,23 @@ struct MockTestSessionView: View {
          }
     }
 
+    /// Stable IDs the learner deferred via skip. These are shown under "Skipped during the test"
+    /// and must not also appear under "Review missed", so the two sections stay disjoint.
+    private var skippedStableIDSet: Set<String> {
+        Set(session?.skippedStableIDs ?? [])
+    }
+
     private var missedQuestions: [QuestionContent] {
         let bank = (try? QuestionBankLoader().load(version: version)) ?? []
         let bankByID = Dictionary(uniqueKeysWithValues: bank.map { ($0.stableID, $0) })
         return state.answers
-            .filter { !$0.isCorrect }
+            .filter { !$0.isCorrect && !skippedStableIDSet.contains($0.questionStableID) }
             .compactMap { bankByID[$0.questionStableID] }
     }
 
     private var missedAnswers: [String: String] {
         state.answers
-            .filter { !$0.isCorrect }
+            .filter { !$0.isCorrect && !skippedStableIDSet.contains($0.questionStableID) }
             .reduce(into: [String: String]()) { acc, answer in
                 acc[answer.questionStableID] = answer.response
             }
@@ -238,10 +244,12 @@ struct MockTestSessionView: View {
         session = newSession
     }
 
-    /// Ends the mock-test session (persisting it if any answers were recorded, otherwise
-    /// deleting it), then dismisses the view. Shared by the close button and the tab-switch guard.
+    /// Ends the mock-test session (persisting it if any answers or skips were recorded,
+    /// otherwise deleting it), then dismisses the view. Shared by the close button and the
+    /// tab-switch guard. Skips are kept even without answers: a learner who only defers questions
+    /// still wants the "Skipped during the test" review path to survive relaunch.
     private func endMockTest() {
-        if state.answers.isEmpty {
+        if state.answers.isEmpty && state.skippedCount == 0 {
             if let session { modelContext.delete(session) }
         } else {
             session?.endedAt = .now
@@ -289,15 +297,15 @@ struct MockTestSessionView: View {
     }
 
     private func skipQuestion() {
-        let skipped = state.skip()
-        // Mirror the skip into the persisted session so "defer to review" survives relaunch.
-        if skipped, let question = state.currentQuestion, let session {
-            if !session.skippedStableIDs.contains(question.stableID) {
-                session.skippedStableIDs.append(question.stableID)
-            }
+        _ = state.skip()
+        // Sync the authoritative in-memory skip list into the persisted session so "defer to
+        // review" survives relaunch. Copying the whole list (rather than appending a single ID
+        // read after the index advanced) avoids recording the wrong question.
+        if let session {
+            session.skippedStableIDs = state.skippedIDs
+            session.currentIndex = state.currentIndex
         }
         review = nil
-        session?.currentIndex = state.currentIndex
         answer = ""
         selectedOptionIndexes = []
     }

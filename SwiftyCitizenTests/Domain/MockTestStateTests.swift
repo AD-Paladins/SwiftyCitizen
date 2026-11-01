@@ -182,6 +182,29 @@ struct MockTestStateTests {
      }
 
      @Test
+     func skipAfterWrongAnswerKeepsBothRecordsAndAdvancesOnce() {
+         // Regression: the session view mirrors `skippedIDs` into the persisted session and
+         // excludes skipped IDs from the "missed" list. The state must keep the wrong answer in
+         // `answers` (so scoring is unaffected) while also recording the skip, and advance by
+         // exactly one — never two.
+         var state = MockTestState(
+             questions: [makeQuestion(id: "1"), makeQuestion(id: "2")],
+             maximumQuestionsAsked: 3,
+             passingScore: 3
+         )
+
+         _ = state.record("wrong answer", answeredAt: Date())
+         #expect(state.currentIndex == 0)
+         #expect(state.answers.map(\.questionStableID) == ["1"])
+
+         _ = state.skip()
+
+         #expect(state.skippedIDs == ["1"])
+         #expect(state.answers.map(\.questionStableID) == ["1"])
+         #expect(state.currentIndex == 1)
+     }
+
+     @Test
      func skipDoesNotRecordAnAnswer() {
          var state = MockTestState(
              questions: [makeQuestion(id: "1"), makeQuestion(id: "2")],
