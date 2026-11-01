@@ -281,13 +281,8 @@ struct MockTestSessionView: View {
     }
 
     private func advance() {
-        // T3 (S3): incorrect feedback stays visible >=2s; manual-advance only after 2s.
-        // Auto-advance removed from prior ~0.8s window; UX requires the >=2s hold first.
-        if let review = review, !review.isCorrect {
-            // per S3, the UI enforces the 2-second hold before `Next` is tappable.
-        }
-        if state.isComplete { finishTest(); return }
-        review = nil; showOfficialAnswer = false; state.advance()
+        review = nil
+        state.advance()
         session?.currentIndex = state.currentIndex
         answer = ""
         selectedOptionIndexes = []
