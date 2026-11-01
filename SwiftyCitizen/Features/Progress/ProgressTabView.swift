@@ -165,15 +165,13 @@ struct ProgressTabView: View {
                             onMistakes: { mistakesRoute = .mistakes }
                         )
 
-                        masteryBuckets
-
-                        topicCoverageSection
+                        MasteryBucketsRow(graduated: buckets.graduated, inReview: buckets.inReview, needsCare: buckets.needsCare)
 
                         accuracyBreakdownSection
 
-                        weakSpotsSection
+                        WeakSpotsSection(weakSpots: weakSpotsData, questionText: { questionIndex[$0]?.officialQuestion ?? $0 }, onTopicTap: openTopic, onQueue: queueWeakSpots)
 
-                        momentumSection
+                        MomentumSection(streak: streakCount)
                     }
                     .padding(Space.lg.value)
                 }
@@ -202,59 +200,7 @@ struct ProgressTabView: View {
         .padding(Space.lg.value)
     }
 
-    // MARK: - 2. Mastery buckets row
-
-    private var masteryBuckets: some View {
-        HStack(spacing: Space.sm.value) {
-            bucketCell(
-                count: buckets.graduated,
-                label: "progressBucketGraduated",
-                meaning: "progressBucketGraduatedMeaning",
-                tint: palette.success
-            )
-            bucketCell(
-                count: buckets.inReview,
-                label: "progressBucketInReview",
-                meaning: "progressBucketInReviewMeaning",
-                tint: palette.warning
-            )
-            bucketCell(
-                count: buckets.needsCare,
-                label: "progressBucketNeedsCare",
-                meaning: "progressBucketNeedsCareMeaning",
-                tint: palette.danger
-            )
-        }
-    }
-
-    private func bucketCell(count: Int, label: LocalizedStringKey, meaning: LocalizedStringKey, tint: Color) -> some View {
-        VStack(alignment: .leading, spacing: Space.xs.value) {
-            Text("\(count)")
-                .font(CivicText.headlineLG.font)
-                .foregroundStyle(tint)
-                .monospacedDigit()
-            Text(label)
-                .font(CivicText.labelSM.font.weight(.semibold))
-                .foregroundStyle(palette.ink)
-            Text(meaning)
-                .font(CivicText.bodySM.font)
-                .foregroundStyle(palette.dimmed)
-           .multilineTextAlignment(.leading)
-    }
-    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .padding(Space.md.value)
-        .cardStyle()
-    }
-
-    // MARK: - 3. Topic coverage
-
-    private var topicCoverageSection: some View {
-        TopicCoverageSection(rows: coverageRows) { topic in
-            openTopic(topic)
-        }
-    }
-
-    private var accuracyBreakdownSection: some View {
+   private var accuracyBreakdownSection: some View {
         AccuracyBreakdownSection(
             rows: breakdownRows,
             overallAccuracy: overallAccuracyValue,
@@ -293,112 +239,6 @@ struct ProgressTabView: View {
                 orderIndex: index
             )
         }
-    }
-
-    // MARK: - 4. Critical weak spots
-
-    private var weakSpotsSection: some View {
-        VStack(alignment: .leading, spacing: Space.lg.value) {
-            sectionHeader(
-                title: "progressWeakSpotsHeader",
-                subtitle: "\(weakSpotsData.count) \(String(localized: "progressWeakItems"))"
-            )
-
-            if weakSpotsData.isEmpty {
-                Text("progressWeakSpotsNone")
-                    .font(CivicText.bodyMD.font)
-                    .foregroundStyle(palette.dimmed)
-            } else {
-                VStack(spacing: 0) {
-                    ForEach(weakSpotsData, id: \.stableID) { spot in
-                        weakSpotRow(spot)
-                    }
-                }
-                .cardStyle()
-            }
-
-            if !weakSpotsData.isEmpty {
-                queueButton(count: weakSpotsData.count)
-            }
-        }
-    }
-
-    private func weakSpotRow(_ spot: ProgressAnalytics.WeakSpot) -> some View {
-        let question = questionIndex[spot.stableID]?.officialQuestion ?? spot.stableID
-        return HStack(spacing: Space.sm.value) {
-            VStack(alignment: .leading, spacing: Space.xs.value) {
-                Text(question)
-                    .font(CivicText.labelMD.font.weight(.semibold))
-                    .foregroundStyle(palette.ink)
-                    .fixedSize(horizontal: false, vertical: true)
-                Text(spot.topic)
-                    .font(CivicText.labelSM.font)
-                    .foregroundStyle(palette.dimmed)
-            }
-            Spacer()
-            Text(accuracyText(spot.accuracy))
-                .font(CivicText.labelMD.font.weight(.semibold))
-                .foregroundStyle(palette.ink)
-                .monospacedDigit()
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(Space.sm.value)
-        .background(palette.canvas.opacity(0.4))
-        .contentShape(Rectangle())
-        .onTapGesture { openTopic(spot.topic) }
-    }
-
-    private func queueButton(count: Int) -> some View {
-        return Button(action: queueWeakSpots) {
-            Text("\(count) \(String(localized: "progressQueueWeakItems"))")
-                .font(CivicText.labelMD.font.weight(.semibold))
-                .frame(maxWidth: .infinity)
-        }
-        .buttonStyle(.bordered)
-        .controlSize(ControlSize.regular)
-        .tint(palette.primary)
-        .foregroundStyle(palette.primary)
-    }
-
-    // MARK: - 5. Study momentum (streak only)
-
-    private var momentumSection: some View {
-        HStack(spacing: Space.md.value) {
-            VStack(alignment: .leading, spacing: Space.xs.value) {
-                Text("progressMomentumStreak")
-                    .font(CivicText.labelMD.font)
-                    .foregroundStyle(palette.dimmed)
-                Text("\(streakCount)")
-                    .font(CivicText.headlineLG.font)
-                    .foregroundStyle(palette.ink)
-                    .monospacedDigit()
-            }
-            Spacer()
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(Space.lg.value)
-        .cardStyle()
-    }
-
-    // MARK: - Shared helpers
-
-    private func sectionHeader(title: LocalizedStringKey, subtitle: String? = nil) -> some View {
-        VStack(alignment: .leading, spacing: Space.xs.value) {
-            Text(title)
-                .font(CivicText.headlineSM.font)
-                .foregroundStyle(palette.ink)
-            if let subtitle {
-                Text(subtitle)
-                    .font(CivicText.labelMD.font)
-                    .foregroundStyle(palette.dimmed)
-                    .monospacedDigit()
-            }
-        }
-    }
-
-    private func accuracyText(_ accuracy: Double?) -> String {
-        guard let accuracy else { return "—" }
-        return "\(Int((accuracy * 100).rounded()))%"
     }
 
     /// Queues a targeted review on the exact low-accuracy set this tab counts. `TargetedReviewView`

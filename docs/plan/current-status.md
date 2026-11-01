@@ -46,6 +46,7 @@ Suite 253/253 ✔ throughout. Per-phase detail lives in `odd/tasks/value-rebuild
 
 The value-rebuild plan is complete. No product slice is prioritized next; the remaining items are deferred to hardware or left as optional design decisions:
 
+- **Domain package (`SwiftyCitizenCore`) integration** — domain extracted as an SPM package and verified standalone (`swift build`/`swift test`); wiring it into the app is pending. Wire via Xcode GUI (manual pbxproj fails with "Unable to resolve module dependency"), make types `public`, add `import SwiftyCitizenCore` to ~24 files, remove moved files from `Core/Domain`, verify 279 tests. Combined with evaluating the broader Swift packages vision (which logic/components extract as independent packages) and reporting. See `docs/plan/domain-package.md`.
 - **Bookmark** (flag a question to review later) — `✅` done (`4078be7`). Live `@Model`: one "review later" marker per (question, test version) pair, independent of sessions and restored on resume.
 - **Audio** (`volume_up`) — complete via `SpeechManager` (AVSpeechSynthesizer) in the flashcard session.
 - **On-device accessibility review** (VoiceOver + Dynamic Type at max text sizes) — needs a real iPhone; lowest priority, last on the roadmap (see engineering-hygiene item 4).
