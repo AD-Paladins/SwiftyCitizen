@@ -1,7 +1,215 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {},
+    "" : {
+
+    },
+    "—" : {
+
+    },
+    "%@ (%lld)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ (%2$lld)"
+          }
+        }
+      }
+    },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "%@ %@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@ %3$@"
+          }
+        }
+      }
+    },
+    "%@ %@%lld%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@%3$lld%4$@"
+          }
+        }
+      }
+    },
+    "%@ %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$lld"
+          }
+        }
+      }
+    },
+    "%@ %lld %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$lld %3$@"
+          }
+        }
+      }
+    },
+    "%@ %lld %@ %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$lld %3$@ %4$lld"
+          }
+        }
+      }
+    },
+    "%@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@"
+          }
+        }
+      }
+    },
+    "%@: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@"
+          }
+        }
+      }
+    },
+    "%@: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$lld"
+          }
+        }
+      }
+    },
+    "%@%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$@"
+          }
+        }
+      }
+    },
+    "%@%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$@ %3$@"
+          }
+        }
+      }
+    },
+    "%@%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$lld"
+          }
+        }
+      }
+    },
+    "%@%lld %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$lld %3$@"
+          }
+        }
+      }
+    },
+    "%@%lld%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$lld%3$@"
+          }
+        }
+      }
+    },
+    "%lld" : {
+
+    },
+    "%lld %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld %2$@"
+          }
+        }
+      }
+    },
+    "%lld %@ %@ • ~%lld %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld %2$@ %3$@ • ~%4$lld %5$@"
+          }
+        }
+      }
+    },
+    "%lld %@ %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld %2$@ %3$lld"
+          }
+        }
+      }
+    },
+    "%lld %@ %lld %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld %2$@ %3$lld %4$@"
+          }
+        }
+      }
+    },
+    "%lld%% %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld%% %2$@"
+          }
+        }
+      }
+    },
     "65/20" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -83,6 +291,36 @@
         }
       }
     },
+    "archivalTipLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archival Memory Tip"
+          }
+        }
+      }
+    },
+    "civicsFactTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Civics Fact of the Day"
+          }
+        }
+      }
+    },
+    "civicsReadBrief" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read brief"
+          }
+        }
+      }
+    },
     "commonNotSet" : {
       "localizations" : {
         "en" : {
@@ -115,23 +353,6 @@
         }
       }
     },
-    "configDisclaimerNotAccepted" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accept the study aid notice to save your configuration."
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acepta el aviso del material de estudio para guardar tu configuración."
-          }
-        }
-      }
-    },
     "configDailyGoalNote" : {
       "localizations" : {
         "en" : {
@@ -148,6 +369,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Daily review goal"
+          }
+        }
+      }
+    },
+    "configDisclaimerNotAccepted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accept the study aid notice to save your configuration."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acepta el aviso del material de estudio para guardar tu configuración."
           }
         }
       }
@@ -560,7 +798,161 @@
         }
       }
     },
+    "contentInfoEntryTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Content information"
+          }
+        }
+      }
+    },
+    "contentInfoReferencesNote" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sourced from %d references"
+          }
+        }
+      }
+    },
+    "contentInfoRevisionLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revision"
+          }
+        }
+      }
+    },
+    "contentInfoSourceLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Content source"
+          }
+        }
+      }
+    },
+    "contentInfoTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About this content"
+          }
+        }
+      }
+    },
+    "contentInfoUnavailable" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not available"
+          }
+        }
+      }
+    },
+    "contentInfoVerifiedLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last verified"
+          }
+        }
+      }
+    },
+    "contentInfoVersionLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test version"
+          }
+        }
+      }
+    },
+    "Did you know? Thomas Jefferson drafted the Declaration of Independence in just 17 days in a quiet rented lodging house at 7th & Market in Philadelphia." : {
+
+    },
+    "heroCompleteLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "complete"
+          }
+        }
+      }
+    },
+    "heroDailyProgressLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Target Progress"
+          }
+        }
+      }
+    },
+    "heroDrillTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready for today's drill?"
+          }
+        }
+      }
+    },
+    "heroDueToday" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "due today"
+          }
+        }
+      }
+    },
+    "heroHabitChip" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Habit"
+          }
+        }
+      }
+    },
+    "heroMinEstimated" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min estimated"
+          }
+        }
+      }
+    },
+    "heroSessionPrefix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Session"
+          }
+        }
+      }
+    },
     "homeBookmarkedCardHint" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -571,6 +963,7 @@
       }
     },
     "homeBookmarkedCardTitle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -581,6 +974,7 @@
       }
     },
     "homeBookmarkedEmptyCaughtupMessage" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -591,6 +985,7 @@
       }
     },
     "homeBookmarkedEmptyCaughtupTitle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -601,6 +996,7 @@
       }
     },
     "homeBookmarkedEmptyMessage" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -611,11 +1007,32 @@
       }
     },
     "homeBookmarkedEmptyTitle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nothing saved yet"
+          }
+        }
+      }
+    },
+    "homeComingSoonMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This mode is being set up."
+          }
+        }
+      }
+    },
+    "homeComingSoonTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coming soon"
           }
         }
       }
@@ -638,6 +1055,7 @@
       }
     },
     "homeContinueSubtitle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -654,6 +1072,7 @@
       }
     },
     "homeContinueTitle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -670,6 +1089,7 @@
       }
     },
     "homeDuenextCardHint" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -754,6 +1174,7 @@
       }
     },
     "homeDuenextTitle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -817,6 +1238,76 @@
         }
       }
     },
+    "homeHeroStart" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Daily Review"
+          }
+        }
+      }
+    },
+    "homeInterviewFiledLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filed"
+          }
+        }
+      }
+    },
+    "homeInterviewTargetLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target"
+          }
+        }
+      }
+    },
+    "homeInterviewTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estimated USCIS Interview"
+          }
+        }
+      }
+    },
+    "homeInterviewUnavailableMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your N-400 filing date in Settings to estimate your USCIS interview."
+          }
+        }
+      }
+    },
+    "homeInterviewUnavailableTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set your filing date"
+          }
+        }
+      }
+    },
+    "homeLaunchpadLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Launchpad"
+          }
+        }
+      }
+    },
     "homeMetricGotit" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -851,7 +1342,18 @@
         }
       }
     },
+    "homeStreakDaySuffix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "d"
+          }
+        }
+      }
+    },
     "homeStreakLabel" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -918,6 +1420,7 @@
       }
     },
     "homeTodayTitle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -929,6 +1432,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hoy"
+          }
+        }
+      }
+    },
+    "homeTrackBadgeBank" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bank"
+          }
+        }
+      }
+    },
+    "homeTrackBadgePrefix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Track:"
+          }
+        }
+      }
+    },
+    "Item 2008-009 • In your active deck" : {
+
+    },
+    "July 4 & The 17-Day Draft" : {
+
+    },
+    "listeningQueueLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queue"
+          }
+        }
+      }
+    },
+    "listeningSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-free audio player for car drives & daily chores."
+          }
+        }
+      }
+    },
+    "listeningTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listening Mode"
           }
         }
       }
@@ -1520,6 +2079,36 @@
         }
       }
     },
+    "oralSimFooter" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 min quick drill"
+          }
+        }
+      }
+    },
+    "oralSimSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speak answers out loud like the real officer interview."
+          }
+        }
+      }
+    },
+    "oralSimTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oral Simulator"
+          }
+        }
+      }
+    },
     "practiceHeaderSubtitle" : {
       "localizations" : {
         "en" : {
@@ -1582,6 +2171,26 @@
         }
       }
     },
+    "progressAccuracyBreakdownEmpty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take a mock test to see accuracy by topic."
+          }
+        }
+      }
+    },
+    "progressAccuracyBreakdownSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All test sessions"
+          }
+        }
+      }
+    },
     "progressAccuracyBreakdownTitle" : {
       "localizations" : {
         "en" : {
@@ -1603,6 +2212,7 @@
       }
     },
     "progressAccuracyMastered" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1628,26 +2238,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Overall accuracy"
-          }
-        }
-      }
-    },
-    "progressAccuracyBreakdownEmpty" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Take a mock test to see accuracy by topic."
-          }
-        }
-      }
-    },
-    "progressAccuracyBreakdownSubtitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All test sessions"
           }
         }
       }
@@ -1763,6 +2353,7 @@
       }
     },
     "progressHeroFailed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1773,6 +2364,27 @@
       }
     },
     "progressHeroLabel" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latest mock test"
+          }
+        }
+      }
+    },
+    "progressHeroMistakes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mistakes"
+          }
+        }
+      }
+    },
+    "progressHeroMockLabel" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1792,12 +2404,23 @@
         }
       }
     },
-    "progressHeroMockLabel" : {
+    "progressHeroPassed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Latest mock test"
+            "value" : "Passed"
+          }
+        }
+      }
+    },
+    "progressMistakesComingSoon" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mistakes screen coming soon"
           }
         }
       }
@@ -1822,62 +2445,12 @@
         }
       }
     },
-    "progressPassingMarkPrefix" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Passing mark:"
-          }
-        }
-      }
-    },
     "progressMockSeen" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "seen"
-          }
-        }
-      }
-    },
-    "progressRetakeMockExam" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Retake Mock Exam"
-          }
-        }
-      }
-    },
-    "progressHeroMistakes" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mistakes"
-          }
-        }
-      }
-    },
-    "progressMistakesComingSoon" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mistakes screen coming soon"
-          }
-        }
-      }
-    },
-    "progressHeroPassed" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Passed"
           }
         }
       }
@@ -1892,12 +2465,32 @@
         }
       }
     },
+    "progressPassingMarkPrefix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passing mark:"
+          }
+        }
+      }
+    },
     "progressQueueWeakItems" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "targeted weak items to review"
+          }
+        }
+      }
+    },
+    "progressRetakeMockExam" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retake Mock Exam"
           }
         }
       }
@@ -1918,12 +2511,52 @@
         }
       }
     },
+    "progressTopicAccuracy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accuracy"
+          }
+        }
+      }
+    },
+    "progressTopicAreasOf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Areas"
+          }
+        }
+      }
+    },
+    "progressTopicCoverageSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coverage & category mastery"
+          }
+        }
+      }
+    },
     "progressTopicCoverageTitle" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Are you hitting all areas?"
+          }
+        }
+      }
+    },
+    "progressTopicNotStarted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not started"
           }
         }
       }
@@ -1949,6 +2582,7 @@
       }
     },
     "progressTopicSeenOf" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1988,6 +2622,26 @@
         }
       }
     },
+    "quickModesSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-free & Speech"
+          }
+        }
+      }
+    },
+    "quickModesTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick Modes"
+          }
+        }
+      }
+    },
     "selectionSelected" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2017,86 +2671,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apariencia"
-          }
-        }
-      }
-    },
-    "contentInfoTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "About this content"
-          }
-        }
-      }
-    },
-    "contentInfoEntryTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Content information"
-          }
-        }
-      }
-    },
-    "contentInfoVersionLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Test version"
-          }
-        }
-      }
-    },
-    "contentInfoSourceLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Content source"
-          }
-        }
-      }
-    },
-    "contentInfoRevisionLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Revision"
-          }
-        }
-      }
-    },
-    "contentInfoVerifiedLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Last verified"
-          }
-        }
-      }
-    },
-    "contentInfoReferencesNote" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sourced from %d references"
-          }
-        }
-      }
-    },
-    "contentInfoUnavailable" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not available"
           }
         }
       }
@@ -2935,6 +3509,17 @@
         }
       }
     },
+    "studySummaryReviewAction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review your weak topics"
+          }
+        }
+      }
+    },
     "studySummaryReviewedPlural" : {
       "localizations" : {
         "en" : {
@@ -2980,17 +3565,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "pregunta."
-          }
-        }
-      }
-    },
-    "studySummaryReviewAction" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Review your weak topics"
           }
         }
       }
@@ -3354,346 +3928,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bienvenido a SwiftyCitizen"
-          }
-        }
-      }
-    },
-    "progressTopicCoverageSubtitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coverage & category mastery"
-          }
-        }
-      }
-    },
-    "progressTopicAreasOf" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Areas"
-          }
-        }
-      }
-    },
-    "progressTopicNotStarted" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not started"
-          }
-        }
-      }
-    },
-    "progressTopicAccuracy" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accuracy"
-          }
-        }
-      }
-    },
-    "homeLaunchpadLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Daily Launchpad"
-          }
-        }
-      }
-    },
-    "homeTrackBadgePrefix" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Track:"
-          }
-        }
-      }
-    },
-    "homeTrackBadgeBank" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bank"
-          }
-        }
-      }
-    },
-    "homeStreakDaySuffix" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "d"
-          }
-        }
-      }
-    },
-    "homeInterviewTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Estimated USCIS Interview"
-          }
-        }
-      }
-    },
-    "homeInterviewTargetLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Target"
-          }
-        }
-      }
-    },
-    "homeInterviewFiledLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filed"
-          }
-        }
-      }
-    },
-    "homeInterviewUnavailableTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Set your filing date"
-          }
-        }
-      }
-    },
-    "homeInterviewUnavailableMessage" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add your N-400 filing date in Settings to estimate your USCIS interview."
-          }
-        }
-      }
-    },
-    "heroDrillTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ready for today's drill?"
-          }
-        }
-      }
-    },
-    "heroHabitChip" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Daily Habit"
-          }
-        }
-      }
-    },
-    "heroSessionPrefix" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Session"
-          }
-        }
-      }
-    },
-    "heroDueToday" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "due today"
-          }
-        }
-      }
-    },
-    "heroMinEstimated" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min estimated"
-          }
-        }
-      }
-    },
-    "heroDailyProgressLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Daily Target Progress"
-          }
-        }
-      }
-    },
-    "heroCompleteLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "complete"
-          }
-        }
-      }
-    },
-    "homeHeroStart" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start Daily Review"
-          }
-        }
-      }
-    },
-    "quickModesTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quick Modes"
-          }
-        }
-      }
-    },
-    "quickModesSubtitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hands-free & Speech"
-          }
-        }
-      }
-    },
-    "oralSimTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oral Simulator"
-          }
-        }
-      }
-    },
-    "oralSimSubtitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Speak answers out loud like the real officer interview."
-          }
-        }
-      }
-    },
-    "oralSimFooter" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "5 min quick drill"
-          }
-        }
-      }
-    },
-    "listeningTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Listening Mode"
-          }
-        }
-      }
-    },
-    "listeningSubtitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hands-free audio player for car drives & daily chores."
-          }
-        }
-      }
-    },
-    "listeningQueueLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Queue"
-          }
-        }
-      }
-    },
-    "archivalTipLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archival Memory Tip"
-          }
-        }
-      }
-    },
-    "civicsFactTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Civics Fact of the Day"
-          }
-        }
-      }
-    },
-    "civicsReadBrief" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Read brief"
-          }
-        }
-      }
-    },
-    "homeComingSoonTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coming soon"
-          }
-        }
-      }
-    },
-    "homeComingSoonMessage" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This mode is being set up."
           }
         }
       }
