@@ -242,7 +242,8 @@ struct ProgressAnalyticsTests {
     @Test
     func accuracyByDomainIgnoresGotItOnlyAttempts() {
         // A learner who only ever tapped "Got it" (never a mock test) has no accuracy signal —
-        // self-assessment must not be presented as accuracy.
+        // self-assessment must not be presented as accuracy, so the topic reports nil (rendered
+        // as "—") rather than a fake 0%.
         let topicIndex = ["a": "Government", "b": "History"]
         let attempts = [
             snapshot(id: "a", assessment: .gotIt, wasCorrect: nil, boxLevel: 3, at: now),
@@ -252,7 +253,7 @@ struct ProgressAnalyticsTests {
         let government = ProgressAnalytics.accuracyByDomain(
             attempts: attempts, topicIndex: topicIndex, for: .twoThousandTwentyFive
         ).first { $0.topic == "Government" }!
-        #expect(government.accuracy == 0.0)
+        #expect(government.accuracy == nil)
     }
 
     @Test

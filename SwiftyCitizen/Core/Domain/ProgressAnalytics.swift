@@ -188,8 +188,14 @@ enum ProgressAnalytics {
 
         return order.map { topic in
             let attemptsInTopic = versionAttempts.filter { topicIndex[$0.stableID] == topic }
+            // Mock-test-only accuracy: a topic with only self-assessed attempts has no
+            // determinate signal and reports nil (rendered as "—"), never a fake 0%.
             let correct = attemptsInTopic.filter { StudyProgressMetrics.isCorrect($0) }.count
-            let accuracy = attemptsInTopic.isEmpty ? nil : Double(correct) / Double(attemptsInTopic.count)
+            let hasGradedSignal = attemptsInTopic.contains { $0.wasCorrect != nil }
+            let accuracy: Double? = {
+                guard !attemptsInTopic.isEmpty, hasGradedSignal else { return nil }
+                return Double(correct) / Double(attemptsInTopic.count)
+            }()
             // "N of M" counts distinct questions seen, never attempt count, so it can never exceed M.
             let distinctSeen = Set(attemptsInTopic.map(\.stableID)).count
             return (topic, accuracy, distinctSeen)
@@ -198,8 +204,9 @@ enum ProgressAnalytics {
 
     /// The lowest-accuracy attempted cards for a version, mapped to their topic.
     ///
-    /// Per-card accuracy is correct / last-N (default 5). Cards with no determinate correctness
-    /// signal (unanswered) are excluded; the rest sort ascending by accuracy and take up to `limit`.
+    /// Per-card accuracy is correct / last-N mock-test attempts (default 5). Cards with no
+    /// mock-test history have no determinate correctness signal and are excluded; the rest sort
+    /// ascending by accuracy and take up to `limit`.
     static func weakSpots(
         attempts: [StudyAttemptSnapshot],
         questions: [QuestionContent],
@@ -361,13 +368,11 @@ enum ProgressAnalytics {
     }
 
     /// Correct / last-N accuracy for a card, or nil when the card has no determinate correctness
-    /// signal (every considered attempt is unanswered). Used to rank weak spots and flag needs-care.
+    /// signal (no mock-test attempts). Delegates to the single shared definition in
+    /// `StudyProgressMetrics.perCardAccuracy` so weak spots, needs-care, and the manual
+    /// "Low accuracy" review scope can never drift apart.
     private static func perCardAccuracy(_ attempts: [StudyAttemptSnapshot], lastN: Int) -> Double? {
-        let ordered = attempts.sorted { $0.answeredAt > $1.answeredAt }.prefix(lastN)
-        guard !ordered.isEmpty else { return nil }
-        guard ordered.contains(where: { $0.wasCorrect != nil || $0.assessment != nil }) else { return nil }
-        let correct = ordered.filter { StudyProgressMetrics.isCorrect($0) }.count
-        return Double(correct) / Double(ordered.count)
+        StudyProgressMetrics.perCardAccuracy(attempts, lastN: lastN)
     }
 
     /// Distinct bank questions that are unseen (never attempted) or whose latest state is `.again` /
@@ -402,7 +407,9 @@ enum ProgressAnalytics {
                 continue                            // mastered-ish — not needs-care
             }
 
-            // Latest is `.hard` or a wrong mock-test result: flag when the card's accuracy is low.
+            // Latest is `.hard` or a wrong mock-test result: flag when the card's mock-test
+            // accuracy is low. A card with no mock-test history has no accuracy signal (nil) and
+            // is not flagged here — the scheduler's Due scope still surfaces it on its interval.
             let cardAccuracy = perCardAccuracy(
                 versionAttempts.filter { $0.stableID == stableID },
                 lastN: 5

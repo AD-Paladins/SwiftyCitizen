@@ -458,6 +458,22 @@ struct TargetedReviewTests {
     }
 
     @Test
+    func lowAccuracyFallbackExcludesSelfAssessedOnlyCards() {
+        // A card studied only via flashcards (self-assessment, wasCorrect nil) has no accuracy
+        // signal — it must not surface in "Low accuracy" as a fake 0%. Only the mock-tested,
+        // actually-wrong card belongs in the scope.
+        let questions = [makeQuestion(id: "a"), makeQuestion(id: "b")]
+        let attempts = [
+            StudyAttemptSnapshot(stableID: "a", testVersion: .twoThousandTwentyFive, assessment: .gotIt, wasCorrect: nil, answeredAt: Date()),
+            StudyAttemptSnapshot(stableID: "b", testVersion: .twoThousandTwentyFive, assessment: nil, wasCorrect: false, answeredAt: Date()),
+        ]
+
+        let deck = ReviewDeckBuilder.build(questions: questions, attempts: attempts, scope: .lowAccuracy)
+
+        #expect(deck.map(\.stableID) == ["b"])
+    }
+
+    @Test
     func bookmarkPersistsIndependentlyOfSessions() throws {
         let modelContainer = try ModelContainer(
             for: Bookmark.self,

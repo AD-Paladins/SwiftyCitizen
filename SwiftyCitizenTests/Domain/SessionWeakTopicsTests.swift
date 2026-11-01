@@ -103,6 +103,22 @@ struct SessionWeakTopicsTests {
         #expect(!SessionWeakTopics.compute(attempts: attempts, questions: questions).isEmpty)
     }
 
+    @Test func successRateUsesMostRecentAttemptsNotOldest() {
+        // Six attempts, no miss: three early .hard then three .gotIt. The rate must be computed
+        // over the LAST five (3/5 = 0.6 > 0.5 → recovered, not weak), not the first five
+        // (2/5 = 0.4 → would stay weak on stale history).
+        let questions = [question(id: "a", topic: "Government")]
+        let attempts = [
+            attempt(id: "a", assessment: .hard),
+            attempt(id: "a", assessment: .hard),
+            attempt(id: "a", assessment: .hard),
+            attempt(id: "a", assessment: .gotIt),
+            attempt(id: "a", assessment: .gotIt),
+            attempt(id: "a", assessment: .gotIt),
+        ]
+        #expect(SessionWeakTopics.compute(attempts: attempts, questions: questions).isEmpty)
+    }
+
     @Test func ignoresAttemptsForQuestionsMissingFromDeck() {
         // An attempt whose stableID isn't in the deck maps to no topic and is skipped.
         let questions = [question(id: "a", topic: "Government")]

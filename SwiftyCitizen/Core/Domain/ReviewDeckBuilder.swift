@@ -128,7 +128,9 @@ enum ReviewDeckBuilder {
 
         case .lowAccuracy:
             // The exact set the Progress tab counts wins; otherwise fall back to attempted cards
-            // whose per-card accuracy is at or below the low-accuracy threshold.
+            // whose mock-test per-card accuracy is at or below the low-accuracy threshold.
+            // Cards with only self-assessed (flashcard) history have no accuracy signal and are
+            // excluded — "Low accuracy" means measured low, not "never mock-tested".
             if !weakStableIDs.isEmpty {
                 return questions.filter { weakStableIDs.contains($0.stableID) }
             }
@@ -154,13 +156,10 @@ enum ReviewDeckBuilder {
         }
     }
 
-    // ponytail: mirrors ProgressAnalytics.perCardAccuracy so the manual "Low accuracy" scope has a
-    // definition without importing that type; keep in sync if either threshold changes.
+    /// Delegates to the single shared per-card accuracy definition (mock-test attempts only), so
+    /// this scope and Progress's weak spots / needs-care can never drift apart.
     private static func perCardAccuracy(_ attempts: [StudyAttemptSnapshot], lastN: Int) -> Double? {
-        let ordered = attempts.sorted { $0.answeredAt > $1.answeredAt }.prefix(lastN)
-        guard !ordered.isEmpty else { return nil }
-        let correct = ordered.filter { $0.wasCorrect == true }.count
-        return Double(correct) / Double(ordered.count)
+        StudyProgressMetrics.perCardAccuracy(attempts, lastN: lastN)
     }
 
     // ponytail: magic low-accuracy threshold; shared concept with ProgressAnalytics.lowAccuracyThreshold.

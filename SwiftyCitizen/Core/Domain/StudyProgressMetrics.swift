@@ -149,6 +149,21 @@ enum StudyProgressMetrics {
         attempt.wasCorrect == true
     }
 
+    /// Correct / last-N accuracy for a single card, or nil when the card has no determinate
+    /// correctness signal in its history (every attempt is self-assessed only).
+    ///
+    /// The single app-wide per-card accuracy definition: only mock-test attempts (`wasCorrect`
+    /// non-nil) enter the window, so flashcard practice never dilutes or fakes an accuracy number.
+    /// Shared by `ProgressAnalytics` (weak spots, needs-care) and `ReviewDeckBuilder` (manual
+    /// "Low accuracy" scope) so the two surfaces can never drift apart.
+    static func perCardAccuracy(_ attempts: [StudyAttemptSnapshot], lastN: Int) -> Double? {
+        let graded = attempts.filter { $0.wasCorrect != nil }
+        let ordered = graded.sorted { $0.answeredAt > $1.answeredAt }.prefix(lastN)
+        guard !ordered.isEmpty else { return nil }
+        let correct = ordered.filter { isCorrect($0) }.count
+        return Double(correct) / Double(ordered.count)
+    }
+
     /// Per-topic coverage + accuracy for a single test version.
     ///
     /// `topicIndex` maps every stableID of the *version* to its topic and is resolved once by
@@ -179,8 +194,14 @@ enum StudyProgressMetrics {
             let attemptedIDs = Set(attemptsInTopic.map(\.0.stableID))
             let unseen = max(0, (totalByTopic[topic] ?? 0) - attemptedIDs.count)
 
+            // Accuracy is mock-test-only: a topic whose attempts are all self-assessed has no
+            // determinate signal and reports nil (rendered as "—"), never a fake 0%.
             let correctAttempts = attemptsInTopic.filter { isCorrect($0.0) }.count
-            let accuracy = attemptsInTopic.isEmpty ? nil : Double(correctAttempts) / Double(attemptsInTopic.count)
+            let hasGradedSignal = attemptsInTopic.contains { $0.0.wasCorrect != nil }
+            let accuracy: Double? = {
+                guard !attemptsInTopic.isEmpty, hasGradedSignal else { return nil }
+                return Double(correctAttempts) / Double(attemptsInTopic.count)
+            }()
 
             var mastered = 0
             for stableID in attemptedIDs {

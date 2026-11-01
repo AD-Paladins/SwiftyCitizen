@@ -60,7 +60,10 @@ enum SessionWeakTopics {
     private static func isWeak(_ attempts: [FlashcardAttemptRecord]) -> Bool {
         // A miss is an unambiguous signal; otherwise fall back to the per-card success rate.
         if attempts.contains(where: { $0.assessment == .again }) { return true }
-        let ordered = attempts.prefix(lookback)
+        // Attempts arrive in chronological (insertion) order, so the LAST `lookback` are the
+        // most recent — matching ReviewDeckBuilder's most-recent-first lookback. A card that
+        // recovered after an early streak of misses must not stay weak on stale history.
+        let ordered = attempts.suffix(lookback)
         guard !ordered.isEmpty else { return false }
         let correct = ordered.filter { $0.assessment == .gotIt }.count
         return Double(correct) / Double(ordered.count) <= lowAccuracyThreshold
