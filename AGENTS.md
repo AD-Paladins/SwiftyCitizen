@@ -19,7 +19,7 @@ The `pre-commit` hook used to run `gga run` (Gentleman Guardian Angel AI code re
 
 Before writing code, review the working plan and the current state of the project in this order:
 
-1. `docs/plan/current-status.md` — current implementation status and the next slice.
+1. `docs/plan/current-status.md` — current implementation status. **Read its "Immediate next tasks (start here)" section first** for the ready-to-go work (currently: mock-test skip-UX T5 in `odd/tasks/mock-test-ux-fixes.md`, and the accessibility audit extension in `docs/audit/code-and-architecture-audit.md` Item 4), then the rest for context.
 2. `docs/plan/product-plan.md` — product phases, scope, and transition rules.
 3. `docs/plan/uscis-test-rules.md` — authoritative USCIS rules and configuration boundaries.
 4. `docs/plan/screen-inventory.md` — screen responsibilities and the first-release scope.
@@ -32,7 +32,7 @@ Use these documents as the default source of truth. Do not start from a blank sl
 
 ## Active Engineering-Hygiene Roadmap
 
-`docs/audit/code-and-architecture-audit.md` tracks four cross-cutting items (moving `StudySession.resumeState()` out of the `@Model`, thin tests for the untested core, deferred mock-test findings, accessibility device review — deferred to LAST, hardware-dependent and lowest priority). Work these in order and delete the audit file once all four are complete.
+`docs/audit/code-and-architecture-audit.md` tracks four cross-cutting items (moving `StudySession.resumeState()` out of the `@Model`, thin tests for the untested core, deferred mock-test findings, accessibility device review — deferred to LAST, hardware-dependent and lowest priority). Work these in order and delete the audit file once all four are complete. Item 4 (accessibility) now has a full simulator-based how-to in that file; it is one of the two ready tasks listed under "Immediate next tasks" in `docs/plan/current-status.md`.
 
 ## Architecture Documentation
 
