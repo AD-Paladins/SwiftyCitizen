@@ -6,19 +6,28 @@ Last verified: November 1, 2026
 
 SwiftyCitizen now has the verified content and rules foundation for the USCIS civics app, the first onboarding slice in SwiftUI, the tab-based dashboard, three working study flows (flashcards, targeted review, and mock test) backed by SwiftData persistence with resume support, and a deterministic answer evaluator for typed replies. The app correctly distinguishes 2008, 2025, and 65/20 configurations, persists a validated learner configuration, records study attempts, and renders the dashboard's Today and Due next metrics from real data.
 
-## Immediate next tasks (start here)
+## Task board — single source of truth (start here)
 
-Two small, fully-specified tasks are ready for the next session. Each spec is detailed enough to execute without further decisions.
+All open work lives in this one ordered list; nothing actionable should exist outside it. Priority order is top-to-bottom. Each task links to its spec; when a task is done, move it to **Done**. This is the central place every new session starts from.
 
-1. **Mock-test skip-UX — allow skipping an UNANSWERED question** (small, ~≤40 lines, one commit).
-   - What: "Skip this question" currently appears only after a wrong answer; make it available on any active question (unanswered or answered-wrong), never after a correct answer.
-   - Full unblocking spec (file, exact current structure, recommended diff, downstream invariants already guaranteed by `ce83e67`, edge cases, verification incl. UI-test navigation labels, non-goals): `odd/tasks/mock-test-ux-fixes.md` → **T5 / S5**.
-   - Domain/persistence are already correct — this is a UI-only change in `MockTestSessionView.swift`.
+### Ready (in priority order)
 
-2. **Accessibility audit extension** (simulator-based; audit item 4, lowest priority but now fully specified).
-   - What: extend `SwiftyCitizenUITests/AccessibilityAuditTests.swift` beyond the four tab landings to deeper sub-screens + max Dynamic Type reflow + increased-contrast mode; VoiceOver focus order stays real-iPhone-only.
-   - Full how-to (WHERE: file + existing `completeOnboardingIfNeeded` helper + 4 tab tests; HOW: Step 0 clean-run gotcha, Steps 1–4 with exact `simctl` commands and audit snippets, rules, definition of done): `docs/audit/code-and-architecture-audit.md` → **Item 4 section**.
-   - First get a clean UI-test run (the 2026-11-01 run failed at the simulator-connection level, not in the tests — workaround documented there).
+1. **Mock-test skip-UX** — allow "Skip this question" on an UNANSWERED question (not only after a wrong answer), never after a correct answer. UI-only in `MockTestSessionView.swift`, ~40 lines, one commit; domain/persistence already correct per `ce83e67`. Spec: `odd/tasks/mock-test-ux-fixes.md` → **T5 / S5**.
+2. **SwiftyCitizenCore SPM integration** — wire the extracted domain package into the app: make types `public`, add `import SwiftyCitizenCore` to ~24 files, remove moved files from `Core/Domain`, verify the suite (wire via Xcode GUI; manual pbxproj fails). Larger than #1; do after it. Spec: `docs/plan/domain-package.md`.
+3. **Accessibility audit extension** — extend `SwiftyCitizenUITests/AccessibilityAuditTests.swift` to sub-screens + max Dynamic Type + increased contrast; VoiceOver focus order stays real-iPhone-only. Simulator-based; first get a clean UI-test run (Step 0 infra gotcha). Lowest priority (deferred to last). Spec: `docs/audit/code-and-architecture-audit.md` → **Item 4**.
+
+### Decisions / deferred (not immediate work)
+
+- **Merge the three overlapping Progress specs into one** — a design decision, reported not merged; needs a product call before it becomes a task.
+- Phase 0.5 closed items remain historical only (see "Phase 0.5 — closed" below).
+
+### Done (recent — kept for traceability)
+
+- Mock-test skip/defer + official-answer reveal (mock-test-ux-fixes T1–T4) — `9f6d213`, `d749b4a`, `e7c8ee8`.
+- Bookmark (flag a question to review later) — `4078be7`.
+- Audio (SpeechManager in the flashcard session).
+- Consistency-audit fixes + domain-model audit closed — `ee16fe2`, `ce83e67` (suite 282/282).
+- Engineering-hygiene items 1–3 (resumeState out of @Model; thin core tests; deferred mock-test findings).
 
 ## Visual redesign planning (started September 24, 2026)
 
@@ -58,17 +67,11 @@ Suite 253/253 ✔ throughout. Per-phase detail lives in `odd/tasks/value-rebuild
 
 ## Next steps
 
-Two ready-to-go tasks are listed under **Immediate next tasks** above (mock-test skip-UX T5 and the accessibility audit extension). Beyond those, the value-rebuild plan is complete and the remaining items are deferred to hardware or left as optional design decisions:
-
-- **Domain package (`SwiftyCitizenCore`) integration** — domain extracted as an SPM package and verified standalone (`swift build`/`swift test`); wiring it into the app is pending. Wire via Xcode GUI (manual pbxproj fails with "Unable to resolve module dependency"), make types `public`, add `import SwiftyCitizenCore` to ~24 files, remove moved files from `Core/Domain`, verify 279 tests. Combined with evaluating the broader Swift packages vision (which logic/components extract as independent packages) and reporting. See `docs/plan/domain-package.md`.
-- **Bookmark** (flag a question to review later) — `✅` done (`4078be7`). Live `@Model`: one "review later" marker per (question, test version) pair, independent of sessions and restored on resume.
-- **Audio** (`volume_up`) — complete via `SpeechManager` (AVSpeechSynthesizer) in the flashcard session.
-- **On-device accessibility review** (VoiceOver + Dynamic Type at max text sizes) — needs a real iPhone; lowest priority, last on the roadmap (see engineering-hygiene item 4).
-- **Merge the three overlapping Progress specs** into one — a design decision, reported not merged.
+Open work is tracked in the **Task board** above — that is the single source of truth; this section adds context only. The value-rebuild plan is complete, and beyond the board the remaining items are deferred to hardware or are design decisions.
 
 ### Deferred: accessibility review on a real device — LAST, lowest priority
 
-This is intentionally the **last** item on the roadmap. The code-level VoiceOver/contrast audit is complete (verdict icon hidden in `SessionFeedbackIndicator`). Run these on-device checks only when a real iPhone becomes available AND nothing higher-priority is queued:
+Tracked as **Task board #3**; the full simulator how-to lives in `docs/audit/code-and-architecture-audit.md` Item 4. The code-level VoiceOver/contrast audit is complete (verdict icon hidden in `SessionFeedbackIndicator`). The on-device checks below are the real-iPhone-only remainder — run them only when a real iPhone becomes available AND nothing higher-priority is queued:
 
 - **VoiceOver** (Settings → VoiceOver ON): navigate Home, Study (Targeted review), Mock-test session. Check each metric reads as a coherent unit, the selected scope announces "selected", the verdict → "Show official answer" disclosure → Next button reads in order and the toggle exposes its state, and tappable rows announce an action rather than being silent.
 - **Dynamic Type** (Text size → max): SessionSummaryView fixed-height container (400/600) does not clip; Home metric big numbers wrap instead of truncate; Question/Answer card long text fits at max size.
@@ -134,20 +137,16 @@ Phase 0.5 is now closed. Nothing further is planned here; the items below were o
 
 ## Planned features (backlog)
 
-- No prioritized backlog items yet. (Study by category, previously here, was implemented in PR #11 and closed — see Completed below.)
+- No new product features are queued; open work is tracked in the **Task board** above. (Study by category, previously here, was implemented in PR #11 and closed — see Completed below.)
 
-## Deferred findings (mock test — revisit after closing the 4 phases)
+## Deferred findings (mock test) — RESOLVED
 
-Reported by the user while testing the live app against the removed 0.8s auto-advance model. These are **not** fixed yet; priority is to close the current 4 phases first, then revisit them under uniform manual advance:
+Reported by the user while testing the live app against the removed 0.8s auto-advance model. **All resolved** under `odd/tasks/mock-test-ux-fixes.md` (T1–T4, closed 2026-11-01); the only remaining mock-test UX item is T5 (skip on an unanswered question), tracked as **Task board #1**.
 
-- **Incorrect feedback too brief:** when the answer is incorrect, the "Incorrect" indicator flashes for less than one second (auto-advance window is 0.8s). The user wants it shown for at least two seconds before advancing.
-- **No control on a failed question:** after a wrong answer there is no option to skip the question or see the official/correct answer; the deck moves on automatically. The user wants a skip option and the ability to view the real answer.
-- Action once prioritized: increase the auto-advance window for rejected answers to ≥ 2s, and add skip / "see correct answer" affordances (or surface the correct answer in the review path).
-
-Additional mock-test UI findings (same deferment):
-
-- **"Start mock test" button doesn't look like a button** — its styling is ambiguous; the user can't tell it's tappable. Action: give it a clear primary-button style (consistent with `PrimaryActionButton`) so affordance is obvious.
-- **"Mode / Manual" card lacks meaning** — the setup shows a "Mode" row defaulting to "Manual", but there is no way to choose automatic vs. manual, and nothing explains why it starts manual. Action: either remove the row or clarify its purpose (and expose an automatic mode later if needed).
+- **Incorrect feedback too brief** → resolved: no auto-advance exists; every verdict waits for a "Next" tap, so the indicator stays until the learner advances (T3).
+- **No control on a failed question** → resolved: wrong answers offer "Skip this question" + an expandable "Show official answer" disclosure (T4).
+- **"Start mock test" button doesn't look like a button** → resolved: now a floating `PrimaryActionButton` in a bottom `.safeAreaInset` (T1).
+- **"Mode / Manual" card lacks meaning** → resolved: row removed, replaced with a "How you answer" explanation (T2).
 
 ## Phase 1 current slice
 
