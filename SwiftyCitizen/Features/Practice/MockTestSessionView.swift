@@ -76,9 +76,6 @@ struct MockTestSessionView: View {
                                         AcceptedAnswerCard(question: question)
                                     }
                                 }
-                                if !review.isCorrect {
-                                    skipButton
-                                }
                             }
                         } else if currentQuestionMode == .text {
                             TextField("mocktestSessionTypeAnswer", text: $answer, axis: .vertical)
@@ -95,6 +92,9 @@ struct MockTestSessionView: View {
                                         isSelected: selectedOptionIndexes.contains(index)
                                     ) { tileToggled(index) }
                                 }
+                            }
+                            if canSkipCurrentQuestion {
+                                skipButton
                             }
                         }
                     }
@@ -211,6 +211,13 @@ struct MockTestSessionView: View {
             return !answer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         }
         return selectedOptionIndexes.count == requiredAnswerCount
+    }
+
+    /// The current question can be deferred when it has not been answered yet, or when the
+    /// last answer was wrong. Never after a correct answer.
+    private var canSkipCurrentQuestion: Bool {
+        if let review { return !review.isCorrect }
+        return state.currentQuestion != nil
     }
 
     private var progressFraction: Double {
