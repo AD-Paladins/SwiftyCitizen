@@ -106,6 +106,9 @@
 			productName = SwiftyCitizen;
 			productReference = DD3E1DFA30530ABA0088F895 /* SwiftyCitizen.app */;
 			productType = "com.apple.product-type.application";
+			packageDependencies = (
+				DDA0000430530ABA0088F895 /* SwiftyCitizenCore */,
+			);
 		};
 		DD3E1E0830530ABB0088F895 /* SwiftyCitizenTests */ = {
 			isa = PBXNativeTarget;
@@ -666,6 +669,9 @@
 				DD3E1E1A30530ABB0088F895 /* Release configuration for PBXProject "SwiftyCitizen" */,
 			);
 			defaultConfigurationName = Release;
+			packages = (
+				DDA0000230530ABA0088F895 /* Packages */,
+			);
 		};
 		DD3E1E1B30530ABB0088F895 /* Build configuration list for PBXNativeTarget "SwiftyCitizen" */ = {
 			isa = XCConfigurationList;
@@ -695,6 +701,49 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+/* Begin PBXPackageGroup section */
+		DDA0000230530ABA0088F895 /* Packages */ = {
+			isa = PBXPackageGroup;
+			children = (
+				DDA0000130530ABA0088F895 /* Packages */,
+			);
+			name = "Packages";
+		};
+/* End PBXPackageGroup section */
+
+/* Begin PBXLocalSwiftPackageReference section */
+		DDA0000130530ABA0088F895 /* Packages */ = {
+			isa = PBXLocalSwiftPackageReference;
+			relativePath = "Packages/SwiftyCitizenCore";
+		};
+/* End PBXLocalSwiftPackageReference section */
+
+/* Begin PBXPackageDependency section */
+		DDA0000330530ABA0088F895 /* SwiftyCitizenCore */ = {
+			isa = PBXPackageDependency;
+			packageReference = DDA0000130530ABA0088F895 /* Packages */;
+			recipeName = "SwiftyCitizenCore";
+		};
+/* End PBXPackageDependency section */
+
+/* Begin PBXLocalDependency section */
+		DDA0000430530ABA0088F895 /* SwiftyCitizenCore */ = {
+			isa = PBXLocalDependency;
+			package = DDA0000330530ABA0088F895 /* SwiftyCitizenCore */;
+			productReference = DDA0000530530ABA0088F895 /* SwiftyCitizenCore */;
+		};
+/* End PBXLocalDependency section */
+
+/* Begin PBXFileReference (SwiftyCitizenCore framework) section */
+		DDA0000530530ABA0088F895 /* SwiftyCitizenCore */ = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.framework;
+			lastKnownFileType = wrapper.framework;
+			name = SwiftyCitizenCore;
+			path = "../SwiftyCitizenCore/.build/debug/SwiftyCitizenCore.framework";
+			sourceTree = "<group>";
+		};
+/* End PBXFileReference section */
 	};
 	rootObject = DD3E1DF230530ABA0088F895 /* Project object */;
 	validationLevel = 1;
