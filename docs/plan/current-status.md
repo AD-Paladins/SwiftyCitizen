@@ -50,6 +50,7 @@ The value-rebuild plan is complete. No product slice is prioritized next; the re
 - **Audio** (`volume_up`) — complete via `SpeechManager` (AVSpeechSynthesizer) in the flashcard session.
 - **On-device accessibility review** (VoiceOver + Dynamic Type at max text sizes) — needs a real iPhone; lowest priority, last on the roadmap (see engineering-hygiene item 4).
 - **Merge the three overlapping Progress specs** into one — a design decision, reported not merged.
+- **SwiftyCitizenCore package migration** (architectural, in progress) — pure-domain types moved into a local Swift package `Packages/SwiftyCitizenCore`; the app consumes them via `import SwiftyCitizenCore`. Committed on branch `feat/swiftycitizencore-integration` and opened as PR #30 (`refactor: integrate pure-domain types into SwiftyCitizenCore package`, base `main`, label `type:refactor`). Spec: `docs/plan/domain-package.md`; tracking: `odd/tasks/swiftycitizencore-integration.md`. Verification (T4) is pending: the app build and the full 282-test suite still need Xcode to trust the local package once, because `xcodebuild` cannot resolve a local package headlessly (`Unable to resolve module dependency: "SwiftyCitizenCore"` is a resolution error, not a type error).
 
 ### Deferred: accessibility review on a real device — LAST, lowest priority
 

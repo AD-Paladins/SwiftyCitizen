@@ -78,3 +78,13 @@ L3. Applied & committed (branch `feat/swiftycitizencore-integration`, from `orig
       ("Unable to resolve module dependency: 'SwiftyCitizenCore'" — resolution, not a type error;
       imports/bridge/removal are correct). Requires opening the project in Xcode once to trust the
       local package, then `xcodebuild test -only-testing:SwiftyCitizenTests`.
+
+L4. Pushed & opened as PR (branch `feat/swiftycitizencore-integration`, now tracking
+    `origin/feat/swiftycitizencore-integration`):
+    - Pushed to origin; branch created from `origin/main` with 4 commits (T1-T3 + docs).
+    - Opened PR #30: "refactor: integrate pure-domain types into SwiftyCitizenCore package",
+      base `main`, label `type:refactor`. Link: https://github.com/AD-Paladins/SwiftyCitizen/pull/30
+    - The repo has no workflows (no GitHub Actions to block a blank PR) and no open issues, so
+      the PR carries no linked issue (documented in the body).
+    - T4 still BLOCKED on environment: needs Xcode to trust the local package once, then run
+      `xcodebuild test -only-testing:SwiftyCitizenTests` (282 tests). Not yet verified.
