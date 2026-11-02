@@ -88,3 +88,15 @@ L4. Pushed & opened as PR (branch `feat/swiftycitizencore-integration`, now trac
       the PR carries no linked issue (documented in the body).
     - T4 still BLOCKED on environment: needs Xcode to trust the local package once, then run
       `xcodebuild test -only-testing:SwiftyCitizenTests` (282 tests). Not yet verified.
+
+## Slice boundary (delivery strategy)
+
+The feature is delivered as one PR (#30) split into work-unit commits, each its own logical
+change so review can take a slice alone:
+- Slice 1 — T1 `8d93671`: populate package (17 files made public).
+- Slice 2 — T2 `41a844f`: wire local package into pbxproj.
+- Slice 3 — T3 `b2c6318`: app imports + bridge + remove moved originals.
+- Docs — `f8b29c3`, `a7a8ff6` (plan/Log updates, not behavior).
+
+Since `origin/main` the branch carries 5 commits / ~863 authored changed lines (past the
+~400-line advisory), so it was kept as per-task slices rather than one squashed commit.
