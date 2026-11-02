@@ -53,6 +53,9 @@ S5. Acceptance: `swift build` in the package succeeds; the app builds with
   small app-side file defining `extension QuestionAttempt { var snapshot }` importing the
   package; remove the moved files from `SwiftyCitizen/Core/Domain`.
 - T4 Verify: app builds and the full `SwiftyCitizenTests` suite passes (282 tests).
+  **Prereq (L5): restore `Packages/SwiftyCitizenCore/Package.swift` — it is MISSING (T1 dropped
+  the manifest from WIP `a562855`); without it the package does not build and Xcode cannot resolve
+  it. See L5 + Package.swift reference below.
 
 ## Log
 
@@ -89,6 +92,16 @@ L4. Pushed & opened as PR (branch `feat/swiftycitizencore-integration`, now trac
     - T4 still BLOCKED on environment: needs Xcode to trust the local package once, then run
       `xcodebuild test -only-testing:SwiftyCitizenTests` (282 tests). Not yet verified.
 
+L5. VERIFICATION GAP — Package manifest missing (found re-checking T4):
+    - `Packages/SwiftyCitizenCore/Package.swift` does NOT exist. `swift build` inside the package
+      fails: "Could not find Package.swift". The original WIP commit `a562855` created a valid
+      manifest (swift-tools 5.9, iOS 17/macOS 13, library target SwiftyCitizenCore →
+      Sources/SwiftyCitizenCore), but T1 (`8d93671`) populated only the 17 source files and dropped
+      it. The package is currently NOT a valid Swift package, so the whole integration is broken
+      until a manifest is added.
+    - Action: create/restore a proper Package.swift (reference from `a562855`), re-run
+      `swift build` / `swift test` in the package, then the app suite. Folded into T4.
+
 ## Slice boundary (delivery strategy)
 
 The feature is delivered as one PR (#30) split into work-unit commits, each its own logical
@@ -100,3 +113,19 @@ change so review can take a slice alone:
 
 Since `origin/main` the branch carries 5 commits / ~863 authored changed lines (past the
 ~400-line advisory), so it was kept as per-task slices rather than one squashed commit.
+
+Package.swift reference (from WIP `a562855`, to be restored before T4 verification):
+```
+// swift-tools-version: 5.9
+import PackageDescription
+let package = Package(
+    name: "SwiftyCitizenCore",
+    platforms: [.iOS(.v17), .macOS(.v13)],
+    products: [.library(name: "SwiftyCitizenCore", targets: ["SwiftyCitizenCore"])],
+    targets: [
+        .target(name: "SwiftyCitizenCore", path: "Sources/SwiftyCitizenCore"),
+        .testTarget(name: "SwiftyCitizenCoreTests", dependencies: ["SwiftyCitizenCore"],
+                    path: "Tests/SwiftyCitizenCoreTests"),
+    ]
+)
+```
