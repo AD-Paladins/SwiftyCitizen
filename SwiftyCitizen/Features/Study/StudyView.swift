@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import SwiftyCitizenCore
 
 enum StudyRoute: Hashable {
     case flashcards

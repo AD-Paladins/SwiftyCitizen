@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftyCitizenCore
 
 struct StudySetSummarySection: View {
     let configuration: OnboardingConfiguration

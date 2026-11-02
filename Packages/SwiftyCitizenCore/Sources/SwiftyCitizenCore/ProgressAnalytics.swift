@@ -9,24 +9,24 @@ import Foundation
 ///
 /// The "Predicted Pass Rate" is explicitly a study-aid heuristic (never an official passing score)
 /// — see `passRate`.
-enum ProgressAnalytics {
+public enum ProgressAnalytics {
 
     /// Three-head mastery row for the Diagnostic Mirror: Graduated / In Review / Needs Care.
-    struct Buckets: Equatable {
+    public struct Buckets: Equatable {
         let graduated: Int
         let inReview: Int
         let needsCare: Int
     }
 
     /// A single point on the weekly accuracy trajectory chart.
-    struct WeekPoint: Equatable {
+    public struct WeekPoint: Equatable {
         let weekStart: Date
         let accuracy: Double?
         let attempts: Int
     }
 
     /// One weak card to drill, mapped to its topic.
-    struct WeakSpot: Equatable {
+    public struct WeakSpot: Equatable {
         let stableID: String
         let topic: String
         let accuracy: Double?
@@ -35,7 +35,7 @@ enum ProgressAnalytics {
 
     /// Cards whose latest assessment is `.gotIt` **and** `boxLevel >= 4` — multi-interval mastery,
     /// i.e. ready for oral-exam pace (the design's definition of "graduated").
-    static func graduatedCount(
+    public static func graduatedCount(
         attempts: [StudyAttemptSnapshot],
         for version: USCISTestVersion
     ) -> Int {
@@ -56,7 +56,7 @@ enum ProgressAnalytics {
     /// fraction of the bank that has reached graduated mastery and `overallAccuracy` is the fraction
     /// of correct attempts across the version. Bounded to `0...1`. Labeled "predicted" — never an
     /// official passing score. Returns nil only when the bank count is 0.
-    static func passRate(
+    public static func passRate(
         attempts: [StudyAttemptSnapshot],
         for configuration: TestConfiguration,
         now: Date = .now
@@ -79,7 +79,7 @@ enum ProgressAnalytics {
     /// Mirrors `accuracyByDomain`'s definition (a mock-test result is the only "correct" signal; a
     /// self-assessment `.gotIt` never is) so the headline number stays consistent with each topic's
     /// row. Extracted from `passRate` so both share one definition.
-    static func overallAccuracy(
+    public static func overallAccuracy(
         attempts: [StudyAttemptSnapshot],
         for version: USCISTestVersion
     ) -> Double? {
@@ -91,7 +91,7 @@ enum ProgressAnalytics {
 
     /// Change in predicted pass rate between the previous ISO week and the current one (`now`'s
     /// week). Returns nil when attempts do not span both weeks (can't form a delta).
-    static func passRateWeeklyDelta(
+    public static func passRateWeeklyDelta(
         attempts: [StudyAttemptSnapshot],
         for configuration: TestConfiguration,
         now: Date = .now,
@@ -123,7 +123,7 @@ enum ProgressAnalytics {
     /// The scheduler needs the question bank to compute due cards, so `questions` is optional and
     /// defaults to `[]`. Without it, `inReview` cannot run the scheduler (0) and `needsCare` cannot
     /// detect unseen cards; pass the version's bank in for both.
-    static func buckets(
+    public static func buckets(
         attempts: [StudyAttemptSnapshot],
         for configuration: TestConfiguration,
         questions: [QuestionContent] = []
@@ -152,7 +152,7 @@ enum ProgressAnalytics {
 
     /// Whether coverage meets the version's passing fraction. True only when the bank is non-empty
     /// and `readinessPercentage` (covered / bank) is at or above `TestConfiguration.passingPercentage`.
-    static func standardMet(
+    public static func standardMet(
         attempts: [StudyAttemptSnapshot],
         for configuration: TestConfiguration
     ) -> Bool {
@@ -168,7 +168,7 @@ enum ProgressAnalytics {
     ///
     /// Every topic present in `topicIndex` is emitted (matching `coverageByTopic`); topics with no
     /// attempts report `accuracy == nil` and `count == 0`. Accuracy is correct / total per topic.
-    static func accuracyByDomain(
+    public static func accuracyByDomain(
         attempts: [StudyAttemptSnapshot],
         topicIndex: [String: String],
         for version: USCISTestVersion
@@ -188,8 +188,14 @@ enum ProgressAnalytics {
 
         return order.map { topic in
             let attemptsInTopic = versionAttempts.filter { topicIndex[$0.stableID] == topic }
+            // Mock-test-only accuracy: a topic with only self-assessed attempts has no
+            // determinate signal and reports nil (rendered as "—"), never a fake 0%.
             let correct = attemptsInTopic.filter { StudyProgressMetrics.isCorrect($0) }.count
-            let accuracy = attemptsInTopic.isEmpty ? nil : Double(correct) / Double(attemptsInTopic.count)
+            let hasGradedSignal = attemptsInTopic.contains { $0.wasCorrect != nil }
+            let accuracy: Double? = {
+                guard !attemptsInTopic.isEmpty, hasGradedSignal else { return nil }
+                return Double(correct) / Double(attemptsInTopic.count)
+            }()
             // "N of M" counts distinct questions seen, never attempt count, so it can never exceed M.
             let distinctSeen = Set(attemptsInTopic.map(\.stableID)).count
             return (topic, accuracy, distinctSeen)
@@ -198,9 +204,10 @@ enum ProgressAnalytics {
 
     /// The lowest-accuracy attempted cards for a version, mapped to their topic.
     ///
-    /// Per-card accuracy is correct / last-N (default 5). Cards with no determinate correctness
-    /// signal (unanswered) are excluded; the rest sort ascending by accuracy and take up to `limit`.
-    static func weakSpots(
+    /// Per-card accuracy is correct / last-N mock-test attempts (default 5). Cards with no
+    /// mock-test history have no determinate correctness signal and are excluded; the rest sort
+    /// ascending by accuracy and take up to `limit`.
+    public static func weakSpots(
         attempts: [StudyAttemptSnapshot],
         questions: [QuestionContent],
         version: USCISTestVersion,
@@ -235,7 +242,7 @@ enum ProgressAnalytics {
     /// Weekly accuracy over the last `weeks` ISO weeks (oldest first). Accuracy is correct / total
     /// per week and nil when the week has no attempts. Scoped to `version` — other-version attempts
     /// do not bleed into the trajectory after a config change.
-    static func accuracyByWeek(
+    public static func accuracyByWeek(
         attempts: [StudyAttemptSnapshot],
         for version: USCISTestVersion,
         weeks: Int = 4,
@@ -261,14 +268,14 @@ enum ProgressAnalytics {
     /// Direction of overall accuracy between two consecutive windows — prior (`windowDays` before
     /// `recentStart`) versus recent (`recentStart`..`now`). Used by the Accuracy Breakdown header to
     /// say whether the learner is improving.
-    enum AccuracyTrend: Equatable {
+    public enum AccuracyTrend: Equatable {
         case rising, flat, falling, unknown
     }
 
     /// Overall accuracy trend between two consecutive windows (prior vs recent). `.unknown` when
     /// either window has no attempts (can't form a delta). A small deadband keeps sub-3% swings
     /// reading as flat rather than chattering — revisit if accuracy bands become a shared constant.
-    static func accuracyTrend(
+    public static func accuracyTrend(
         attempts: [StudyAttemptSnapshot],
         for version: USCISTestVersion,
         windowDays: Int = 14,
@@ -291,7 +298,7 @@ enum ProgressAnalytics {
     /// Fraction of distinct attempted cards that are mastered (latest `.gotIt`) **and** whose latest
     /// attempt is more than `horizonDays` before `now`. nil when there are no attempted cards.
     /// Scoped to `version` — other-version attempts are excluded.
-    static func retentionStability(
+    public static func retentionStability(
         attempts: [StudyAttemptSnapshot],
         for version: USCISTestVersion,
         horizonDays: Int = 5,
@@ -315,7 +322,7 @@ enum ProgressAnalytics {
     }
 
     /// Short (<=2 sentence) conditional heuristic over retention, weekly trend, and pass rate.
-    static func recommendation(
+    public static func recommendation(
         attempts: [StudyAttemptSnapshot],
         for configuration: TestConfiguration
     ) -> String {
@@ -353,7 +360,7 @@ enum ProgressAnalytics {
     // MARK: - Helpers
 
     /// Latest attempt for a card (max `answeredAt`), or nil when the card has none.
-    private static func latestAttempt(
+    public static func latestAttempt(
         _ attempts: [StudyAttemptSnapshot],
         for stableID: String
     ) -> StudyAttemptSnapshot? {
@@ -361,19 +368,17 @@ enum ProgressAnalytics {
     }
 
     /// Correct / last-N accuracy for a card, or nil when the card has no determinate correctness
-    /// signal (every considered attempt is unanswered). Used to rank weak spots and flag needs-care.
-    private static func perCardAccuracy(_ attempts: [StudyAttemptSnapshot], lastN: Int) -> Double? {
-        let ordered = attempts.sorted { $0.answeredAt > $1.answeredAt }.prefix(lastN)
-        guard !ordered.isEmpty else { return nil }
-        guard ordered.contains(where: { $0.wasCorrect != nil || $0.assessment != nil }) else { return nil }
-        let correct = ordered.filter { StudyProgressMetrics.isCorrect($0) }.count
-        return Double(correct) / Double(ordered.count)
+    /// signal (no mock-test attempts). Delegates to the single shared definition in
+    /// `StudyProgressMetrics.perCardAccuracy` so weak spots, needs-care, and the manual
+    /// "Low accuracy" review scope can never drift apart.
+    public static func perCardAccuracy(_ attempts: [StudyAttemptSnapshot], lastN: Int) -> Double? {
+        StudyProgressMetrics.perCardAccuracy(attempts, lastN: lastN)
     }
 
     /// Distinct bank questions that are unseen (never attempted) or whose latest state is `.again` /
    /// low accuracy (below `lowAccuracyThreshold`, not mastered). `questions` supplies the bank so
    /// truly-unseen cards are counted, matching the bucket label.
-    private static func needsCareCount(
+    public static func needsCareCount(
         questions: [QuestionContent],
         versionAttempts: [StudyAttemptSnapshot]
     ) -> Int {
@@ -402,7 +407,9 @@ enum ProgressAnalytics {
                 continue                            // mastered-ish — not needs-care
             }
 
-            // Latest is `.hard` or a wrong mock-test result: flag when the card's accuracy is low.
+            // Latest is `.hard` or a wrong mock-test result: flag when the card's mock-test
+            // accuracy is low. A card with no mock-test history has no accuracy signal (nil) and
+            // is not flagged here — the scheduler's Due scope still surfaces it on its interval.
             let cardAccuracy = perCardAccuracy(
                 versionAttempts.filter { $0.stableID == stableID },
                 lastN: 5
@@ -416,11 +423,11 @@ enum ProgressAnalytics {
 
     /// ISO-8601 week start (Monday) for `date`. Per the design spec, weeks are ISO regardless of the
     /// passed calendar's locale; the `calendar` parameter is retained for signature compatibility.
-    private static func isoCalendar() -> Calendar {
+    public static func isoCalendar() -> Calendar {
         Calendar(identifier: .iso8601)
     }
 
-    private static func weekStart(for date: Date) -> Date {
+    public static func weekStart(for date: Date) -> Date {
         let iso = isoCalendar()
         let startOfDay = iso.startOfDay(for: date)
         // `.weekday`: Sunday = 1 ... Saturday = 7 (Monday = 2), independent of locale.
@@ -429,11 +436,11 @@ enum ProgressAnalytics {
         return iso.date(byAdding: .day, value: -daysSinceMonday, to: startOfDay)!
     }
 
-    private static func clamp(_ value: Double) -> Double {
+    public static func clamp(_ value: Double) -> Double {
         min(max(value, 0), 1)
     }
 
     // ponytail: magic low-accuracy threshold; the design leaves "low accuracy" undefined. Revisit
     // if the UI accuracy bands (High / Needs review / Mastered) become a shared domain constant.
-    private static let lowAccuracyThreshold = 0.5
+    public static let lowAccuracyThreshold = 0.5
 }

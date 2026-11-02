@@ -8,14 +8,14 @@ import Foundation
 /// Assumptions (tunable; see design-redesign-plan Phase 3):
 /// - Interval is derived from the *resulting box*, not from the button pressed.
 /// - `again` resets to box 1, `hard` drops one box (min 1), `got it` advances one box (max `maxBox`).
-struct LeitnerScheduler {
+public struct LeitnerScheduler {
 
     /// Mastered ceiling. A card stops climbing once it reaches this box.
-    static let maxBox = 5
+    public static let maxBox = 5
 
     /// Review interval per box (index 0 == box 1). Kept as a single tunable constant table.
     /// - `again` maps to box 1 (`0`), so a missed card is re-presented immediately.
-    static let intervalsByBox: [TimeInterval] = [
+    public static let intervalsByBox: [TimeInterval] = [
         0,                                    // box 1: re-present now
         60 * 60 * 24 * 1,                     // box 2: 1 day
         60 * 60 * 24 * 3,                     // box 3: 3 days
@@ -24,19 +24,19 @@ struct LeitnerScheduler {
     ]
 
     /// Resulting box, interval, and next due date for a grade applied to `currentBox`.
-    struct Outcome {
+    public struct Outcome {
         let box: Int
         let interval: TimeInterval
         let dueDate: Date
     }
 
-    static func interval(forBox box: Int) -> TimeInterval {
+    public static func interval(forBox box: Int) -> TimeInterval {
         guard (1...maxBox).contains(box) else { return intervalsByBox[0] }
         return intervalsByBox[box - 1]
     }
 
     /// Next box after applying `assessment` to `currentBox`.
-    static func nextBox(after assessment: SelfAssessment, currentBox: Int) -> Int {
+    public static func nextBox(after assessment: SelfAssessment, currentBox: Int) -> Int {
         switch assessment {
         case .again: return 1
         case .hard:  return max(1, currentBox - 1)
@@ -45,7 +45,7 @@ struct LeitnerScheduler {
     }
 
     /// Full outcome for a grade applied at `lastReviewed` to a card in `currentBox`.
-    static func outcome(
+    public static func outcome(
         after assessment: SelfAssessment,
         currentBox: Int,
         from lastReviewed: Date
@@ -56,7 +56,7 @@ struct LeitnerScheduler {
     }
 
     /// Whether a card is due for review at `now` given its last `dueDate`.
-    static func isDue(dueDate: Date, now: Date = .now) -> Bool {
+    public static func isDue(dueDate: Date, now: Date = .now) -> Bool {
         dueDate <= now
     }
 }

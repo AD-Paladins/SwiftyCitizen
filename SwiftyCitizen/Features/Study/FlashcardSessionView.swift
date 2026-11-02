@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import SwiftyCitizenCore
 
 struct SessionProgressHeader: View {
     let progressText: String

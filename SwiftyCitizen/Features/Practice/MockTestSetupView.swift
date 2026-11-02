@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import SwiftyCitizenCore
 
 struct MockTestSetupView: View {
     let configuration: OnboardingConfiguration

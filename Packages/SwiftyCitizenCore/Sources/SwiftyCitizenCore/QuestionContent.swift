@@ -1,21 +1,21 @@
 import Foundation
 
-enum AnswerCardinality: Codable, Hashable {
+public enum AnswerCardinality: Codable, Hashable {
     case exactly(Int)
 }
 
-struct QuestionContent: Codable, Hashable, Identifiable {
-    let stableID: String
-    let testVersion: USCISTestVersion
-    let officialQuestion: String
-    let acceptedAnswerVariants: [String]
-    let answerCardinality: AnswerCardinality
-    let topic: String
-    let sourceURL: URL?
-    let sourceRevision: String
-    let verificationDate: Date?
-    let isJurisdictionDependent: Bool
-    let isSixtyFiveTwentyQuestion: Bool
+public struct QuestionContent: Codable, Hashable, Identifiable {
+    public let stableID: String
+    public let testVersion: USCISTestVersion
+    public let officialQuestion: String
+    public let acceptedAnswerVariants: [String]
+    public let answerCardinality: AnswerCardinality
+    public let topic: String
+    public let sourceURL: URL?
+    public let sourceRevision: String
+    public let verificationDate: Date?
+    public let isJurisdictionDependent: Bool
+    public let isSixtyFiveTwentyQuestion: Bool
     // Optional study aids (Phase 3). Optional + backward-compatible: banks without these
     // keys decode to nil. Curated human content only — never AI-generated.
     // `explanation` is a single English-canonical study aid; TTS hardcodes en-US and every
@@ -24,9 +24,9 @@ struct QuestionContent: Codable, Hashable, Identifiable {
     // populated from JSON, so decoding would always yield nil. The nil default lives on the
     // initializer parameter below instead, which keeps existing 11-arg call sites compiling
     // while still decoding present keys.
-    let explanation: String?
+    public let explanation: String?
 
-    init(
+    public init(
         stableID: String,
         testVersion: USCISTestVersion,
         officialQuestion: String,
@@ -54,16 +54,16 @@ struct QuestionContent: Codable, Hashable, Identifiable {
         self.explanation = explanation
     }
 
-    var id: String { stableID }
+    public var id: String { stableID }
 }
 
-enum QuestionContentValidationField: String, Equatable {
+public enum QuestionContentValidationField: String, Equatable {
     case sourceURL
     case sourceRevision
     case verificationDate
 }
 
-enum QuestionContentValidationError: Equatable {
+public enum QuestionContentValidationError: Equatable {
     case emptyID(index: Int)
     case emptyQuestionText(id: String)
     case emptyTopic(id: String)
@@ -75,12 +75,12 @@ enum QuestionContentValidationError: Equatable {
     case questionAssignedToWrongBank(id: String, expected: USCISTestVersion, actual: USCISTestVersion)
 }
 
-struct QuestionContentValidationFailure: Error, Equatable {
-    let errors: [QuestionContentValidationError]
+public struct QuestionContentValidationFailure: Error, Equatable {
+    public let errors: [QuestionContentValidationError]
 }
 
-struct QuestionContentValidator {
-    static func validate(
+public struct QuestionContentValidator {
+    public static func validate(
         _ questions: [QuestionContent],
         for configuration: TestConfiguration
     ) -> Result<Void, QuestionContentValidationFailure> {
@@ -220,14 +220,14 @@ extension QuestionContent {
     }
 }
 
-struct SeededShuffle: RandomNumberGenerator {
-    private var state: UInt64
+public struct SeededShuffle: RandomNumberGenerator {
+    public var state: UInt64
 
-    init(seed: UInt64) {
+    public init(seed: UInt64) {
         self.state = seed == 0 ? 0x9e3779b97f4a7c15 : seed
     }
 
-    mutating func next() -> UInt64 {
+    public mutating func next() -> UInt64 {
         state ^= state >> 12
         state ^= state << 25
         state ^= state >> 26

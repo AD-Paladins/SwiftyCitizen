@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import SwiftyCitizenCore
 
 struct TestConfigurationView: View {
     @Environment(\.modelContext) private var modelContext

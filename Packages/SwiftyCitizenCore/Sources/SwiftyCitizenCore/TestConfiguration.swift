@@ -1,11 +1,11 @@
 import Foundation
 
-enum USCISTestVersion: String, Codable, CaseIterable, Hashable {
+public enum USCISTestVersion: String, Codable, CaseIterable, Hashable {
     case twoThousandEight = "2008"
     case twoThousandTwentyFive = "2025"
     case sixtyFiveTwenty = "65/20"
 
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .twoThousandEight:
             "2008 civics test"
@@ -17,27 +17,27 @@ enum USCISTestVersion: String, Codable, CaseIterable, Hashable {
     }
 }
 
-enum TestApplicability: Codable, Hashable {
+public enum TestApplicability: Codable, Hashable {
     case filingBeforeOctober20th2025
     case filingOnOrAfterOctober20th2025
     case age65AndResidency20Years
 }
 
-struct TestConfiguration: Codable, Hashable, Identifiable {
-    let version: USCISTestVersion
-    let questionBankCount: Int
-    let maximumQuestionsAsked: Int
-    let passingScore: Int
-    let applicability: TestApplicability
+public struct TestConfiguration: Codable, Hashable, Identifiable {
+    public let version: USCISTestVersion
+    public let questionBankCount: Int
+    public let maximumQuestionsAsked: Int
+    public let passingScore: Int
+    public let applicability: TestApplicability
 
-    var id: USCISTestVersion { version }
+    public var id: USCISTestVersion { version }
 
-    var passingPercentage: Double? {
+    public var passingPercentage: Double? {
         guard maximumQuestionsAsked > 0 else { return nil }
         return Double(passingScore) / Double(maximumQuestionsAsked)
     }
 
-    static let twoThousandEight = TestConfiguration(
+    public static let twoThousandEight = TestConfiguration(
         version: .twoThousandEight,
         questionBankCount: 100,
         maximumQuestionsAsked: 10,
@@ -45,7 +45,7 @@ struct TestConfiguration: Codable, Hashable, Identifiable {
         applicability: .filingBeforeOctober20th2025
     )
 
-    static let twoThousandTwentyFive = TestConfiguration(
+    public static let twoThousandTwentyFive = TestConfiguration(
         version: .twoThousandTwentyFive,
         questionBankCount: 128,
         maximumQuestionsAsked: 20,
@@ -53,7 +53,7 @@ struct TestConfiguration: Codable, Hashable, Identifiable {
         applicability: .filingOnOrAfterOctober20th2025
     )
 
-    static let sixtyFiveTwenty = TestConfiguration(
+    public static let sixtyFiveTwenty = TestConfiguration(
         version: .sixtyFiveTwenty,
         questionBankCount: 20,
         maximumQuestionsAsked: 10,
@@ -61,7 +61,7 @@ struct TestConfiguration: Codable, Hashable, Identifiable {
         applicability: .age65AndResidency20Years
     )
 
-    static let all: [TestConfiguration] = [
+    public static let all: [TestConfiguration] = [
         .twoThousandEight,
         .twoThousandTwentyFive,
         .sixtyFiveTwenty
@@ -69,7 +69,7 @@ struct TestConfiguration: Codable, Hashable, Identifiable {
 
     /// Daily-review goal presets linked to the question bank. The 65/20 set (20 questions) caps at
     /// 20; the larger banks keep the standard set. Shared here so Settings and Home agree.
-    static func dailyGoalPresets(for version: USCISTestVersion) -> [Int] {
+    public static func dailyGoalPresets(for version: USCISTestVersion) -> [Int] {
         switch version {
         case .sixtyFiveTwenty:
             [5, 10, 15, 20]

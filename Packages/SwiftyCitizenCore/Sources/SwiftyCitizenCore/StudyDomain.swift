@@ -1,11 +1,11 @@
 import Foundation
 
-enum StudyMode: String, Codable, CaseIterable {
+public enum StudyMode: String, Codable, CaseIterable {
     case flashcards
     case targetedReview
     case mockTest
 
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .flashcards:
             "Flashcards"
@@ -17,12 +17,12 @@ enum StudyMode: String, Codable, CaseIterable {
     }
 }
 
-enum SelfAssessment: String, Codable, CaseIterable {
+public enum SelfAssessment: String, Codable, CaseIterable {
     case again
     case hard
     case gotIt
 
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .again:
             "Again"
@@ -33,7 +33,7 @@ enum SelfAssessment: String, Codable, CaseIterable {
         }
     }
 
-    var systemImage: String {
+    public var systemImage: String {
         switch self {
         case .again:
             "arrow.counterclockwise"
@@ -45,7 +45,7 @@ enum SelfAssessment: String, Codable, CaseIterable {
     }
 }
 
-func resumeFlashcardState(
+public func resumeFlashcardState(
     deckStableIDs: [String],
     currentIndex: Int,
     attempts: [FlashcardAttemptRecord],

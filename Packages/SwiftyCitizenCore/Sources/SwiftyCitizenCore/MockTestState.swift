@@ -1,38 +1,38 @@
 import Foundation
 
-struct MockTestAnswer: Equatable {
-    let questionStableID: String
-    let response: String
-    let isCorrect: Bool
-    let matchType: AnswerMatch
-    let answeredAt: Date
+public struct MockTestAnswer: Equatable {
+    public let questionStableID: String
+    public let response: String
+    public let isCorrect: Bool
+    public let matchType: AnswerMatch
+    public let answeredAt: Date
 
-    var needsOfficialAnswerReveal: Bool {
+    public var needsOfficialAnswerReveal: Bool {
         !isCorrect
     }
 }
 
-enum MockTestOutcome: Equatable {
+public enum MockTestOutcome: Equatable {
     case inProgress
     case passed
     case failed
 }
 
-enum MockTestPhase: Equatable {
+public enum MockTestPhase: Equatable {
     case active
     case complete(MockTestOutcome)
 }
 
-struct MockTestState {
-    let questions: [QuestionContent]
-    let maximumQuestionsAsked: Int
-    let passingScore: Int
+public struct MockTestState {
+    public let questions: [QuestionContent]
+    public let maximumQuestionsAsked: Int
+    public let passingScore: Int
 
     private(set) var currentIndex: Int
     private(set) var answers: [MockTestAnswer]
     private(set) var skippedIDs: [String]
 
-    init(
+    public init(
         questions: [QuestionContent],
         maximumQuestionsAsked: Int,
         passingScore: Int
@@ -45,24 +45,24 @@ struct MockTestState {
         self.skippedIDs = []
     }
 
-    var currentQuestion: QuestionContent? {
+    public var currentQuestion: QuestionContent? {
         guard questions.indices.contains(currentIndex) else { return nil }
         return questions[currentIndex]
     }
 
-    var progressText: String {
+    public var progressText: String {
         "\(currentIndex + 1) of \(maximumQuestionsAsked)"
     }
 
-    var correctCount: Int {
+    public var correctCount: Int {
         answers.filter(\.isCorrect).count
     }
 
-    var incorrectCount: Int {
+    public var incorrectCount: Int {
         answers.filter { !$0.isCorrect }.count
     }
 
-    var phase: MockTestPhase {
+    public var phase: MockTestPhase {
         if correctCount >= passingScore {
             return .complete(.passed)
         }
@@ -75,12 +75,12 @@ struct MockTestState {
         return .active
     }
 
-    var isComplete: Bool {
+    public var isComplete: Bool {
         if case .complete = phase { return true }
         return false
     }
 
-    mutating func record(_ response: String, answeredAt: Date = .now) -> MockTestAnswer? {
+    public mutating func record(_ response: String, answeredAt: Date = .now) -> MockTestAnswer? {
         guard let question = currentQuestion, phase == .active else { return nil }
 
         let matchType = AnswerEvaluator.matchType(response, against: question)
@@ -96,14 +96,14 @@ struct MockTestState {
     }
 
     @discardableResult
-    mutating func submit(_ response: String, answeredAt: Date = .now) -> MockTestPhase {
+    public mutating func submit(_ response: String, answeredAt: Date = .now) -> MockTestPhase {
         guard let question = currentQuestion, phase == .active else { return phase }
         record(response, answeredAt: answeredAt)
         currentIndex += 1
         return phase
     }
 
-    mutating func advance() {
+    public mutating func advance() {
         if case .complete = phase {
             return
         }
@@ -111,7 +111,7 @@ struct MockTestState {
     }
 
     @discardableResult
-    mutating func skip() -> Bool {
+    public mutating func skip() -> Bool {
         guard let question = currentQuestion, phase == .active else { return false }
         if !skippedIDs.contains(question.stableID) {
             skippedIDs.append(question.stableID)
@@ -120,7 +120,7 @@ struct MockTestState {
         return true
     }
 
-    var skippedCount: Int {
+    public var skippedCount: Int {
         skippedIDs.count
     }
 }

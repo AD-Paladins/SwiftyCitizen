@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import SwiftyCitizenCore
 
 @main
 struct SwiftyCitizenApp: App {

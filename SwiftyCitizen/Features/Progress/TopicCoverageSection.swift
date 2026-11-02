@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftyCitizenCore
 
 /// A single topic's coverage snapshot for the carousel. `accuracy` is nil when the topic has no
 /// determinate attempts (→ "Not started"); `seen`/`total` are distinct questions attempted / in the

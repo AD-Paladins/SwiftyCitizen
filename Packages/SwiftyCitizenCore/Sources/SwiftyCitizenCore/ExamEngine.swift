@@ -1,6 +1,6 @@
 import Foundation
 
-func selectQuestions(
+public func selectQuestions(
     from bank: [QuestionContent],
     maximum: Int,
     shuffleEnabled: Bool

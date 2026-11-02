@@ -6,14 +6,14 @@ import Foundation
 /// populated from `QuestionAttempt.boxLevel`) and computes the next due date via
 /// `LeitnerScheduler.interval` and `Date.addingTimeInterval(_:)` — the same local-date
 /// pattern `LeitnerScheduler` uses. Pure, SwiftData-free, unit-testable.
-enum SpacedRepetitionScheduler {
+public enum SpacedRepetitionScheduler {
 
     /// Due cards for `version`, ordered by urgency.
     ///
     /// Unseen cards first (max urgency — they must be learned), then due cards
     /// most-overdue-first (smallest `dueDate`). A card surfaces once its Leitner interval
     /// has elapsed; an unanswered card (`boxLevel` nil) is surfaced immediately.
-    static func dueCards(
+    public static func dueCards(
         questions: [QuestionContent],
         attempts: [StudyAttemptSnapshot],
         version: USCISTestVersion,
@@ -43,7 +43,7 @@ enum SpacedRepetitionScheduler {
     }
 
     /// Latest attempt for a card (max `answeredAt`), or nil when the card has none.
-    private static func latestAttempt(
+    public static func latestAttempt(
         _ attempts: [StudyAttemptSnapshot],
         for stableID: String
     ) -> StudyAttemptSnapshot? {

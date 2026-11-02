@@ -1,18 +1,18 @@
 import Foundation
 
-struct StudyAttemptSnapshot: Equatable {
-    let stableID: String
-    let testVersion: USCISTestVersion
-    let assessment: SelfAssessment?
-    let wasCorrect: Bool?
-    let answeredAt: Date
+public struct StudyAttemptSnapshot: Equatable {
+    public let stableID: String
+    public let testVersion: USCISTestVersion
+    public let assessment: SelfAssessment?
+    public let wasCorrect: Bool?
+    public let answeredAt: Date
     /// Leitner box this result left the card in (1...`LeitnerScheduler.maxBox`). nil when the
     /// card has no self-assessment history (unanswered). Kept optional so callers that build a
     /// snapshot without box context still compile.
-    let boxLevel: Int?
+    public let boxLevel: Int?
 
     /// Backward-compatible initializer for study attempts (correctness lives in `assessment`).
-    init(
+    public init(
         stableID: String,
         testVersion: USCISTestVersion,
         assessment: SelfAssessment?,
@@ -28,7 +28,7 @@ struct StudyAttemptSnapshot: Equatable {
     }
 
     /// Full initializer carrying the mock-test correctness flag.
-    init(
+    public init(
         stableID: String,
         testVersion: USCISTestVersion,
         assessment: SelfAssessment?,
@@ -45,24 +45,24 @@ struct StudyAttemptSnapshot: Equatable {
     }
 }
 
-struct MasteryBreakdown: Equatable {
-    let mastered: Int
-    let due: Int
-    let unseen: Int
+public struct MasteryBreakdown: Equatable {
+    public let mastered: Int
+    public let due: Int
+    public let unseen: Int
 }
 
 /// Per-topic coverage for a single test version. `accuracy` is nil when the topic has no
 /// attempts; otherwise it is the fraction of correct attempts over all attempts on the topic.
-struct TopicCoverage: Equatable {
-    let topic: String
-    let mastered: Int
-    let due: Int
-    let unseen: Int
-    let accuracy: Double?
+public struct TopicCoverage: Equatable {
+    public let topic: String
+    public let mastered: Int
+    public let due: Int
+    public let unseen: Int
+    public let accuracy: Double?
 }
 
-enum StudyProgressMetrics {
-    static func reviewedToday(
+public enum StudyProgressMetrics {
+    public static func reviewedToday(
         attempts: [StudyAttemptSnapshot],
         now: Date = .now,
         calendar: Calendar = .current
@@ -72,7 +72,7 @@ enum StudyProgressMetrics {
 
     /// Distinct questions reviewed today (one count per `stableID`), so re-reviewing the same
     /// question does not inflate the daily-progress ring.
-    static func distinctReviewedToday(
+    public static func distinctReviewedToday(
         attempts: [StudyAttemptSnapshot],
         now: Date = .now,
         calendar: Calendar = .current
@@ -80,7 +80,7 @@ enum StudyProgressMetrics {
         Set(attempts.filter { calendar.isDate($0.answeredAt, inSameDayAs: now) }.map(\.stableID)).count
     }
 
-    static func coverage(
+    public static func coverage(
         attempts: [StudyAttemptSnapshot],
         for version: USCISTestVersion
     ) -> Set<String> {
@@ -91,7 +91,7 @@ enum StudyProgressMetrics {
     /// seen cards most-overdue-first. This is the single app-wide "due" definition, so Home's
     /// "Due next" matches the Study tab's due number. `questions` (the version's bank) is required
     /// to run the scheduler; pass it from the view layer.
-    static func dueCount(
+    public static func dueCount(
         attempts: [StudyAttemptSnapshot],
         configuration: TestConfiguration,
         questions: [QuestionContent] = []
@@ -105,14 +105,14 @@ enum StudyProgressMetrics {
         ).map(\.stableID)).count
     }
 
-    static func coveredCount(
+    public static func coveredCount(
         attempts: [StudyAttemptSnapshot],
         configuration: TestConfiguration
     ) -> Int {
         coverage(attempts: attempts, for: configuration.version).count
     }
 
-    static func readinessPercentage(
+    public static func readinessPercentage(
         attempts: [StudyAttemptSnapshot],
         configuration: TestConfiguration
     ) -> Double? {
@@ -121,7 +121,7 @@ enum StudyProgressMetrics {
         return Double(coveredCount(attempts: attempts, configuration: configuration)) / Double(bank)
     }
 
-    static func masteryBreakdown(
+    public static func masteryBreakdown(
         attempts: [StudyAttemptSnapshot],
         configuration: TestConfiguration
     ) -> MasteryBreakdown {
@@ -145,8 +145,23 @@ enum StudyProgressMetrics {
     /// Whether an attempt counts as correct for every accuracy surface. Only a mock-test result
     /// (`wasCorrect == true`) is accuracy; a self-assessment `.gotIt` never is. Self-assessment
     /// stays labeled as such elsewhere (e.g. the "Got it" rate), never presented as accuracy.
-    static func isCorrect(_ attempt: StudyAttemptSnapshot) -> Bool {
+    public static func isCorrect(_ attempt: StudyAttemptSnapshot) -> Bool {
         attempt.wasCorrect == true
+    }
+
+    /// Correct / last-N accuracy for a single card, or nil when the card has no determinate
+    /// correctness signal in its history (every attempt is self-assessed only).
+    ///
+    /// The single app-wide per-card accuracy definition: only mock-test attempts (`wasCorrect`
+    /// non-nil) enter the window, so flashcard practice never dilutes or fakes an accuracy number.
+    /// Shared by `ProgressAnalytics` (weak spots, needs-care) and `ReviewDeckBuilder` (manual
+    /// "Low accuracy" scope) so the two surfaces can never drift apart.
+    public static func perCardAccuracy(_ attempts: [StudyAttemptSnapshot], lastN: Int) -> Double? {
+        let graded = attempts.filter { $0.wasCorrect != nil }
+        let ordered = graded.sorted { $0.answeredAt > $1.answeredAt }.prefix(lastN)
+        guard !ordered.isEmpty else { return nil }
+        let correct = ordered.filter { isCorrect($0) }.count
+        return Double(correct) / Double(ordered.count)
     }
 
     /// Per-topic coverage + accuracy for a single test version.
@@ -155,7 +170,7 @@ enum StudyProgressMetrics {
     /// the content layer; keeping it as an injected parameter keeps this function pure,
     /// SwiftData-free, and unit-testable (no bank loading in the domain layer). Topics are
     /// emitted in first-appearance order so callers get deterministic output.
-    static func coverageByTopic(
+    public static func coverageByTopic(
         attempts: [StudyAttemptSnapshot],
         for version: USCISTestVersion,
         topicIndex: [String: String]
@@ -179,8 +194,14 @@ enum StudyProgressMetrics {
             let attemptedIDs = Set(attemptsInTopic.map(\.0.stableID))
             let unseen = max(0, (totalByTopic[topic] ?? 0) - attemptedIDs.count)
 
+            // Accuracy is mock-test-only: a topic whose attempts are all self-assessed has no
+            // determinate signal and reports nil (rendered as "—"), never a fake 0%.
             let correctAttempts = attemptsInTopic.filter { isCorrect($0.0) }.count
-            let accuracy = attemptsInTopic.isEmpty ? nil : Double(correctAttempts) / Double(attemptsInTopic.count)
+            let hasGradedSignal = attemptsInTopic.contains { $0.0.wasCorrect != nil }
+            let accuracy: Double? = {
+                guard !attemptsInTopic.isEmpty, hasGradedSignal else { return nil }
+                return Double(correctAttempts) / Double(attemptsInTopic.count)
+            }()
 
             var mastered = 0
             for stableID in attemptedIDs {
@@ -201,7 +222,7 @@ enum StudyProgressMetrics {
         }
     }
 
-    static func gotItRate(
+    public static func gotItRate(
         attempts: [StudyAttemptSnapshot],
         now: Date = .now,
         calendar: Calendar = .current
@@ -213,7 +234,7 @@ enum StudyProgressMetrics {
         return Double(gotIt) / Double(selfAssessed.count)
     }
 
-    static func streak(
+    public static func streak(
         attempts: [StudyAttemptSnapshot],
         now: Date = .now,
         calendar: Calendar = .current
@@ -235,19 +256,5 @@ enum StudyProgressMetrics {
             day = previous
         }
         return streak
-    }
-}
-
-extension QuestionAttempt {
-    var snapshot: StudyAttemptSnapshot? {
-        guard let version = USCISTestVersion(rawValue: testVersionRawValue) else { return nil }
-        return StudyAttemptSnapshot(
-            stableID: questionStableID,
-            testVersion: version,
-            assessment: assessment,
-            wasCorrect: wasCorrect,
-            answeredAt: answeredAt,
-            boxLevel: boxLevel
-        )
     }
 }

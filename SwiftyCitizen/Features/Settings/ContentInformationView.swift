@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftyCitizenCore
 
 /// "About this content" — surfaces content provenance for the active test version: the official
 /// source URL + revision and when USCIS last verified the bank. All values come from the active

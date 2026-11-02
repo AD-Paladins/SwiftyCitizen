@@ -1,6 +1,6 @@
 import Foundation
 
-enum ReviewScope: String, Codable, CaseIterable, Identifiable {
+public enum ReviewScope: String, Codable, CaseIterable, Identifiable {
     case due
     case unanswered
     case needsWork
@@ -10,9 +10,9 @@ enum ReviewScope: String, Codable, CaseIterable, Identifiable {
     /// accuracy is at or below the low-accuracy threshold (the manual scope).
     case lowAccuracy
 
-    var id: String { rawValue }
+    public var id: String { rawValue }
 
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .due:
             "Due"
@@ -27,7 +27,7 @@ enum ReviewScope: String, Codable, CaseIterable, Identifiable {
         }
     }
 
-    var systemImage: String {
+    public var systemImage: String {
         switch self {
         case .due:
             "calendar"
@@ -43,13 +43,13 @@ enum ReviewScope: String, Codable, CaseIterable, Identifiable {
     }
 }
 
-struct CategorySummary: Equatable {
-    var topics: [String]
-    var counts: [String: Int]
+public struct CategorySummary: Equatable {
+    public var topics: [String]
+    public var counts: [String: Int]
 }
 
-enum ReviewDeckBuilder {
-    static func build(
+public enum ReviewDeckBuilder {
+    public static func build(
         questions: [QuestionContent],
         attempts: [StudyAttemptSnapshot],
         scope: ReviewScope,
@@ -68,7 +68,7 @@ enum ReviewDeckBuilder {
         return scoped.filter { categories.contains($0.topic) }
     }
 
-    static func questionCount(
+    public static func questionCount(
         questions: [QuestionContent],
         attempts: [StudyAttemptSnapshot],
         scope: ReviewScope,
@@ -86,7 +86,7 @@ enum ReviewDeckBuilder {
         ).count
     }
 
-    static func categorySummary(
+    public static func categorySummary(
         questions: [QuestionContent],
         attempts: [StudyAttemptSnapshot],
         scope: ReviewScope,
@@ -104,7 +104,7 @@ enum ReviewDeckBuilder {
         return CategorySummary(topics: counts.keys.sorted(), counts: counts)
     }
 
-    private static func scopedDeck(
+    public static func scopedDeck(
         questions: [QuestionContent],
         attempts: [StudyAttemptSnapshot],
         scope: ReviewScope,
@@ -128,7 +128,9 @@ enum ReviewDeckBuilder {
 
         case .lowAccuracy:
             // The exact set the Progress tab counts wins; otherwise fall back to attempted cards
-            // whose per-card accuracy is at or below the low-accuracy threshold.
+            // whose mock-test per-card accuracy is at or below the low-accuracy threshold.
+            // Cards with only self-assessed (flashcard) history have no accuracy signal and are
+            // excluded — "Low accuracy" means measured low, not "never mock-tested".
             if !weakStableIDs.isEmpty {
                 return questions.filter { weakStableIDs.contains($0.stableID) }
             }
@@ -154,19 +156,16 @@ enum ReviewDeckBuilder {
         }
     }
 
-    // ponytail: mirrors ProgressAnalytics.perCardAccuracy so the manual "Low accuracy" scope has a
-    // definition without importing that type; keep in sync if either threshold changes.
-    private static func perCardAccuracy(_ attempts: [StudyAttemptSnapshot], lastN: Int) -> Double? {
-        let ordered = attempts.sorted { $0.answeredAt > $1.answeredAt }.prefix(lastN)
-        guard !ordered.isEmpty else { return nil }
-        let correct = ordered.filter { $0.wasCorrect == true }.count
-        return Double(correct) / Double(ordered.count)
+    /// Delegates to the single shared per-card accuracy definition (mock-test attempts only), so
+    /// this scope and Progress's weak spots / needs-care can never drift apart.
+    public static func perCardAccuracy(_ attempts: [StudyAttemptSnapshot], lastN: Int) -> Double? {
+        StudyProgressMetrics.perCardAccuracy(attempts, lastN: lastN)
     }
 
     // ponytail: magic low-accuracy threshold; shared concept with ProgressAnalytics.lowAccuracyThreshold.
-    private static let lowAccuracyThreshold = 0.5
+    public static let lowAccuracyThreshold = 0.5
 
-    private static func latestAssessmentByQuestion(
+    public static func latestAssessmentByQuestion(
         from attempts: [StudyAttemptSnapshot]
     ) -> [String: SelfAssessment] {
         let groups = Dictionary(grouping: attempts, by: \.stableID)

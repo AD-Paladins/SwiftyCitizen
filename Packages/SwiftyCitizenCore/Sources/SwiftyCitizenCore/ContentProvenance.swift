@@ -4,17 +4,17 @@ import Foundation
 /// verified. Read from the shared `sourceURL` / `sourceRevision` / `verificationDate` fields every
 /// `QuestionContent` carries; all three come from one bundled JSON per version, so they are
 /// consistent across that version's bank (see `extract(from:)`).
-struct ContentProvenance: Equatable {
+public struct ContentProvenance: Equatable {
     /// The official source URL. `nil` when the bank could not be loaded or a question lacks it.
-    let sourceURL: URL?
+    public let sourceURL: URL?
     /// The official revision label (e.g. "M-1778 (09/25)"). `nil` when absent.
-    let sourceRevision: String?
+    public let sourceRevision: String?
     /// When the source content was last verified against USCIS. `nil` when absent.
-    let verificationDate: Date?
+    public let verificationDate: Date?
     /// Distinct (sourceURL, sourceRevision, verificationDate) references across the bank. `1` means
     /// every question traces to one official reference; `>1` means the bank mixes references and
     /// callers must surface that honestly rather than picking one arbitrarily. `0` when empty.
-    let referenceCount: Int
+    public let referenceCount: Int
 }
 
 extension ContentProvenance {

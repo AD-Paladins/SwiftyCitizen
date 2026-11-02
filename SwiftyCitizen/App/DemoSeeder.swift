@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import SwiftyCitizenCore
 
 enum DemoSeeder {
     static func seedIfNeeded(in context: ModelContext) throws {

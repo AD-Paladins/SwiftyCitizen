@@ -1,6 +1,6 @@
 import Foundation
 
-enum OnboardingConfigurationError: Error, Equatable {
+public enum OnboardingConfigurationError: Error, Equatable {
     case missingFilingDate
     case filingDateInFuture
     case missingTestVersion
@@ -8,17 +8,17 @@ enum OnboardingConfigurationError: Error, Equatable {
     case selectedVersionDoesNotMatchFilingDate(expected: USCISTestVersion, actual: USCISTestVersion)
 }
 
-struct OnboardingConfiguration: Codable, Hashable {
-    static let testVersionChangeDate = DateComponents(calendar: Calendar(identifier: .gregorian), year: 2025, month: 10, day: 20).date!
+public struct OnboardingConfiguration: Codable, Hashable {
+    public static let testVersionChangeDate = DateComponents(calendar: Calendar(identifier: .gregorian), year: 2025, month: 10, day: 20).date!
 
-    var filingDate: Date?
-    var selectedTestVersion: USCISTestVersion?
-    var isSixtyFiveTwentyEligible: Bool
-    var disclaimerAccepted: Bool
-    var shuffleQuestions: Bool
-    var dailyReviewGoal: Int = 15
+    public var filingDate: Date?
+    public var selectedTestVersion: USCISTestVersion?
+    public var isSixtyFiveTwentyEligible: Bool
+    public var disclaimerAccepted: Bool
+    public var shuffleQuestions: Bool
+    public var dailyReviewGoal: Int = 15
 
-    var derivedTestVersion: USCISTestVersion? {
+    public var derivedTestVersion: USCISTestVersion? {
         if isSixtyFiveTwentyEligible {
             return .sixtyFiveTwenty
         }
@@ -27,12 +27,12 @@ struct OnboardingConfiguration: Codable, Hashable {
         return filingDate < Self.testVersionChangeDate ? .twoThousandEight : .twoThousandTwentyFive
     }
 
-    var testConfiguration: TestConfiguration? {
+    public var testConfiguration: TestConfiguration? {
         guard let selectedTestVersion else { return nil }
         return TestConfiguration.all.first { $0.version == selectedTestVersion }
     }
 
-    func validationError(asOf currentDate: Date = Date()) -> OnboardingConfigurationError? {
+    public func validationError(asOf currentDate: Date = Date()) -> OnboardingConfigurationError? {
         guard let filingDate else { return .missingFilingDate }
         guard filingDate <= currentDate else { return .filingDateInFuture }
         guard let selectedTestVersion else { return .missingTestVersion }
@@ -45,7 +45,7 @@ struct OnboardingConfiguration: Codable, Hashable {
         return nil
     }
 
-    var isValid: Bool {
+    public var isValid: Bool {
         validationError() == nil
     }
 }

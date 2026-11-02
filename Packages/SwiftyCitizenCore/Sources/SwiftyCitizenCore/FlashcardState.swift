@@ -1,14 +1,14 @@
 import Foundation
 
-struct FlashcardAttemptRecord {
-    let stableID: String
-    let testVersion: USCISTestVersion
-    let assessment: SelfAssessment
-    let answerText: String?
+public struct FlashcardAttemptRecord {
+    public let stableID: String
+    public let testVersion: USCISTestVersion
+    public let assessment: SelfAssessment
+    public let answerText: String?
     /// Leitner box this result left the card in (1...`LeitnerScheduler.maxBox`). Defaults to 1.
-    let boxLevel: Int
+    public let boxLevel: Int
 
-    init(
+    public init(
         stableID: String,
         testVersion: USCISTestVersion,
         assessment: SelfAssessment,
@@ -23,7 +23,7 @@ struct FlashcardAttemptRecord {
     }
 }
 
-struct FlashcardState {
+public struct FlashcardState {
     private(set) var questions: [QuestionContent]
     private(set) var currentIndex: Int
     private(set) var isRevealed: Bool
@@ -32,7 +32,7 @@ struct FlashcardState {
     /// Leitner box per question (stableID -> box). New cards start in box 1.
     private(set) var boxes: [String: Int]
 
-    init(questions: [QuestionContent]) {
+    public init(questions: [QuestionContent]) {
         self.questions = questions
         self.currentIndex = 0
         self.isRevealed = false
@@ -41,48 +41,48 @@ struct FlashcardState {
         self.boxes = Dictionary(uniqueKeysWithValues: questions.map { ($0.stableID, 1) })
     }
 
-    var currentQuestion: QuestionContent? {
+    public var currentQuestion: QuestionContent? {
         guard questions.indices.contains(currentIndex) else { return nil }
         return questions[currentIndex]
     }
 
     /// Current Leitner box for the question in view (1...`LeitnerScheduler.maxBox`).
-    var currentBox: Int {
+    public var currentBox: Int {
         guard let id = currentQuestion?.stableID else { return 1 }
         return boxes[id] ?? 1
     }
 
-    var progressText: String {
+    public var progressText: String {
         let total = questions.count
         guard total > 0 else { return "0 of 0" }
         return "\(currentIndex + 1) of \(total)"
     }
 
-    var isComplete: Bool {
+    public var isComplete: Bool {
         currentIndex >= questions.count
     }
 
-    var answeredCount: Int {
+    public var answeredCount: Int {
         attempts.count
     }
 
-    mutating func reveal() {
+    public mutating func reveal() {
         guard !isRevealed, !isComplete else { return }
         isRevealed = true
     }
 
-    mutating func recordAnswer(_ text: String) {
+    public mutating func recordAnswer(_ text: String) {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         currentAnswer = trimmed.isEmpty ? nil : trimmed
     }
 
-    mutating func seek(to index: Int) {
+    public mutating func seek(to index: Int) {
         currentIndex = min(max(0, index), questions.count)
         isRevealed = false
         currentAnswer = nil
     }
 
-    mutating func restore(attempts: [FlashcardAttemptRecord]) {
+    public mutating func restore(attempts: [FlashcardAttemptRecord]) {
         guard self.attempts.isEmpty && attempts.allSatisfy({ record in
             questions.contains { $0.stableID == record.stableID }
         }) else { return }
@@ -94,7 +94,7 @@ struct FlashcardState {
     }
 
   @discardableResult
-   mutating func assess(_ assessment: SelfAssessment) -> FlashcardAttemptRecord? {
+   public mutating func assess(_ assessment: SelfAssessment) -> FlashcardAttemptRecord? {
         guard !isComplete, let question = currentQuestion else { return nil }
         switch assessment {
         case .again:

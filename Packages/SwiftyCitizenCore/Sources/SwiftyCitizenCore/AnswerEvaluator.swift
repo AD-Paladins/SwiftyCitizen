@@ -1,13 +1,13 @@
 import Foundation
 
-enum AnswerMatch {
+public enum AnswerMatch {
     case complete
     case partial
     case none
 }
 
-enum AnswerEvaluator {
-    static func evaluate(_ response: String, against question: QuestionContent) -> Bool {
+public enum AnswerEvaluator {
+    public static func evaluate(_ response: String, against question: QuestionContent) -> Bool {
         let answerWords = tokens(of: response)
         guard !answerWords.isEmpty else { return false }
 
@@ -22,7 +22,7 @@ enum AnswerEvaluator {
         }
     }
 
-    static func matchType(_ response: String, against question: QuestionContent) -> AnswerMatch {
+    public static func matchType(_ response: String, against question: QuestionContent) -> AnswerMatch {
         let answerWords = tokens(of: response)
         guard !answerWords.isEmpty else { return .none }
 
@@ -59,7 +59,7 @@ enum AnswerEvaluator {
         }
     }
 
-    private static func namedVariantCount(
+    public static func namedVariantCount(
         answer: Set<String>,
         variants: [Set<String>]
     ) -> Int {
@@ -70,18 +70,18 @@ enum AnswerEvaluator {
         }.count
     }
 
-    private static func matches(answer: Set<String>, variant: Set<String>) -> Bool {
+    public static func matches(answer: Set<String>, variant: Set<String>) -> Bool {
         answer.allSatisfy { variant.contains($0) }
     }
 
-    private static func hasCloseOverlap(answer: Set<String>, variants: [Set<String>]) -> Bool {
+    public static func hasCloseOverlap(answer: Set<String>, variants: [Set<String>]) -> Bool {
         variants.contains { variant in
             let overlap = answer.intersection(variant).count
             return overlap > 0 && overlap < variant.count
         }
     }
 
-    private static func tokens(of text: String) -> Set<String> {
+    public static func tokens(of text: String) -> Set<String> {
         Set(
             text.lowercased()
                 .replacingOccurrences(of: "(", with: " ")
@@ -93,7 +93,7 @@ enum AnswerEvaluator {
         )
     }
 
-    static func presentation(for userAnswer: String?, against question: QuestionContent) -> AnswerPresentation {
+    public static func presentation(for userAnswer: String?, against question: QuestionContent) -> AnswerPresentation {
         guard let answer = userAnswer, !answer.isEmpty else {
             return AnswerPresentation(verdict: .unanswered, yourAnswer: nil, officialText: nil)
         }
@@ -107,20 +107,20 @@ enum AnswerEvaluator {
         }
     }
 
-    private static func acceptedText(for question: QuestionContent) -> String {
+    public static func acceptedText(for question: QuestionContent) -> String {
         question.acceptedAnswerVariants.joined(separator: " · ")
     }
 }
 
-struct AnswerPresentation {
-    enum Verdict {
+public struct AnswerPresentation {
+    public enum Verdict {
         case correct
         case partial
         case incorrect
         case unanswered
     }
 
-    let verdict: Verdict
-    let yourAnswer: String?
-    let officialText: String?
+    public let verdict: Verdict
+    public let yourAnswer: String?
+    public let officialText: String?
 }
