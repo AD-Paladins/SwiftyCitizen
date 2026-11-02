@@ -12,9 +12,8 @@ All open work lives in this one ordered list; nothing actionable should exist ou
 
 ### Ready (in priority order)
 
-1. **Mock-test skip-UX** — allow "Skip this question" on an UNANSWERED question (not only after a wrong answer), never after a correct answer. UI-only in `MockTestSessionView.swift`, ~40 lines, one commit; domain/persistence already correct per `ce83e67`. Spec: `odd/tasks/mock-test-ux-fixes.md` → **T5 / S5**.
-2. **SwiftyCitizenCore SPM integration** — wire the extracted domain package into the app: make types `public`, add `import SwiftyCitizenCore` to ~24 files, remove moved files from `Core/Domain`, verify the suite (wire via Xcode GUI; manual pbxproj fails). Larger than #1; do after it. Spec: `docs/plan/domain-package.md`.
-3. **Accessibility audit extension** — extend `SwiftyCitizenUITests/AccessibilityAuditTests.swift` to sub-screens + max Dynamic Type + increased contrast; VoiceOver focus order stays real-iPhone-only. Simulator-based; first get a clean UI-test run (Step 0 infra gotcha). Lowest priority (deferred to last). Spec: `docs/audit/code-and-architecture-audit.md` → **Item 4**.
+1. **SwiftyCitizenCore SPM integration** — wire the extracted domain package into the app: make types `public`, add `import SwiftyCitizenCore` to ~24 files, remove moved files from `Core/Domain`, verify the suite (wire via Xcode GUI; manual pbxproj fails). Larger than the rest; do after the smaller items. Spec: `docs/plan/domain-package.md`.
+2. **Accessibility audit extension** — extend `SwiftyCitizenUITests/AccessibilityAuditTests.swift` to sub-screens + max Dynamic Type + increased contrast; VoiceOver focus order stays real-iPhone-only. Simulator-based; first get a clean UI-test run (Step 0 infra gotcha). Lowest priority (deferred to last). Spec: `docs/audit/code-and-architecture-audit.md` → **Item 4**.
 
 ### Decisions / deferred (not immediate work)
 
@@ -24,6 +23,7 @@ All open work lives in this one ordered list; nothing actionable should exist ou
 ### Done (recent — kept for traceability)
 
 - Mock-test skip/defer + official-answer reveal (mock-test-ux-fixes T1–T4) — `9f6d213`, `d749b4a`, `e7c8ee8`.
+- Mock-test skip-UX: "Skip this question" now shows on an UNANSWERED question (not only after a wrong answer), never after a correct answer. UI-only in `MockTestSessionView.swift` (`canSkipCurrentQuestion`), no domain/persistence/scoring changes — `f16676e`.
 - Bookmark (flag a question to review later) — `4078be7`.
 - Audio (SpeechManager in the flashcard session).
 - Consistency-audit fixes + domain-model audit closed — `ee16fe2`, `ce83e67` (suite 282/282).

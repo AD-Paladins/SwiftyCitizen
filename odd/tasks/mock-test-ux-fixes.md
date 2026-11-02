@@ -30,7 +30,7 @@ S5. "Skip this question" must be available on an UNANSWERED question, not only a
   - **Edge cases to preserve:** skipping the last question is a no-op if already complete (`skipIsNoOpWhenComplete`); after any skip the next question shows a fresh input (no leftover answer/tiles).
   - **Verification (do all that apply):** (1) State — already covered; optionally add `MockTestStateTests.skipIsAvailableImmediatelyAfterInit`. (2) UI test in `SwiftyCitizenUITests` (reuse `AccessibilityAuditTests.completeOnboardingIfNeeded(_:)`): tap tab "Practice" → mock-test row (`practiceMockTest`) → "Start mock test" (`mocktestSetupStartMockTest`); assert "Skip this question" (`mocktestSessionSkipQuestion`) EXISTS before any answer; tap it and assert the session advanced; then enter a clearly-wrong answer, tap "Record answer" (`mocktestSessionRecordAnswer`), and assert skip is still present (regression). (3) Manual fallback: boot simulator, reach a session, confirm skip shows pre-answer, `xcrun simctl io booted screenshot`.
   - **Non-goals:** no scoring/result-view/persistence/`MockTestState` changes; no new localization keys; no skip after a correct answer; no flashcard or other-flow changes.
-  - **Commit:** one commit, ~≤40 changed lines, e.g. `feat(mocktest): allow skipping an unanswered question`.
+  - **Commit:** one commit, ~≤40 changed lines, e.g. `feat(mocktest): allow skipping an unanswered question`. — ✅ done — commit `f16676e` (10 insertions, 3 deletions). Verified: full suite 282/282 passed; build SUCCEEDED.
 
 ## Verification per task
 
@@ -59,7 +59,8 @@ S5. "Skip this question" must be available on an UNANSWERED question, not only a
 - L2: T3 audit outcome — committed edit contained dead code and an unrequested branch; premise that an auto-advance window still existed was stale (manual-only flow already satisfies the ≥2s hold). Edit reverted (`e7c8ee8`); T3 closed as verification-only.
 - L3: Full re-audit (autonomous pass) — T1–T4 all confirmed against current code; feature closed. Related fix found during the same audit: `MockTestSessionView.endMockTest()` now persists a session that has skips but no answers, so a learner who only defers questions keeps the "Skipped during the test" review path after relaunch.
 - L4: User approved the skip-UX change (skip available on an unanswered question, not only after a wrong answer). Specified as T5/S5 with a full unblocking implementation spec (file, exact current structure, recommended diff, downstream invariants already guaranteed by `ce83e67`, edge cases, verification incl. UI-test navigation labels, non-goals). No code changed; deferred to a future session.
+- L5: T5 implemented — added `canSkipCurrentQuestion` (`!review.isCorrect` when answered, else `state.currentQuestion != nil`), moved `skipButton` to a sibling of the content if/else gated by it, removed the duplicate inside the wrong-answer feedback block. No domain/persistence/scoring/localization changes. Commit `f16676e`; build SUCCEEDED; full suite 282/282 passed.
 
 ## Status
 
-T1–T4 CLOSED (verified 2026-11-01). T5 (S5) ADDED 2026-11-01 and PENDING — fully specified above for a future session; no code changed yet.
+T1–T5 ALL CLOSED. T5 (S5) completed 2026-11-01 — commit `f16676e`; build SUCCEEDED, full suite 282/282 passed.
