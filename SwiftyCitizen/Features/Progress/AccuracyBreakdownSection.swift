@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftyCitizenCore
 
 /// The "Accuracy Breakdown" section: a single card with an overall-accuracy header (plus a trend
 /// pill) and one row per attempted topic — a colored dot, the topic name, its accuracy, and a

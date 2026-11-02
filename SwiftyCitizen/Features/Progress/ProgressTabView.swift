@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import SwiftyCitizenCore
 
 struct ProgressTabView: View {
     let configuration: OnboardingConfiguration

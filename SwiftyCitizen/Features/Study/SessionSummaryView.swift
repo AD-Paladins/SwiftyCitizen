@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftyCitizenCore
 
 struct SessionSummaryView: View {
     let answeredCount: Int

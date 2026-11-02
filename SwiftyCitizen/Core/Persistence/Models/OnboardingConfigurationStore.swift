@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import SwiftyCitizenCore
 
 @Model
 final class SavedOnboardingConfiguration {

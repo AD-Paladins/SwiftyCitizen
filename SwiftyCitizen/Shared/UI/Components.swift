@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftyCitizenCore
 
 struct SessionFeedbackIndicator: View {
     let answer: MockTestAnswer

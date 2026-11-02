@@ -1,4 +1,5 @@
 import Foundation
+import SwiftyCitizenCore
 
 /// A separate, optional explanation dataset keyed by question `stableID`.
 /// Loaded from a JSON resource bundled alongside the banks; it never modifies the banks

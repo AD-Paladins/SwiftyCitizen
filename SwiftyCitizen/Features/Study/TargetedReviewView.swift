@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import SwiftyCitizenCore
 
 struct TargetedReviewView: View {
     let configuration: OnboardingConfiguration

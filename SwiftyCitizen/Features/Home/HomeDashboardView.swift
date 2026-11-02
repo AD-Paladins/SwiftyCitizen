@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import SwiftyCitizenCore
 
 struct HomeDashboardView: View {
     let configuration: OnboardingConfiguration
